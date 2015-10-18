@@ -13,6 +13,11 @@
         <version>1.0.0.RC1</version>
     </parent>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.7</java.version>
+	</properties>
+
     <dependencies>
 
         <!-- Persistence -->
