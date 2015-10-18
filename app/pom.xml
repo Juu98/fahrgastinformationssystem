@@ -64,14 +64,19 @@
                 </executions>
             </plugin>
         </plugins>
-    </build>
+	</build>
 
-    <repositories>
+	<repositories>
 
-        <repository>
-            <id>spring-libs-milestone</id>
-            <url>https://repo.spring.io/libs-milestone</url>
-        </repository>
+		<repository>
+			<id>salespointframework</id>
+			<url>http://www.st.inf.tu-dresden.de/SalesPoint/repository</url>
+		</repository>
+
+		<repository>
+			<id>spring-libs-milestone</id>
+			<url>https://repo.spring.io/libs-milestone</url>
+		</repository>
 
     </repositories>
 
