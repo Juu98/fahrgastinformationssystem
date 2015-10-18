@@ -15,12 +15,6 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>de.tudresden.inf.st</groupId>
-            <artifactId>salespoint-framework</artifactId>
-            <version>6.2.0.RC1</version>
-        </dependency>
-
         <!-- Persistence -->
 
         <dependency>
@@ -77,11 +71,6 @@
         <repository>
             <id>spring-libs-milestone</id>
             <url>https://repo.spring.io/libs-milestone</url>
-        </repository>
-
-        <repository>
-            <id>salespointframework</id>
-            <url>http://www.st.inf.tu-dresden.de/SalesPoint/repository</url>
         </repository>
 
     </repositories>
