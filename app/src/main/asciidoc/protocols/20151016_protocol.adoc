@@ -1,0 +1,46 @@
+= Protokoll Gruppe 03
+
+[cols="<s,<a"]
+|===
+|Treffen am 16.10.2015    | 13:00 Uhr Eisenbahnbetriebslabor
+|Schriftführer            | Robert Mörseburg
+|Nächstes Treffen         | 20.10.2015 13:00 Uhr vor dem APB
+|Teilnehmer               |
+* Eric Schölzel (Scrum-Master)
+* Jonas Schenke
+* Oliver Schmidt
+* Robert Mörseburg
+* Zdravko Yanakiev
+* Ronny Kaiser (Betreuer Lehrstuhl SWT)
+* Eric Schöne (Leiter Eisenbahnbetriebslabor)
+* Walerian Nesterenko (Mitarbeiter EBL)
+|===
+
+== Bemerkungen
+Am Dienstag fand nach der Einführungsveranstaltung bereits eine kurze Vorstellungsrunde statt.
+
+== Retrospektive des letzten Sprints
+Bisher noch kein Sprint zur Auswertung vorhanden.
+
+== Aktueller Stand
+Zu diesem Treffen besichtigten wir erstmals das Eisenbahnbetriebslabor. Neben der Technik konnten wir vor allem einen ersten Eindruck von der verwendeten Software und Netzwerkinfrastruktur gewinnen. Im anschließenden Gespräch wurden die Anforderungen an unser Projekt konkretisiert, erste Fragen beantwortet und insbesondere organisatorische Eckpunkte für das weitere Vorgehen gesetzt.
+
+Durch den Kunden (EBL) wird bis zum nächsten Treffen ein detaiiertes Lastenheft erstellt. Unter anderem wird neben Entwicklerdokumentation und Benutzerhandbuch auch eine "Mischform" dieser beiden Medien mit "internen techsnischen Details", die sich speziell auf das EBL beziehn, erwartet.
+
+Für unser Projekt werden wir folgende Software und Frameworks verwenden:
+
+* _Programmiersprache:_ Java (Version 7)
+* _Framework:_ Spring
+* _Versionsverwaltung:_ Git (vorbereitetes Repository auf GitHub)
+* _Build-Management:_ Maven
+
+Im Vordergrund soll die testgetriebene Entwicklung, hauptsächlich durch Unittests stehen.
+
+== Planung des nächsten Sprints
+Bis zum Treffen am Dienstag steht die individuelle Einarbeitung in die Software, vor allem das Spring-Framework im Vordergrund.
+
+Oliver wird einen Jabber-Server zur Kommunikation bereitstellen.
+
+Zum nächsten Treffen beginnen wir mit der Analyse, dazu werden die CRC-Karten-Methode und das Tool "mind objects" zur Anwendung kommen.
+
+Jeder dokumentiert seinen individuellen Zeitaufwand.

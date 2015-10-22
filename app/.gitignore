@@ -1,5 +1,6 @@
-# IntelliJ IDE files
+## IntelliJ IDE files
 .idea
 *.iml
 # Eclipse/STS files
 target/
+*~
