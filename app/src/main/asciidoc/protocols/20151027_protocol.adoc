@@ -20,6 +20,7 @@ Verwarnungen, besondere Vorfälle, Organisatorisches
 	- INI: Synonym für Configfile oder Formatwunsch?
 	- Projektseite mit Neuigkeiten pflegen?
 	- Prototyp: Funktionsumfang?
+	- Güterzüge im "Fahrgast"informationssystem?
 
 
 // See http://asciidoctor.org/docs/user-manual/=tables
