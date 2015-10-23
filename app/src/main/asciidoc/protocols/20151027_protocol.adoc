@@ -18,6 +18,7 @@ Verwarnungen, besondere Vorfälle, Organisatorisches
 	- RailML: Train parts? OCPSTP Zeiten
 	- operating periods: Immer jeden Tag oder muss flexibel sein?
 	- INI: Synonym für Configfile oder Formatwunsch?
+	- Projektseite mit Neuigkeiten pflegen?
 	- Prototyp: Funktionsumfang?
 
 
