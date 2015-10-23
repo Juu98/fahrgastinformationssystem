@@ -64,7 +64,7 @@ Erster Meilenstein erreicht mit Einarbeitung in GitHub und generelle Technologie
 * GUI Prototyp entwickeln
 * ersten Entwurf für das Pflichtenheft
 * einige Use-cases skizzieren
-* Entwurf für die TLA
+* Entwurf für die Top-Level-Architektur (Software-Komponenten)
 * Jeder dokumentiert seinen individuellen Zeitaufwand.
 
 == Anlagen
