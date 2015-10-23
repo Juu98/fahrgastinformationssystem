@@ -6,6 +6,6 @@ Die verwendete Zeit beinhaltet auch das Lesen von Dokumentationen, Besprechungen
 // See http://asciidoctor.org/docs/user-manual/#tables
 [option="headers"]
 |===================================================================
-|Von |Bis |Oliver Schmidt |Zdravko Yanakiev |Eric Schölzel |Jonas Schenke |Dev5 |Dev6 |Meeting
+|Von |Bis |Oliver Schmidt |Zdravko Yanakiev |Eric Schölzel |Jonas Schenke |Robert Mörseburg |Meeting
 
-| 13.10.2015  |18.10.2015   |12:26    |07:50|07:45|6:00    |…    |…    |…
+| 13.10.2015  |18.10.2015   |12:26    |07:50|07:45|6:00    |…    |01:27

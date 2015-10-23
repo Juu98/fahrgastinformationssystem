@@ -2,9 +2,10 @@
 
 [cols="<s,<a"]
 |===
-|Treffen am 16.10.2015    |13:00 Uhr Eisenbahnbetriebslabor
+|Treffen am 20.10.2015    |13:00 Uhr vor dem APB
 |Schriftführer            |Robert Mörseburg
-|Nächstes Treffen         |20.10.2015 13:00 Uhr vor dem APB
+|Nächstes Treffen         |27.10.2015 13:00 Uhr APB Foyer +
+(Internes Treffen Fr 23.10.15 13:156 Uhr APB Foyer)
 |Teilnehmer               |
 * Eric Schölzel (Scrum-Master)
 * Jonas Schenke
