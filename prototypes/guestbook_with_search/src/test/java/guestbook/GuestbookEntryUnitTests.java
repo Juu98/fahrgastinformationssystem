@@ -17,7 +17,7 @@ package guestbook;
 
 import org.junit.Test;
 
-import search.searchEntry;
+import guestbook.searchEntry;
 
 /**
  * Unit tests for {@link searchEntry}.

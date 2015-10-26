@@ -26,9 +26,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import search.Application;
-import search.search;
-import search.searchEntry;
+import guestbook.Application;
+import guestbook.search;
+import guestbook.searchEntry;
 
 /**
  * Integration tests for {@link search}.

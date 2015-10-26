@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package search.web;
+package guestbook.web;
 
 import javax.validation.Valid;
 
@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import search.search;
-import search.searchEntry;
+import guestbook.search;
+import guestbook.searchEntry;
 
 /**
  * A controller to handle web requests to manage {@link searchEntry}s
@@ -40,7 +40,7 @@ import search.searchEntry;
  * @author Oliver Gierke
  */
 @Controller
-public class searchController {
+public class GuestbookController {
 
 	// A special header sent with each AJAX request
 	private static final String IS_AJAX_HEADER = "X-Requested-With=XMLHttpRequest";
@@ -50,14 +50,14 @@ public class searchController {
 	
 
 	/**
-	 * Creates a new {@link searchController} using the given {@link search}. The {@link Autowired} causes the
+	 * Creates a new {@link GuestbookController} using the given {@link search}. The {@link Autowired} causes the
 	 * Spring container to try to find a Spring bean of type {@link search} and use it to create an instance of
-	 * {@link searchController}.
+	 * {@link GuestbookController}.
 	 * 
 	 * @param search must not be {@literal null}.
 	 */
 	@Autowired
-	public searchController(search search) {
+	public GuestbookController(search search) {
 
 		Assert.notNull(search, "Guestbook must not be null!");
 		this.search = search;
@@ -81,7 +81,7 @@ public class searchController {
 	 * @return
 	 */
 	@RequestMapping(value = "/guestbook", method = RequestMethod.GET)
-	public String guestBook(Model model, searchForm form) {
+	public String guestBook(Model model, GuestbookForm form) {
 
 		model.addAttribute("entries", search.findAll());
 		model.addAttribute("form", form);
@@ -103,7 +103,7 @@ public class searchController {
 	 * @return
 	 */
 	@RequestMapping(value = "/guestbook", method = RequestMethod.POST)
-	public String addEntry(@Valid searchForm form, Errors errors, Model model) {
+	public String addEntry(@Valid GuestbookForm form, Errors errors, Model model) {
 
 		if (errors.hasErrors()) {
 			return guestBook(model, form);
@@ -129,7 +129,7 @@ public class searchController {
 	 * @see #addEntry(String, String)
 	 */
 	@RequestMapping(value = "/guestbook", method = RequestMethod.POST, headers = IS_AJAX_HEADER)
-	public String addEntry(@Valid searchForm form, Model model) {
+	public String addEntry(@Valid GuestbookForm form, Model model) {
 
 		model.addAttribute("entry", search.save(new searchEntry(form.getName(), form.getText())));
 		model.addAttribute("index", search.count());

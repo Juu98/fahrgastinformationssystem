@@ -18,7 +18,7 @@
 	    	<form action="/guestbook" method="get">
 	    		<input type="search" list="searchentries" name="searchname" th:value="${#httpServletRequest.getParameter('searchname')}" />
 	    		<datalist id="searchentries">
-	    			<option th:each="entry, it: ${entries}" th:value="${entry.name}" th:text="${entry.id}"></option>
+	    			<option th:each="entry, it: ${entries}" th:value="${entry.name}"></option>
 	    		</datalist>
 	    		<button class="btn btn-search" type="submit">suchen</button>
 	    	</form>
