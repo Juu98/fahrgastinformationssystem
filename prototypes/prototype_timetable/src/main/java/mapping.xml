@@ -1,0 +1,34 @@
+<mapping>
+	<class name="com.prototypes.Train">
+
+		<map-to xml="train" />
+
+		<field name="name" type="string">
+			<bind-xml name="train_name" node="element" />
+		</field>
+
+		<field name="number" type="integer">
+			<bind-xml name="train_number" node="element" />
+		</field>
+
+		<field name="arrival" type="string">
+			<bind-xml name="train_arrival" node="element" />
+		</field>
+
+		<field name="departure" type="string">
+			<bind-xml name="train_departure" node="element" />
+		</field>
+
+		<field name="platform" type="integer">
+			<bind-xml name="train_platform" node="element" />
+		</field>
+	</class>
+
+	<class name="com.prototypes.Timetable">
+		<map-to xml="train_timetable"></map-to>
+
+		<field name="trains" type="com.prototypes.Train" collection="arraylist">
+			<bind-xml name="train" node="element" />
+		</field>
+	</class>
+</mapping>

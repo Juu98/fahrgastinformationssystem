@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="initial-scale=1" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+	integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
+	crossorigin="anonymous" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"
+	integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX"
+	crossorigin="anonymous" />
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
+	integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ=="
+	crossorigin="anonymous"></script>
+<title>Timetable for Dresden Hauptbahnhof</title>
+</head>
+<body>
+	<h1 style="text-decoration: underline;">Timetable for Dresden
+		Hauptbahnhof</h1>
+	<table
+		class="table table-striped table-bordered table-hover table-responsive">
+		<tr>
+			<th>Number</th>
+			<th>Name</th>
+			<th>Arrival</th>
+			<th>Departure</th>
+			<th>Pl.</th>
+		</tr>
+		<tr th:each="train : ${trains}">
+			<td th:text="${train.number}"></td>
+			<td th:text="${train.name}"></td>
+			<td th:text="${train.arrival}"></td>
+			<td th:text="${train.departure}"></td>
+			<td th:text="${train.platform}"></td>
+		</tr>
+	</table>
+	<a href="/registration" class="btn btn-primary">Click here to register a new train.</a>
+</body>
+</html>
