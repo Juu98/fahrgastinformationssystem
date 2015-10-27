@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<train_timetable>
+    <train>
+        <train_name>6</train_name>
+        <train_number>6</train_number>
+        <train_arrival>6</train_arrival>
+        <train_departure>6</train_departure>
+        <train_platform>6</train_platform>
+    </train>
+    <train>
+        <train_name>2</train_name>
+        <train_number>2</train_number>
+        <train_arrival>2</train_arrival>
+        <train_departure>2</train_departure>
+        <train_platform>2</train_platform>
+    </train>
+    <train>
+        <train_name>1</train_name>
+        <train_number>1</train_number>
+        <train_arrival>1</train_arrival>
+        <train_departure>1</train_departure>
+        <train_platform>1</train_platform>
+    </train>
+    <train>
+        <train_name>asd</train_name>
+        <train_number>3</train_number>
+        <train_arrival>asd</train_arrival>
+        <train_departure>asd</train_departure>
+        <train_platform>2</train_platform>
+    </train>
+    <train>
+        <train_name>1</train_name>
+        <train_number>1</train_number>
+        <train_arrival>1</train_arrival>
+        <train_departure>1</train_departure>
+        <train_platform>1</train_platform>
+    </train>
+    <train>
+        <train_name>Trans Balkan Express</train_name>
+        <train_number>1234</train_number>
+        <train_arrival>13:37</train_arrival>
+        <train_departure>14:20</train_departure>
+        <train_platform>5</train_platform>
+    </train>
+    <train>
+        <train_name>Minyor</train_name>
+        <train_number>420</train_number>
+        <train_arrival>15:40</train_arrival>
+        <train_departure>16:20</train_departure>
+        <train_platform>1</train_platform>
+    </train>
+    <train>
+        <train_name>Kuche</train_name>
+        <train_number>1</train_number>
+        <train_arrival>09:00</train_arrival>
+        <train_departure>09:03</train_departure>
+        <train_platform>5</train_platform>
+    </train>
+    <train>
+        <train_name>Kuche 2</train_name>
+        <train_number>900</train_number>
+        <train_arrival>20:00</train_arrival>
+        <train_departure>20:05</train_departure>
+        <train_platform>9</train_platform>
+    </train>
+</train_timetable>

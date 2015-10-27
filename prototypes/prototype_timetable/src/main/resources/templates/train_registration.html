@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="initial-scale=1" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+	integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
+	crossorigin="anonymous" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"
+	integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX"
+	crossorigin="anonymous" />
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
+	integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ=="
+	crossorigin="anonymous"></script>
+<title>Train Registration Form</title>
+</head>
+<body>
+	<h1>Train Registration Form</h1>
+	<form action="#" role="form" th:action="@{/registration}"
+		th:object="${train}" method="post">
+		<div class="form-group">
+			<label for="name">Train name:</label><input type="text"
+				class="form-control" name="name" id="name" th:field="*{name}" /><br />
+		</div>
+		<div class="form-group">
+			<label for="number">Train number:</label><input type="text"
+				class="form-control" name="number" id="number" th:field="*{number}" />
+			<br />
+		</div>
+		<div class="form-group">
+			<label for="arrival">Time of arrival:</label><input type="text"
+				class="form-control" name="arrival" id="arrival"
+				th:field="*{arrival}" /> <br />
+		</div>
+		<div class="form-group">
+			<label for="departure">Time of departure:</label><input type="text"
+				class="form-control" name="departure" id="departure"
+				th:field="*{departure}" /><br />
+		</div>
+		<div class="form-group">
+			<label for="platform">Platform:</label><input type="text"
+				class="form-control" name="platform" id="platform"
+				th:field="*{platform}" /><br />
+		</div>
+		<button type="submit" class="btn btn-primary">Save train</button>
+		<button type="reset" class="btn btn-danger">Clear</button>
+	</form> <br />
+	<a href="/timetable">Return to timetable.</a>
+</body>
+</html>
