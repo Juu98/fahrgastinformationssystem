@@ -106,6 +106,7 @@ Das Lastenheft liegt mittlerweile als Entwurf vor. Die Spezifikation der Telegra
 * Wie sollen die Fahrten auf der Ankunfts- / Abfahrtstafel sortiert sein? (Sollzeit oder Istzeit)
 * An welcher Stelle soll ein Zug mit Verspätung erscheinen? Zur Sollzeit, auch wenn er große Verspätung hat, oder zur Istzeit, dafür bei großer Verspätung eventuell außerhalb des Zeitrahmens der Anzeige. Was passiert, wenn die Sollzeit vorüber ist?
 * Wird die Zuggattung der Zugnummer entnommen? Bezieht sie sich also auf einen Zuglauf im obigen Sinne oder auf das physische Fahrzeug?
+* Header und Footer fix postioniert oder mitscrollend (immer sichtbar)?
 
 == Planung des nächsten Sprints
 
