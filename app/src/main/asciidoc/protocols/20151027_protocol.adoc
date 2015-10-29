@@ -33,7 +33,7 @@ Das Lastenheft liegt mittlerweile als Entwurf vor. Die Spezifikation der Telegra
 |Issue |Aufgabe |Status |Bemerkung
 |3	|CRC-Kartenmethode 	|in Bearbeitung 	|während des heutigen Treffens bearbeitet, Ergebnisse folgen
 |4	|Pflichtenheft		|in Bearbeitung		|wird im aktuellen Sprint fertig gestellt
-|6	|GUI-Prototyp		|fertig 			|bedarf Abnahme durch den Kunden
+|6	|GUI-Prototyp		|in Bearbeitung 	|Zwischenstand an Kunden übermittelt, bedarf Abnahme durch den Kunden
 |7	|Kontextdiagramm	|in Bearbeitung		|Entwurf bereits im repo
 |8	|Anwendungsfalldiagramm	|in Bearbeitung	|bereits komplett, nur noch Übertragung in MagicDraw
 |9	|Klassendiagramm	|in Bearbeitung		|Entwurf beim heutigen Treffen erstellt
