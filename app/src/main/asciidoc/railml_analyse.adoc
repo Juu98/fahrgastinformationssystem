@@ -2,66 +2,72 @@ Analyse der Fahrplan-XML (WIP; Notizen)
 
 http://railml.org/
 
-Dateigröße ca. 3mb
+DateigrÃ¶ÃŸe ca. 3mb
 
-Ziel dieser kleinen Analyse ist es,  möglichst frühzeitig einen Überblick über 
+Ziel dieser kleinen Analyse ist es,  mÃ¶glichst frÃ¼hzeitig einen Ãœberblick Ã¼ber 
 die Struktur der Fahrplandaten zu bekommen, um u.a. interne Datenstrukturen
-passend dazu aufbauen zu können.
+passend dazu aufbauen zu kÃ¶nnen.
 
-Die Datei wird im Laufe des Projektes wahrscheinlich noch ergänzt
-bzw. überarbeitet werden.
+Die Datei wird im Laufe des Projektes wahrscheinlich noch ergÃ¤nzt
+bzw. Ã¼berarbeitet werden.
+
+Allgemein hilfreich -> http://wiki.railml.org/index.php?title=TT:UC:TimetableInformation
 
 
 Aufbau:
-<railml [...] (<--- für uns natürlich nicht weiter spannend) >
-<metadata> <-- sollte uns auch nicht weiter stören
+<railml [...] (<--- fÃ¼r uns natÃ¼rlich nicht weiter spannend) >
+<metadata> <-- sollte uns auch nicht weiter stÃ¶ren
 
-<infrastructure [...]> <-- hier beginnen die für uns wichtigen Daten
-  <tracks> <-- Streckeninfos (idk ob dort etwas für uns wichtiges steht)
+<infrastructure [...]> <-- hier beginnen die fÃ¼r uns wichtigen Daten
+  <tracks> <-- Streckeninfos (idk ob dort etwas fÃ¼r uns wichtiges steht)
   <trackGroups> <-- wahrscheinlich auch eher uninteressant (?)
   
-  <OperationControlPoints> <-- Infos über Kontrollpunkte, u.a. Bahnhöfe!
-    <ocp id="[XY]" [<-- ID des Punktes]  name="asdfasdf" [<-- selbsterklärend]>
-      <propOperationa operationalType="station" [...] ><-- nur die "station"s 
-      sind wirklich Bahnhöfe, nicht "blockSignal"! "Nicht-stations" können 
-      wir wahrsch. ignorieren (?)
-  </OperationControlPoints>
+  *   <OperationControlPoints> <-- Infos Ã¼ber Kontrollpunkte, u.a. BahnhÃ¶fe!
+      <ocp id="[XY]" [<-- ID des Punktes]  name="asdfasdf" [<-- selbsterklÃ¤rend]>
+        <propOperationa operationalType="station" [...] ><-- nur die "station"s 
+        sind wirklich BahnhÃ¶fe, nicht "blockSignal"! "Nicht-stations" kÃ¶nnen 
+        wir wahrsch. ignorieren (?)
+      </OperationControlPoints>
+      EDIT 29.10.: Details -> http://wiki.railml.org/index.php?title=IS:ocp
   
 </infrastructure>
 
-<rollingstock> <-- wahrscheinlich nix für uns
+<rollingstock> <-- wahrscheinlich nix fÃ¼r uns
 
 <timetable> <-- hier versteckt sich der eigentliche Fahrplan!
   <operatingPeriods> <-- im Regelfahrplan gibt es nur die
-  "Fährt jeden Tag"-Variante. Hier müssen wir den Kunden fragen, ob dies
-  allgemeingültig ist oder ob sich dort was ändern kann, denn das müssten wir
+  "FÃ¤hrt jeden Tag"-Variante. Hier mÃ¼ssen wir den Kunden fragen, ob dies
+  allgemeingÃ¼ltig ist oder ob sich dort was Ã¤ndern kann, denn das mÃ¼ssten wir
   beachten!
   
-  <categories> <-- für Fahrtinformationen, die angezeigt werden sollen,
-  interessant
+ *  <categories> <-- fÃ¼r Fahrtinformationen, die angezeigt werden sollen,
+    interessant
   
-  <trainParts> <-- hier kommt der große Teil; ich bin mir noch nicht im Klaren
-  darüber, warum das jetzt genau "trainParts" heißt;
-  da würde ich nochmal nachfragen, ob es da was zu beachten gibt
-  in <trainParts> selbst sind die Fahrtdaten gespeichert, mitsamt Referenz
-  zum Zug etc. (categoryRef ist hier für uns auch interessant)
+ *  <trainParts> <-- hier kommt der groÃŸe Teil; ich bin mir noch nicht im Klaren
+    darÃ¼ber, warum das jetzt genau "trainParts" heiÃŸt;
+    da wÃ¼rde ich nochmal nachfragen, ob es da was zu beachten gibt
+    in <trainParts> selbst sind die Fahrtdaten gespeichert, mitsamt Referenz
+    zum Zug etc. (categoryRef ist hier fÃ¼r uns auch interessant)
+    EDIT 29.10.: Details -> http://wiki.railml.org/index.php?title=TT:trainPart
   
-    In <ocpsTT> stehen dann Halte mit Zeiten. ocpref="[...]" hat die ID des
-    Bahnhofs. 
-    ocpType unterteilt sich (Bedeutungen sollten selbsterklärend sein):
+  * In <ocpsTT> stehen dann Halte mit Zeiten. ocpref="[...]" hat die ID des
+    Bahnhofs. Details 29.10.: http://wiki.railml.org/index.php?title=TT:ocpTT
+    ocpType unterteilt sich (Bedeutungen sollten selbsterklÃ¤rend sein):
       * "begin"
       * "pass"
       * "stop"
-      * "end" [hoffe das waren alle]
+      * "end"
   
-    <times> <-- Zeitdaten:
+  *  <times> <-- Zeitdaten:
       departure="HH:MM:SS" <- Abfahrt (nur bei ocpType!="end")
       arrival="HH:MM:SS" <- Ankunft (nur bei ocpType="stop" oder ocpType="end")
       
-  </trainParts>
+      
+      
   
-  <trains> <-- wahrsch. nur Infos über die Züge selbst, es ist mir noch unklar,
-  ob das für uns wichtig ist
+<trains> <-- wahrsch. nur Infos Ã¼ber die ZÃ¼ge selbst, es ist mir noch unklar,
+ob das fÃ¼r uns wichtig ist
+EDIT 29.10.: Details: http://wiki.railml.org/index.php?title=TT:train
     
       
 
