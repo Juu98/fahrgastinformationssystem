@@ -33,15 +33,15 @@ Das Lastenheft liegt mittlerweile als Entwurf vor. Die Spezifikation der Telegra
 |Issue |Aufgabe |Status |Bemerkung
 |3	|CRC-Kartenmethode 	|in Bearbeitung 	|während des heutigen Treffens bearbeitet, Ergebnisse folgen
 |4	|Pflichtenheft		|in Bearbeitung		|wird im aktuellen Sprint fertig gestellt
-|6	|GUI-Prototyp		|fertig 			|bedarf Abnahme durch den Kunden
-|7	|Kontextdiagramm	|in Bearbeitung		|Entuwrf bereits im repo
+|6	|GUI-Prototyp		|in Bearbeitung 	|Zwischenstand an Kunden übermittelt, bedarf Abnahme durch den Kunden
+|7	|Kontextdiagramm	|in Bearbeitung		|Entwurf bereits im repo
 |8	|Anwendungsfalldiagramm	|in Bearbeitung	|bereits komplett, nur noch Übertragung in MagicDraw
-|9	|Klassendiagramm	|in Bearbeitung		|Entwruf beim heutigen Treffen erstellt
+|9	|Klassendiagramm	|in Bearbeitung		|Entwurf beim heutigen Treffen erstellt
 |10	|Sequenzdiagramm	|offen				|--
 |11	|Salespoint aus dem Projekt entfernen	|offen	|niedrige Priorität, erst nach der Analyse
 |12	|Java-Version		|in Bearbeitung		| 7 oder 8, nach technischer Spezifikation des Kunden
 |13	|Top-Level-Architektur	|in Bearbeitung	|als Komponentendiagramm
-|14	|Erster Prototyp 	|in Bearbeitung		|restlihce Prototypen bis Montag abzugeben
+|14	|Erster Prototyp 	|in Bearbeitung		|restliche Prototypen bis Montag abzugeben
 |===
 
 == Aktueller Stand
@@ -106,10 +106,11 @@ Das Lastenheft liegt mittlerweile als Entwurf vor. Die Spezifikation der Telegra
 * Wie sollen die Fahrten auf der Ankunfts- / Abfahrtstafel sortiert sein? (Sollzeit oder Istzeit)
 * An welcher Stelle soll ein Zug mit Verspätung erscheinen? Zur Sollzeit, auch wenn er große Verspätung hat, oder zur Istzeit, dafür bei großer Verspätung eventuell außerhalb des Zeitrahmens der Anzeige. Was passiert, wenn die Sollzeit vorüber ist?
 * Wird die Zuggattung der Zugnummer entnommen? Bezieht sie sich also auf einen Zuglauf im obigen Sinne oder auf das physische Fahrzeug?
+* Header und Footer fix postioniert oder mitscrollend (immer sichtbar)?
 
 == Planung des nächsten Sprints
 
-* Defenitive Fertigstellung der eigenen Prototypen
+* Definitive Fertigstellung der eigenen Prototypen
 * Pflichtenheft mit Diagrammen und Akzeptanztestfällen (soweit möglich und mit Kundem abgesprochen) fertigstellen
 * GUI-Prototyp zur Abnahme durch Kunden als HTML-Seite mit Bildern, dann eventuell Anpassungen
 * Fertigstellung der Analysediagramme
