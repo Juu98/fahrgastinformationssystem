@@ -55,7 +55,7 @@ TODO: Use-case-Diagramm
 // Einfache Anwendungsfälle mit einem Absatz beschreiben.
 // Die typischen Anwendungsfälle (Anlegen, Ändern, Löschen) können zu einem einzigen zusammengefasst werden.
 
-Der Benuter ruft in einem Webbrowser das FIS auf. Er wählt per Texteingabe oder aus einer Liste einen Bahnhof aus und lässt sich Abfahrten oder Ankünfte für diesen Bahnhof anzeigen.
+Der Benutzer ruft in einem Webbrowser das FIS auf. Er wählt per Texteingabe oder aus einer Liste einen Bahnhof aus und lässt sich Abfahrten oder Ankünfte für diesen Bahnhof anzeigen.
 
 Der Benutzer filtert aus dem angezeigten Ergebnis bestimmte Zugtypen oder grenzt den anzuzeigenden Zeitraum ein.
 
