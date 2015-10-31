@@ -132,7 +132,7 @@ TODO: UML-Analyseklassendiagramm
 [options="header"]
 |===
 |Klasse/Enumeration |Beschreibung
-|Zeit 				|Stellt aktuelle ALborzeit dar
+|Zeit 				|Stellt aktuelle Laborzeit dar
 |Verbindungsstatus (Enumeration) |Kategorisiert den Zustand der Verbindung zum Fahrplanserver
 |Fahrplan 			|Kapselt sämtliche Informationen über alle stattfindenden Zugläufe
 |_Zuglauf_ 			|Umfasst die Fahrt eines Zuges zu einer bestimmten Zeit über mehrere Stationen, durch eine Zugnummer eindeutig identifiziert
@@ -164,7 +164,7 @@ TODO: UML-Analyseklassendiagramm
 |3	|Der Benutzer kann über eine Texteingabe oder aus einer Liste mit allen Banhöfen einen zur Anzeige auswählen
 |4	|Auf der Ankunftstafel werden für einen gewählten Zeitraum alle ankommenden Zugläufe angezeigt
 |5	|Auf der Abfahrtstafel werden für einen gewählten Zeitraum alle abfahrenden Zugläufe angezeigt
-|6	|Auf beiden Tafeln kann der Zetraum eingegrenzt und nach Zuggattung gefiltert werden
+|6	|Auf beiden Tafeln kann der Zeitraum eingegrenzt und nach Zuggattung gefiltert werden
 |7	|Der Benutzer kann über eine Texteingabe oder über Links auf einer der o.g. Tafeln einen konkreten Zuglauf auswählen und alle Zwischenhalte für diesen anzeigen
 |===
 
