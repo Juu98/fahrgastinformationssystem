@@ -85,10 +85,10 @@ Der Administrator bearbeitet die Konfigurationsdatei und stellt einen neuen Fahr
 	+ Richtung / Zwischenhalte (jeweils mit Ankunfts- bzw. Abfahrtszeit)
 	+ Gleis
 	+ Aktuelles
-* Zugllaufanzeige
+* Zuglaufanzeige
 	+ Bahnhofsname
 	+ Ankunftszeit (planmäßig und Verpätung)
-	+ Gleis 8planmäßig und tatsächlich
+	+ Gleis planmäßig und tatsächlich
 	+ Abfahrtszeit (planmäßig und Verpätung)
 	+ aktuelle Meldungen
 
