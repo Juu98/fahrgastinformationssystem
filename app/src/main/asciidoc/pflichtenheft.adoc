@@ -1,5 +1,6 @@
 = Pflichtenheft
 :toc: right
+:imagesdir: resources
 
 == TODO Projektname
 
@@ -110,15 +111,76 @@ Der Administrator bearbeitet die Konfigurationsdatei und stellt einen neuen Fahr
 
 === Überblick: Dialoglandkarte
 // Erstellen Sie ein Übersichtsdiagramm, das das Zusammenspiel Ihrer Masken zur Laufzeit darstellt. Also mit welchen Aktionen zwischen den Masken navigiert wird. Die nachfolgende Abbildung zeigt eine an die Pinnwand gezeichnete Dialoglandkarte. Ihre Karte sollte zusätzlich die Buttons/Funktionen darstellen, mit deren Hilfe Sie zwischen den Masken navigieren.
-TODO: Dialoglandkarte
+image::Dialoglandkarte.svg[Dialoglandkarte, 100%]
 
 === Dialogbeschreibung
+
+==== Suchdialoge
+
+Es werden 3 Suchdialoge benötigt: Abfahrtssuche, Ankunftssuche und Zuglaufsuche. Diese befinden sich alle auf der selben Seite, wobei die verschiedenen Suchdialoge durch Tabs (Registerkarten) umschaltbar sind. Sie dienen der Eingabe des gewünschten Bahnhofs (Abfahrts- und Ankunftssuche) bzw. der Eingabe der Zugnummer, wobei optional weitere Filterkriterien festgelegt werden können.
+
+image::Abfahrtssuche.png[Suchdialog Abfahrten, 100%, title="Abfahrtssuche"]
+image::Ankunftssuche.png[Suchdialog Ankünfte, 100%, title="Ankunftssuche"]
+
+Maskenelemente:
+
+* Tabs zum Umschalten zwischen den Suchmodi
+* Textbox mit Autovervollständigung zur Eingabe des Bahnhofs
+* "Dropdown" Schaltfläche zur Anzeige aller Bahnhöfe
+* Schaltfläche zum Durchführen der Suche
+* aufklappbarer Container mit weiteren Filteroptionen:
+	** Textboxen zur Angabe eines Zeitraums
+	** Uhrsymbol, Klick darauf setzt Zeitraum auf aktuelle Zeit + 1 Stunde
+	** Checkboxen zur Auswahl von Zugtypen
+	** Bahnhofstextbox wie obige
+
+image::Zugsuche.png[Suchdialog Zuglauf, 100%, title="Zuglaufsuche"]
+
+Maskenelemente:
+
+* Textbox zur Eingabe der Zugnummer
+* Bestätigungsschaltfläche
+
+==== Abfahrts-/Ankunftslisten
+
+Die Abfahrts- und Ankunftslisten zeigen eine Tabelle der Abfahrten/ Ankünfte am gewählten Bahnhof im gewählten Zeitraum unter Berücksichtigung der gewählten Filterbedingungen an.
+
+image::Abfahrten.png[Abfahrtsliste, 100%, title="Abfahrtsliste"]
+image::Ankünfte.png[Ankunftsliste, 100%, title="Ankunftsliste"]
+
+Maskenelemente:
+
+* Textbox mit gewähltem Bahnhof zur schnellen Änderung, Lupensymbol klickbar als Bestätigung
+* Filteroptionen wie auf Suchseite
+* Tabelle mit Ergebnissen
+
+==== Zuglaufanzeige
+
+Die Zuglaufanzeige zeigt einen konkreten Zuglauf mit seinen Halten, angereichert mit aktuellen Informationen, an.
+
+image::Zuglauf.png[Zuglaufanzeige, 100%, title="Zuglaufanzeige"]
+
+Maskenelemente:
+
+* Label mit Typ des gewählten Zuglaufs
+* Textbox mit Nummer des gewählten Zuglaufs zur schnellen Änderung, Lupensymbol klickbar als Bestätigung
+* Perlenschnurdarstellung des Zuglaufs:
+	** Start- und Endbahnhof durch Rechteck dargestellt
+	** Zwischenbahnhöfe durch Kreis dargestellt
+	** planmäßige Ankunfts- und Abfahrtszeiten links der Schnur
+	** Verspätungszeiten rechts der Schnur
+	** Bahnhöfe, die der Zug bereits durchfahren hat, sind ausgefüllt
+	** noch zu durchfahrende Bahnhöfe sind nicht ausgefüllt
+* Tabelle mit den Spalten Bahnhof, Gleis, Bemerkung
+
+////
 Für jeden Dialog:
 
 1. Kurze textuelle Dialogbeschreibung eingefügt: Was soll der jeweilige Dialog? Was kann man damit tun? Überblick?
 2. Maskenentwürfe (Screenshot, Mockup)
 3. Maskenelemente (Ein/Ausgabefelder, Aktionen wie Buttons, Listen, …)
 4. Evtl. Maskendetails, spezielle Widgets
+////
 
 == Datenmodell
 
