@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8" />
     <title></title>
+    <link rel="stylesheet" href="/resources/css/style.css" th:href="@{/resources/css/style.css}" />
 </head>
 <body>
 <div id="imageposts">
     <div th:each="post, it:${posts}" th:with="index = ${it.count}">
-        <h2 th:text="${post.title}"></h2> von <span th:text="${post.username}"></span><img th:src="'data:image/*;base64,' + ${post.getBase64Picture()}" style="max-width:50vh;max-height:50vh;" />
+        <h2 th:text="${index} + ': ' + ${post.title}"></h2> von <span th:text="${post.username}"></span><br /><img th:src="'data:image/*;base64,' + ${post.getBase64Picture()}" style="max-width:50vh;max-height:50vh;" />
     </div>
 </div>
 <form method="post" enctype="multipart/form-data" role="form" th:action="@{/imageboard}" th:object="${imagepost}">
-    <p>Titel: <input type="text" name="title" th:field="*{title}" required="required" /></p>
-    <p>Bild: <input type="file" name="picture" th:field="*{picture}" required="required" /></p>
+    <p>Titel: <input type="text" name="title" th:field="*{title}" required="required" th:errorclass="error" /></p>
+    <p>Bild: <input type="file" name="picture" th:field="*{picture}" required="required" th:errorclass="error" /></p>
     <input type="submit" value="Absenden" />
 </form>
 </body>

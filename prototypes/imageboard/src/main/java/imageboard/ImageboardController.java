@@ -3,6 +3,7 @@ package imageboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,11 +46,13 @@ class ImageboardController {
             catch (Exception e) {
                //TODO: error case
                 System.out.println("error");
+                return showImages(model);
             }
         }
         else {
             //TODO: empty picture
             System.out.println("empty");
+            return showImages(model);
         }
         return "redirect:/imageboard";
     }
