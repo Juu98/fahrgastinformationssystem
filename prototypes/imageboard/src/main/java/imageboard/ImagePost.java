@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.util.Assert;
 
+import java.util.Base64;
+
 /**
  * Created by spiollinux on 01.11.15.
  */
@@ -35,6 +37,11 @@ public class ImagePost {
         this.title = title;
         this.picture = picture;
         this.username = username;
+    }
+
+    public String getBase64Picture() {
+        String encodedPicture = Base64.getEncoder().encodeToString(picture);
+        return encodedPicture;
     }
 
 }

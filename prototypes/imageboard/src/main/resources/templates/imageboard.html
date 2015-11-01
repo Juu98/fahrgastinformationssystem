@@ -5,9 +5,14 @@
     <title></title>
 </head>
 <body>
-<form method="post" role="form" th:action="@{/imageboard}" th:object="${imagepost}">
-    <p>Titel: <input type="text" th:field="*{title}" required="required" /></p>
-    <p>Bild: <input type="file" th:field="*{picture}" required="required" /></p>
+<div id="imageposts">
+    <div th:each="post, it:${posts}" th:with="index = ${it.count}">
+        <h2 th:text="${post.title}"></h2> von <span th:text="${post.username}"></span><img th:src="'data:image/*;base64,' + ${post.getBase64Picture()}" style="max-width:50vh;max-height:50vh;" />
+    </div>
+</div>
+<form method="post" enctype="multipart/form-data" role="form" th:action="@{/imageboard}" th:object="${imagepost}">
+    <p>Titel: <input type="text" name="title" th:field="*{title}" required="required" /></p>
+    <p>Bild: <input type="file" name="picture" th:field="*{picture}" required="required" /></p>
     <input type="submit" value="Absenden" />
 </form>
 </body>
