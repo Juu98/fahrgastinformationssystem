@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+</head>
+<body>
+<form method="post" role="form" th:action="@{/imageboard}" th:object="${imagepost}">
+    <p>Titel: <input type="text" th:field="*{title}" required="required" /></p>
+    <p>Bild: <input type="file" th:field="*{picture}" required="required" /></p>
+    <input type="submit" value="Absenden" />
+</form>
+</body>
+</html>
