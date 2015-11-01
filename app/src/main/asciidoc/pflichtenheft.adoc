@@ -203,15 +203,15 @@ TODO: UML-Analyseklassendiagramm
 |_Halt_ 			|Umfasst den konkreten Stop eines Zuglaufes an einem Bahnhof zu einer bestimmten Zeit, an einem bestimmten Gleis
 |_Telegramm_		|Nachricht des Fahrplanservers, die ggf. zu einer Aktualisierung des Fahrplanes führt
 |Anmeldetelegramm	|Nachricht des FIS an den Server um sich anzumelden und Daten abzurufen
-|Bestätigunstelegeramm |Antwort des Servers mit der aktuellen Laborzeit
+|Bestätigunstelegramm |Antwort des Servers mit der aktuellen Laborzeit
 |Statustelegramm	|Lebenszeichen des Servers mit aktueller Laborzeit
 |Zuglauftelegramm	|Nachricht des Fahrplanservers mit den Daten eines Zuglaufes
 |Änderungstelegramm	|Nachricht des Fahrplanservers mit Informationen zu aktuellen Änderungen an einem Zuglauf
 |_Anfrage_			|Nutzeranforderung über die grafische Oberfläche
 |Zugalufanfrage		|Anfrage zu einem vollständigen Zuglauf
-|Ergebnisanfrage	|Anfrage zu Zugläufen an einem bestimmten Bahnhof, in einem bestimmten Zeitraum
-|Ankunftsanfrage	|Ergebnisanfrage zu ankommenden Zugläufen
-|Abfahrtsanfrage	|Ergebnisanfrage zu abfahrenden Zugläufen
+|Ereignisanfrage	|Anfrage zu Zugläufen an einem bestimmten Bahnhof, in einem bestimmten Zeitraum
+|Ankunftsanfrage	|Ereignisanfrage zu ankommenden Zugläufen
+|Abfahrtsanfrage	|Ereignisanfrage zu abfahrenden Zugläufen
 |===
 
 == Aktzeptanztestfälle
