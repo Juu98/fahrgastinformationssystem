@@ -8,7 +8,11 @@
 <body>
 <div id="imageposts">
     <div th:each="post, it:${posts}" th:with="index = ${it.count}">
-        <h2 th:text="${index} + ': ' + ${post.title}"></h2> von <span th:text="${post.username}"></span><br /><img th:src="'data:image/*;base64,' + ${post.getBase64Picture()}" style="max-width:50vh;max-height:50vh;" />
+        <h2 th:text="${index} + ': ' + ${post.title}">Titel</h2> von <span th:text="${post.username}">Autor</span><br />
+        <img th:src="'data:image/*;base64,' + ${post.getBase64Picture()}" style="max-width:50vh;max-height:50vh;" />
+        <br /><form th:method="delete" th:action="@{/imageboard/} + ${post.id}">
+        <button>Löschen</button>
+    </form>
     </div>
 </div>
 <form method="post" enctype="multipart/form-data" role="form" th:action="@{/imageboard}" th:object="${imagepost}">
