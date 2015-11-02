@@ -49,7 +49,7 @@ image::Use_Case_Diagram__Anwendungsfalldiagramm.png[Use-case-Diagramm, 100%, tit
 |===
 |Name 			|Beschreibung
 |Benutzer		|Ruft Fahrplaninformationen für Bahnhöfe oder Zugläufe ab
-|Administrator	|Konfigurerit das System über eine Konfigurationsdatei
+|Administrator	|Konfiguriert das System über eine Konfigurationsdatei
 |Fahrplanserver	|Liefert die Echtzeitinformationen
 |===
 
