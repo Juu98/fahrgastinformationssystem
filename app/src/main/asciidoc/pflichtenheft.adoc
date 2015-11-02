@@ -1,14 +1,13 @@
 = Pflichtenheft
 :toc: right
-:imagesdir: resources
 
-== TODO Projektname
+== FIS :: Fahgrastinformationssystem
 
 __Version:__    *1.0*
 
 __Status:__     *In Arbeit*
 
-__Stand:__      *2015-10-27*
+__Stand:__      *2015-11-02*
 
 == Zusammenfassung
 Im Eisenbahnbetriebslabor findet für Forschung, Lehre und Weiterbildung eine gegenständliche Simulation des Eisenbahnbetriebs mit Personen- und Güterverkehr statt.
@@ -22,28 +21,33 @@ Als Orientierungshilfe kann von der Online-Abfahrtsanzeige der Deutschen Bahn au
 http://reiseauskunft.bahn.de/bin/bhftafel.exe/
 
 == Fachlicher Überblick
-TODO Einleitung für fachfremde Personen
+Das Fahrgastinformationssystem (FIS) fungiert als Schnittstelle zwischen dem Fahrplanserver mit den Informationen zu den einzelnen Zügen, Verspätungen und anderen aktuellen Änderungen und dem Fahrgast. Es bietet letzterem die Möglichkeit, ohne direkten Zugriff auf den Server und ohne technische Einweisung schnell und präzise Informationen für die eigene Reiseplanung abzurufen.
+Dafür steht es in ständigem Kontakt mit dem Fahrplanserver und speichert in einem internen Fahrplan alle Nachrichten des Servers. Ein Fahrgast kann jetzt mit einem Browser die Website des FIS aufrufen und dort gezielt nach ankommenden oder abfahrenden Zügen an einem Bahnhof oder auch nach ganzen Zugläufen wie in einem Kursbuch suchen.
+
+Das FIS reagiert auf eine Anfrage indem es aus dem internen Fahrplan die Daten heraussucht, welche die eingegebenen Kriterien erfüllen und grafisch aufbereitet an den Nutzer sendet. Dabei ist es in der Lage, nahezu gleichzeitig Anfragen verschiedener Nutzer separat zu beantwroten.
+Durch den Einsatz eines Webservers kann das FIS von beinahe jedem Endgerät (Desktop-Computer, Notebook, Smartphone) mit Netzwerkzugriff aufgerufen und angezeigt werden (sofern ein Browser installiert ist). Diese Eigenschaft prädestiniert das FIS für den mobilen Einsatz, allerdings ist ebenso die Verwendung als stationäre Anzeigetafel, wie man sie von Bahnhöfen kennt, möglich.
 
 == Systemgrenze und Top-Level-Architektur
+:imagesdir: uml
 
 === Kontextdiagramm
 // Das Kontextdiagramm zeigt das geplante Software-System in seiner Umgebung. Zur Umgebung gehören alle Nutzergruppen des Systems und Nachbarsysteme. Die Grafik kann auch informell gehalten sein. Überlegen Sie sich dann geeignete Symbole. Die Grafik kann beispielsweise mit Visio erstellt werden. Wenn nötig, erläutern Sie diese Grafik.
-TODO: Kontextdiagramm
+image::Context_Diagram__Kontext.png[Kontextdiagramm, 100%, title="Kontextdiagramm"]
 
 === Top-level architecture
 // Dokumentieren Sie ihre Top-Level-Architektur mit Hilfe eines Komponentendiagramm.
-TODO: top-level-architecture
+image::Component_Diagram__Komponentendiagramm.png[Top-Level-Architektur, 100%, title="Top-Level-Architektur mittels Komponentendiagramm"]
 
 == Anwendungsfälle
 
 === Überblick Anwendungsfalldiagramm
-TODO: Use-case-Diagramm
+image::Use_Case_Diagram__Anwendungsfalldiagramm.png[Use-case-Diagramm, 100%, title="Use-case-Diagramm"]
 
 === Akteure
 // See http://asciidoctor.org/docs/user-manual/#tables
 [options="header"]
 |===
-|Name |Beschreibung
+|Name 			|Beschreibung
 |Benutzer		|Ruft Fahrplaninformationen für Bahnhöfe oder Zugläufe ab
 |Administrator	|Konfigurerit das System über eine Konfigurationsdatei
 |Fahrplanserver	|Liefert die Echtzeitinformationen
@@ -57,9 +61,9 @@ TODO: Use-case-Diagramm
 
 Der Benutzer ruft in einem Webbrowser das FIS auf. Er wählt per Texteingabe oder aus einer Liste einen Bahnhof aus und lässt sich Abfahrten oder Ankünfte für diesen Bahnhof anzeigen.
 
-Der Benutzer filtert aus dem angezeigten Ergebnis bestimmte Zugtypen oder grenzt den anzuzeigenden Zeitraum ein.
+Der Benutzer filtert aus dem angezeigten Ergebnis bestimmte Zugtypen und Ziel- bzw. Herkunftsorte oder grenzt den anzuzeigenden Zeitraum ein.
 
-Per Klick auf eine Zugnummer oder über eine Eingabemaske kann er einen einzelnen Zuglauf mit seinen einezelnen Zwischernhalten anzeigen.
+Per Klick auf eine Zugnummer oder über eine Eingabemaske kann er einen einzelnen Zuglauf mit seinen einezelnen Zwischenhalten anzeigen.
 
 Der Administrator bearbeitet die Konfigurationsdatei und stellt einen neuen Fahrplanserer ein.
 
@@ -68,29 +72,29 @@ Der Administrator bearbeitet die Konfigurationsdatei und stellt einen neuen Fahr
 === Muss-Kriterien
 * Erreichbarkeit unter http://<IP-des-Webserevrs>/fis
 * Auswahl des anzuzeigenden Inhalts:
-	+ Abfahrtstafel
-	+ Ankunftstafel
-	+ Zuglauf
+	** Abfahrtstafel
+	** Ankunftstafel
+	** Zuglauf
 * Kopfzeile mit:
-	+ änderbarem Logo (links)
-	+ seitenabhängiger Text (mittig)
-	+ aktuelle Laborzeit (rechts)
+	** änderbarem Logo (links)
+	** seitenabhängiger Text (mittig)
+	** aktuelle Laborzeit (rechts)
 * Fußzeile mit:
-	+ statischem Text (rechts)
-	+ Verbindungsstatus zum Fahrplanserver (links)
-	+ Programmversion (links)
+	** statischem Text (rechts)
+	** Verbindungsstatus zum Fahrplanserver (links)
+	** Programmversion (links)
 * Abfahrts- / Ankunftsanzeige
-	+ Zeit
-	+ Zug (Zugtyp und -nummer)
-	+ Richtung / Zwischenhalte (jeweils mit Ankunfts- bzw. Abfahrtszeit)
-	+ Gleis
-	+ Aktuelles
+	** Zeit
+	** Zug (Zugtyp und -nummer)
+	** Richtung / Zwischenhalte (jeweils mit Ankunfts- bzw. Abfahrtszeit)
+	** Gleis
+	** Aktuelles
 * Zuglaufanzeige
-	+ Bahnhofsname
-	+ Ankunftszeit (planmäßig und Verpätung)
-	+ Gleis planmäßig und tatsächlich
-	+ Abfahrtszeit (planmäßig und Verpätung)
-	+ aktuelle Meldungen
+	** Bahnhofsname
+	** Ankunftszeit (planmäßig und Verpätung)
+	** Gleis planmäßig und tatsächlich
+	** Abfahrtszeit (planmäßig und Verpätung)
+	** aktuelle Meldungen
 
 * Interaktiver Wechsel zwischen Bahnhofs- und Zuglaufdarstellung durch Klick auf das jeweilige Objekt
 * Verbindung zum Fahrplanserver muss konfigurierbar sein (IP, Port, ClientID)
@@ -101,17 +105,19 @@ Der Administrator bearbeitet die Konfigurationsdatei und stellt einen neuen Fahr
 * Verbindungsstatus (nicht verbunden, Verbindungsaufbau, verbunden)
 * Logo als GIF, PNG oder JPEG
 * individuell änderbare Farben
+* Zuglaufanzeige ähnlich einer Perlenschnur
 * Vor- / Zurückfunktion des Browsers korrekt verwendbar
 * mehrere Tabs möglich
-* keine Datenbank als interne Speicherung
+* keine dauerhafte Speicherung der Fahrplandaten (zum Beispiel in einer Datenbank)
 * Erweiterbarkeit
 * unmittelbare Reaktion auf Benutzerinteraktion
 
 == GUI Prototyp
 
 === Überblick: Dialoglandkarte
+:imagesdir: resources
 // Erstellen Sie ein Übersichtsdiagramm, das das Zusammenspiel Ihrer Masken zur Laufzeit darstellt. Also mit welchen Aktionen zwischen den Masken navigiert wird. Die nachfolgende Abbildung zeigt eine an die Pinnwand gezeichnete Dialoglandkarte. Ihre Karte sollte zusätzlich die Buttons/Funktionen darstellen, mit deren Hilfe Sie zwischen den Masken navigieren.
-image::Dialoglandkarte.svg[Dialoglandkarte, 100%]
+image::Dialoglandkarte.svg[Dialoglandkarte, 100%, title="Dialoglandkarte"]
 
 === Dialogbeschreibung
 
@@ -119,8 +125,8 @@ image::Dialoglandkarte.svg[Dialoglandkarte, 100%]
 
 Es werden 3 Suchdialoge benötigt: Abfahrtssuche, Ankunftssuche und Zuglaufsuche. Diese befinden sich alle auf der selben Seite, wobei die verschiedenen Suchdialoge durch Tabs (Registerkarten) umschaltbar sind. Sie dienen der Eingabe des gewünschten Bahnhofs (Abfahrts- und Ankunftssuche) bzw. der Eingabe der Zugnummer, wobei optional weitere Filterkriterien festgelegt werden können.
 
-image::Abfahrtssuche.png[Suchdialog Abfahrten, 100%, title="Abfahrtssuche"]
-image::Ankunftssuche.png[Suchdialog Ankünfte, 100%, title="Ankunftssuche"]
+image::search_departures.png[Suchdialog Abfahrten, 100%, title="Abfahrtssuche"]
+image::search_arrivals.png[Suchdialog Ankünfte, 100%, title="Ankunftssuche"]
 
 Maskenelemente:
 
@@ -134,7 +140,7 @@ Maskenelemente:
 	** Checkboxen zur Auswahl von Zugtypen
 	** Bahnhofstextbox wie obige
 
-image::Zugsuche.png[Suchdialog Zuglauf, 100%, title="Zuglaufsuche"]
+image::search_train.png[Suchdialog Zuglauf, 100%, title="Zuglaufsuche"]
 
 Maskenelemente:
 
@@ -145,8 +151,8 @@ Maskenelemente:
 
 Die Abfahrts- und Ankunftslisten zeigen eine Tabelle der Abfahrten/ Ankünfte am gewählten Bahnhof im gewählten Zeitraum unter Berücksichtigung der gewählten Filterbedingungen an.
 
-image::Abfahrten.png[Abfahrtsliste, 100%, title="Abfahrtsliste"]
-image::Ankünfte.png[Ankunftsliste, 100%, title="Ankunftsliste"]
+image::departures.png[Abfahrtsliste, 100%, title="Abfahrtsliste"]
+image::arrivals.png[Ankunftsliste, 100%, title="Ankunftsliste"]
 
 Maskenelemente:
 
@@ -158,7 +164,7 @@ Maskenelemente:
 
 Die Zuglaufanzeige zeigt einen konkreten Zuglauf mit seinen Halten, angereichert mit aktuellen Informationen, an.
 
-image::Zuglauf.png[Zuglaufanzeige, 100%, title="Zuglaufanzeige"]
+image::train.png[Zuglaufanzeige, 100%, title="Zuglaufanzeige"]
 
 Maskenelemente:
 
@@ -183,9 +189,10 @@ Für jeden Dialog:
 ////
 
 == Datenmodell
+:imagesdir: uml
 
 === Überblick: Klassendiagramm
-TODO: UML-Analyseklassendiagramm
+image::Class_Diagram__Analyseklassendiagramm.png[Analyseklassendiagramm, 100% title="Analyseklassendiagramm"]
 
 === Klassen und Enumerationen
 // Dieser Abschnitt stellt eine Vereinigung von Glossar und der Beschreibung von Klassen/Enumerationen dar. Jede Klasse und Enumeration wird in Form eines Glossars textuell beschrieben. Zusätzlich werden eventuellen Konsistenz- und Formatierungsregeln aufgeführt.
@@ -226,7 +233,7 @@ TODO: UML-Analyseklassendiagramm
 |3	|Der Benutzer kann über eine Texteingabe oder aus einer Liste mit allen Banhöfen einen zur Anzeige auswählen
 |4	|Auf der Ankunftstafel werden für einen gewählten Zeitraum alle ankommenden Zugläufe angezeigt
 |5	|Auf der Abfahrtstafel werden für einen gewählten Zeitraum alle abfahrenden Zugläufe angezeigt
-|6	|Auf beiden Tafeln kann der Zeitraum eingegrenzt und nach Zuggattung gefiltert werden
+|6	|Auf beiden Tafeln kann der Zeitraum eingegrenzt und nach Zuggattung und Ziel- bzw. Herkunftsbahnhof gefiltert werden
 |7	|Der Benutzer kann über eine Texteingabe oder über Links auf einer der o.g. Tafeln einen konkreten Zuglauf auswählen und alle Zwischenhalte für diesen anzeigen
 |===
 
