@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright 2015 TU Dresden.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,24 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package contacts;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-/**
- * The application's main class.
- * @author Robert
- */
-@SpringBootApplication
-public class Application {
-	
-	/**
-	 * Main method to start the application.
-	 * @param args 
-	 */
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
-	
+if ($(location).attr('hash') === "")
+	$("ul.nav a:first").tab('show');
+else {
+	$("#li_"+$(location).attr('hash').substring(1)).tab('show');
 }
