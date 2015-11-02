@@ -1,7 +1,7 @@
 = Pflichtenheft
 :toc: right
 
-== FIS :: Fahgrastinformationssystem
+== FIS :: Fahrgastinformationssystem
 
 __Version:__    *1.0*
 
