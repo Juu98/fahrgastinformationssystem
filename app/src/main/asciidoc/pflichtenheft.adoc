@@ -24,7 +24,7 @@ http://reiseauskunft.bahn.de/bin/bhftafel.exe/
 Das Fahrgastinformationssystem (FIS) fungiert als Schnittstelle zwischen dem Fahrplanserver mit den Informationen zu den einzelnen Zügen, Verspätungen und anderen aktuellen Änderungen und dem Fahrgast. Es bietet letzterem die Möglichkeit, ohne direkten Zugriff auf den Server und ohne technische Einweisung schnell und präzise Informationen für die eigene Reiseplanung abzurufen.
 Dafür steht es in ständigem Kontakt mit dem Fahrplanserver und speichert in einem internen Fahrplan alle Nachrichten des Servers. Ein Fahrgast kann jetzt mit einem Browser die Website des FIS aufrufen und dort gezielt nach ankommenden oder abfahrenden Zügen an einem Bahnhof oder auch nach ganzen Zugläufen wie in einem Kursbuch suchen.
 
-Das FIS reagiert auf eine Anfrage indem es aus dem internen Fahrplan die Daten heraussucht, welche die eingegebenen Kriterien erfüllen und grafisch aufbereitet an den Nutzer sendet. Dabei ist es in der Lage, nahezu gleichzeitig Anfragen verschiedener Nutzer separat zu beantwroten.
+Das FIS reagiert auf eine Anfrage indem es aus dem internen Fahrplan die Daten heraussucht, welche die eingegebenen Kriterien erfüllen und grafisch aufbereitet an den Nutzer sendet. Dabei ist es in der Lage, nahezu gleichzeitig Anfragen verschiedener Nutzer separat zu beantworten.
 Durch den Einsatz eines Webservers kann das FIS von beinahe jedem Endgerät (Desktop-Computer, Notebook, Smartphone) mit Netzwerkzugriff aufgerufen und angezeigt werden (sofern ein Browser installiert ist). Diese Eigenschaft prädestiniert das FIS für den mobilen Einsatz, allerdings ist ebenso die Verwendung als stationäre Anzeigetafel, wie man sie von Bahnhöfen kennt, möglich.
 
 == Systemgrenze und Top-Level-Architektur
