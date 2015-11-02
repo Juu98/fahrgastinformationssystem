@@ -117,7 +117,7 @@ Der Administrator bearbeitet die Konfigurationsdatei und stellt einen neuen Fahr
 === Überblick: Dialoglandkarte
 :imagesdir: resources
 // Erstellen Sie ein Übersichtsdiagramm, das das Zusammenspiel Ihrer Masken zur Laufzeit darstellt. Also mit welchen Aktionen zwischen den Masken navigiert wird. Die nachfolgende Abbildung zeigt eine an die Pinnwand gezeichnete Dialoglandkarte. Ihre Karte sollte zusätzlich die Buttons/Funktionen darstellen, mit deren Hilfe Sie zwischen den Masken navigieren.
-image::Dialoglandkarte.svg[Dialoglandkarte, 100%, title="Dialoglandkarte"]
+image::Dialoglandkarte.png[Dialoglandkarte, 100%, title="Dialoglandkarte"]
 
 === Dialogbeschreibung
 
