@@ -65,7 +65,7 @@ Der Benutzer filtert aus dem angezeigten Ergebnis bestimmte Zugtypen und Ziel- b
 
 Per Klick auf eine Zugnummer oder über eine Eingabemaske kann er einen einzelnen Zuglauf mit seinen einezelnen Zwischenhalten anzeigen.
 
-Der Administrator bearbeitet die Konfigurationsdatei und stellt einen neuen Fahrplanserer ein.
+Der Administrator bearbeitet die Konfigurationsdatei und stellt einen neuen Fahrplanserver ein.
 
 == Anforderungen
 
@@ -228,7 +228,7 @@ image::Class_Diagram__Analyseklassendiagramm.png[Analyseklassendiagramm, 100% ti
 [options="header"]
 |===
 |ID |Beschreibung
-|1	|Das System verbindet sich nach einem Neustart mit dem in der Konfigurationsdatei angegebenem Fahrplanserver und kann mittels der definierten Telegramme mit diesem kommunizieren und daten erhalten.
+|1	|Das System verbindet sich nach einem Neustart mit dem in der Konfigurationsdatei angegebenem Fahrplanserver und kann mittels der definierten Telegramme mit diesem kommunizieren und Daten erhalten.
 |2	|Der Benutzer kann die Weboberfläche unter der angegebenen Adresse erreichen, Verbindungsstatus und Laborzeit ablesen
 |3	|Der Benutzer kann über eine Texteingabe oder aus einer Liste mit allen Banhöfen einen zur Anzeige auswählen
 |4	|Auf der Ankunftstafel werden für einen gewählten Zeitraum alle ankommenden Zugläufe angezeigt
