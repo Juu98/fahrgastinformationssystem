@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Timetable Prototyp</title>
+		<!--  <link rel="stylesheet" href="/put/link/here" th:href="@{/linlk/to/css/file}"/>  -->
+		<meta charset="utf-8"/>
+	</head>
+	<body>
+		<h1>Timetable Prototyp</h1>
+		<form aciton="#" th:action="@{/}" method="post">
+			Station: <input type="text" name="currentStationName" th:value="${currentStationName}"/> <span th:text="${stationMessage}"></span><br/>
+			<input type="submit" value="Submit"/><br/>
+		</form>
+		<table>
+			<caption>Stops</caption>
+			<thead>
+				<th>Arrival Time</th>
+				<th>Departure Time</th>
+				<th>Platform</th>
+				<th>Destination</th>
+			</thead>
+			<tbody>
+				<tr th:each="stop : ${stops}">
+					<td th:text="${stop.getArrival().toString()}"></td>
+					<td th:text="${stop.getDeparture().toString()}"></td>
+					<td th:text="${stop.getPlatform()}"></td>
+					<td th:text="${stop.getDestination().getName()}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>
