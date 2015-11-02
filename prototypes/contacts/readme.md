@@ -19,7 +19,7 @@ Afterwards browse to http://localhost:8080
 ## Adding Contacts
 
 To add a contact just enter it's information into the form at the top the page 
-and hit the `Save``button.
+and hit the `Save` button.
 
 NOTE: All fields are required and a validation check is performed on the email address.
 
