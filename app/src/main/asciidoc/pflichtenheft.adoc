@@ -1,5 +1,6 @@
 = Pflichtenheft
 :toc: right
+:imagesdir: resources
 
 == TODO Projektname
 
@@ -44,7 +45,7 @@ TODO: Use-case-Diagramm
 |===
 |Name |Beschreibung
 |Benutzer		|Ruft Fahrplaninformationen für Bahnhöfe oder Zugläufe ab
-|Administrator	|Konfigurerit das System
+|Administrator	|Konfigurerit das System über eine Konfigurationsdatei
 |Fahrplanserver	|Liefert die Echtzeitinformationen
 |===
 
@@ -54,9 +55,11 @@ TODO: Use-case-Diagramm
 // Einfache Anwendungsfälle mit einem Absatz beschreiben.
 // Die typischen Anwendungsfälle (Anlegen, Ändern, Löschen) können zu einem einzigen zusammengefasst werden.
 
-Der Benuter ruft in einem Webbrowser das FIS auf. ER wählt per Texteingabe oder aus einer Liste einen Bahnhoof aus und lässt sich Abfahrten oder Ankünfte für diesen Bahnhof anzeigen.
+Der Benutzer ruft in einem Webbrowser das FIS auf. Er wählt per Texteingabe oder aus einer Liste einen Bahnhof aus und lässt sich Abfahrten oder Ankünfte für diesen Bahnhof anzeigen.
 
 Der Benutzer filtert aus dem angezeigten Ergebnis bestimmte Zugtypen oder grenzt den anzuzeigenden Zeitraum ein.
+
+Per Klick auf eine Zugnummer oder über eine Eingabemaske kann er einen einzelnen Zuglauf mit seinen einezelnen Zwischernhalten anzeigen.
 
 Der Administrator bearbeitet die Konfigurationsdatei und stellt einen neuen Fahrplanserer ein.
 
@@ -82,10 +85,10 @@ Der Administrator bearbeitet die Konfigurationsdatei und stellt einen neuen Fahr
 	+ Richtung / Zwischenhalte (jeweils mit Ankunfts- bzw. Abfahrtszeit)
 	+ Gleis
 	+ Aktuelles
-* Zugllaufanzeige
+* Zuglaufanzeige
 	+ Bahnhofsname
 	+ Ankunftszeit (planmäßig und Verpätung)
-	+ Gleis 8planmäßig und tatsächlich
+	+ Gleis planmäßig und tatsächlich
 	+ Abfahrtszeit (planmäßig und Verpätung)
 	+ aktuelle Meldungen
 
@@ -108,15 +111,76 @@ Der Administrator bearbeitet die Konfigurationsdatei und stellt einen neuen Fahr
 
 === Überblick: Dialoglandkarte
 // Erstellen Sie ein Übersichtsdiagramm, das das Zusammenspiel Ihrer Masken zur Laufzeit darstellt. Also mit welchen Aktionen zwischen den Masken navigiert wird. Die nachfolgende Abbildung zeigt eine an die Pinnwand gezeichnete Dialoglandkarte. Ihre Karte sollte zusätzlich die Buttons/Funktionen darstellen, mit deren Hilfe Sie zwischen den Masken navigieren.
-TODO: Dialoglandkarte
+image::Dialoglandkarte.svg[Dialoglandkarte, 100%]
 
 === Dialogbeschreibung
+
+==== Suchdialoge
+
+Es werden 3 Suchdialoge benötigt: Abfahrtssuche, Ankunftssuche und Zuglaufsuche. Diese befinden sich alle auf der selben Seite, wobei die verschiedenen Suchdialoge durch Tabs (Registerkarten) umschaltbar sind. Sie dienen der Eingabe des gewünschten Bahnhofs (Abfahrts- und Ankunftssuche) bzw. der Eingabe der Zugnummer, wobei optional weitere Filterkriterien festgelegt werden können.
+
+image::Abfahrtssuche.png[Suchdialog Abfahrten, 100%, title="Abfahrtssuche"]
+image::Ankunftssuche.png[Suchdialog Ankünfte, 100%, title="Ankunftssuche"]
+
+Maskenelemente:
+
+* Tabs zum Umschalten zwischen den Suchmodi
+* Textbox mit Autovervollständigung zur Eingabe des Bahnhofs
+* "Dropdown" Schaltfläche zur Anzeige aller Bahnhöfe
+* Schaltfläche zum Durchführen der Suche
+* aufklappbarer Container mit weiteren Filteroptionen:
+	** Textboxen zur Angabe eines Zeitraums
+	** Uhrsymbol, Klick darauf setzt Zeitraum auf aktuelle Zeit + 1 Stunde
+	** Checkboxen zur Auswahl von Zugtypen
+	** Bahnhofstextbox wie obige
+
+image::Zugsuche.png[Suchdialog Zuglauf, 100%, title="Zuglaufsuche"]
+
+Maskenelemente:
+
+* Textbox zur Eingabe der Zugnummer
+* Bestätigungsschaltfläche
+
+==== Abfahrts-/Ankunftslisten
+
+Die Abfahrts- und Ankunftslisten zeigen eine Tabelle der Abfahrten/ Ankünfte am gewählten Bahnhof im gewählten Zeitraum unter Berücksichtigung der gewählten Filterbedingungen an.
+
+image::Abfahrten.png[Abfahrtsliste, 100%, title="Abfahrtsliste"]
+image::Ankünfte.png[Ankunftsliste, 100%, title="Ankunftsliste"]
+
+Maskenelemente:
+
+* Textbox mit gewähltem Bahnhof zur schnellen Änderung, Lupensymbol klickbar als Bestätigung
+* Filteroptionen wie auf Suchseite
+* Tabelle mit Ergebnissen
+
+==== Zuglaufanzeige
+
+Die Zuglaufanzeige zeigt einen konkreten Zuglauf mit seinen Halten, angereichert mit aktuellen Informationen, an.
+
+image::Zuglauf.png[Zuglaufanzeige, 100%, title="Zuglaufanzeige"]
+
+Maskenelemente:
+
+* Label mit Typ des gewählten Zuglaufs
+* Textbox mit Nummer des gewählten Zuglaufs zur schnellen Änderung, Lupensymbol klickbar als Bestätigung
+* Perlenschnurdarstellung des Zuglaufs:
+	** Start- und Endbahnhof durch Rechteck dargestellt
+	** Zwischenbahnhöfe durch Kreis dargestellt
+	** planmäßige Ankunfts- und Abfahrtszeiten links der Schnur
+	** Verspätungszeiten rechts der Schnur
+	** Bahnhöfe, die der Zug bereits durchfahren hat, sind ausgefüllt
+	** noch zu durchfahrende Bahnhöfe sind nicht ausgefüllt
+* Tabelle mit den Spalten Bahnhof, Gleis, Bemerkung
+
+////
 Für jeden Dialog:
 
 1. Kurze textuelle Dialogbeschreibung eingefügt: Was soll der jeweilige Dialog? Was kann man damit tun? Überblick?
 2. Maskenentwürfe (Screenshot, Mockup)
 3. Maskenelemente (Ein/Ausgabefelder, Aktionen wie Buttons, Listen, …)
 4. Evtl. Maskendetails, spezielle Widgets
+////
 
 == Datenmodell
 
@@ -125,19 +189,46 @@ TODO: UML-Analyseklassendiagramm
 
 === Klassen und Enumerationen
 // Dieser Abschnitt stellt eine Vereinigung von Glossar und der Beschreibung von Klassen/Enumerationen dar. Jede Klasse und Enumeration wird in Form eines Glossars textuell beschrieben. Zusätzlich werden eventuellen Konsistenz- und Formatierungsregeln aufgeführt.
-TODO
 
 // See http://asciidoctor.org/docs/user-manual/#tables
 [options="header"]
 |===
-|Klasse/Enumeration |Beschreibung |
-|…                  |…            |
+|Klasse/Enumeration |Beschreibung
+|Zeit 				|Stellt aktuelle Laborzeit dar
+|Verbindungsstatus (Enumeration) |Kategorisiert den Zustand der Verbindung zum Fahrplanserver
+|Fahrplan 			|Kapselt sämtliche Informationen über alle stattfindenden Zugläufe
+|_Zuglauf_ 			|Umfasst die Fahrt eines Zuges zu einer bestimmten Zeit über mehrere Stationen, durch eine Zugnummer eindeutig identifiziert
+|Zuggattung (Enumeration) |Kategorisiert die Zugläufe (Personen- / Güterzug, Regional- / Fernzug, etc.)
+|Bahnhof 			|Stellt einen physischen Bahnhof dar und dient damit zur lokalen Filterung der Zugläufe
+|_Halt_ 			|Umfasst den konkreten Stop eines Zuglaufes an einem Bahnhof zu einer bestimmten Zeit, an einem bestimmten Gleis
+|_Telegramm_		|Nachricht des Fahrplanservers, die ggf. zu einer Aktualisierung des Fahrplanes führt
+|Anmeldetelegramm	|Nachricht des FIS an den Server um sich anzumelden und Daten abzurufen
+|Bestätigungstelegramm |Antwort des Servers mit der aktuellen Laborzeit
+|Statustelegramm	|Lebenszeichen des Servers mit aktueller Laborzeit
+|Zuglauftelegramm	|Nachricht des Fahrplanservers mit den Daten eines Zuglaufes
+|Änderungstelegramm	|Nachricht des Fahrplanservers mit Informationen zu aktuellen Änderungen an einem Zuglauf
+|_Anfrage_			|Nutzeranforderung über die grafische Oberfläche
+|Zugalufanfrage		|Anfrage zu einem vollständigen Zuglauf
+|Ereignisanfrage	|Anfrage zu Zugläufen an einem bestimmten Bahnhof, in einem bestimmten Zeitraum
+|Ankunftsanfrage	|Ereignisanfrage zu ankommenden Zugläufen
+|Abfahrtsanfrage	|Ereignisanfrage zu abfahrenden Zugläufen
 |===
 
 == Aktzeptanztestfälle
 // Mithilfe von Akzeptanztests wird geprüft, ob die Software die funktionalen Erwartungen und Anforderungen im Gebrauch erfüllt. Diese sollen und können aus den Anwendungsfallbeschreibungen und den UML-Sequenzdiagrammen abgeleitet werden. D.h., pro (komplexen) Anwendungsfall gibt es typischerweise mindestens ein Sequenzdiagramm (welches ein Szenarium beschreibt). Für jedes Szenarium sollte es einen Akzeptanztestfall geben. Listen Sie alle Akzeptanztestfälle in tabellarischer Form auf.
 // Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumenten (z.B. im Test-Plan) referenzieren zu können.
-TODO
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="header"]
+|===
+|ID |Beschreibung
+|1	|Das System verbindet sich nach einem Neustart mit dem in der Konfigurationsdatei angegebenem Fahrplanserver und kann mittels der definierten Telegramme mit diesem kommunizieren und daten erhalten.
+|2	|Der Benutzer kann die Weboberfläche unter der angegebenen Adresse erreichen, Verbindungsstatus und Laborzeit ablesen
+|3	|Der Benutzer kann über eine Texteingabe oder aus einer Liste mit allen Banhöfen einen zur Anzeige auswählen
+|4	|Auf der Ankunftstafel werden für einen gewählten Zeitraum alle ankommenden Zugläufe angezeigt
+|5	|Auf der Abfahrtstafel werden für einen gewählten Zeitraum alle abfahrenden Zugläufe angezeigt
+|6	|Auf beiden Tafeln kann der Zeitraum eingegrenzt und nach Zuggattung gefiltert werden
+|7	|Der Benutzer kann über eine Texteingabe oder über Links auf einer der o.g. Tafeln einen konkreten Zuglauf auswählen und alle Zwischenhalte für diesen anzeigen
+|===
 
 == Offene Punkte
 // Offene Punkte werden entweder direkt in der Spezifikation notiert. Wenn das Pflichtenheft  zum finalen Review vorgelegt wird, sollte es keine offenen Punkte mehr geben.
