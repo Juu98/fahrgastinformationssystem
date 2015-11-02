@@ -1,0 +1,12 @@
+.container{
+	width: 65%;
+	margin: auto;
+}
+
+.nav-tabs > li > a{
+	padding: 5px;
+}
+
+.tab-content{
+	padding: 20px 0;
+}
