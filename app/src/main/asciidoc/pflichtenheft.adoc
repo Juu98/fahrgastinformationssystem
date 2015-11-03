@@ -9,6 +9,10 @@ __Status:__     *In Arbeit*
 
 __Stand:__      *2015-11-02*
 
+__Fertigstellungstermin:__ 15.01.2016
+
+__Zwischenversion am:__ 15.12.2015
+
 == Zusammenfassung
 Im Eisenbahnbetriebslabor findet für Forschung, Lehre und Weiterbildung eine gegenständliche Simulation des Eisenbahnbetriebs mit Personen- und Güterverkehr statt.
 In den Laborpraktika wird vermittelt, wie der Eisenbahnbetrieb funktioniert und welche Prozesse dafür notwendig sind. Um das Lernen realistischer zu gestalten, soll das Labor durch ein Fahrgastinformationssystem erweitert werden.
@@ -95,9 +99,12 @@ Der Administrator bearbeitet die Konfigurationsdatei und stellt einen neuen Fahr
 	** Gleis planmäßig und tatsächlich
 	** Abfahrtszeit (planmäßig und Verpätung)
 	** aktuelle Meldungen
+* mehrere Tabs möglich
+* muss auf Hard- und Software des Kunden laufen: SLES 11, Apache 2.2, Java freie Entscheidung
 
 * Interaktiver Wechsel zwischen Bahnhofs- und Zuglaufdarstellung durch Klick auf das jeweilige Objekt
 * Verbindung zum Fahrplanserver muss konfigurierbar sein (IP, Port, ClientID)
+* Zuordnung von Betriebsstelle und Kürzel über Textdatei (Kürzel=Voller Name)
 
 === Kann-Kriterien
 * Ausblenden der Uhrzeit, wenn keine Verbindung zum Fahrplanserver besteht
@@ -107,10 +114,12 @@ Der Administrator bearbeitet die Konfigurationsdatei und stellt einen neuen Fahr
 * individuell änderbare Farben
 * Zuglaufanzeige ähnlich einer Perlenschnur
 * Vor- / Zurückfunktion des Browsers korrekt verwendbar
-* mehrere Tabs möglich
 * keine dauerhafte Speicherung der Fahrplandaten (zum Beispiel in einer Datenbank)
 * Erweiterbarkeit
 * unmittelbare Reaktion auf Benutzerinteraktion
+* Sortierung der Abfahrten/ Ankünfte nach Sollzeit
+* Header und Footer
+	** optional: konfigurierbar in INI (mitscrollend oder fix)
 
 == GUI Prototyp
 
