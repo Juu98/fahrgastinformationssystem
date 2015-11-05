@@ -5,9 +5,9 @@
 
 __Version:__    *1.0*
 
-__Status:__     *In Arbeit*
+__Status:__     *Abgeschlossen*
 
-__Stand:__      *2015-11-02*
+__Stand:__      *2015-11-03*
 
 __Fertigstellungstermin:__ 15.01.2016
 
@@ -245,6 +245,3 @@ image::Class_Diagram__Analyseklassendiagramm.png[Analyseklassendiagramm, 100% ti
 |6	|Auf beiden Tafeln kann der Zeitraum eingegrenzt und nach Zuggattung und Ziel- bzw. Herkunftsbahnhof gefiltert werden
 |7	|Der Benutzer kann über eine Texteingabe oder über Links auf einer der o.g. Tafeln einen konkreten Zuglauf auswählen und alle Zwischenhalte für diesen anzeigen
 |===
-
-== Offene Punkte
-// Offene Punkte werden entweder direkt in der Spezifikation notiert. Wenn das Pflichtenheft  zum finalen Review vorgelegt wird, sollte es keine offenen Punkte mehr geben.
