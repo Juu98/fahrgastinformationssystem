@@ -1,0 +1,79 @@
+= Protokoll Gruppe 03
+
+[cols="<h,<a"]
+|===
+|Treffen am 03.11.2015    |13:00 Uhr, APB
+|Schriftführer            |Robert Mörseburg
+|Nächstes Treffen         |10.11.2015 13:00 Uhr APB Foyer
+|Teilnehmer               |
+* Eric Schölzel (Scrum-Master)
+* Jonas Schenke
+* Oliver Schmidt
+* Robert Mörseburg
+* Zdravko Yanakiev
+* Ronny Kaiser (Betreuer Lehrstuhl SWT)
+* Walerian Nesterenko (Mitarbeiter EBL)
+|===
+
+== Bemerkungen
+Die Zeiterfassung soll inklusive der gemeinsamen Treffen erfolgen. Wenn einzelne Features fertig zur Übernahme in den `master`-Branch sind, soll dies über pull-requests geregelt werden.
+
+== Retrospektive des letzten Sprints
+Im letzten Sprint wurden die eigenen Prototypen erstellt und dadurch die Arbeit mit dem Spring-Framework verinnerlicht. Außerdem konnte die Phase der objektorientierten Analayse abgeschlossen werden. Desweiteren wurde das Pflichtenheft inklusive des GUI-Prototypen erstellt und an den Kunden übergeben.
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[options="header"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|4	|Pflichtenheft		|abgeschlossen		|durch Kunden akzeptiert
+|6	|GUI-Prototyp		|abgeshclossen 		|durch Kunden akzeptiert, eventuell andere Farben
+|7	|Kontextdiagramm	|abgeschlossen		|siehe Pflichetenheft
+|8	|Anwendungsfalldiagramm	|abgeschlossen	|siehe Pflichetenheft
+|9	|Klassendiagramm	|abgeschlossen		|Analyseklassendiagramm siehe Pflichetenheft
+|10	|Sequenzdiagramm	|abgeschlossen		|siehe Pflichetenheft
+|11	|Salespoint aus dem Projekt entfernen	|offen	|niedrige Priorität, erst nach der Analyse
+|12	|Java-Version		|in Bearbeitung		| 7 oder 8, nach technischer Spezifikation des Kunden
+|13	|Top-Level-Architektur	|abgeschlossen	|siehe Pflichetenheft
+|14	|Erster Prototyp 	|abgeschlossen		|durch Herrn Kaiser akzeptiert
+|===
+
+== Aktueller Stand
+
+Nach Rücksprache mit Herrn Nesterenko wurden die folgenden offenen Punkte geklärt:
+
+* Die Begriffe "Zug" und "Zuglauf" sind synonym zu verwenden.
+* Die Züge auf der Anzeigetafel sollen nach der "Sollzeit" sortiert werden.
+* Liegt die Sollzeit innerhalb des dargestellten Zeitraumes, so wird der Zug unabhängig von seiner Verspätng angezeigt. Ist die Sollzeit vergangen, die Istzeit allerdings noch nicht, dann wird der Zug trotzdem angezeigt.
+* Die Zuggattung wird zusätzlich zur Zugnummer gespeichert und übergeben.
+* Header und Footer auf der Seite sollen fix sein, das heißt nicht mitscrollen. Wenn möglich, soll man das in der Konfiguration allerdings ändern können.
+* Besteht eien verbindung zum Fahrplanserver muss die XML-Datei nicht ausgewertet werden.
+* Der Kunde verwendet im Labor unter anderem Opera 11, darauf ist bei der Gestatltung Rücksicht zu nehmen.
+
+Im Pflichtenheft wurden die folgenden Punkte ergänzt:
+
+* Fertigstellungstermin 15. Januar 2016
+* Abgabe einer Testversion am 15. Dezember 2015
+* Software des Kunden: SLES 11, Apache 2.2
+* Konfigurationd der Betriebsstellen über Textdatei mit Zuordnung Kürzel zu vollem Namen
+
+== Planung des nächsten Sprints
+Bis zum 17.11.2015 soll ein großer Prototyp erstellt werden. Dazu soll bis zur nächsten Woche eine erste Version vorliegen. Der Prototyp soll einen einfachen Fahrplan parsen, die Zugläufe anzeigen und auch filtern können.
+
+Der Kunde liefert zu Testzwecken eine vereinfachte Version der RailML-Datei und sobald möglich eine Spezifikation der Telegramme des Fahrplanservers.
+
+Des weiteren wird im nächsten Sprint der objektorientierte Entwurf begonnen. Dieser soll ebenfalls bis zum 17.11.2015 vorliegen. Außerdem ist zu diesem Termin eine erste Version der Entwicklerdokumentation sowie des Testplans vorzulegen.
+
+[options="header"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|11	|Salespoint aus dem Projekt entfernen	|offen	|Bearbeitung durch Olliver
+|12	|Java-Version		|in Bearbeitung		|eher 8
+|19 |Entwicklerdokumentation	|offen 		|bis 17.11.2015
+|20 |Testplan			|offen 				|bis 17.11.2015
+|21 |XML parsen 		|in Bearbeitung		|durch *Zdravko*
+|22 |Großer Prototyp 	|in Bearbeitung		|
+	*Olliver*: Verwendung von TCP-Sockets in Spring, parsen +
+	*Eric*: Entwicklung der Datenstruktur +
+	*Robert*: GUI mit Bootstrap, less, Verarbeitung der Nutzeranfragen +
+|24 |UML-Entwurfsklassendiagramm |in Bearbeitung	|durch *Jonas*
+|===
