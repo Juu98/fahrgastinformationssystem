@@ -5,7 +5,7 @@
     <artifactId>swt15w3</artifactId>
     <version>1.0.0.BUILD-SNAPSHOT</version>
 
-    <name>Software Engineering Lab - Kickstart</name>
+    <name>Fahrgastinformationssystem Eisenbahnbetriebslabor</name>
 
     <parent>
         <groupId>de.tudresden.inf.st.lab</groupId>
@@ -15,7 +15,24 @@
 
     <dependencies>
 
+        <!-- Web -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
         <!-- Persistence -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.hsqldb</groupId>
@@ -27,6 +44,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+
+        <!-- Testing -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
     </dependencies>
