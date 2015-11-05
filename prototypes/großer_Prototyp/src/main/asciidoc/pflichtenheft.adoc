@@ -1,0 +1,250 @@
+= Pflichtenheft
+:toc: right
+
+== FIS :: Fahrgastinformationssystem
+
+__Version:__    *1.0*
+
+__Status:__     *In Arbeit*
+
+__Stand:__      *2015-11-02*
+
+__Fertigstellungstermin:__ 15.01.2016
+
+__Zwischenversion am:__ 15.12.2015
+
+== Zusammenfassung
+Im Eisenbahnbetriebslabor findet für Forschung, Lehre und Weiterbildung eine gegenständliche Simulation des Eisenbahnbetriebs mit Personen- und Güterverkehr statt.
+In den Laborpraktika wird vermittelt, wie der Eisenbahnbetrieb funktioniert und welche Prozesse dafür notwendig sind. Um das Lernen realistischer zu gestalten, soll das Labor durch ein Fahrgastinformationssystem erweitert werden.
+
+== Aufgabenstellung und Zielsetzung
+Im Rahmen des Softwarepraktikums soll eine webbasierte Ankunfts- und Abfahrtsanzeige als Teil eines Fahrgastinformationssystems für das Eisenbahnbetriebslabor entwickelt werden.
+Über die Webseite sollen die Benutzer einen Bahnhof und eine Uhrzeit eingeben und auswählen, ob sie Ankunfts- oder Abfahrtszeiten angezeigt haben wollen.
+Ausgehend von den Zuggattungen aus dem Fahrplan soll der Benutzer die Anzeige auch nach Zuggattungen filtern können. In den Ankunfts- und Abfahrtsanzeigen sollen zu jedem Zug auch alle nachfolgenden Halte eingeblendet werden und zusätzlich zu jedem Zug noch Echtzeitinformationen angezeigt werden können, wie Verspätungsminuten und Textmeldungen.
+Als Orientierungshilfe kann von der Online-Abfahrtsanzeige der Deutschen Bahn ausgegangen werden:
+http://reiseauskunft.bahn.de/bin/bhftafel.exe/
+
+== Fachlicher Überblick
+Das Fahrgastinformationssystem (FIS) fungiert als Schnittstelle zwischen dem Fahrplanserver mit den Informationen zu den einzelnen Zügen, Verspätungen und anderen aktuellen Änderungen und dem Fahrgast. Es bietet letzterem die Möglichkeit, ohne direkten Zugriff auf den Server und ohne technische Einweisung schnell und präzise Informationen für die eigene Reiseplanung abzurufen.
+Dafür steht es in ständigem Kontakt mit dem Fahrplanserver und speichert in einem internen Fahrplan alle Nachrichten des Servers. Ein Fahrgast kann jetzt mit einem Browser die Website des FIS aufrufen und dort gezielt nach ankommenden oder abfahrenden Zügen an einem Bahnhof oder auch nach ganzen Zugläufen wie in einem Kursbuch suchen.
+
+Das FIS reagiert auf eine Anfrage indem es aus dem internen Fahrplan die Daten heraussucht, welche die eingegebenen Kriterien erfüllen und grafisch aufbereitet an den Nutzer sendet. Dabei ist es in der Lage, nahezu gleichzeitig Anfragen verschiedener Nutzer separat zu beantworten.
+Durch den Einsatz eines Webservers kann das FIS von beinahe jedem Endgerät (Desktop-Computer, Notebook, Smartphone) mit Netzwerkzugriff aufgerufen und angezeigt werden (sofern ein Browser installiert ist). Diese Eigenschaft prädestiniert das FIS für den mobilen Einsatz, allerdings ist ebenso die Verwendung als stationäre Anzeigetafel, wie man sie von Bahnhöfen kennt, möglich.
+
+== Systemgrenze und Top-Level-Architektur
+:imagesdir: uml
+
+=== Kontextdiagramm
+// Das Kontextdiagramm zeigt das geplante Software-System in seiner Umgebung. Zur Umgebung gehören alle Nutzergruppen des Systems und Nachbarsysteme. Die Grafik kann auch informell gehalten sein. Überlegen Sie sich dann geeignete Symbole. Die Grafik kann beispielsweise mit Visio erstellt werden. Wenn nötig, erläutern Sie diese Grafik.
+image::Context_Diagram__Kontext.png[Kontextdiagramm, 100%, title="Kontextdiagramm"]
+
+=== Top-level architecture
+// Dokumentieren Sie ihre Top-Level-Architektur mit Hilfe eines Komponentendiagramm.
+image::Component_Diagram__Komponentendiagramm.png[Top-Level-Architektur, 100%, title="Top-Level-Architektur mittels Komponentendiagramm"]
+
+== Anwendungsfälle
+
+=== Überblick Anwendungsfalldiagramm
+image::Use_Case_Diagram__Anwendungsfalldiagramm.png[Use-case-Diagramm, 100%, title="Use-case-Diagramm"]
+
+=== Akteure
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="header"]
+|===
+|Name 			|Beschreibung
+|Benutzer		|Ruft Fahrplaninformationen für Bahnhöfe oder Zugläufe ab
+|Administrator	|Konfiguriert das System über eine Konfigurationsdatei
+|Fahrplanserver	|Liefert die Echtzeitinformationen
+|===
+
+=== Anwendungsfallbeschreibungen
+// Dieser Unterabschnitt beschreibt die Anwendungsfälle. In dieser Beschreibung müssen noch nicht alle Sonderfälle und Varianten berücksichtigt werden. Schwerpunkt ist es, die wichtigsten Anwendungsfälle des Systems zu finden. Wichtig sind solche Anwendungsfälle, die für den Auftraggeber, den Nutzer den größten Nutzen bringen.
+// Für komplexere Anwendungsfälle ein UML-Sequenzdiagramm ergänzen.
+// Einfache Anwendungsfälle mit einem Absatz beschreiben.
+// Die typischen Anwendungsfälle (Anlegen, Ändern, Löschen) können zu einem einzigen zusammengefasst werden.
+
+Der Benutzer ruft in einem Webbrowser das FIS auf. Er wählt per Texteingabe oder aus einer Liste einen Bahnhof aus und lässt sich Abfahrten oder Ankünfte für diesen Bahnhof anzeigen.
+
+Der Benutzer filtert aus dem angezeigten Ergebnis bestimmte Zugtypen und Ziel- bzw. Herkunftsorte oder grenzt den anzuzeigenden Zeitraum ein.
+
+Per Klick auf eine Zugnummer oder über eine Eingabemaske kann er einen einzelnen Zuglauf mit seinen einezelnen Zwischenhalten anzeigen.
+
+Der Administrator bearbeitet die Konfigurationsdatei und stellt einen neuen Fahrplanserver ein.
+
+== Anforderungen
+
+=== Muss-Kriterien
+* Erreichbarkeit unter http://<IP-des-Webserevrs>/fis
+* Auswahl des anzuzeigenden Inhalts:
+	** Abfahrtstafel
+	** Ankunftstafel
+	** Zuglauf
+* Kopfzeile mit:
+	** änderbarem Logo (links)
+	** seitenabhängiger Text (mittig)
+	** aktuelle Laborzeit (rechts)
+* Fußzeile mit:
+	** statischem Text (rechts)
+	** Verbindungsstatus zum Fahrplanserver (links)
+	** Programmversion (links)
+* Abfahrts- / Ankunftsanzeige
+	** Zeit
+	** Zug (Zugtyp und -nummer)
+	** Richtung / Zwischenhalte (jeweils mit Ankunfts- bzw. Abfahrtszeit)
+	** Gleis
+	** Aktuelles
+* Zuglaufanzeige
+	** Bahnhofsname
+	** Ankunftszeit (planmäßig und Verpätung)
+	** Gleis planmäßig und tatsächlich
+	** Abfahrtszeit (planmäßig und Verpätung)
+	** aktuelle Meldungen
+* mehrere Tabs möglich
+* muss auf Hard- und Software des Kunden laufen: SLES 11, Apache 2.2, Java freie Entscheidung
+
+* Interaktiver Wechsel zwischen Bahnhofs- und Zuglaufdarstellung durch Klick auf das jeweilige Objekt
+* Verbindung zum Fahrplanserver muss konfigurierbar sein (IP, Port, ClientID)
+* Zuordnung von Betriebsstelle und Kürzel über Textdatei (Kürzel=Voller Name)
+
+=== Kann-Kriterien
+* Ausblenden der Uhrzeit, wenn keine Verbindung zum Fahrplanserver besteht
+* automatische Aktualisierung nach einer Minute
+* Verbindungsstatus (nicht verbunden, Verbindungsaufbau, verbunden)
+* Logo als GIF, PNG oder JPEG
+* individuell änderbare Farben
+* Zuglaufanzeige ähnlich einer Perlenschnur
+* Vor- / Zurückfunktion des Browsers korrekt verwendbar
+* keine dauerhafte Speicherung der Fahrplandaten (zum Beispiel in einer Datenbank)
+* Erweiterbarkeit
+* unmittelbare Reaktion auf Benutzerinteraktion
+* Sortierung der Abfahrten/ Ankünfte nach Sollzeit
+* Header und Footer
+	** optional: konfigurierbar in INI (mitscrollend oder fix)
+
+== GUI Prototyp
+
+=== Überblick: Dialoglandkarte
+:imagesdir: resources
+// Erstellen Sie ein Übersichtsdiagramm, das das Zusammenspiel Ihrer Masken zur Laufzeit darstellt. Also mit welchen Aktionen zwischen den Masken navigiert wird. Die nachfolgende Abbildung zeigt eine an die Pinnwand gezeichnete Dialoglandkarte. Ihre Karte sollte zusätzlich die Buttons/Funktionen darstellen, mit deren Hilfe Sie zwischen den Masken navigieren.
+image::dialoglandkarte.png[Dialoglandkarte, 100%, title="Dialoglandkarte"]
+
+=== Dialogbeschreibung
+
+==== Suchdialoge
+
+Es werden 3 Suchdialoge benötigt: Abfahrtssuche, Ankunftssuche und Zuglaufsuche. Diese befinden sich alle auf der selben Seite, wobei die verschiedenen Suchdialoge durch Tabs (Registerkarten) umschaltbar sind. Sie dienen der Eingabe des gewünschten Bahnhofs (Abfahrts- und Ankunftssuche) bzw. der Eingabe der Zugnummer, wobei optional weitere Filterkriterien festgelegt werden können.
+
+image::search_departures.png[Suchdialog Abfahrten, 100%, title="Abfahrtssuche"]
+image::search_arrivals.png[Suchdialog Ankünfte, 100%, title="Ankunftssuche"]
+
+Maskenelemente:
+
+* Tabs zum Umschalten zwischen den Suchmodi
+* Textbox mit Autovervollständigung zur Eingabe des Bahnhofs
+* "Dropdown" Schaltfläche zur Anzeige aller Bahnhöfe
+* Schaltfläche zum Durchführen der Suche
+* aufklappbarer Container mit weiteren Filteroptionen:
+	** Textboxen zur Angabe eines Zeitraums
+	** Uhrsymbol, Klick darauf setzt Zeitraum auf aktuelle Zeit + 1 Stunde
+	** Checkboxen zur Auswahl von Zugtypen
+	** Bahnhofstextbox wie obige
+
+image::search_train.png[Suchdialog Zuglauf, 100%, title="Zuglaufsuche"]
+
+Maskenelemente:
+
+* Textbox zur Eingabe der Zugnummer
+* Bestätigungsschaltfläche
+
+==== Abfahrts-/Ankunftslisten
+
+Die Abfahrts- und Ankunftslisten zeigen eine Tabelle der Abfahrten/ Ankünfte am gewählten Bahnhof im gewählten Zeitraum unter Berücksichtigung der gewählten Filterbedingungen an.
+
+image::departures.png[Abfahrtsliste, 100%, title="Abfahrtsliste"]
+image::arrivals.png[Ankunftsliste, 100%, title="Ankunftsliste"]
+
+Maskenelemente:
+
+* Textbox mit gewähltem Bahnhof zur schnellen Änderung, Lupensymbol klickbar als Bestätigung
+* Filteroptionen wie auf Suchseite
+* Tabelle mit Ergebnissen
+
+==== Zuglaufanzeige
+
+Die Zuglaufanzeige zeigt einen konkreten Zuglauf mit seinen Halten, angereichert mit aktuellen Informationen, an.
+
+image::train.png[Zuglaufanzeige, 100%, title="Zuglaufanzeige"]
+
+Maskenelemente:
+
+* Label mit Typ des gewählten Zuglaufs
+* Textbox mit Nummer des gewählten Zuglaufs zur schnellen Änderung, Lupensymbol klickbar als Bestätigung
+* Perlenschnurdarstellung des Zuglaufs:
+	** Start- und Endbahnhof durch Rechteck dargestellt
+	** Zwischenbahnhöfe durch Kreis dargestellt
+	** planmäßige Ankunfts- und Abfahrtszeiten links der Schnur
+	** Verspätungszeiten rechts der Schnur
+	** Bahnhöfe, die der Zug bereits durchfahren hat, sind ausgefüllt
+	** noch zu durchfahrende Bahnhöfe sind nicht ausgefüllt
+* Tabelle mit den Spalten Bahnhof, Gleis, Bemerkung
+
+////
+Für jeden Dialog:
+
+1. Kurze textuelle Dialogbeschreibung eingefügt: Was soll der jeweilige Dialog? Was kann man damit tun? Überblick?
+2. Maskenentwürfe (Screenshot, Mockup)
+3. Maskenelemente (Ein/Ausgabefelder, Aktionen wie Buttons, Listen, …)
+4. Evtl. Maskendetails, spezielle Widgets
+////
+
+== Datenmodell
+:imagesdir: uml
+
+=== Überblick: Klassendiagramm
+image::Class_Diagram__Analyseklassendiagramm.png[Analyseklassendiagramm, 100% title="Analyseklassendiagramm"]
+
+=== Klassen und Enumerationen
+// Dieser Abschnitt stellt eine Vereinigung von Glossar und der Beschreibung von Klassen/Enumerationen dar. Jede Klasse und Enumeration wird in Form eines Glossars textuell beschrieben. Zusätzlich werden eventuellen Konsistenz- und Formatierungsregeln aufgeführt.
+
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="header"]
+|===
+|Klasse/Enumeration |Beschreibung
+|Zeit 				|Stellt aktuelle Laborzeit dar
+|Verbindungsstatus (Enumeration) |Kategorisiert den Zustand der Verbindung zum Fahrplanserver
+|Fahrplan 			|Kapselt sämtliche Informationen über alle stattfindenden Zugläufe
+|_Zuglauf_ 			|Umfasst die Fahrt eines Zuges zu einer bestimmten Zeit über mehrere Stationen, durch eine Zugnummer eindeutig identifiziert
+|Zuggattung (Enumeration) |Kategorisiert die Zugläufe (Personen- / Güterzug, Regional- / Fernzug, etc.)
+|Bahnhof 			|Stellt einen physischen Bahnhof dar und dient damit zur lokalen Filterung der Zugläufe
+|_Halt_ 			|Umfasst den konkreten Stop eines Zuglaufes an einem Bahnhof zu einer bestimmten Zeit, an einem bestimmten Gleis
+|_Telegramm_		|Nachricht des Fahrplanservers, die ggf. zu einer Aktualisierung des Fahrplanes führt
+|Anmeldetelegramm	|Nachricht des FIS an den Server um sich anzumelden und Daten abzurufen
+|Bestätigungstelegramm |Antwort des Servers mit der aktuellen Laborzeit
+|Statustelegramm	|Lebenszeichen des Servers mit aktueller Laborzeit
+|Zuglauftelegramm	|Nachricht des Fahrplanservers mit den Daten eines Zuglaufes
+|Änderungstelegramm	|Nachricht des Fahrplanservers mit Informationen zu aktuellen Änderungen an einem Zuglauf
+|_Anfrage_			|Nutzeranforderung über die grafische Oberfläche
+|Zugalufanfrage		|Anfrage zu einem vollständigen Zuglauf
+|Ereignisanfrage	|Anfrage zu Zugläufen an einem bestimmten Bahnhof, in einem bestimmten Zeitraum
+|Ankunftsanfrage	|Ereignisanfrage zu ankommenden Zugläufen
+|Abfahrtsanfrage	|Ereignisanfrage zu abfahrenden Zugläufen
+|===
+
+== Aktzeptanztestfälle
+// Mithilfe von Akzeptanztests wird geprüft, ob die Software die funktionalen Erwartungen und Anforderungen im Gebrauch erfüllt. Diese sollen und können aus den Anwendungsfallbeschreibungen und den UML-Sequenzdiagrammen abgeleitet werden. D.h., pro (komplexen) Anwendungsfall gibt es typischerweise mindestens ein Sequenzdiagramm (welches ein Szenarium beschreibt). Für jedes Szenarium sollte es einen Akzeptanztestfall geben. Listen Sie alle Akzeptanztestfälle in tabellarischer Form auf.
+// Jeder Testfall soll mit einer ID versehen werde, um später zwischen den Dokumenten (z.B. im Test-Plan) referenzieren zu können.
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="header"]
+|===
+|ID |Beschreibung
+|1	|Das System verbindet sich nach einem Neustart mit dem in der Konfigurationsdatei angegebenem Fahrplanserver und kann mittels der definierten Telegramme mit diesem kommunizieren und Daten erhalten.
+|2	|Der Benutzer kann die Weboberfläche unter der angegebenen Adresse erreichen, Verbindungsstatus und Laborzeit ablesen
+|3	|Der Benutzer kann über eine Texteingabe oder aus einer Liste mit allen Banhöfen einen zur Anzeige auswählen
+|4	|Auf der Ankunftstafel werden für einen gewählten Zeitraum alle ankommenden Zugläufe angezeigt
+|5	|Auf der Abfahrtstafel werden für einen gewählten Zeitraum alle abfahrenden Zugläufe angezeigt
+|6	|Auf beiden Tafeln kann der Zeitraum eingegrenzt und nach Zuggattung und Ziel- bzw. Herkunftsbahnhof gefiltert werden
+|7	|Der Benutzer kann über eine Texteingabe oder über Links auf einer der o.g. Tafeln einen konkreten Zuglauf auswählen und alle Zwischenhalte für diesen anzeigen
+|===
+
+== Offene Punkte
+// Offene Punkte werden entweder direkt in der Spezifikation notiert. Wenn das Pflichtenheft  zum finalen Review vorgelegt wird, sollte es keine offenen Punkte mehr geben.

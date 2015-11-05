@@ -1,0 +1,72 @@
+= Protokoll Gruppe 03
+
+[cols="<s,<a"]
+|===
+|Treffen am 20.10.2015    |13:00 Uhr vor dem APB
+|Schriftführer            |Robert Mörseburg
+|Nächstes Treffen         |27.10.2015 13:00 Uhr APB Foyer +
+(Internes Treffen Fr 23.10.15 13:15 Uhr APB Foyer)
+|Teilnehmer               |
+* Eric Schölzel (Scrum-Master)
+* Jonas Schenke
+* Oliver Schmidt
+* Robert Mörseburg
+* Zdravko Yanakiev
+* Ronny Kaiser (15 min, Betreuer Lehrstuhl SWT)
+* Walerian Nesterenko (Mitarbeiter EBL)
+|===
+
+== Bemerkungen
+Keine.
+
+== Retrospektive des letzten Sprints
+Erster Meilenstein erreicht mit Einarbeitung in GitHub und generelle Technologien sowie Einrichtung einer funktionsfähigen Entwicklungsumgebung sowie Kommunikationswegen. 
+
+== Aktueller Stand
+
+=== Kunde
+* Kunde hat Lastenheft noch nicht fertig (Termin Freitag 23.10.).
+* Zur Verwendung wird ein SLES 11-Server mit Apache 2.2 kommen.
+
+=== Software
+* MagicDraw zum Zeichnen der UML-Diagramme, Key wird von Ronny an die Mailingliste gesendet.
+* Java 1.8
+
+=== Aufgabe
+
+==== Startseite
+* Auswahl Bahnhof, Zugtypen
+* Autocomplete im Textfeld
+* separate Bahnhofsliste
+
+==== Anzeige
+* oben Bahnhofsname
+* Tabreiter für Ankunft / Abfahrt
+* Tabelle mit den jeweiligen Zügen
+	- Zugtyp
+	- Zugnummer
+	- von / nach Bhf.
+	- Ankunft / Abfahrt
+	- Gleis
+	- Verspätung oder andere Disponenteninformationen
+* separate Anzeige für einzelnen Zuglauf nach Klick auf Zugnummer
+	- Tabelle analog zu oben, jeweils alle Zwischenhalte
+* automatische Aktualisierung ca. ein Mal pro Minute
+
+==== Kommunikation
+* statischer XML-Fahrplan (RailML) im Dateisystem
+* aktueller Fahrplan, Disponenteninformationen via Telegrammen vom Fahrplanserver
+* Konfigurationsdatei mit:
+	- Pfad zur XML-Datei
+	- IP, Port des Fahrplanservers
+
+== Planung des nächsten Sprints
+* eigenen kleinen Spring-Boot Prototypen erstellen zum Kennenlernen der Funktionen des Frameworks
+* GUI Prototyp entwickeln
+* ersten Entwurf für das Pflichtenheft
+* einige Use-cases skizzieren
+* Entwurf für die Top-Level-Architektur (Software-Komponenten)
+* Jeder dokumentiert seinen individuellen Zeitaufwand.
+
+== Anlagen
+* Skizze zu GUI und Funktion

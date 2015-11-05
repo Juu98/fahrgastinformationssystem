@@ -1,0 +1,73 @@
+Analyse der Fahrplan-XML (WIP; Notizen)
+
+http://railml.org/
+
+Dateigröße ca. 3mb
+
+Ziel dieser kleinen Analyse ist es,  möglichst frühzeitig einen Überblick über 
+die Struktur der Fahrplandaten zu bekommen, um u.a. interne Datenstrukturen
+passend dazu aufbauen zu können.
+
+Die Datei wird im Laufe des Projektes wahrscheinlich noch ergänzt
+bzw. überarbeitet werden.
+
+Allgemein hilfreich -> http://wiki.railml.org/index.php?title=TT:UC:TimetableInformation
+
+
+Aufbau:
+<railml [...] (<--- für uns natürlich nicht weiter spannend) >
+<metadata> <-- sollte uns auch nicht weiter stören
+
+<infrastructure [...]> <-- hier beginnen die für uns wichtigen Daten
+  <tracks> <-- Streckeninfos (idk ob dort etwas für uns wichtiges steht)
+  <trackGroups> <-- wahrscheinlich auch eher uninteressant (?)
+  
+  *   <OperationControlPoints> <-- Infos über Kontrollpunkte, u.a. Bahnhöfe!
+      <ocp id="[XY]" [<-- ID des Punktes]  name="asdfasdf" [<-- selbsterklärend]>
+        <propOperationa operationalType="station" [...] ><-- nur die "station"s 
+        sind wirklich Bahnhöfe, nicht "blockSignal"! "Nicht-stations" können 
+        wir wahrsch. ignorieren (?)
+      </OperationControlPoints>
+      EDIT 29.10.: Details -> http://wiki.railml.org/index.php?title=IS:ocp
+  
+</infrastructure>
+
+<rollingstock> <-- wahrscheinlich nix für uns
+
+<timetable> <-- hier versteckt sich der eigentliche Fahrplan!
+  <operatingPeriods> <-- im Regelfahrplan gibt es nur die
+  "Fährt jeden Tag"-Variante. Hier müssen wir den Kunden fragen, ob dies
+  allgemeingültig ist oder ob sich dort was ändern kann, denn das müssten wir
+  beachten!
+  
+ *  <categories> <-- für Fahrtinformationen, die angezeigt werden sollen,
+    interessant
+  
+ *  <trainParts> <-- hier kommt der große Teil; ich bin mir noch nicht im Klaren
+    darüber, warum das jetzt genau "trainParts" heißt;
+    da würde ich nochmal nachfragen, ob es da was zu beachten gibt
+    in <trainParts> selbst sind die Fahrtdaten gespeichert, mitsamt Referenz
+    zum Zug etc. (categoryRef ist hier für uns auch interessant)
+    EDIT 29.10.: Details -> http://wiki.railml.org/index.php?title=TT:trainPart
+  
+  * In <ocpsTT> stehen dann Halte mit Zeiten. ocpref="[...]" hat die ID des
+    Bahnhofs. Details 29.10.: http://wiki.railml.org/index.php?title=TT:ocpTT
+    ocpType unterteilt sich (Bedeutungen sollten selbsterklärend sein):
+      * "begin"
+      * "pass"
+      * "stop"
+      * "end"
+  
+  *  <times> <-- Zeitdaten:
+      departure="HH:MM:SS" <- Abfahrt (nur bei ocpType!="end")
+      arrival="HH:MM:SS" <- Ankunft (nur bei ocpType="stop" oder ocpType="end")
+      
+      
+      
+  
+<trains> <-- wahrsch. nur Infos über die Züge selbst, es ist mir noch unklar,
+ob das für uns wichtig ist
+EDIT 29.10.: Details: http://wiki.railml.org/index.php?title=TT:train
+    
+      
+
