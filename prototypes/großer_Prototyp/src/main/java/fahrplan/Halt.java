@@ -3,15 +3,15 @@ package fahrplan;
 import java.time.LocalTime;
 
 public class Halt {
-	Bahnhof bahnhof;
-	LocalTime AbfahrtSoll;
-	LocalTime AnkunftSoll;
-	LocalTime AnkunftIst;
-	LocalTime AbfahrtIst;
+	private Bahnhof bahnhof;
+	private LocalTime AbfahrtSoll;
+	private LocalTime AnkunftSoll;
+	private LocalTime AnkunftIst;
+	private LocalTime AbfahrtIst;
 	
-	byte GleisSoll;
-	byte GleisIst;
-	String Meldung; //Hier bin ich noch unsicher, was dort genau rein soll
+	private byte GleisSoll;
+	private byte GleisIst;
+	private String Meldung; //Hier bin ich noch unsicher, was dort genau rein soll
 	
 	
 	public Halt(Bahnhof bahnhof,LocalTime ankunftSoll, LocalTime abfahrtSoll, byte gleisSoll){
