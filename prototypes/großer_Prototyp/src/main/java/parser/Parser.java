@@ -10,12 +10,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Parser {
+    @SuppressWarnings("unused")
     public static void main(String[] args) throws IOException, JAXBException, UnmarshalException {
+	@SuppressWarnings("resource")
 	ApplicationContext appContext = new ClassPathXmlApplicationContext("applicationContext.xml");
 	XMLConverter converter = (XMLConverter) appContext.getBean("XMLConverter");
 	converter.getUnmarshaller().setValidationEventHandler(new CustomValidationEventHandler());
 	Railml railml = (Railml) converter.convertFromXMLToObject("EBL Regefahrplan simple.xml");
-	//railml.getTimetable().getTrains().getTrain().
-	
+	System.out.println(railml.getTimetable().getId());
+
     }
 }
