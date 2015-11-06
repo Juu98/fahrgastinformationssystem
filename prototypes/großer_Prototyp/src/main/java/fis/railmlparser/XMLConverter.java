@@ -1,4 +1,4 @@
-package parser;
+package fis.railmlparser;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
