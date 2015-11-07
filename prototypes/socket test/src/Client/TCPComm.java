@@ -16,10 +16,11 @@ public class TCPComm {
             server = myComm.connectToHost("localhost");
         } catch (IOException e) {
             System.err.println("Verbindungsaufbau fehlgeschlagen");
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         try {
+            if (server != null)
             parseConnection(server);
 
 

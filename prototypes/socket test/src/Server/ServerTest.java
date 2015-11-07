@@ -27,6 +27,7 @@ public class ServerTest {
 
             try {
                 client = server.accept();
+                System.out.println("Incoming connection: accepted");
                 handleConnection(client);
             } catch (IOException e) {
                 e.printStackTrace();
