@@ -7,26 +7,26 @@ import fis.*;
 
 
 public class MiniRailML2DataTest {
-	Fahrplan fahrplan;
+	Timetable timetable;
 	
 	public MiniRailML2DataTest(){
 		
 	}
 	@Before
 	public void setUp(){
-		fahrplan=new Fahrplan();
+		timetable=new Timetable();
 	}
 	
 	@Test
 	public void TestGetStationByID(){
-		fahrplan.getData();
-		assertEquals("Dornbach",fahrplan.getData().getStationByID("ocp_ID").getName());
+		timetable.getData();
+		assertEquals("Dornbach",timetable.getData().getStationByID("ocp_ID").getName());
 	}
 	
 	@Test
 	public void TestDeparture(){
 		//assertEquals("09:25:18",fahrplan.getData().getZuglaeufe().get(0).getStops().get(0).getAbfahrtIst().toString());
-		fahrplan.getData().getZuglaeufe().get(0).getStops().get(0).getAbfahrtIst().toString();
+		timetable.getData().getZuglaeufe().get(0).getStops().get(0).getAbfahrtIst().toString();
 	}
 	
 }

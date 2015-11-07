@@ -1,10 +1,10 @@
 package fis;
 
-public class Bahnhof {
+public class Station {
 	private String name;
 	private String id;
 	
-	public Bahnhof(String id, String name){
+	public Station(String id, String name){
 		this.name=name;
 		this.id=id;
 	}

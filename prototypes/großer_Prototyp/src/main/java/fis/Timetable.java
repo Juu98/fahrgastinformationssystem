@@ -3,15 +3,15 @@ package fis;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class Fahrplan {
+public class Timetable {
 	private ConnectionState state;
 	
-	public Fahrplan(){
+	public Timetable(){
 		//Versuche, zu connecten
 		tryConnect();	
 	}
 	
-	public FahrplanData getData(){
+	public TimetableData getData(){
 		return state.data;
 	}
 	
@@ -22,7 +22,7 @@ public class Fahrplan {
 	}
 	
 	abstract class ConnectionState{
-		FahrplanData data;	
+		TimetableData data;	
 		public ConnectionState(){ 
 			
 		}		

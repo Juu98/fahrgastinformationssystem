@@ -19,8 +19,8 @@ import fis.railmlparser.RailMLParser;
 
 public class railml2data {
 	
-	public static FahrplanData loadML(String path) throws Exception{
-		FahrplanData data=new FahrplanData();
+	public static TimetableData loadML(String path) throws Exception{
+		TimetableData data=new TimetableData();
 		
 		RailMLParser parser=new RailMLParser();
 		try{
@@ -30,7 +30,7 @@ public class railml2data {
 			for(EOcp ocp:infra.getOperationControlPoints().getOcp()){
 				TOcpOperationalType ocptype=ocp.getPropOperational().getOperationalType();
 				if(ocptype==TOcpOperationalType.STATION | ocptype==null){ //Der zweite Teil der Bedingung ist atm noch fragwürdig...
-					data.addStation(new Bahnhof(ocp.getId(),ocp.getName()));
+					data.addStation(new Station(ocp.getId(),ocp.getName()));
 				}
 			}
 			
@@ -38,7 +38,7 @@ public class railml2data {
 			for(ETrainPart trainPart:timetable.getTrainParts().getTrainPart()){
 				//TODO: Zuggattungen beachten!
 				
-				List<Halt> stops=new ArrayList<Halt>();
+				List<Stop> stops=new ArrayList<Stop>();
 				
 				System.out.println("..");
 				System.out.println("Zuglauf "+trainPart.getId());
@@ -75,7 +75,7 @@ public class railml2data {
 					System.out.println(arrival.toString());
 					
 					//TODO: Ebenfalls testen!			
-					Bahnhof station=data.getStationByID(((EOcp)ocptt.getOcpRef()).getId());
+					Station station=data.getStationByID(((EOcp)ocptt.getOcpRef()).getId());
 					
 					byte track=0;
 					if(ocptt.getTrackInfo()!=null){
@@ -83,13 +83,13 @@ public class railml2data {
 					System.out.println("Gleis: "+track);
 					} else {System.out.println("Gleis: ??");} //warum auch immer manchmal kein Gleis dabei steht...
 					
-					Halt stop=new Halt(station, stopType, arrival, departure, track);
+					Stop stop=new Stop(station, stopType, arrival, departure, track);
 					stops.add(stop);
 				}
 				}
 				
 				int trainNumber=Integer.parseInt(trainPart.getTrainNumber());
-				data.addZuglauf(new Zuglauf(trainPart.getId(),trainNumber,TrainType.Regionalzug,stops));
+				data.addZuglauf(new TrainRoute(trainPart.getId(),trainNumber,TrainType.Regionalzug,stops));
 			}
 		}
 		catch(Exception ex){

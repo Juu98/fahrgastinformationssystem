@@ -2,8 +2,8 @@ package fis;
 
 import java.time.LocalTime;
 
-public class Halt {
-	private Bahnhof bahnhof;
+public class Stop {
+	private Station station;
 	private LocalTime AbfahrtSoll;
 	private LocalTime AnkunftSoll;
 	private LocalTime AnkunftIst;
@@ -14,8 +14,8 @@ public class Halt {
 	private String Meldung; //Hier bin ich noch unsicher, was dort genau rein soll
 	private StopType stopType;
 	
-	public Halt(Bahnhof bahnhof,StopType stopType,LocalTime ankunftSoll, LocalTime abfahrtSoll, byte gleisSoll){
-		this.bahnhof=bahnhof;
+	public Stop(Station station,StopType stopType,LocalTime ankunftSoll, LocalTime abfahrtSoll, byte gleisSoll){
+		this.station=station;
 		this.stopType=stopType;
 		this.AnkunftSoll=ankunftSoll;
 		this.AbfahrtSoll=abfahrtSoll;
@@ -26,7 +26,7 @@ public class Halt {
 		this.GleisIst=gleisSoll;
 		
 	}
-	public Bahnhof getBahnhof(){return bahnhof;}
+	public Station getBahnhof(){return station;}
 	
 	public StopType getStopType(){
 		return stopType;

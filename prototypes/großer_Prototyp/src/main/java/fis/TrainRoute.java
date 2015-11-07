@@ -3,13 +3,13 @@ package fis;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Zuglauf {
+public class TrainRoute {
 	private String id;
 	private int trainNumber;
 	private TrainType type;
-	private List<Halt> stops=new ArrayList<Halt>();
+	private List<Stop> stops=new ArrayList<Stop>();
 	
-	public Zuglauf(String id,int trainNumber, TrainType type, List<Halt> stops){
+	public TrainRoute(String id,int trainNumber, TrainType type, List<Stop> stops){
 		this.id=id;
 		this.trainNumber=trainNumber;
 		this.type=type;
@@ -26,7 +26,7 @@ public class Zuglauf {
 	public TrainType getType(){
 		return type;
 	}
-	public List<Halt> getStops(){
+	public List<Stop> getStops(){
 		return stops;
 	}
 	
