@@ -1,6 +1,7 @@
-package fahrplan;
+package fis;
 
 import org.springframework.stereotype.Controller;
+
 
 
 @Controller
@@ -9,13 +10,10 @@ public class FahrplanController {
 	
 	public FahrplanController(){
 		//Versuche, zu connecten
-		tryConnect();
-		
-		
+		tryConnect();	
 	}
 	
-	private void tryConnect(){
-		
+	private void tryConnect(){	
 		//hier failt er erstmal automatisch, da Prototyp
 		state=new Offline();
 	}
@@ -31,7 +29,8 @@ public class FahrplanController {
 	class Offline extends ConnectionState {
 		@Override
 		void initialize() {
-			
+				//Laden der XML
+				data=railml2data.loadML("EBL Regefahrplan simple.xml");				
 			}
 		}
 	
@@ -48,5 +47,7 @@ public class FahrplanController {
 		}
 		
 	}
+	
+	
 	
 }

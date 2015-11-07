@@ -1,4 +1,4 @@
-package fahrplan;
+package fis;
 
 import java.time.LocalTime;
 
@@ -12,10 +12,11 @@ public class Halt {
 	private byte GleisSoll;
 	private byte GleisIst;
 	private String Meldung; //Hier bin ich noch unsicher, was dort genau rein soll
+	private StopType stopType;
 	
-	
-	public Halt(Bahnhof bahnhof,LocalTime ankunftSoll, LocalTime abfahrtSoll, byte gleisSoll){
+	public Halt(Bahnhof bahnhof,StopType stopType,LocalTime ankunftSoll, LocalTime abfahrtSoll, byte gleisSoll){
 		this.bahnhof=bahnhof;
+		this.stopType=stopType;
 		this.AnkunftSoll=ankunftSoll;
 		this.AbfahrtSoll=abfahrtSoll;
 		this.GleisSoll=gleisSoll;	
@@ -26,6 +27,14 @@ public class Halt {
 		
 	}
 	public Bahnhof getBahnhof(){return bahnhof;}
+	
+	public StopType getStopType(){
+		return stopType;
+	}
+	
+	public void updateStopType(StopType newStopType){
+		this.stopType=newStopType;
+	}
 	
 	public void updateAnkunft(LocalTime ankunftIst){
 		this.AnkunftIst=ankunftIst;

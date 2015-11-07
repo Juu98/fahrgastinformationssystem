@@ -1,4 +1,4 @@
-package fahrplan;
+package fis;
 
 public enum Zuggattung {
 	Regionalzug,

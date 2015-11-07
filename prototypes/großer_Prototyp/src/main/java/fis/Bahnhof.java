@@ -1,10 +1,10 @@
-package fahrplan;
+package fis;
 
 public class Bahnhof {
 	private String name;
 	private String id;
 	
-	public Bahnhof(String name, String id){
+	public Bahnhof(String id, String name){
 		this.name=name;
 		this.id=id;
 	}
