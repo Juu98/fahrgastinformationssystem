@@ -31,11 +31,15 @@ public class FahrplanData {
 	
 	public Bahnhof getStationByID(String id){
 		for(Bahnhof station:stations){
-			if(station.getId().equals(id)) return station;
+			if(station.getId().equals(id)){
+				System.out.println("Bahnhof mit der ID "+id+": "+station.getName());
+				return station;
+			}
 		}
-		
+		System.out.println("ACHTUNG: Bahnhof mit der ID "+id + " nicht gefunden!");
 		return null;
 	}
+
 	
 	
 }

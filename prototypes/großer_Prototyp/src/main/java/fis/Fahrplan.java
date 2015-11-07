@@ -3,12 +3,16 @@ package fis;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class FahrplanController {
+public class Fahrplan {
 	private ConnectionState state;
 	
-	public FahrplanController(){
+	public Fahrplan(){
 		//Versuche, zu connecten
 		tryConnect();	
+	}
+	
+	public FahrplanData getData(){
+		return state.data;
 	}
 	
 	private void tryConnect(){	
@@ -29,7 +33,13 @@ public class FahrplanController {
 		@Override
 		void initialize() {
 				//Laden der XML
-				data=railml2data.loadML("EBL Regefahrplan simple.xml");				
+			try{
+				data=railml2data.loadML("EBL Regefahrplan simple.xml");	
+			}
+			catch(Exception ex){
+				System.out.println(ex.toString());
+			}
+			
 			}
 		}
 	
