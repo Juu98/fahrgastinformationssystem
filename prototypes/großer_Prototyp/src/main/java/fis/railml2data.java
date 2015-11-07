@@ -89,7 +89,7 @@ public class railml2data {
 				}
 				
 				int trainNumber=Integer.parseInt(trainPart.getTrainNumber());
-				data.addZuglauf(new TrainRoute(trainPart.getId(),trainNumber,TrainType.Regionalzug,stops));
+				data.addTrainRoute(new TrainRoute(trainPart.getId(),trainNumber,TrainType.Regionalzug,stops));
 			}
 		}
 		catch(Exception ex){

@@ -13,11 +13,11 @@ public class TimetableData {
 		stations=new ArrayList<Station>();
 	}
 	
-	public void addZuglauf(TrainRoute trainRoute){
+	public void addTrainRoute(TrainRoute trainRoute){
 		trainroutes.add(trainRoute);
 	}
 	
-	public List<TrainRoute> gettrainroutes(){
+	public List<TrainRoute> getTrainRoutes(){
 		return trainroutes;
 	}
 	
