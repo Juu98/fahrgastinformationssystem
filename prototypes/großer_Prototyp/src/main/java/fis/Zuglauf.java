@@ -6,14 +6,14 @@ import java.util.List;
 public class Zuglauf {
 	private String id;
 	private int trainNumber;
-	private Zuggattung gattung;
-	private List<Halt> halte=new ArrayList<Halt>();
+	private TrainType type;
+	private List<Halt> stops=new ArrayList<Halt>();
 	
-	public Zuglauf(String id,int trainNumber, Zuggattung gattung, List<Halt> halte){
+	public Zuglauf(String id,int trainNumber, TrainType type, List<Halt> stops){
 		this.id=id;
 		this.trainNumber=trainNumber;
-		this.gattung=gattung;
-		this.halte=halte;
+		this.type=type;
+		this.stops=stops;
 	}
 	
 	public String getId(){
@@ -22,6 +22,14 @@ public class Zuglauf {
 	public int getTrainNumber(){
 		return trainNumber;
 	}
+	
+	public TrainType getType(){
+		return type;
+	}
+	public List<Halt> getStops(){
+		return stops;
+	}
+	
 	
 	
 	

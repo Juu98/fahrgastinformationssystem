@@ -41,9 +41,7 @@ public class railml2data {
 				
 				for(EOcpTT ocptt:trainPart.getOcpsTT().getOcpTT()){
 					StopType stopType;
-					
-					List<EArrivalDepartureTimes> times=ocptt.getTimes();
-					
+										
 					//nur zur Initialisierung
 					LocalTime arrival=LocalTime.MIDNIGHT;
 					LocalTime departure=LocalTime.MIDNIGHT;
@@ -78,7 +76,7 @@ public class railml2data {
 				}
 				
 				int trainNumber=Integer.parseInt(trainPart.getTrainNumber());
-				data.addZuglauf(new Zuglauf(trainPart.getId(),trainNumber,Zuggattung.Regionalzug,stops));
+				data.addZuglauf(new Zuglauf(trainPart.getId(),trainNumber,TrainType.Regionalzug,stops));
 			}
 		}
 		catch(Exception ex){

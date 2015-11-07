@@ -2,8 +2,6 @@ package fis;
 
 import org.springframework.stereotype.Controller;
 
-
-
 @Controller
 public class FahrplanController {
 	private ConnectionState state;
@@ -16,12 +14,13 @@ public class FahrplanController {
 	private void tryConnect(){	
 		//hier failt er erstmal automatisch, da Prototyp
 		state=new Offline();
+		state.initialize();
 	}
 	
 	abstract class ConnectionState{
 		FahrplanData data;	
 		public ConnectionState(){ 
-			initialize();
+			
 		}		
 		abstract void initialize(); //Laden und initialisieren
 	}

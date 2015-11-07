@@ -1,6 +1,6 @@
 package fis;
 
-public enum Zuggattung {
+public enum TrainType {
 	Regionalzug,
 	Schnellzug,
 	Gueterzug
