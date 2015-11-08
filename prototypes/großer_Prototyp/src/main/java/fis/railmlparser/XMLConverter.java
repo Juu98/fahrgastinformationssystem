@@ -10,6 +10,9 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
+/* 
+ * Class used by RailMLParser to unmarshal XML data. Exists as a bean.
+ */
 public class XMLConverter {
 
     private Jaxb2Marshaller marshaller;
