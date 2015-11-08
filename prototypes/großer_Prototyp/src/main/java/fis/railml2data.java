@@ -48,8 +48,8 @@ public class railml2data {
 					StopType stopType;
 										
 					//nur zur Initialisierung
-					LocalTime arrival=LocalTime.MIDNIGHT;
-					LocalTime departure=LocalTime.MIDNIGHT;
+					LocalTime arrival=null;
+					LocalTime departure=null;
 		
 					String type=ocptt.getOcpType();
 					switch(type){

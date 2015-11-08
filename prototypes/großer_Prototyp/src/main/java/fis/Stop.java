@@ -4,26 +4,26 @@ import java.time.LocalTime;
 
 public class Stop {
 	private Station station;
-	private LocalTime AbfahrtSoll;
-	private LocalTime AnkunftSoll;
-	private LocalTime AnkunftIst;
-	private LocalTime AbfahrtIst;
+	private LocalTime ScheduledDeparture;
+	private LocalTime ScheduledArrival;
+	private LocalTime ActualArrival;
+	private LocalTime ActualDeparture;
 	
-	private byte GleisSoll;
-	private byte GleisIst;
+	private byte ScheduledTrack;
+	private byte ActualTrack;
 	private String Meldung; //Hier bin ich noch unsicher, was dort genau rein soll
 	private StopType stopType;
 	
-	public Stop(Station station,StopType stopType,LocalTime ankunftSoll, LocalTime abfahrtSoll, byte gleisSoll){
+	public Stop(Station station,StopType stopType,LocalTime ScheduledArrival, LocalTime ScheduledDeparture, byte ScheduledTrack){
 		this.station=station;
 		this.stopType=stopType;
-		this.AnkunftSoll=ankunftSoll;
-		this.AbfahrtSoll=abfahrtSoll;
-		this.GleisSoll=gleisSoll;	
+		this.ScheduledArrival=ScheduledArrival;
+		this.ScheduledDeparture=ScheduledDeparture;
+		this.ScheduledTrack=ScheduledTrack;	
 		
-		this.AnkunftIst=ankunftSoll;
-		this.AbfahrtIst=abfahrtSoll;
-		this.GleisIst=gleisSoll;
+		this.ActualArrival=ScheduledArrival;
+		this.ActualDeparture=ScheduledDeparture;
+		this.ActualTrack=ScheduledTrack;
 		
 	}
 	public Station getBahnhof(){return station;}
@@ -36,24 +36,24 @@ public class Stop {
 		this.stopType=newStopType;
 	}
 	
-	public void updateAnkunft(LocalTime ankunftIst){
-		this.AnkunftIst=ankunftIst;
+	public void updateAnkunft(LocalTime ActualArrival){
+		this.ActualArrival=ActualArrival;
 	}
 	
-	public void updateAbfahrt(LocalTime abfahrtIst){
-		this.AbfahrtIst=abfahrtIst;
+	public void updateAbfahrt(LocalTime ActualDeparture){
+		this.ActualDeparture=ActualDeparture;
 	}
 	
-	public void updateGleis(byte gleisIst){
-		this.GleisIst=gleisIst;
+	public void updateGleis(byte ActualTrack){
+		this.ActualTrack=ActualTrack;
 	}
 	
-	public LocalTime getAbfahrtSoll(){return AbfahrtSoll;}
-	public LocalTime getAnkunftSoll(){return AnkunftSoll;}
-	public LocalTime getAbfahrtIst(){return AbfahrtIst;}
-	public LocalTime getAnkunftIst(){return AnkunftIst;}
-	public byte getGleisSoll(){return GleisSoll;}
-	public byte getGleisIst(){return GleisIst;}
+	public LocalTime getScheduledDeparture(){return ScheduledDeparture;}
+	public LocalTime getScheduledArrival(){return ScheduledArrival;}
+	public LocalTime getActualDeparture(){return ActualDeparture;}
+	public LocalTime getActualArrival(){return ActualArrival;}
+	public byte getScheduledTrack(){return ScheduledTrack;}
+	public byte getActualTrack(){return ActualTrack;}
 	
 	//public LocalTime getVerspaetung(){
 		//Ankunft oder Abfahrtszeit heranziehen??

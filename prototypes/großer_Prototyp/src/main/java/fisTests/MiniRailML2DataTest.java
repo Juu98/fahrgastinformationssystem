@@ -25,10 +25,20 @@ public class MiniRailML2DataTest {
 	
 	@Test
 	public void TestDeparture(){
-		assertEquals("08:33:18",timetable.getData().getTrainRoutes().get(0).getStops().get(0).getAbfahrtIst().toString());
+		assertEquals("08:33:18",timetable.getData().getTrainRoutes().get(0).getStops().get(0).getActualDeparture().toString());
 	}
 	
-	//@Test
-	//public void Test
+	@Test
+	public void TestArrival(){	
+		assertEquals("Ankunft bei Startbahnhöfen soll intern null sein",null,timetable.getData().getTrainRoutes().get(3).getStops().get(0).getActualArrival());
+		assertEquals("Ankunft bei Startbahnhöfen soll intern null sein",null,timetable.getData().getTrainRoutes().get(3).getStops().get(0).getScheduledArrival());
+				
+		//Testen einer 'echten' Ankunftszeit
+		//ScheduledArrival und ActualArrival müssen beim RailML-Offline-Fahrplan übereinstimmen
+		String failureMsg="Ankuftszeit stimmt nicht überein. ScheduledArrival und ActualArrival müssen beim RailML-Offline-Fahrplan übereinstimmen";
+		assertEquals(failureMsg,"10:38:18",timetable.getData().getTrainRoutes().get(2).getStops().get(1).getActualArrival().toString());
+		assertEquals(failureMsg,"10:38:18",timetable.getData().getTrainRoutes().get(2).getStops().get(1).getScheduledArrival().toString());
+		
+	}
 	
 }
