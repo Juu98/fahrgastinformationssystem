@@ -1,0 +1,15 @@
+spring:
+    profiles:
+        active: dev
+
+---
+
+spring:
+    profiles: dev
+    main:
+        show_banner: false
+telegramserver:
+    hostname: localhost
+    port: 2342
+
+

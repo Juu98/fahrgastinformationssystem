@@ -2,7 +2,9 @@ package Client;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.*;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 
 /**
  * Created by spiollinux on 06.11.15.
@@ -21,7 +23,7 @@ public class TCPComm {
 
         try {
             if (server != null)
-            parseConnection(server);
+                parseConnection(server);
 
 
         } catch (IOException e) {
@@ -34,7 +36,7 @@ public class TCPComm {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            ;
+
         }
     }
 
