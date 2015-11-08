@@ -29,7 +29,7 @@ public class railml2data {
 			Infrastructure infra=railml.getInfrastructure();
 			for(EOcp ocp:infra.getOperationControlPoints().getOcp()){
 				TOcpOperationalType ocptype=ocp.getPropOperational().getOperationalType();
-				if(ocptype==TOcpOperationalType.STATION | ocptype==null){ //Der zweite Teil der Bedingung ist atm noch fragwürdig...
+				if(ocptype==TOcpOperationalType.STATION || ocptype==null){ //Der zweite Teil der Bedingung ist atm noch fragwürdig...
 					data.addStation(new Station(ocp.getId(),ocp.getName()));
 				}
 			}
