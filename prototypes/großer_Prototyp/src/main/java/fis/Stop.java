@@ -26,7 +26,7 @@ public class Stop {
 		this.ActualTrack=ScheduledTrack;
 		
 	}
-	public Station getBahnhof(){return station;}
+	public Station getStation(){return station;}
 	
 	public StopType getStopType(){
 		return stopType;
@@ -58,5 +58,14 @@ public class Stop {
 	//public LocalTime getVerspaetung(){
 		//Ankunft oder Abfahrtszeit heranziehen??
 	//}
+	
+	public void printDebugInformation(){
+		//erstmal nur zum Testen
+		System.out.println("---");
+		System.out.println("Station: "+station.getName());
+		System.out.println("Scheduled Arrival: "+ScheduledArrival);
+		System.out.println("Scheduled Departure: "+ScheduledDeparture);
+		System.out.println("Scheduled Track: "+ScheduledTrack);
+	}
 	
 }

@@ -41,7 +41,11 @@ public class MiniRailML2DataTest {
 		String failureMsg="Ankuftszeit stimmt nicht überein. ScheduledArrival und ActualArrival müssen beim RailML-Offline-Fahrplan außerdem übereinstimmen";
 		assertEquals(failureMsg,"10:38:18",timetable.getData().getTrainRoutes().get(2).getStops().get(1).getActualArrival().toString());
 		assertEquals(failureMsg,"10:38:18",timetable.getData().getTrainRoutes().get(2).getStops().get(1).getScheduledArrival().toString());
-		
+	}
+	
+	@Test
+	public void TestOffline(){
+		assertEquals("Der Status sollte Offline sein","Offline",timetable.getStateName());
 	}
 	
 }
