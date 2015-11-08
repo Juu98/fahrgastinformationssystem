@@ -63,16 +63,18 @@ public class railml2data {
 					
 					
 					//TODO: Hier wird's etwas hässlich, unbedingt überprüfen, ob das funktioniert!
-					if(stopType==StopType.stop | stopType==StopType.end){	
+					if(stopType==StopType.stop || stopType==StopType.end){	
 						XMLGregorianCalendar calArrival=ocptt.getTimes().get(0).getArrival();		
 						arrival=LocalTime.of(calArrival.getHour(), calArrival.getMinute(), calArrival.getSecond());
+						System.out.println("Ankunft: "+arrival.toString());
 					}
 					
 					if(stopType!=StopType.end){			
 						XMLGregorianCalendar calDeparture=ocptt.getTimes().get(0).getDeparture();		
-						arrival=LocalTime.of(calDeparture.getHour(), calDeparture.getMinute(), calDeparture.getSecond());				
+						departure=LocalTime.of(calDeparture.getHour(), calDeparture.getMinute(), calDeparture.getSecond());				
+						System.out.println("Abfahrt: "+departure.toString());
 					}
-					System.out.println(arrival.toString());
+					
 					
 					//TODO: Ebenfalls testen!			
 					Station station=data.getStationByID(((EOcp)ocptt.getOcpRef()).getId());

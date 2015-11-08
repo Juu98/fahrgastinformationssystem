@@ -25,8 +25,10 @@ public class MiniRailML2DataTest {
 	
 	@Test
 	public void TestDeparture(){
-		//assertEquals("09:25:18",fahrplan.getData().getZuglaeufe().get(0).getStops().get(0).getAbfahrtIst().toString());
-		timetable.getData().getTrainRoutes().get(0).getStops().get(0).getAbfahrtIst().toString();
+		assertEquals("08:33:18",timetable.getData().getTrainRoutes().get(0).getStops().get(0).getAbfahrtIst().toString());
 	}
+	
+	//@Test
+	//public void Test
 	
 }
