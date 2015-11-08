@@ -8,6 +8,8 @@ spring:
     profiles: dev
     main:
         show_banner: false
+    thymeleaf:
+        cache: false
 telegramserver:
     hostname: localhost
     port: 2342

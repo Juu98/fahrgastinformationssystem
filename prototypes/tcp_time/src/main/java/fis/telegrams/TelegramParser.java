@@ -1,5 +1,6 @@
 package fis.telegrams;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -20,20 +21,29 @@ import java.util.concurrent.Future;
  */
 @Service
 @ConfigurationProperties(prefix = "telegramserver") //setting hostname, port from application.yml
-public class TelegramParser {
+public class TelegramParser extends Thread {
 
+    @Autowired
+    TelegramParserConfig parserConfig;
     private String hostname;
     private int port;
-    private int timeout = 1000;
-    private int timeTillReconnect = 5000;
     private Socket server;
     private ConnectionStatus connectionStatus;
     private List<byte[]> telegramQueue;
 
     public TelegramParser() {
-        System.out.println("Yay");
         this.telegramQueue = new LinkedList<>();
         this.connectionStatus = ConnectionStatus.OFFLINE;
+    }
+
+    @Override
+    public void start() {
+        setDaemon(true);
+        super.start();
+    }
+
+    @Override
+    public void run() {
         //try to connect until there is a connection
         //Todo: reconnecting after connection loss
         while (this.connectionStatus != ConnectionStatus.ONLINE) {
@@ -44,7 +54,7 @@ public class TelegramParser {
                 //TODO: Log connection fail
             }
             try {
-                Thread.sleep(timeTillReconnect);
+                Thread.sleep(parserConfig.getTimeTillReconnect());
             } catch (InterruptedException e) {
                 //Todo: Is handling the exception necessary?
             }
@@ -112,7 +122,7 @@ public class TelegramParser {
         //Todo: add real parser logic
         for (int i = 0; i < 3; ++i) {
             if (response[i] != (byte) 0xFF) {
-                throw (new RuntimeException("erste Bytes haben falsches Format"));
+                throw (new RuntimeException("Byte " + i + " hat falsches Format: " + response[i]));
             }
         }
         int messageLength = response[3];
@@ -126,9 +136,9 @@ public class TelegramParser {
 
     public Socket connectToHost() throws IOException {
         connectionStatus = ConnectionStatus.CONNECTING;
-        SocketAddress hostAddress = new InetSocketAddress(this.hostname, this.port);
+        SocketAddress hostAddress = new InetSocketAddress(parserConfig.getHostname(), parserConfig.getPort());
         Socket socket = new Socket();
-        socket.connect(hostAddress,this.timeout);
+        socket.connect(hostAddress, parserConfig.getTimeout());
         this.connectionStatus = ConnectionStatus.ONLINE;
         return socket;
     }
