@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id$ -->
+<xs:schema xmlns:rail="http://www.railml.org/schemas/2009"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+	targetNamespace="http://www.railml.org/schemas/2009"
+	elementFormDefault="qualified" version="2.0">
+
+    <xs:annotation>
+        <xs:documentation>
+        Copyright (c) railML.org; All Rights Reserved. 
+
+        This work is licensed under a Creative Commons Attribution 2.0 License. 
+        http://creativecommons.org/licenses/by/2.0/
+
+        For further information see: http://www.railml.org/
+
+        Content of this file: 
+        XML Schema for railML(R) 2.0 
+        Definition of generic simple types, used by all sub schemas
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:import namespace="http://purl.org/dc/elements/1.1/"
+        schemaLocation="http://dublincore.org/schemas/xmls/qdc/2008/02/11/dc.xsd" >
+        <xs:annotation>
+            <xs:documentation>
+            Portions of this software may use XML schemas 
+            Copyright (c) 2009 DCMI, the Dublin Core Metadata Initiative.
+            These are licensed under the Creative Commons 3.0 Attribution license.
+            
+            For further information see:  http://dublincore.org/
+            License link: http://creativecommons.org/licenses/by/3.0/
+            </xs:documentation>
+        </xs:annotation>
+    </xs:import>    
+
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace"
+    schemaLocation="http://www.w3.org/2001/03/xml.xsd" />  
+
+    <!--*********************************************************-->
+    <!-- Version numbers -->
+    <!--*********************************************************-->
+
+	<xs:simpleType name="tRailMLVersion">
+		<xs:annotation>
+			<xs:documentation>
+				Version Number is some official release number, rather
+				than any internal numbering from an version control
+				system
+			</xs:documentation>
+			<xs:documentation>
+				Allows two part or three part version numbers, 1.0 up to
+				99.99, or 1.0.1 up to 99.99.99
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern
+				value="[1-9][0-9]?\.([0-9]|[1-9][0-9])(\.[1-9][0-9]?)?" />
+		</xs:restriction>
+	</xs:simpleType>
+    
+    <xs:simpleType name="tVersionNumber">
+        <xs:restriction base="xs:string" />
+    </xs:simpleType>
+
+	<!--*********************************************************-->
+	<!-- Identifier -->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tGenericID">
+		<xs:restriction base="xs:ID" />
+	</xs:simpleType>
+
+	<xs:simpleType name="tGenericRef">
+		<xs:restriction base="xs:IDREF" />
+	</xs:simpleType>
+
+	<!--*********************************************************-->
+	<!-- Names -->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tGenericName">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+
+	<!--*********************************************************-->
+	<!-- Generic Counter Type -->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tCounter">
+		<xs:annotation>
+			<xs:documentation>
+				generic type for counters (number of equipment)
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:positiveInteger" />
+	</xs:simpleType>
+
+	<!--*********************************************************-->
+	<!-- Non-numeric multiplicities -->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tVerbalCounter">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="single" />
+			<xs:enumeration value="double" />
+			<xs:enumeration value="triple" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!--*********************************************************-->
+	<!-- Arbitrary strings to describe elements -->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tElementDescription">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+
+	<!--*********************************************************-->
+	<!-- Basic type for later inheritance -->
+	<!--*********************************************************-->
+
+	<xs:complexType name="tElementWithIDAndName">
+		<xs:attribute name="id" type="rail:tGenericID" use="required" />
+		<xs:attribute name="name" type="rail:tGenericName" />
+		<xs:attribute name="description" type="rail:tElementDescription" />
+		<!-- Provide an extension point for other attributes-->
+		<xs:attributeGroup ref="rail:anyAttribute" />
+	</xs:complexType>
+
+	<xs:complexType name="tElementWithReference">
+		<xs:attribute name="ref" type="rail:tGenericRef" use="required" />
+		<xs:attributeGroup ref="rail:anyAttribute" />
+	</xs:complexType>
+
+    <xs:complexType name="tGlobalElementWithMetadata">
+        <xs:complexContent>
+            <xs:extension base="rail:tElementWithIDAndName">
+                <xs:sequence>
+                    <xs:element name="metadata" type="dc:elementContainer" minOccurs="0" />
+                </xs:sequence>
+                <xs:attribute name="version" type="rail:tRailMLVersion"/>
+                <xs:attribute ref="xml:base"/>
+            </xs:extension>    
+        </xs:complexContent>
+    </xs:complexType>
+
+	<!--*********************************************************-->
+	<!-- Generic type for values only between 0 and 1 -->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tOneToZero">
+		<xs:annotation>
+			<xs:documentation>
+				generic type for values only between 0 and 1, as
+				efficiency or cosinus phi.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0" />
+			<xs:maxInclusive value="1" />
+			<xs:fractionDigits value="6" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!--*********************************************************-->
+	<!-- Generic type for a list of double values  -->
+	<!--*********************************************************-->
+   <xs:simpleType name="tDoubleList">
+       <xs:list itemType="xs:double"/>
+    </xs:simpleType>
+    
+    <xs:simpleType name="tCoordinateList">
+      <xs:restriction base="rail:tDoubleList">
+        <xs:length value="3"/>
+      </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="tOtherEnumerationValue">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="other:\w{2,}" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:attributeGroup name="anyAttribute">
+        <xs:anyAttribute namespace="##other"/>
+    </xs:attributeGroup>
+
+	<!--*********************************************************-->
+	<!-- Generic type for element references in groups  -->
+	<!--*********************************************************-->
+    
+    <xs:complexType name="tElementRefInGroup">
+        <xs:complexContent>
+            <xs:extension base="rail:tElementWithReference">
+				<xs:attribute name="sequence" type="rail:tCounter" />
+            </xs:extension>    
+        </xs:complexContent>
+	</xs:complexType>
+    
+</xs:schema>
