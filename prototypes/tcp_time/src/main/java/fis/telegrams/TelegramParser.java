@@ -85,6 +85,7 @@ public class TelegramParser extends Thread {
                 //Parse received telegrams while waiting for next
                 if (!telegramQueue.isEmpty()) {
                     parseTelegram(telegramQueue.get(0));
+                    telegramQueue.remove(0);
                 }
                 else
                     try {
