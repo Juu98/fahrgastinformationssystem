@@ -7,10 +7,12 @@ import java.util.List;
 public class TimetableData {
 	private List<TrainRoute> trainroutes;
 	private List<Station> stations;
+	private List<TrainCategory> trainCategories;
 	
 	public TimetableData(){
 		trainroutes=new ArrayList<TrainRoute>();
 		stations=new ArrayList<Station>();
+		trainCategories=new ArrayList<TrainCategory>();
 	}
 	
 	public void addTrainRoute(TrainRoute trainRoute){
@@ -25,6 +27,14 @@ public class TimetableData {
 		return stations;
 	}
 	
+	public List<TrainCategory> getTrainCategories(){
+		return trainCategories;
+	}
+	
+	public void addTrainCategory(TrainCategory category){
+		trainCategories.add(category);
+	}
+	
 	public void addStation(Station station){
 		stations.add(station);
 	}
@@ -37,6 +47,16 @@ public class TimetableData {
 			}
 		}
 		System.out.println("ACHTUNG: Bahnhof mit der ID "+id + " nicht gefunden!");
+		return null;
+	}
+	
+	public TrainCategory getTrainCategoryById(String id){
+		for(TrainCategory cat:trainCategories){
+			if(cat.getId().equals(id)){
+				return cat;
+			}
+		}
+		System.out.println("ACHTUNG: TrainCategory mit der ID "+id+" nicht gefunden!");
 		return null;
 	}
 

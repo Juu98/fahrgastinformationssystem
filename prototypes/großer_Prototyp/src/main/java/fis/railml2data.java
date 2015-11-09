@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.railml.schemas._2009.ECategory;
 import org.railml.schemas._2009.EOcp;
 import org.railml.schemas._2009.EOcpTT;
 import org.railml.schemas._2009.ETrainPart;
@@ -34,10 +35,16 @@ public class railml2data {
 				}
 			}
 			
+			
+			
 			Timetable timetable=railml.getTimetable();
+			
+			for(ECategory cat:timetable.getCategories().getCategory()){
+				//Categories auslesen
+				data.addTrainCategory(new TrainCategory(cat.getId(),cat.getName(),cat.getDescription(),cat.getTrainUsage().name()));
+			}
+			
 			for(ETrainPart trainPart:timetable.getTrainParts().getTrainPart()){
-				//TODO: Zuggattungen beachten!
-				
 				List<Stop> stops=new ArrayList<Stop>();
 				
 				System.out.println("..");
@@ -91,7 +98,9 @@ public class railml2data {
 				}
 				
 				int trainNumber=Integer.parseInt(trainPart.getTrainNumber());
-				data.addTrainRoute(new TrainRoute(trainPart.getId(),trainNumber,TrainType.Regionalzug,stops));
+				
+				//evtl. gehen die Categories eleganter, dasselbe gilt für die Ocp's weiter oben
+				data.addTrainRoute(new TrainRoute(trainPart.getId(),trainNumber,data.getTrainCategoryById(((ECategory)trainPart.getCategoryRef()).getId()),stops));
 			}
 		}
 		catch(Exception ex){

@@ -16,11 +16,6 @@ public class MiniRailML2DataTest {
 		timetable=new Timetable();
 	}
 	
-	@Test
-	public void TestGetStationByID(){
-		timetable.getData();
-		assertEquals("Dornbach",timetable.getData().getStationByID("ocp_ID").getName());
-	}
 	
 	@Test
 	public void TestDeparture(){
