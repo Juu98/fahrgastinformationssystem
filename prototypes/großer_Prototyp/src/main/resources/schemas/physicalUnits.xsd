@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id$ -->
+<xs:schema xmlns:rail="http://www.railml.org/schemas/2009"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.railml.org/schemas/2009"
+	elementFormDefault="qualified" version="2.0">
+
+    <xs:annotation>
+        <xs:documentation>
+        Copyright (c) railML.org; All Rights Reserved. 
+
+        This work is licensed under a Creative Commons Attribution 2.0 License. 
+        http://creativecommons.org/licenses/by/2.0/
+
+        For further information see: http://www.railml.org/
+
+        Content of this file: 
+        XML Schema for railML(R) 2.0 
+        Definition of simple types, which represent general units of measure, 
+        used by all sub schemas
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:include schemaLocation="genericRailML.xsd" />
+
+	<!--*********************************************************-->
+	<!--Distances and Lengths-->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tLength">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="6" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="tLengthMM">
+		<xs:restriction base="rail:tLength" />
+	</xs:simpleType>
+
+	<xs:simpleType name="tLengthM">
+		<xs:restriction base="rail:tLength" />
+	</xs:simpleType>
+
+	<xs:simpleType name="tLengthKM">
+		<xs:restriction base="rail:tLength" />
+	</xs:simpleType>
+
+	<!--*********************************************************-->
+	<!--Speeds and velocities-->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tSpeed">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="1" />
+			<xs:minInclusive value="0" />
+			<xs:totalDigits value="5" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="tSpeedKmPerHour">
+		<xs:restriction base="rail:tSpeed" />
+	</xs:simpleType>
+
+	<xs:simpleType name="tSpeedMPerSec">
+		<xs:restriction base="rail:tSpeed" />
+	</xs:simpleType>
+
+	<!--*********************************************************-->
+	<!--Acceleration-->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tAcceleration">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="3" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="tAccelerationMeterPerSquareSec">
+		<xs:restriction base="rail:tAcceleration" />
+	</xs:simpleType>
+
+	<!--*********************************************************-->
+	<!--Volume-->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tVolume">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="3" />
+			<xs:minInclusive value="0" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="tVolumeCubicMeter">
+		<xs:restriction base="rail:tVolume" />
+	</xs:simpleType>
+
+	<xs:simpleType name="tVolumeLitre">
+		<xs:restriction base="rail:tVolume" />
+	</xs:simpleType>
+	
+	<!--*********************************************************-->
+	<!--Voltage-->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tVoltage">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="tVoltageVolt">
+		<xs:restriction base="rail:tVoltage" />
+	</xs:simpleType>
+
+	<!--*********************************************************-->
+	<!--Resistance-->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tResistance">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="4" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="tResistanceOhm">
+		<xs:restriction base="rail:tResistance" />
+	</xs:simpleType>
+
+	<!--*********************************************************-->
+	<!--Inductance-->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tInductance">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="6" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="tInductanceHenry">
+		<xs:restriction base="rail:tInductance" />
+	</xs:simpleType>
+
+	<!--*********************************************************-->
+	<!--Magnetic Flux-->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tFlux">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="6" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="tFluxVoltSecond">
+		<xs:restriction base="rail:tFlux" />
+	</xs:simpleType>
+	
+	<!--*********************************************************-->
+	<!--Force-->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tForce">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="0" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="tForceNewton">
+		<xs:restriction base="rail:tForce" />
+	</xs:simpleType>
+
+	<!--*********************************************************-->
+	<!--Power-->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tPower">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="0" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="tPowerWatt">
+		<xs:restriction base="rail:tPower" />
+	</xs:simpleType>
+
+	<!--*********************************************************-->
+	<!--Current-->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tCurrent">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="tCurrentAmpere">
+		<xs:restriction base="rail:tCurrent" />
+	</xs:simpleType>
+
+	<!--*********************************************************-->
+	<!--Frequency-->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tFrequency">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="3" />
+			<xs:minInclusive value="0" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="tFrequencyHertz">
+		<xs:restriction base="rail:tFrequency" />
+	</xs:simpleType>
+
+    <xs:simpleType name="tRotationalFrequency">
+        <xs:restriction base="xs:positiveInteger" />
+    </xs:simpleType>
+
+    <xs:simpleType name="tRotationalFrequencyRevolutionsPerMinute">
+        <xs:restriction base="rail:tRotationalFrequency" />
+    </xs:simpleType>
+
+	<!--*********************************************************-->
+	<!--Weight-->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tWeight">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="3" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="tWeightKG">
+		<xs:restriction base="rail:tWeight" />
+	</xs:simpleType>
+
+	<xs:simpleType name="tWeightTons">
+		<xs:restriction base="rail:tWeight" />
+	</xs:simpleType>
+
+	<!--*********************************************************-->
+	<!--Angles-->
+	<!--*********************************************************-->
+
+	<xs:simpleType name="tAngleDeg">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="3" />
+			<xs:totalDigits value="6" />
+			<xs:minInclusive value="-360" />
+			<xs:maxInclusive value="360" />
+		</xs:restriction>
+	</xs:simpleType>
+
+    <xs:simpleType name="tAngleDegFullCircle">
+        <xs:restriction base="rail:tAngleDeg">
+            <xs:minInclusive value="-180" />
+            <xs:maxInclusive value="180" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="tAngleDegQuadrant">
+        <xs:restriction base="rail:tAngleDeg">
+            <xs:minExclusive value="0" />
+            <xs:maxInclusive value="90" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!--*********************************************************-->
+    <!--Angles, gradients, radii-->
+    <!--*********************************************************-->
+
+	<xs:simpleType name="tGradientPromille">
+		<xs:restriction base="xs:decimal">
+			<xs:fractionDigits value="3" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="tRadiusM">
+		<xs:restriction base="rail:tLengthM" />
+	</xs:simpleType>
+
+	<!--*********************************************************-->
+	<!--Names of physical units-->
+	<!--*********************************************************-->
+
+    <xs:simpleType name="tUnitName">
+        <xs:annotation>
+            <xs:documentation>
+                enumeration of physical units
+			</xs:documentation>
+        </xs:annotation>
+        <xs:union>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="m/s" />
+                    <xs:enumeration value="km/h" />
+                    <xs:enumeration value="A" />
+                    <xs:enumeration value="N" />
+                    <xs:enumeration value="Hz" />
+                    <xs:enumeration value="%" />
+                    <xs:enumeration value="V" />
+                    <xs:enumeration value="W" />
+                    <xs:enumeration value="VA" />
+                    <xs:enumeration value="Vs" />
+                    <xs:enumeration value="1" />
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType>
+                <xs:restriction base="rail:tOtherEnumerationValue" />
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+</xs:schema>
