@@ -7,7 +7,6 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import fis.*;
 
 public class FilterTest {
 	Timetable timetable;
@@ -16,7 +15,7 @@ public class FilterTest {
 		
 	}
 	@Before
-	public void setUp() throws Exception{
+	public void setUp(){
 		System.out.println("\n -- FilterTest >Initialize< -- \n");
 		timetable=new Timetable();
 		
