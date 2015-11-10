@@ -1,0 +1,21 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div th:fragment="filter-form">
+			<form method="post" role="form" th:action="@{/fis}" id="filter">
+				<div class="form-group">
+					<div class="input-group col-md-8 pull-left">
+						<span class="input-group-addon" id="stationMenu">
+							<i class="glyphicon glyphicon-search"></i>
+						</span>
+						<input type="text" class="form-control" placeholder="Bahnhof" id="station"
+							   name="stationName" autocomplete="off" data-provide="typeahead" />
+						<input type="hidden" name="stationId" id="stationId" />
+					</div>
+					<input type="submit" name="submit" class="btn btn-primary col-md-2 col-md-offset-2" value="Anzeigen" />
+					<div class="clearfix row"> </div>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

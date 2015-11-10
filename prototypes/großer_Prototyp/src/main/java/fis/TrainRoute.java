@@ -30,7 +30,12 @@ public class TrainRoute {
 		return stops;
 	}
 	
-	
+	public boolean containsStation(Station station){
+		for (Stop s : this.stops){
+			if (s.getStation().equals(station)) return true;
+		}
+		return false;
+	}
 	
 	
 }

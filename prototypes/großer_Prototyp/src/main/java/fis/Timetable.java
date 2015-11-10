@@ -3,10 +3,16 @@ package fis;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
+
+<<<<<<< HEAD
+
+=======
 import org.springframework.stereotype.Component;
 
 @Component
+>>>>>>> 1ff9f8841989d9219b7ecb76f6a3232c7e57fd41
 public class Timetable {
 	private ConnectionState state;
 
@@ -40,9 +46,9 @@ public class Timetable {
 		 * Ausgabeliste enthält alle Zugläufe, die den angegebenen Bahnhof enthalten 
 		*/
 		
-		List<TrainRoute> newList=new ArrayList<TrainRoute>();
-		for(TrainRoute route:listToFilter){
-			if(listToFilter.contains(stationIncluded)){
+		List<TrainRoute> newList=new ArrayList<>();
+		for (TrainRoute route : listToFilter){
+			if(route.containsStation(stationIncluded)){
 				newList.add(route);
 			}
 		}
@@ -115,7 +121,7 @@ public class Timetable {
 	
 	class Offline extends ConnectionState {
 		@Override
-		void initialize() {
+		void initialize(){
 			
 				//Laden der XML
 			try{
@@ -125,7 +131,7 @@ public class Timetable {
 				System.out.println(ex.toString());
 			}
 			
-			}
+		}
 		
 		@Override
 		String getStateName(){
