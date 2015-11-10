@@ -3,7 +3,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-import fis.*;
 
 public class MiniRailML2DataTest {
 	Timetable timetable;

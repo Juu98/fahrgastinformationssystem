@@ -17,9 +17,9 @@ public class RailMLParser {
 
     // Initialize beans and ignore JAXB2 warnings.
     public RailMLParser() {
-	appContext = new ClassPathXmlApplicationContext(/*"applicationContext.xml"*/);
-	converter = (XMLConverter) appContext.getBean("XMLConverter");
-	converter.getUnmarshaller().setValidationEventHandler(new CustomValidationEventHandler());
+		appContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+		converter = (XMLConverter) appContext.getBean("XMLConverter");
+		converter.getUnmarshaller().setValidationEventHandler(new CustomValidationEventHandler());
     }
 
     /* 
