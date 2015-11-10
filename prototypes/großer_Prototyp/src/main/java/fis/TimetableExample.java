@@ -44,8 +44,8 @@ public class TimetableExample extends Timetable {
 		s2.add(new Stop(hbf, StopType.begin, null, LocalTime.of(12, 10), (byte) 2));
 		s2.add(new Stop(mei, StopType.end, LocalTime.of(12, 45), null, (byte) 1));
 				
-		data.addTrainRoute(new TrainRoute("S1", 1, TrainType.Regionalzug, s1));
-		data.addTrainRoute(new TrainRoute("S2", 2, TrainType.Schnellzug, s2));
+		data.addTrainRoute(new TrainRoute("S1", 1, null, s1));
+		data.addTrainRoute(new TrainRoute("S2", 2, null, s2));
 	}
 	
 	@Override

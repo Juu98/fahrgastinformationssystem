@@ -5,14 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
-
-<<<<<<< HEAD
-
-=======
-import org.springframework.stereotype.Component;
-
 @Component
->>>>>>> 1ff9f8841989d9219b7ecb76f6a3232c7e57fd41
 public class Timetable {
 	private ConnectionState state;
 
