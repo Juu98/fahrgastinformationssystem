@@ -1,0 +1,41 @@
+= Entwicklerdokumentation
+
+== Einführung und Ziele
+
+=== Aufgabenstellung
+
+Im Rahmen des Softwarepraktikums soll eine webbasierte Ankunfts- und Abfahrtsanzeige als Teil eines Fahrgastinformationssystems für das Eisenbahnbetriebslabor entwickelt werden. Über die Webseite sollen die Benutzer einen Bahnhof und eine Uhrzeit eingeben und auswählen, ob sie Ankunfts- oder Abfahrtszeiten angezeigt haben wollen. Ausgehend von den Zuggattungen aus dem Fahrplan soll der Benutzer die Anzeige auch nach Zuggattungen filtern können. In den Ankunfts- und Abfahrtsanzeigen sollen zu jedem Zug auch alle nachfolgenden Halte eingeblendet werden und zusätzlich zu jedem Zug noch Echtzeitinformationen angezeigt werden können, wie Verspätungsminuten und Textmeldungen. Als Orientierungshilfe kann von der Online-Abfahrtsanzeige der Deutschen Bahn ausgegangen werden: http://reiseauskunft.bahn.de/bin/bhftafel.exe/
+
+* Qualitätsziele
+
+== Randbedingungen
+* Software-Vorgaben:
+ - Java 8
+ - Apache 2.2
+ - SUSE Linux Enterprise Server 11
+ - Opera 11
+* Vorgaben zum Betrieb des Software
+
+== Kontextabgrenzung
+
+Externe Schnittstellen:
+
+* Nutzer
+* Administrator
+* Fahrplan-Server
+
+== Lösungsstrategie
+Kurzer Überblick über Ihre grundlegenden Entscheidungen und Lösungsansätze, die jeder, der mit der Architektur zu tun hat, verstanden haben sollte.
+
+== Bausteinsicht
+* Package-Diagramme
+
+== Entwurfsentscheidungen
+* Architektur
+* Verwendete Muster
+* Persistenz
+* Benutzeroberfläche
+
+[appendix]
+== Glossar
+
