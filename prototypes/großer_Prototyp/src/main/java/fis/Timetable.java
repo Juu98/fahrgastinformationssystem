@@ -40,6 +40,12 @@ public class Timetable {
 		*/
 		
 		List<TrainRoute> newList=new ArrayList<>();
+		
+		if(stationIncluded==null) {
+			System.out.println("Filter got NULL-Station!");
+			return new ArrayList<TrainRoute>();
+		}
+		
 		for (TrainRoute route : listToFilter){
 			if(route.containsStation(stationIncluded)){
 				newList.add(route);
@@ -49,12 +55,17 @@ public class Timetable {
 	}
 	
 	
+	
 	public List<Stop> filterByTime(List<TrainRoute> listToFilter, Station station, LocalTime from, LocalTime to, FilterType type,FilterTime filterTime){
 		/* 
 		 * Filtert die gegebene Liste nach der Ankunfts-/Abfahrtszeit in der Zeit von [from] bis [to] am angegebenen Bahnhof
 		 * und gibt alle entsprechenden "Stop"-Objekte, die mit diesem Bahnhof assoziiert sind, zurück
 		 * TODO: Testen (ist garantiert voller Fehler...)
 		 */
+		if(station==null) {
+			System.out.println("Filter got NULL-Station!");
+			return new ArrayList<Stop>();
+		}
 		
 		List<Stop> newList=new ArrayList<Stop>();
 		for(TrainRoute route:listToFilter){
@@ -87,6 +98,7 @@ public class Timetable {
 				if(stopTime!=null && from!=null && to!=null){
 					if((stopTime.isAfter(from) || stopTime.equals(from)) && (stopTime.isBefore(to) || stopTime.equals(to))){
 						newList.add(stop);
+						System.out.println("FILTER: Stop at station "+stop.getStation()+" added!");
 					}
 				}
 				}
@@ -118,7 +130,7 @@ public class Timetable {
 			
 				//Laden der XML
 			try{
-				data=railml2data.loadML("EBL Regefahrplan simple.xml");	
+				data=railml2data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");	
 			}
 			catch(Exception ex){
 				System.out.println(ex.toString());

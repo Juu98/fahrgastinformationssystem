@@ -49,18 +49,25 @@ public class FisController {
 	 */
 	@RequestMapping("/fis")
 	public String fis(Model model, FilterForm form){
-		Station currentStation = this.timetable.getData().getStationByID(form.getStationId());
+		Station currentStation=null;
+		if(form.getStationId()!=null){
+			currentStation= this.timetable.getData().getStationByID(form.getStationId());
+		}
+		
 		/*if (currentStation == null || currentStation.isEmpty()){
 			currentStation = "HBF";
 		}*/ // init station for mockup
 		model.addAttribute("time", this.timetable.getTime());
 		model.addAttribute("connState", this.timetable.getStateName());
-		model.addAttribute("trains", this.timetable.filterByStation(
+		if(currentStation!=null){
+			model.addAttribute("trains", this.timetable.filterByStation(
 				this.timetable.getData().getTrainRoutes(),
 				currentStation));
+		}
 		model.addAttribute("form", form);
 		model.addAttribute("stations", this.timetable.getData().getStations());
 		model.addAttribute("currentStation", currentStation);
+		
 		
 		return "fis";
 	}

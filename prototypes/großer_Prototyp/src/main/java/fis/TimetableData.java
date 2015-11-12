@@ -40,13 +40,14 @@ public class TimetableData {
 	}
 	
 	public Station getStationByID(String id){
+		if(id==null) throw new NullPointerException();
 		for(Station station:stations){
 			if(station.getId().equals(id)){
 				System.out.println("Bahnhof mit der ID "+id+": "+station.getName());
 				return station;
 			}
 		}
-		System.out.println("ACHTUNG: Bahnhof mit der ID "+id + " nicht gefunden!");
+		System.out.println(id + " seems to be NO station!");
 		return null;
 	}
 	
