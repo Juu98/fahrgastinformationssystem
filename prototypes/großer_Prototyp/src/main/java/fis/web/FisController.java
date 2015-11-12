@@ -5,9 +5,13 @@
  */
 package fis.web;
 
+import fis.FilterTime;
+import fis.FilterType;
 import fis.Station;
 import fis.Timetable;
 import fis.TimetableExample;
+
+import java.time.LocalTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -59,11 +63,9 @@ public class FisController {
 		}*/ // init station for mockup
 		model.addAttribute("time", this.timetable.getTime());
 		model.addAttribute("connState", this.timetable.getStateName());
-		if(currentStation!=null){
-			model.addAttribute("trains", this.timetable.filterByStation(
-				this.timetable.getData().getTrainRoutes(),
-				currentStation));
-		}
+		model.addAttribute("trains", this.timetable.filterByStation(
+			this.timetable.getData().getTrainRoutes(),
+			currentStation));
 		model.addAttribute("form", form);
 		model.addAttribute("stations", this.timetable.getData().getStations());
 		model.addAttribute("currentStation", currentStation);

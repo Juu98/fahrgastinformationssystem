@@ -26,7 +26,7 @@ public class FilterTest {
 	public void TestFilter(){
 		LocalTime from=LocalTime.of(10, 51, 18);
 		LocalTime to=LocalTime.of(14, 51, 18);
-		List<Stop> stopList=timetable.filterByTime(timetable.getData().getTrainRoutes(), timetable.getData().getStationByID("ocp_ID"), from, to, FilterType.Departure, FilterTime.Actual);
+		List<Stop> stopList=timetable.filter(timetable.getData().getTrainRoutes(), timetable.getData().getStationByID("ocp_ID"), from, to, FilterType.Departure, FilterTime.Actual);
 		assertEquals("Der Filter muss EINSCHLIESSLICH der [from]-Zeit filtern",from,stopList.get(0).getScheduledDeparture());
 		assertEquals("Der Filter muss EINSCHLIESSLICH der [to]-Zeit filtern",to,stopList.get(stopList.size()-1).getScheduledDeparture());
 		

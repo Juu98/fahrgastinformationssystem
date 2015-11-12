@@ -39,7 +39,7 @@
 					</thead>
 					<tbody>
 						<tr th:each="train : ${trains}">
-							<th:block th:each="stop, trnStat : ${train.stops}" th:if="${stop.station} == ${currentStation}">
+							<th:block th:each="stop, trnStat : ${train.stops}" th:if="${ {stop.station} == {currentStation} } and ${stop.stopType!=T(fis.StopType).end}" >
 								<td th:text="${stop.ScheduledDeparture}">13:37</td>
 								<td th:text="${train.id}">ICE 123</td>
 								<td>
