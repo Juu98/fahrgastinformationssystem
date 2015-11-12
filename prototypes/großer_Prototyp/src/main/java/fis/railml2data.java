@@ -30,7 +30,7 @@ public class railml2data {
 			Infrastructure infra=railml.getInfrastructure();
 			for(EOcp ocp:infra.getOperationControlPoints().getOcp()){
 				TOcpOperationalType ocptype=ocp.getPropOperational().getOperationalType();
-				if(ocptype==TOcpOperationalType.STATION || ocptype==null){ //Der zweite Teil der Bedingung ist atm noch fragwürdig...
+				if(ocptype==TOcpOperationalType.STATION || ocptype==null){ //Entweder Bahnhof oder unbestimmt (da manche Halte unbestimmt sind!)
 					data.addStation(new Station(ocp.getId(),ocp.getName()));
 				}
 			}
@@ -51,7 +51,7 @@ public class railml2data {
 				System.out.println("Zuglauf "+trainPart.getId());
 				
 				for(EOcpTT ocptt:trainPart.getOcpsTT().getOcpTT()){
-					if(!ocptt.getOcpType().equals("pass")){ //auch hier gibts Stopsignale etc; kA ob dieser kleine Hack sinnvoll ist -> nachfragen!
+					if(!ocptt.getOcpType().equals("pass")){ //auch hier gibts Stopsignale etc; zudem sollen Passes sollen nicht angezeigt werden
 					StopType stopType;
 										
 					//nur zur Initialisierung
@@ -90,7 +90,9 @@ public class railml2data {
 					if(ocptt.getTrackInfo()!=null){
 					track=Byte.parseByte(ocptt.getTrackInfo()); 
 					System.out.println("Gleis: "+track);
-					} else {System.out.println("Gleis: ??");} //warum auch immer manchmal kein Gleis dabei steht...
+					} else {
+						track=0;
+						System.out.println("Gleis: Keine Angabe [0]");} //warum auch immer manchmal kein Gleis dabei steht...
 					
 					Stop stop=new Stop(station, stopType, arrival, departure, track);
 					stops.add(stop);
