@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @ConfigurationProperties(prefix = "telegramserver")
-public class TelegramParserConfig {
+public class TelegramReceiverConfig {
     private String hostname;
     private int port;
     private int timeout = 1000;

@@ -21,17 +21,17 @@ import java.util.concurrent.Future;
  */
 @Service
 @ConfigurationProperties(prefix = "telegramserver") //setting hostname, port from application.yml
-public class TelegramParser extends Thread {
+public class TelegramReceiver extends Thread {
 
     @Autowired
-    TelegramParserConfig parserConfig;
+    TelegramReceiverConfig receiverConfig;
     private String hostname;
     private int port;
     private Socket server;
     private ConnectionStatus connectionStatus;
     private List<byte[]> telegramQueue;
 
-    public TelegramParser() {
+    public TelegramReceiver() {
         this.telegramQueue = new LinkedList<>();
         this.connectionStatus = ConnectionStatus.OFFLINE;
     }
@@ -54,7 +54,7 @@ public class TelegramParser extends Thread {
                 //TODO: Log connection fail
             }
             try {
-                Thread.sleep(parserConfig.getTimeTillReconnect());
+                Thread.sleep(receiverConfig.getTimeTillReconnect());
             } catch (InterruptedException e) {
                 //Todo: Is handling the exception necessary?
             }
@@ -137,9 +137,9 @@ public class TelegramParser extends Thread {
 
     public Socket connectToHost() throws IOException {
         connectionStatus = ConnectionStatus.CONNECTING;
-        SocketAddress hostAddress = new InetSocketAddress(parserConfig.getHostname(), parserConfig.getPort());
+        SocketAddress hostAddress = new InetSocketAddress(receiverConfig.getHostname(), receiverConfig.getPort());
         Socket socket = new Socket();
-        socket.connect(hostAddress, parserConfig.getTimeout());
+        socket.connect(hostAddress, receiverConfig.getTimeout());
         this.connectionStatus = ConnectionStatus.ONLINE;
         return socket;
     }
