@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import javax.annotation.PostConstruct;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by spiollinux on 05.11.15.
@@ -26,5 +27,11 @@ public class Application {
     @PostConstruct
     void initialize() {
         parser.start();
+        try {
+            TimeUnit.SECONDS.sleep(6);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("ConnectionStatus: " + parser.getConnectionStatus());
     }
 }

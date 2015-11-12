@@ -1,5 +1,6 @@
 package fis.telegrams;
 
+import fis.TimeTableController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.scheduling.annotation.Async;
@@ -25,11 +26,10 @@ public class TelegramReceiver extends Thread {
 
     @Autowired
     TelegramReceiverConfig receiverConfig;
-    private String hostname;
-    private int port;
     private Socket server;
     private ConnectionStatus connectionStatus;
     private List<byte[]> telegramQueue;
+    private TimeTableController timeTableController;
 
     public TelegramReceiver() {
         this.telegramQueue = new LinkedList<>();
@@ -68,7 +68,7 @@ public class TelegramReceiver extends Thread {
         finally {
             try {
                 server.close();
-                connectionStatus = ConnectionStatus.OFFLINE;
+                setConnectionStatus(ConnectionStatus.OFFLINE);
             }
             catch (IOException e) {
                 //Todo: handle error
@@ -79,7 +79,7 @@ public class TelegramReceiver extends Thread {
 
     private void handleConnection() throws IOException {
         InputStream in = server.getInputStream();
-        while (connectionStatus == ConnectionStatus.ONLINE) {
+        while (getConnectionStatus() == ConnectionStatus.ONLINE) {
             Future<byte[]> currentTelegram = parseConnection(in);
             while (!currentTelegram.isDone()) {
                 //Parse received telegrams while waiting for next
@@ -88,11 +88,7 @@ public class TelegramReceiver extends Thread {
                     telegramQueue.remove(0);
                 }
                 else
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                        Thread.yield();
             }
             try {
                 telegramQueue.add(currentTelegram.get());
@@ -121,6 +117,7 @@ public class TelegramReceiver extends Thread {
 
     private void parseTelegram(byte[] response) {
         //Todo: add real parser logic
+        //Todo: response is 0000000... if connection ended
         for (int i = 0; i < 3; ++i) {
             if (response[i] != (byte) 0xFF) {
                 throw (new RuntimeException("Byte " + i + " hat falsches Format: " + response[i]));
@@ -142,5 +139,26 @@ public class TelegramReceiver extends Thread {
         socket.connect(hostAddress, receiverConfig.getTimeout());
         this.connectionStatus = ConnectionStatus.ONLINE;
         return socket;
+    }
+
+    /** returns the ConnectionStatus of the parser
+     * thread-safety: should be "safe enough" as the worst thing that can happen is connectionStatus being set to null
+     * after check for null. But connectionStatus is never set to null -> no locking necessary.
+     * @return ConnectionStatus
+     * @throws NullPointerException
+     */
+    public ConnectionStatus getConnectionStatus() throws NullPointerException{
+        if (this.connectionStatus == null)
+            throw(new NullPointerException("connectionStatus is null"));
+        return this.connectionStatus;
+    }
+
+    /**
+     * sets the connectionStatus of the parser.
+     * thread-safety: yes, writes are synchronized
+     * @param connectionStatus
+     */
+    public synchronized void setConnectionStatus(ConnectionStatus connectionStatus) {
+        this.connectionStatus = connectionStatus;
     }
 }
