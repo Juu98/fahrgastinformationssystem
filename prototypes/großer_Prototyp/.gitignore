@@ -1,6 +1,14 @@
-## IntelliJ IDE files
+# temporary files
+*~
+*.bak
+
+# IntelliJ IDE files
 .idea
 *.iml
+
 # Eclipse/STS files
 target/
 *~
+.settings/
+.project
+.classpath

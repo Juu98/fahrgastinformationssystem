@@ -1,0 +1,35 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div th:fragment="filter-form">
+			<form method="post" role="form" th:action="@{/fis}" id="filter">
+				<div class="form-group">
+					<div class="input-group col-md-8 pull-left">
+						<span class="input-group-addon" id="stationMenu">
+							<i class="glyphicon glyphicon-search"></i>
+						</span>
+						<input type="text" class="form-control" placeholder="Bahnhof" id="station"
+							   name="stationName" autocomplete="off" data-provide="typeahead"
+							   th:value="${currentStation} ? ${currentStation.name}"/>
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" data-toggle="collapse"
+									data-target="#stationList">
+								<i class="glyphicon glyphicon-chevron-down"></i>
+							</button>
+						</span>
+					</div>
+					<input type="hidden" name="stationId" id="stationId" />
+					<input type="submit" name="submit" class="btn btn-primary col-md-2 col-md-offset-2" value="Anzeigen" />
+					<div class="clearfix row"> </div>
+				</div>
+				<div class="collapse" id="stationList">
+					<ul class="list-group row">
+						<li class="list-group-item col-xs-4" th:each="st : ${stations}">
+							<a th:href="|#${st.id}|" th:text="${st.name}">Bahnhof</a>
+						</li>
+					</ul>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

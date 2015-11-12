@@ -1,0 +1,63 @@
+= Protokoll Gruppe 03
+
+[cols="<h,<a"]
+|===
+|Treffen am 10.11.2015    |13:00 Uhr, APB
+|Schriftführer            |Robert Mörseburg
+|Nächstes Treffen         |19.11.2015 16:40 Uhr APB Foyer
+|Teilnehmer               |
+* Eric Schölzel (Scrum-Master)
+* Jonas Schenke
+* Oliver Schmidt
+* Robert Mörseburg
+* Zdravko Yanakiev
+* Ronny Kaiser (Betreuer Lehrstuhl SWT)
+* Walerian Nesterenko (Mitarbeiter EBL)
+|===
+
+== Bemerkungen
+Keine.
+
+== Retrospektive des letzten Sprints
+Im letzten Sprint wurde mit der Erarbeitung des Entwurfsklassendiagrammes begonnen. Außerdem wurde die Arbeit am großen Prototyp aufgenommen. Dazu zählte unter anderem die Einarbeitung ins XML-Parsing, der Entwurf der Datenstrukturen und der grundlegende Aufbau der grafischen Oberfläche. Desweiteren erfolgte eine detaillierte Recherche in Bezug auf die Möglichkeit des Spring-Frameworks zur Verarbeitung von TCP-Telegrammen.
+
+[options="header"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|11	|Salespoint aus dem Projekt entfernen	|abgeschlossen	|--
+|12	|Java-Version		|abgeschlossen		|Version 8
+|19 |Entwicklerdokumentation	|offen 		|bis 17.11.2015
+|20 |Testplan			|offen 				|bis 17.11.2015
+|21 |XML parsen 		|fast abgeschlossen	|Parsing funktioniert, kleine Korrekturen, Tests
+|22 |Großer Prototyp 	|in Bearbeitung		|lauffähiger Zwischenstand, verfeinern, "großer Fahrplan", Tests
+|24 |UML-Entwurfsklassendiagramm |in Bearbeitung	|umfangreiche erste Version ist da, Verfeinerung
+|===
+
+== Aktueller Stand
+
+Herr Nesterenko hat eine kleinere Version einer RailML-Datei zur Verfügung gestellt und die Zeittelegramme näher spezifiziert. Die restlichen Telegerammtypen folgen so schnell wie möglich!
+
+Folgende offene Punkte wurden mit dem Kunden besprochen:
+
+* Erhält das System keine aktuelle Laborzeit vom Server sollen einfach alle vorhandenen Zugläufe angezeigt werden.
+* Wird bei einem Halt kein Gleis oder das Gleis `0` angegeben, so soll das entsprechende Feld in der Anzeige leer bleiben.
+* Zwischenhalte sollen nur dann angezeigt werden, wenn sie auch von der Kategorie `station` sind (Bahnhöfe), oder keiner Kategorie zugewiesen wurden (Haltepunkte).
+* Durchfahrten (`pass`) sollen nicht mit angezeigt werden.
+
+== Planung des nächsten Sprints
+
+Im nächsten Sprint muss der objektorientierte Entwurf abgeschlossen werden. Dazu zählen das Entwurfsklassendiagramm sowie die Entwicklerdokumentation mit dem Testplan. Außerdem muss der große Prototyp fertiggestellt werden.
+
+Dazu wird in zwei Wochen eine kleine Präsentation des aktuellen Projektstadiums im Eisenbahnbetriebslabor stattfinden. Der Termin wird noch geklärt.
+
+[options="header"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|19 |Entwicklerdokumentation	|offen 		|durch *Eric* und *Jonas*
+|20 |Testplan			|offen 				|als Teil von `#19` durch *Eric* und *Jonas*
+|21 |XML parsen 		|fast abgeschlossen	|kleine Korrekturen, Tests durch *Zdravko*
+|22 |Großer Prototyp 	|in Bearbeitung		|verfeinern, testen durch *alle*
+|24 |UML-Entwurfsklassendiagramm |in Bearbeitung	|verfeinern, vereinheitlichen durch *alle*, (verantwortlich *Jonas*)
+|27 |GUI erweitern / anpassen 	 |in Bearbeitung	|zusätzliche Anzeigen, aufhübschen durch *Robert*
+|28 |TCP Telegramme parsen		 |in Bearbeitung	|weitere Recherche, Tests durch *Oliver*
+|===
