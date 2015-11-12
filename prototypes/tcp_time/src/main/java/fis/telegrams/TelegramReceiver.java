@@ -46,11 +46,11 @@ public class TelegramReceiver extends Thread {
     public void run() {
         //try to connect until there is a connection
         //Todo: reconnecting after connection loss
-        while (this.connectionStatus != ConnectionStatus.ONLINE) {
+        while (this.getConnectionStatus() != ConnectionStatus.ONLINE) {
             try {
                 this.server = connectToHost();
             } catch (IOException e) {
-                this.connectionStatus = ConnectionStatus.OFFLINE;
+                this.setConnectionStatus(ConnectionStatus.OFFLINE);
                 //TODO: Log connection fail
             }
             try {
@@ -133,15 +133,16 @@ public class TelegramReceiver extends Thread {
     }
 
     public Socket connectToHost() throws IOException {
-        connectionStatus = ConnectionStatus.CONNECTING;
+        setConnectionStatus(ConnectionStatus.CONNECTING);
         SocketAddress hostAddress = new InetSocketAddress(receiverConfig.getHostname(), receiverConfig.getPort());
         Socket socket = new Socket();
         socket.connect(hostAddress, receiverConfig.getTimeout());
-        this.connectionStatus = ConnectionStatus.ONLINE;
+        setConnectionStatus(ConnectionStatus.ONLINE);
         return socket;
     }
 
-    /** returns the ConnectionStatus of the parser
+    /**
+     * returns the ConnectionStatus of the parser
      * thread-safety: should be "safe enough" as the worst thing that can happen is connectionStatus being set to null
      * after check for null. But connectionStatus is never set to null -> no locking necessary.
      * @return ConnectionStatus
@@ -159,6 +160,8 @@ public class TelegramReceiver extends Thread {
      * @param connectionStatus
      */
     public synchronized void setConnectionStatus(ConnectionStatus connectionStatus) {
+        if (connectionStatus == null)
+            throw(new IllegalArgumentException("connectionStatus mustn't be null"));
         this.connectionStatus = connectionStatus;
     }
 }
