@@ -10,7 +10,53 @@ Im Rahmen des Softwarepraktikums soll eine webbasierte Ankunfts- und Abfahrtsanz
 
 === Qualitätsziele
 
----
+==== Muss-Kriterien
+* Erreichbarkeit unter http://<IP-des-Webserevrs>/fis
+* Auswahl des anzuzeigenden Inhalts:
+	** Abfahrtstafel
+	** Ankunftstafel
+	** Zuglauf
+* Kopfzeile mit:
+	** änderbarem Logo (links)
+	** seitenabhängiger Text (mittig)
+	** aktuelle Laborzeit (rechts)
+* Fußzeile mit:
+	** statischem Text (rechts)
+	** Verbindungsstatus zum Fahrplanserver (links)
+	** Programmversion (links)
+* Abfahrts- / Ankunftsanzeige
+	** Zeit
+	** Zug (Zugtyp und -nummer)
+	** Richtung / Zwischenhalte (jeweils mit Ankunfts- bzw. Abfahrtszeit)
+	** Gleis
+	** Aktuelles
+* Zuglaufanzeige
+	** Bahnhofsname
+	** Ankunftszeit (planmäßig und Verpätung)
+	** Gleis planmäßig und tatsächlich
+	** Abfahrtszeit (planmäßig und Verpätung)
+	** aktuelle Meldungen
+* mehrere Tabs möglich
+* muss auf Hard- und Software des Kunden laufen: SLES 11, Apache 2.2, Java freie Entscheidung
+
+* Interaktiver Wechsel zwischen Bahnhofs- und Zuglaufdarstellung durch Klick auf das jeweilige Objekt
+* Verbindung zum Fahrplanserver muss konfigurierbar sein (IP, Port, ClientID)
+* Zuordnung von Betriebsstelle und Kürzel über Textdatei (Kürzel=Voller Name)
+
+==== Kann-Kriterien
+* Ausblenden der Uhrzeit, wenn keine Verbindung zum Fahrplanserver besteht
+* automatische Aktualisierung nach einer Minute
+* Verbindungsstatus (nicht verbunden, Verbindungsaufbau, verbunden)
+* Logo als GIF, PNG oder JPEG
+* individuell änderbare Farben
+* Zuglaufanzeige ähnlich einer Perlenschnur
+* Vor- / Zurückfunktion des Browsers korrekt verwendbar
+* keine dauerhafte Speicherung der Fahrplandaten (zum Beispiel in einer Datenbank)
+* Erweiterbarkeit
+* unmittelbare Reaktion auf Benutzerinteraktion
+* Sortierung der Abfahrten/ Ankünfte nach Sollzeit
+* Header und Footer
+	** optional: konfigurierbar in INI (mitscrollend oder fix)
 
 == Randbedingungen
 
@@ -63,7 +109,11 @@ Der Administrator hat die Möglichkeit den Hostname, den Port, die Client ID mit
 
 == Lösungsstrategie
 
----
+Die Klasse TimetableData agiert als "Masterklasse" und sie hat alle wichtigen Instanzen der Fahrplandaten, wodurch man über die Klasse auf alle Daten zugreifen kann. Die TimetableController-Klasse hat die Aufgabe die TimetableData mit entsprechenden Daten anfangs zu füllen und stellt eine Schnittstelle nach außen für das Timetable-Packege dar. 
+Jede TrainRoute hat eine Liste von Stops, welche wiederrum eine Referenz auf eine TrainRoute und eine Station haben. Die Station-Klasse verhällt sich analog. Dies dient Verlinkung der Objekte und der Möglichkeit, von einem bestimmten Zuglauf über einen Stop zu dem zugehörigen Bahnhof zu kommen und umgekehrt. 
+In der GUI hat jeweils die Abfahrts-, die Ankunfts- und die Zuglaufsanzeige ihre eigene Funktion, da diese auf verschiedene URLs verweisen. Dadurch können Links kopiert und auf anderen Geräten ebenfalls aufgerufen werden und das Ergebnis ist identisch.
+Die TelegramReceiver-Klasse läuft in einem seperaten Thread, der nur die Aufgabe hat, auf Telegramme zu warten. Die Funktion erstellt bei Erhalt eines Telegramms ein solches und gibt es dann der TimetableController-Klasse weiter. Dabei werden die Daten "gelocked", um einen Zugriff während des Änderungsvorganges zu verhindern. 
+Die XML-Datei, die den Fahrplan für den Offline-Modus beinhaltet ist im RailML-Format. Das railml-Package stellt dafür alle nötigen Funktionen zum Auswerten der Daten bereit. 
 
 == Bausteinsicht
 
@@ -92,12 +142,84 @@ Auf das Singleton-Pattern wurde bei diesem Entwurf bewusst verzichtet, da sich d
 
 === Persistenz
 
-Die für das Anzeigen der Fahrpläne benötigten Daten werden bovorzugt von dem Fahrülan-Server bezogen und nur bei Verbindungsproblemen aus einer lokal gespeicherten XML-Datei geladen. 
+Die für das Anzeigen der Fahrpläne benötigten Daten werden bovorzugt von dem Fahrplan-Server bezogen und nur bei Verbindungsproblemen aus einer lokal gespeicherten XML-Datei geladen. 
 Weiterhin wird eine Konfigurationsdatei lokal gespeichert in der Hostname, Port, die Zeit bis zur Wiederverbindung (TimeOutTillReconnect) und die Zeit bis zum Verbindungsabbruch (TimeOut) gespeichert wird. 
 
 === Benutzeroberfläche
 
----
+==== Überblick: Dialoglandkarte
+:imagesdir: resources
+// Erstellen Sie ein Übersichtsdiagramm, das das Zusammenspiel Ihrer Masken zur Laufzeit darstellt. Also mit welchen Aktionen zwischen den Masken navigiert wird. Die nachfolgende Abbildung zeigt eine an die Pinnwand gezeichnete Dialoglandkarte. Ihre Karte sollte zusätzlich die Buttons/Funktionen darstellen, mit deren Hilfe Sie zwischen den Masken navigieren.
+image::dialoglandkarte.png[Dialoglandkarte, 100%, title="Dialoglandkarte"]
+
+==== Dialogbeschreibung
+
+===== Suchdialoge
+
+Es werden 3 Suchdialoge benötigt: Abfahrtssuche, Ankunftssuche und Zuglaufsuche. Diese befinden sich alle auf der selben Seite, wobei die verschiedenen Suchdialoge durch Tabs (Registerkarten) umschaltbar sind. Sie dienen der Eingabe des gewünschten Bahnhofs (Abfahrts- und Ankunftssuche) bzw. der Eingabe der Zugnummer, wobei optional weitere Filterkriterien festgelegt werden können.
+
+image::search_departures.png[Suchdialog Abfahrten, 100%, title="Abfahrtssuche"]
+image::search_arrivals.png[Suchdialog Ankünfte, 100%, title="Ankunftssuche"]
+
+Maskenelemente:
+
+* Tabs zum Umschalten zwischen den Suchmodi
+* Textbox mit Autovervollständigung zur Eingabe des Bahnhofs
+* "Dropdown" Schaltfläche zur Anzeige aller Bahnhöfe
+* Schaltfläche zum Durchführen der Suche
+* aufklappbarer Container mit weiteren Filteroptionen:
+	** Textboxen zur Angabe eines Zeitraums
+	** Uhrsymbol, Klick darauf setzt Zeitraum auf aktuelle Zeit + 1 Stunde
+	** Checkboxen zur Auswahl von Zugtypen
+	** Bahnhofstextbox wie obige
+
+image::search_train.png[Suchdialog Zuglauf, 100%, title="Zuglaufsuche"]
+
+Maskenelemente:
+
+* Textbox zur Eingabe der Zugnummer
+* Bestätigungsschaltfläche
+
+===== Abfahrts-/Ankunftslisten
+
+Die Abfahrts- und Ankunftslisten zeigen eine Tabelle der Abfahrten/ Ankünfte am gewählten Bahnhof im gewählten Zeitraum unter Berücksichtigung der gewählten Filterbedingungen an.
+
+image::departures.png[Abfahrtsliste, 100%, title="Abfahrtsliste"]
+image::arrivals.png[Ankunftsliste, 100%, title="Ankunftsliste"]
+
+Maskenelemente:
+
+* Textbox mit gewähltem Bahnhof zur schnellen Änderung, Lupensymbol klickbar als Bestätigung
+* Filteroptionen wie auf Suchseite
+* Tabelle mit Ergebnissen
+
+===== Zuglaufanzeige
+
+Die Zuglaufanzeige zeigt einen konkreten Zuglauf mit seinen Halten, angereichert mit aktuellen Informationen, an.
+
+image::train.png[Zuglaufanzeige, 100%, title="Zuglaufanzeige"]
+
+Maskenelemente:
+
+* Label mit Typ des gewählten Zuglaufs
+* Textbox mit Nummer des gewählten Zuglaufs zur schnellen Änderung, Lupensymbol klickbar als Bestätigung
+* Perlenschnurdarstellung des Zuglaufs:
+	** Start- und Endbahnhof durch Rechteck dargestellt
+	** Zwischenbahnhöfe durch Kreis dargestellt
+	** planmäßige Ankunfts- und Abfahrtszeiten links der Schnur
+	** Verspätungszeiten rechts der Schnur
+	** Bahnhöfe, die der Zug bereits durchfahren hat, sind ausgefüllt
+	** noch zu durchfahrende Bahnhöfe sind nicht ausgefüllt
+* Tabelle mit den Spalten Bahnhof, Gleis, Bemerkung
+
+////
+Für jeden Dialog:
+
+1. Kurze textuelle Dialogbeschreibung eingefügt: Was soll der jeweilige Dialog? Was kann man damit tun? Überblick?
+2. Maskenentwürfe (Screenshot, Mockup)
+3. Maskenelemente (Ein/Ausgabefelder, Aktionen wie Buttons, Listen, …)
+4. Evtl. Maskendetails, spezielle Widgets
+////
 
 [appendix]
 == Glossar
