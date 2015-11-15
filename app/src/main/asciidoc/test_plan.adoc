@@ -32,7 +32,7 @@ Die Test-IDs werden nach folgendem Schema benannt:
 * Konfigurationsmöglichkeiten (bspw. Server-IP)
 
 == Nicht zu testende Funktionalitäten
-*RailML-Schemaklassen und der eigentliche Parser (Ausname: Ansprechen des Parsers)
+*RailML-Schemaklassen und der eigentliche Parser (Ausnahme: Ansprechen des Parsers)
 *GUI (Ausnahme: FisController)
 *sämtliche Spring-Funktionalitäten (bspw. der lokale Webserver)
 
