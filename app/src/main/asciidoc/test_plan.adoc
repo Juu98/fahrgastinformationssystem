@@ -108,6 +108,37 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |U-XML-railml2data-1|ParseRailML|RailML parsen|RailML-Schemaklassen|ungültiger Pfad|*Fehler*
 |U-XML-railml2data-2|ParseRailML|RailML parsen|RailML-Schemaklassen|ungültige Datei|*Fehler*
 |U-XML-railml2data-3|ParseRailML|RailML parsen|RailML-Schemaklassen|gültiger Pfad+gültige Datei|RailML-Objekt
+|*[U-Telegram-Telegram]*|||||
+|U-Telegram-Telegram-1|parseTelegram|Telegramme parsen|-|byte[] mit Typ Bestätigungstelegramm|Objekt ConfirmationTelegram
+|U-Telegram-Telegram-2|parseTelegram|Telegramme parsen|-|byte[] mit Typ Statustelegramm|Objekt StatusTelegram
+|U-Telegram-Telegram-3|parseTelegram|Telegramme parsen|-|byte[] mit Typ Zuglauftelegramm|Objekt TrainRouteTelegram
+|U-Telegram-Telegram-4|parseTelegram|Telegramme parsen|-|byte[] mit Typ Änderungstelegramm Meldung|Objekt MessageModificationTelegram
+|U-Telegram-Telegram-5|parseTelegram|Telegramme parsen|-|byte[] mit Typ Änderungstelegramm Zugstrecke|Objekt TrackModificationTelegram
+|U-Telegram-Telegram-6|parseTelegram|Telegramme parsen|-|byte[] mit Typ Änderungstelegramm Ankunft|Objekt ArrivalModificationTelegram
+|U-Telegram-Telegram-7|parseTelegram|Telegramme parsen|-|byte[] mit Typ Änderungstelegramm Abfahrt|Objekt DepartureModificationTelegram
+|U-Telegram-Telegram-8|parseTelegram|Telegramme parsen|-|byte[] mit ungültigem Typ|Fehler "ungültiger Telegrammtyp"
+|U-Telegram-TrainRouteTelegram-1|TrainRouteTelegram|Telegramme parsen|-|gültiges TrainRoute Objekt|Objekt TrainRouteTelegram
+|U-Telegram-TrainRouteTelegram-2|TrainRouteTelegram|Telegramme parsen|-|null|InvalidArgumentException
+|U-Telegram-StatusTelegram-1|StatusTelegram|Telegramme parsen|-|gültiges Time Objekt|Objekt StatusTelegram
+|U-Telegram-StatusTelegram-2|StatusTelegram|Telegramme parsen|-|null|InvalidArgumentException
+|U-Telegram-ConfirmationTelegram-1|ConfirmationTelegram|Telegramme parsen|-|gültiges Time Objekt|Objekt ConfirmationTelegram
+|U-Telegram-ConfirmationTelegram|ConfirmationTelegram|Telegramme parsen|-|null|InvalidArgumentException
+|U-Telegram-MessageModificationTelegram-1|MessageModificationTelegram|Telegramme parsen|-|gültiges stop Objekt, int platform > 0|Objekt MessageModificationTelegram
+|U-Telegram-MessageModificationTelegram-2|MessageModificationTelegram|Telegramme parsen|-|gültiges stop Objekt, int platform <= 0|InvalidArgumentException
+|U-Telegram-MessageModificationTelegram-3|MessageModificationTelegram|Telegramme parsen|-|stop null|InvalidArgumentException
+|U-Telegram-TrackModificationTelegram-1|TrackModificationTelegram|Telegramme parsen|-|gültiges stop Objekt, int platform > 0|Objekt TrackModificationTelegram
+|U-Telegram-TrackModificationTelegram-2|TrackModificationTelegram|Telegramme parsen|-|gültiges stop Objekt, int platform <= 0|InvalidArgumentException
+|U-Telegram-TrackModificationTelegram-3|TrackModificationTelegram|Telegramme parsen|-|stop null|InvalidArgumentException
+|U-Telegram-ArrivalModificationTelegram-1|ArrivalModificationTelegram|Telegramme parsen|-|gültiges Time Objekt, gültiges Stop Objekt|Objekt ArrivalModificationTelegram
+|U-Telegram-ArrivalModificationTelegram-2|ArrivalModificationTelegram|Telegramme parsen|-|Time null, gültiges Stop Objekt |InvalidArgumentException
+|U-Telegram-ArrivalModificationTelegram-3|ArrivalModificationTelegram|Telegramme parsen|-|Stop null, gültiges Time Objekt |InvalidArgumentException
+|U-Telegram-DepartureModificationTelegram-1|DepartureModificationTelegram|Telegramme parsen|-|gültiges Time Objekt, gültiges Stop Objekt|Objekt DepartureModificationTelegram
+|U-Telegram-DepartureModificationTelegram-2|DepartureModificationTelegram|Telegramme parsen|-|Time null, gültiges Stop Objekt |InvalidArgumentException
+|U-Telegram-DepartureModificationTelegram-3|DepartureModificationTelegram|Telegramme parsen|-|Stop null, gültiges Time Objekt |InvalidArgumentException
+|U-TelegramReceiver-TelegramReceiver-1|parseConnection|Telegramme parsen|TelegramReceiver Objekt|CharArrayByteStream mit gültigen Telegrammdaten|Future mit byte[255]
+|U-Telegram-RegistrationTelegram-1|RegistrationTelegram|Am Fahrplanserver anmelden|-|byte ClientID|Objekt RegistrationTelegram
+|U-Telegram-RegistrationTelegram-2|getRawTelegram|Am Fahrplanserver anmelden| RegistrationTelegram Objekt|-|gültiges byte[255] mit Anmeldetelegramm
+||||||
 |===
 
 == IntegrationTests
