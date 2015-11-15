@@ -88,4 +88,13 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |U-Data-TimetableData-4|getStationByCode|Bahnhof mit ID suchen|-|ID (nicht enthalten)|null
 |U-Data-TimetableData-5|getTrainRouteByNumber|Zuglauf mit Nr suchen|-|Nr (enthalten)|erster Zuglauf in der Liste mit entspr. Nr.
 |U-Data-TimetableData-6|getTrainRouteByNumber|Zuglauf mit Nr suchen|-|Nr (nicht enthalten)|null
+|U-Data-TimetableData-7|getTrainRouteByDestination|Nach Endbahnhof filtern|-|Bahnhof|Alle Zugläufe, die im gegebenen Bahnhof enden
+|U-Data-TimetableData-8|addStop|Halt zum Plan hinzufügen|-|null|Fehler/Warnung
+|U-Data-TimetableData-9|addStop|Halt zum Plan hinzufügen|-|Halt|Halt sowohl zu stops hinzufügen, als auch in die Liste stops des entsprechenden Bahnhofs!
+|U-Data-TimetableData-10|addStation|Bahnhof zum Plan hinzufügen|-|null|Fehler/Warnung
+|U-Data-TimetableData-11|addStation|Bahnhof zum Plan hinzufügen|-|Bahnhof|Hinzufügen des Bahnhofs zu stations
+|U-Data-TimetableData-12|addTrainRoute|Zuglauf zum Plan hinzufügen|-|null|Fehler/Warnung
+|U-Data-TimetableData-13|addTrainRoute|Zuglauf zum Plan hinzufügen|-|Zuglauf|Hinzufügen des Zuglaufs zu routes
+|U-Data-TimetableData-14|addCategory|Zugkategorie zum Plan hinzufügen|-|null|Fehler/Warnung
+|U-Data-TimetableData-15|addCategory|Zugkategorie zum Plan hinzufügen|-|Zugkategorie|Hinzufügen zu trainCategories
 |===
