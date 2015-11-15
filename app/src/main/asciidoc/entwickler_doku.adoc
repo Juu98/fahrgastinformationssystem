@@ -55,7 +55,7 @@ image::Use_Case_Diagram__Anwendungsfalldiagramm.png[Anwendungsfalldiagramm, 100%
 | Ergebnisse filtern | | 
 |=========================================
 
-Der Nutzer hat über eine feste URL/IP Zugriff auf das Fahrgastinformationssystemes. Dabei kann er zwischen einer Ankunftstafel, einer Abfahrtstafel und einer Zuglaufsdarstellung wählen. Er hat ebenfalls die Möglichkeit das Ergebniss nach einem bestimmten Zeitramen, Zugtypen oder Zielbahnhof zu filtern. 
+Der Nutzer hat über einen festen Hostname Zugriff auf das Fahrgastinformationssystemes. Dabei kann er zwischen einer Ankunftstafel, einer Abfahrtstafel und einer Zuglaufsdarstellung wählen. Er hat ebenfalls die Möglichkeit das Ergebniss nach einem bestimmten Zeitramen, Zugtypen oder Zielbahnhof zu filtern. 
 
 Der Fahrplan-Server ist für die Bereitstellung aktueller Daten verantwortlich. So liefert dieser beispielsweise Telegramme mit Zugläufen oder die aktuelle Laborzeit. 
 
@@ -73,15 +73,20 @@ image::Class_Diagram__Entwurfsklassendiagramm.jpg[Entwurfsklassendiagrammm, 100%
 
 ===  Architektur
 
----
+Das Fahrgastinformationssystem wurde mithilfe des Spring-Frameworks in Java 8 implementiert. 
+Grundlegend ist es in Telegrammteil (Telegram), einen Telegrammempfängerteil (TelegramReceiver), einen XML-Teil (XML), einen GUI-Teil (GUI) und einen Fahrplanteil (Timetable) (mit einem gekapselten Datenteil (TimetableData)) unterteilt. 
+
+Der Telegrammteil beinhaltet alle erstellbaren Telegramme, welche durch die parseTelegram()-Funktion in der Telegram-Klasse erstellt werden. Der Telegrammenpfänger kümmert sich um die Interatkion mit dem Fahrplan-Server und gibt dem Telegrammteil gegebenfalls den Auftrag und die Daten zum Erstellen eines Telegrammes, welches dann an den Fahrplan weitergegeben wird. Dort wird das Telegramm aufgelöst und die Änderung wird an dem entsprechenden Objekten in den Fahplandaten vorgenommen. Eine Ausnahme davon ist die aktuelle Laborzeit (time in der TimetableData-Klasse), welche sofort vom Telegrammempfänger gesetzt wird. Dies dadurch möglich, dass die aktuelle Laborzeit mit der "@Autowired"-Annotation versehen wurde. 
+Falls anfangs keine Verbindung zum Fahrplan-Server hergestellt werden kann, werden die benötigten Daten mithilfe des XML-Teiles geladen und anschließend durch den Fahrplan in die Fahrplandaten übernommen. 
+Die TimetableController-Klasse hat die Aufgabe die Daten des Fahrplanes für das GUI bereitzustellen, welches diese dann filtert und mittels Thymeleaf dann auf der Webseite ausgibt. 
 
 === Verwendete Muster
 
 Das Spring-Framework orientiert sich bei seiner Implementierung der Nutzerschnittstelle an dem Model-View-Controller-Pattern, wodurch dieses auch in der Web-Applikation wieder zu finden ist in Form der TimetableData-Klasse (Model), der FisController-Klasse (Controller) und in der Thymeleaf implementierten Web-Darstellung (View). 
 
-Da die Telegramme unterschiedliche Form haben können und unterschiedliche Daten übermitteln sollen, aber diese jedoch alle Telegramme sind, wurde sich hier für das State-Pattern entschieden. Dadurch lassen sich die Telgramme leicht in Unterkategorien aufteilen und können allgemeine Eigenschaften aus ihren abstrakten Oberklassen erben. 
+Da die Telegramme unterschiedliche Form haben können und unterschiedliche Daten übermitteln sollen, aber diese jedoch alle Telegramme sind, wurde sich hier für das Strategy-Pattern entschieden. Dadurch lassen sich die Telgramme leicht in Unterkategorien aufteilen und können allgemeine Eigenschaften aus ihren abstrakten Oberklassen erben. 
 
-Zusätzlich wurde das Observer-Pattern zwischen der TrainRoute-Klasse (Observable) und der Stop-Klasse (Observer), sowie zwischen der Station-Klasse (Observable) und der Stop-Klasse (Observer). Dies wird verwendet um Änderungen am Zugverlauf nehmen zu können (aus zum Beispiel einen Stop aus einem Zuglauf zu entfernen). 
+In der abtrakten Telegram-Klasse ist zusätzlich das Factory-Method-Pattern implementiert um das erstellen von Telegrammen aus Byte-Informationen zu erleichtern. 
 
 Auf das Singleton-Pattern wurde bei diesem Entwurf bewusst verzichtet, da sich dies mit der von dem Spring-Framework bereitgestellten "@Autowired" Annotation selbiges einfacher implementieren lässt. 
 
