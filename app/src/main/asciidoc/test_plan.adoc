@@ -8,12 +8,13 @@ Wozu dient das Dokument? Zielgruppe?
 == Aufbau der Testbezeichner
 Die Test-IDs werden nach folgendem Schema benannt:
   * UnitTests:
-    [U] - [Bereich] - [Klasse] - [Mehode]
+    [U] - [Bereich] - [Klasse] - [Methode]
   
-  *IntegrationTests:
+  * IntegrationTests:
     [I] - [TestNr]
 
-*Beispiele*: 
+*Beispiele:* 
+
 * U-Data-TrainRoute-1
 * U-XML-railml2data-1
 * I-1
@@ -23,7 +24,7 @@ Die Test-IDs werden nach folgendem Schema benannt:
 
 == Zu testende Funktionalitäten
 * Datenstruktur
-  *umfasst die Klassen TimetableController, TimetableData, Station, Stop, TrainRoute, TrainCategory
+  -> umfasst die Klassen TimetableController, TimetableData, Station, Stop, TrainRoute, TrainCategory
 * Parsen der RailML und Einbringen in die eigene Datenstruktur
 * Teile des FisControllers (z.B. String-Ausgabe)
 * Kommunikation mit dem Fahrplanserver über die Telegramme
@@ -42,14 +43,15 @@ werden diese zu größeren Modulen zusammengefasst, die als nächstes getestet w
 
 == Umgebungsvoraussetzungen
 * Wird spezielle Hardware benötigt?
-  * Abgesehen von der Anwenderhardware, die die Vorraussetzungen für Java8 erfüllt: nein
+  -> Abgesehen von der Anwenderhardware, die die Vorraussetzungen für Java8 erfüllt: nein
+
 * Welche Daten müssen bereitgestellt werden? Wie werden die Daten bereitgestellt?
-  *RailML-Fahrplan
-  *Telegramdaten durch einen Telegram-Testserver
+  -> RailML-Fahrplan
+  -> Telegramdaten durch einen Telegram-Testserver
 * Wird zusätzliche Software für das Testen benötigt?
-  *Es wird ein Testserver benötigt, der dem FIS Telegramme senden kann
+  -> Es wird ein Testserver benötigt, der dem FIS Telegramme senden kann
 * Wie kommuniziert die Software während des Testens? Internet? Netzwerk?
-  *Die Kommunikation erfolgt während des Testens vorerst nur zwischen dem Testserver und dem FIS, bzw. zwischen FIS und Browser des Anwenders.
+  -> Die Kommunikation erfolgt während des Testens vorerst nur zwischen dem Testserver und dem FIS, bzw. zwischen FIS und Browser des Anwenders.
   Während des Testens laufen diese Dinge lokal auf dem gleichen Rechner.
 
 == Testfälle und Verantwortlichkeit
