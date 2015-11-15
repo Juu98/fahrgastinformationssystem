@@ -5,13 +5,10 @@
  */
 package fis.web;
 
-import fis.FilterTime;
-import fis.FilterType;
 import fis.Station;
 import fis.Timetable;
-import fis.TimetableExample;
 
-import java.time.LocalTime;
+import fis.TrainRoute;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,10 +49,15 @@ public class FisController {
 	 * @return 
 	 */
 	@RequestMapping("/fis")
-	public String fis(Model model, FilterForm form){
-		Station currentStation=null;
-		if(form.getStationId()!=null){
-			currentStation= this.timetable.getData().getStationByID(form.getStationId());
+	public String fis(Model model, FilterForm form, TrainRouteForm formTR){
+		Station currentStation = null;
+		if(form.getStationId() != null){
+			currentStation = this.timetable.getData().getStationByID(form.getStationId());
+		}
+		
+		TrainRoute currentTrainRoute = null;
+		if (formTR.getId() != null){
+			currentTrainRoute = this.timetable.getData().getTrainRouteById(formTR.getId());
 		}
 		
 		/*if (currentStation == null || currentStation.isEmpty()){
@@ -67,15 +69,26 @@ public class FisController {
 			this.timetable.getData().getTrainRoutes(),
 			currentStation));
 		model.addAttribute("form", form);
+		
 		model.addAttribute("stations", this.timetable.getData().getStations());
 		model.addAttribute("currentStation", currentStation);
-		
-		
+	
+		model.addAttribute("trainRoutes", this.timetable.getData().getTrainRoutes());
+		model.addAttribute("currentTrainRoute", currentTrainRoute);
 		return "fis";
 	}
 	
+	/**
+	 * JSON list with all stations for the typeahead
+	 * @return 
+	 */
 	@RequestMapping("stations.json")
 	public @ResponseBody List<Station> getStations(){
 		return this.timetable.getData().getStations();
+	}
+	
+	@RequestMapping("trainRoutes.json")
+	public @ResponseBody List<TrainRoute> getTrainRoutes(){
+		return this.timetable.getData().getTrainRoutes();
 	}
 }

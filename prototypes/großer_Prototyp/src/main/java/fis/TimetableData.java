@@ -61,6 +61,19 @@ public class TimetableData {
 		return null;
 	}
 
-	
+	public TrainRoute getTrainRouteById(String id){
+		if (id == null){
+			throw new NullPointerException("TrainRoute.ID must not be null.");
+		}
+		
+		for (TrainRoute tr : trainroutes){
+			if (tr.getId().equals(id)){
+				return tr;
+			}
+		}
+		
+		System.out.println("!!! TrainRoute [" + id + "] not found!");
+		return null;
+	}
 	
 }

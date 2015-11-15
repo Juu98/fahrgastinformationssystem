@@ -5,7 +5,7 @@
 			<form method="post" role="form" th:action="@{/fis}" id="filter">
 				<div class="form-group">
 					<div class="input-group col-md-8 pull-left">
-						<span class="input-group-addon" id="stationMenu">
+						<span class="input-group-addon">
 							<i class="glyphicon glyphicon-search"></i>
 						</span>
 						<input type="text" class="form-control" placeholder="Bahnhof" id="station"
@@ -18,7 +18,7 @@
 							</button>
 						</span>
 					</div>
-					<input type="hidden" name="stationId" id="stationId" />
+					<input type="hidden" name="stationId" id="stationId" th:value="${currentStation} ? ${currentStation.id}" />
 					<input type="submit" name="submit" class="btn btn-primary col-md-2 col-md-offset-2" value="Anzeigen" />
 					<div class="clearfix row"> </div>
 				</div>
