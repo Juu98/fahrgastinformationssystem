@@ -6,23 +6,60 @@
 
 Im Rahmen des Softwarepraktikums soll eine webbasierte Ankunfts- und Abfahrtsanzeige als Teil eines Fahrgastinformationssystems für das Eisenbahnbetriebslabor entwickelt werden. Über die Webseite sollen die Benutzer einen Bahnhof und eine Uhrzeit eingeben und auswählen, ob sie Ankunfts- oder Abfahrtszeiten angezeigt haben wollen. Ausgehend von den Zuggattungen aus dem Fahrplan soll der Benutzer die Anzeige auch nach Zuggattungen filtern können. In den Ankunfts- und Abfahrtsanzeigen sollen zu jedem Zug auch alle nachfolgenden Halte eingeblendet werden und zusätzlich zu jedem Zug noch Echtzeitinformationen angezeigt werden können, wie Verspätungsminuten und Textmeldungen. Als Orientierungshilfe kann von der Online-Abfahrtsanzeige der Deutschen Bahn ausgegangen werden: http://reiseauskunft.bahn.de/bin/bhftafel.exe/
 
-* Qualitätsziele
+=== Qualitätsziele
+
+---
 
 == Randbedingungen
-* Software-Vorgaben:
- - Java 8
- - Apache 2.2
- - SUSE Linux Enterprise Server 11
- - Opera 11
-* Vorgaben zum Betrieb des Software
+
+=== Software-Vorgaben:
+
+ * Java 8
+ * Apache 2.2
+ * SUSE Linux Enterprise Server 11
+ * Opera 11
+ 
+=== Vorgaben zum Betrieb des Software:
+
+Änderungen in der Konfigurationsdatei treten erst nach einem Neustart der Anwendung in Kraft. 
 
 == Kontextabgrenzung
 
-Externe Schnittstellen:
+:imagesdir: uml
 
-* Nutzer
-* Administrator
-* Fahrplan-Server
+=== Kontextdiagramm
+
+image::Context_Diagram__Kontext.png[Kontextdiagramm, 100%, title="Kontextdiagramm"]
+
+=== Komponentendiagramm
+
+image::Component_Diagram__Komponentendiagramm.png[Komponentendiagramm, 100%, title="Komponentendiagramm"]
+
+=== Anwensungsfalldiagramm
+
+image::Use_Case_Diagram__Anwendungsfalldiagramm.png[Anwendungsfalldiagramm, 100%, title="Anwendungsfalldiagramm"]
+
+=== Externe Schnittstellen
+
+.Aktionsmöglichkeiten der externen Schnittstellen
+[options="header"]
+|=========================================
+| Nutzer | Administrator | Fahrplan-Server
+| Ankunft/Abfahrt/Zug einstellen | Konfigurieren | Telegramme senden
+| Bahnhof einstellen | |
+| Zug wählen | | 
+| Anfangszeit wählen | |
+| Endszeit wählen | | 
+| Zielbahnhof eingeben | | 
+| Ergebnisse abrufen | | 
+| Ergebnisse filtern | | 
+|=========================================
+
+Der Nutzer hat über eine feste URL/IP Zugriff auf die Web-Applikaiton. Dabei kann er zwischen einer Ankunftstafel, einer Abfahrtstafel und einer Zuglaufsdarstellung wählen. Er hat ebenfalls die Möglichkeit das Ergebniss nach einem bestimmten Zeitramen, Zugtypen oder Zielbahnhof zu filtern. 
+
+Der Fahrplan-Server ist für die Bereitstellung aktueller Daten verantwortlich. So liefert dieser beispielsweise Telegramme mit Zugläufen oder die aktuelle Laborzeit. 
+
+Der Administrator hat die Möglichkeit den Hostname, den Port, die Client ID mit der sich das Fahrgast-Informationssystem am Fahrplan-Server anmeldet, den Timeout (TimeOutTillReconnect), der bestimmt, wann die Applikation nach einem Verbindungsabbruch einen Wiederverbindungsversuch startet, und den Timeout (TimeOutTill), der bestimmt nach welcher Zeit die Applikaiton in den Offline-Modus geht, einzustellen. Damit diese Änderungen in Kraft treten, muss das Fahrgast-Informationssystem neu gestartet werden. 
 
 == Lösungsstrategie
 Kurzer Überblick über Ihre grundlegenden Entscheidungen und Lösungsansätze, die jeder, der mit der Architektur zu tun hat, verstanden haben sollte.
