@@ -77,6 +77,26 @@ public class FisController {
 		return "dep";
 	}
 	
+	@RequestMapping("/arr")
+	public String arr(Model model, FilterForm form){
+		defaults(model);
+		
+		Station currentStation = null;
+		if(form.getStationId() != null){
+			currentStation = this.timetable.getData().getStationByID(form.getStationId());
+		}
+		
+		model.addAttribute("trains", this.timetable.filterByStation(
+			this.timetable.getData().getTrainRoutes(),
+			currentStation));
+		model.addAttribute("form", form);
+		
+		model.addAttribute("stations", this.timetable.getData().getStations());
+		model.addAttribute("currentStation", currentStation);
+		
+		return "arr";
+	}
+	
 	/**
 	 * TrainRoute display page.
 	 * @param model
