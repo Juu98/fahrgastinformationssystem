@@ -20,13 +20,13 @@
 		</div>
 		
 		<ul class="col-md-8 col-md-offset-2 nav nav-tabs">
-			<li class="active"><a data-toggle="tab" href="#dep">Abfahrten</a></li>
-			<li><a data-toggle="tab" href="#arr">Ankünfte</a></li>
-			<li><a data-toggle="tab" href="#trn">Zugnummer</a></li>
+			<li class="active"><a href="/dep">Abfahrten</a></li>
+			<li><a href="/arr">Ankünfte</a></li>
+			<li><a href="/trn">Zugnummer</a></li>
 		</ul>
 		
 		<div class="tab-content col-md-8 col-md-offset-2">
-			<div class="tab-pane" id="dep">
+			<div class="tab-pane active" id="dep">
 				<div th:include="filter :: filter-form"></div>
 								
 				<table class="table table-hover table-striped" th:if="${currentStation}">
@@ -52,45 +52,6 @@
 								<td th.text="">...</td>
 							</th:block>
 							
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			
-			<div class="tab-pane" id="arr">
-				<p>ARRIVALS: Lorem ipsum dolar sit amet...</p>
-			</div>
-			
-			<div class="tab-pane" id="trn">
-				<p th:each="tr : ${trainRoutes}" th:text="|${tr.id} : ${tr.trainNumber}|">blubb</p>
-				<form method="post" role="form" th:action="|@{/fis}#trn|">
-					<div class="form-group">
-						<div class="input-group col-md-8 pull-left">
-							<span class="input-group-addon">#</span>
-							<input type="text" class="form-control" placeholder="Zugnummer"
-								   name="id" autocomplete="off"
-								   th:value="${currentTrainRoute} ? ${currentTrainRoute.id}" />
-						</div>
-						<input type="submit" name="submit" class="btn btn-primary col-md-2 col-md-offset-2" value="Anzeigen" />
-					</div>
-				</form>
-				<table class="table table-hover table-striped" th:if="${currentTrainRoute}">
-					<thead>
-						<tr>
-							<th>An</th>
-							<th>Ab</th>
-							<th>Bahnhof</th>
-							<th>Gleis</th>
-							<th>Bemerkungen</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="st : ${currentTrainRoute.stops}">
-							<td th:text="${st.ScheduledArrival}">an</td>
-							<td th:text="${st.ScheduledDeparture}">ab</td>
-							<td th:text="${st.station.name}">Bahnhof</td>
-							<td th:text="${st.ScheduledTrack}">Gleis</td>
-							<td th:text="'--'">Meldung</td>
 						</tr>
 					</tbody>
 				</table>

@@ -10,5 +10,6 @@ package fis.web;
  * @author Robert
  */
 public interface TrainRouteForm {
-	public String getId();
+	public String getTrainRouteId();
+	public String getTrainRoute();
 }

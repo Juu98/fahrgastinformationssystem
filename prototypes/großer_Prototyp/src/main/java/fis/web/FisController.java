@@ -34,37 +34,38 @@ public class FisController {
 	}
 	
 	/**
-	 * sets Landing page to fis.html
-	 * @return 
+	 * adding default attributes to the model.
+	 * @param model 
 	 */
-	@RequestMapping("/")
-	public String index(){
-		return "redirect:/fis";
+	public void defaults(Model model){
+		model.addAttribute("time", this.timetable.getTime());
+		model.addAttribute("connState", this.timetable.getStateName());
 	}
 	
 	/**
-	 * Landing page.
+	 * sets Landing page to departures
+	 * @return 
+	 */
+	@RequestMapping({"/", "/fis"})
+	public String index(){
+		return "redirect:/dep";
+	}
+	
+	/**
+	 * Departures display page.
 	 * @param model
 	 * @param form
 	 * @return 
 	 */
-	@RequestMapping("/fis")
-	public String fis(Model model, FilterForm form, TrainRouteForm formTR){
+	@RequestMapping("/dep")
+	public String dep(Model model, FilterForm form){
+		defaults(model);
+		
 		Station currentStation = null;
 		if(form.getStationId() != null){
 			currentStation = this.timetable.getData().getStationByID(form.getStationId());
 		}
 		
-		TrainRoute currentTrainRoute = null;
-		if (formTR.getId() != null){
-			currentTrainRoute = this.timetable.getData().getTrainRouteById(formTR.getId());
-		}
-		
-		/*if (currentStation == null || currentStation.isEmpty()){
-			currentStation = "HBF";
-		}*/ // init station for mockup
-		model.addAttribute("time", this.timetable.getTime());
-		model.addAttribute("connState", this.timetable.getStateName());
 		model.addAttribute("trains", this.timetable.filterByStation(
 			this.timetable.getData().getTrainRoutes(),
 			currentStation));
@@ -72,10 +73,29 @@ public class FisController {
 		
 		model.addAttribute("stations", this.timetable.getData().getStations());
 		model.addAttribute("currentStation", currentStation);
+		
+		return "dep";
+	}
 	
+	/**
+	 * TrainRoute display page.
+	 * @param model
+	 * @param formTR
+	 * @return 
+	 */
+	@RequestMapping("trn")
+	public String trn(Model model, TrainRouteForm formTR){
+		defaults(model);
+		
+		TrainRoute currentTrainRoute = null;
+		if (formTR.getTrainRouteId() != null){
+			currentTrainRoute = this.timetable.getData().getTrainRouteById(formTR.getTrainRouteId());
+		}
+		
 		model.addAttribute("trainRoutes", this.timetable.getData().getTrainRoutes());
 		model.addAttribute("currentTrainRoute", currentTrainRoute);
-		return "fis";
+		
+		return "trn";
 	}
 	
 	/**
