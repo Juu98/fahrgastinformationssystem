@@ -61,9 +61,9 @@ Jede testbezogene Aufgabe muss einem Ansprechpartner zugeordnet werden.
 // See http://asciidoctor.org/docs/user-manual/#tables
 [options="headers"]
 == Unit Tests
+Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz der jeweiligen Klasse benötigt wird, weil dies so gut wie immer der Fall ist.
+
 |===
-
-
 |*ID* |*Methode* |*Anwendungsfall* |*Vorbedingungen* |*Eingabe* |*Ausgabe / zu überprüfende Wirkung*
 |U-Data-TrainRoute-1 |updateTrainRoute |Zuglauf updaten|-|Neuer Zuglauf|(neuer Zuglauf statt des alten)
 |U-Data-TrainRoute-2 |addStop| Halt hinzufügen|-|null|Fehler oder Warnung
@@ -74,5 +74,14 @@ Jede testbezogene Aufgabe muss einem Ansprechpartner zugeordnet werden.
 |U-Data-TrainRoute-7 |getFirstStop| Beginn-Halt abfragen|-|-|erster Eintrag von stops
 |U-Data-Stop-1|(new Stop)|Erzeugen des Stops|Abfahrt, Ankunft, Gleis, Bahnhof (geplant)|korrektes Speichern in den vorgesehenen Variablen
 |U-Data-Stop-2 |set XY| Updaten des Haltes (durch Telegramme verursacht)|neue Zeiten, Gleis, Meldung|korrektes Speichern in den vorgesehenen Variablen|
- 
+|U-Data-Station-1|addStop|Halt hinzufügen|-|null|Fehler/Warnung
+|U-Data-Station-2|addStop|Halt hinzufügen|-|hinzuzufügender Halt|(neuer Halt muss zur Liste stops hinzugefügt werden)
+|U-Data-Station-3|removeStop|Halt entfernen|-|null / nicht in stops enthaltener Halt|nichts
+|U-Data-Station-4|removeStop|Halt entfernen|-|zu entfernender Halt|Entfernen des Haltes aus stops
+|U-Data-TimeTableData-1|getStationByName|Bahnhof mit Namen suchen|Name (enthalten)|erster Bahnhof in der Liste mit entspr. Namen
+|U-Data-TimeTableData-2|getStationByName|Bahnhof mit Namen suchen|Name (nicht enthalten)|null
+|U-Data-TimeTableData-3|getStationByCode|Bahnhof mit ID suchen|ID (enthalten)|erster Bahnhof in der Liste mit entspr. ID
+|U-Data-TimeTableData-4|getStationByCode|Bahnhof mit ID suchen|ID (nicht enthalten)|null
+|U-Data-TimeTableData-5|getTrainRouteByNumber|Zuglauf mit Nr suchen|Nr (enthalten)|erster Zuglauf in der Liste mit entspr. Nr.
+|U-Data-TimeTableData-6|getTrainRouteByNumber|Zuglauf mit Nr suchen|Nr (nicht enthalten)|null
 |===
