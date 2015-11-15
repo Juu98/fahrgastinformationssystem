@@ -20,9 +20,9 @@
 		</div>
 		
 		<ul class="col-md-8 col-md-offset-2 nav nav-tabs">
-			<li class="active"><a data-toggle="tab" href="#dep">Abfahrten</a></li>
-			<li><a data-toggle="tab" href="#arr">Ankünfte</a></li>
-			<li><a data-toggle="tab" href="#trn">Zugnummer</a></li>
+			<li class="active"><a href="/dep">Abfahrten</a></li>
+			<li><a href="/arr">Ankünfte</a></li>
+			<li><a href="/trn">Zugnummer</a></li>
 		</ul>
 		
 		<div class="tab-content col-md-8 col-md-offset-2">
@@ -39,30 +39,22 @@
 					</thead>
 					<tbody>
 						<tr th:each="train : ${trains}">
-							<th:block th:each="stop, trnStat : ${train.stops}" th:if="${stop.station} == ${currentStation}">
+							<th:block th:each="stop, trnStat : ${train.stops}" th:if="${ {stop.station} == {currentStation} } and ${stop.stopType!=T(fis.StopType).end}" >
 								<td th:text="${stop.ScheduledDeparture}">13:37</td>
 								<td th:text="${train.id}">ICE 123</td>
 								<td>
 									<th:block th:each="nStop, stpStat : ${train.stops}">
 										<span th:text="|${nStop.station.name} ${nStop.ScheduledArrival}|"
-											  th:if="${stpStat.index} > ${train.stops.indexOf(stop)}">Hogwarts 13:37</span>
+											  th:if="${stpStat.index} &gt; ${train.stops.indexOf(stop)}">Hogwarts 13:37</span>
 									</th:block>
 								</td>
 								<td th:text="${stop.ScheduledTrack}">9 3/4</td>
-								<td th.text="">...</td>
+								<td>...</td>
 							</th:block>
 							
 						</tr>
 					</tbody>
 				</table>
-			</div>
-			
-			<div class="tab-pane" id="arr">
-				<p>ARRIVALS: Lorem ipsum dolar sit amet...</p>
-			</div>
-			
-			<div class="tab-pane" id="trn">
-				<p>TRAIN: Lorem ipsum dolar sit amet...</p>
 			</div>
 		</div>
 		

@@ -43,7 +43,7 @@ Nach Rücksprache mit Herrn Nesterenko wurden die folgenden offenen Punkte gekl�
 
 * Die Begriffe "Zug" und "Zuglauf" sind synonym zu verwenden.
 * Die Züge auf der Anzeigetafel sollen nach der "Sollzeit" sortiert werden.
-* Liegt die Sollzeit innerhalb des dargestellten Zeitraumes, so wird der Zug unabhängig von seiner Verspätng angezeigt. Ist die Sollzeit vergangen, die Istzeit allerdings noch nicht, dann wird der Zug trotzdem angezeigt.
+* Liegt die Sollzeit innerhalb des dargestellten Zeitraumes, so wird der Zug unabhängig von seiner Verspätung angezeigt. Ist die Sollzeit vergangen, die Istzeit allerdings noch nicht, dann wird der Zug trotzdem angezeigt.
 * Die Zuggattung wird zusätzlich zur Zugnummer gespeichert und übergeben.
 * Header und Footer auf der Seite sollen fix sein, das heißt nicht mitscrollen. Wenn möglich, soll man das in der Konfiguration allerdings ändern können.
 * Besteht eien verbindung zum Fahrplanserver muss die XML-Datei nicht ausgewertet werden.
@@ -54,7 +54,7 @@ Im Pflichtenheft wurden die folgenden Punkte ergänzt:
 * Fertigstellungstermin 15. Januar 2016
 * Abgabe einer Testversion am 15. Dezember 2015
 * Software des Kunden: SLES 11, Apache 2.2
-* Konfigurationd der Betriebsstellen über Textdatei mit Zuordnung Kürzel zu vollem Namen
+* Konfiguration der Betriebsstellen über Textdatei mit Zuordnung Kürzel zu vollem Namen
 
 == Planung des nächsten Sprints
 Bis zum 17.11.2015 soll ein großer Prototyp erstellt werden. Dazu soll bis zur nächsten Woche eine erste Version vorliegen. Der Prototyp soll einen einfachen Fahrplan parsen, die Zugläufe anzeigen und auch filtern können.

@@ -7,7 +7,8 @@ package fis.web;
 
 import fis.Station;
 import fis.Timetable;
-import fis.TimetableExample;
+
+import fis.TrainRoute;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,40 +34,101 @@ public class FisController {
 	}
 	
 	/**
-	 * sets Landing page to fis.html
-	 * @return 
+	 * adding default attributes to the model.
+	 * @param model 
 	 */
-	@RequestMapping("/")
-	public String index(){
-		return "redirect:/fis";
+	public void defaults(Model model){
+		model.addAttribute("time", this.timetable.getTime());
+		model.addAttribute("connState", this.timetable.getStateName());
 	}
 	
 	/**
-	 * Landing page.
+	 * sets Landing page to departures
+	 * @return 
+	 */
+	@RequestMapping({"/", "/fis"})
+	public String index(){
+		return "redirect:/dep";
+	}
+	
+	/**
+	 * Departures display page.
 	 * @param model
 	 * @param form
 	 * @return 
 	 */
-	@RequestMapping("/fis")
-	public String fis(Model model, FilterForm form){
-		Station currentStation = this.timetable.getData().getStationByID(form.getStationId());
-		/*if (currentStation == null || currentStation.isEmpty()){
-			currentStation = "HBF";
-		}*/ // init station for mockup
-		model.addAttribute("time", this.timetable.getTime());
-		model.addAttribute("connState", this.timetable.getStateName());
+	@RequestMapping("/dep")
+	public String dep(Model model, FilterForm form){
+		defaults(model);
+		
+		Station currentStation = null;
+		if(form.getStationId() != null){
+			currentStation = this.timetable.getData().getStationByID(form.getStationId());
+		}
+		
 		model.addAttribute("trains", this.timetable.filterByStation(
-				this.timetable.getData().getTrainRoutes(),
-				currentStation));
+			this.timetable.getData().getTrainRoutes(),
+			currentStation));
 		model.addAttribute("form", form);
+		
 		model.addAttribute("stations", this.timetable.getData().getStations());
 		model.addAttribute("currentStation", currentStation);
 		
-		return "fis";
+		return "dep";
 	}
 	
+	@RequestMapping("/arr")
+	public String arr(Model model, FilterForm form){
+		defaults(model);
+		
+		Station currentStation = null;
+		if(form.getStationId() != null){
+			currentStation = this.timetable.getData().getStationByID(form.getStationId());
+		}
+		
+		model.addAttribute("trains", this.timetable.filterByStation(
+			this.timetable.getData().getTrainRoutes(),
+			currentStation));
+		model.addAttribute("form", form);
+		
+		model.addAttribute("stations", this.timetable.getData().getStations());
+		model.addAttribute("currentStation", currentStation);
+		
+		return "arr";
+	}
+	
+	/**
+	 * TrainRoute display page.
+	 * @param model
+	 * @param formTR
+	 * @return 
+	 */
+	@RequestMapping("trn")
+	public String trn(Model model, TrainRouteForm formTR){
+		defaults(model);
+		
+		TrainRoute currentTrainRoute = null;
+		if (formTR.getTrainRouteId() != null){
+			currentTrainRoute = this.timetable.getData().getTrainRouteById(formTR.getTrainRouteId());
+		}
+		
+		model.addAttribute("trainRoutes", this.timetable.getData().getTrainRoutes());
+		model.addAttribute("currentTrainRoute", currentTrainRoute);
+		
+		return "trn";
+	}
+	
+	/**
+	 * JSON list with all stations for the typeahead
+	 * @return 
+	 */
 	@RequestMapping("stations.json")
 	public @ResponseBody List<Station> getStations(){
 		return this.timetable.getData().getStations();
+	}
+	
+	@RequestMapping("trainRoutes.json")
+	public @ResponseBody List<TrainRoute> getTrainRoutes(){
+		return this.timetable.getData().getTrainRoutes();
 	}
 }
