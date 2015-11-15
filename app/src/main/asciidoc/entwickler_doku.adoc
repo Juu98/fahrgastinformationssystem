@@ -1,5 +1,7 @@
 = Entwicklerdokumentation
 
+:imagesdir: uml
+
 == Einführung und Ziele
 
 === Aufgabenstellung
@@ -24,8 +26,6 @@ Im Rahmen des Softwarepraktikums soll eine webbasierte Ankunfts- und Abfahrtsanz
 Änderungen in der Konfigurationsdatei treten erst nach einem Neustart der Anwendung in Kraft. 
 
 == Kontextabgrenzung
-
-:imagesdir: uml
 
 === Kontextdiagramm
 
@@ -55,23 +55,44 @@ image::Use_Case_Diagram__Anwendungsfalldiagramm.png[Anwendungsfalldiagramm, 100%
 | Ergebnisse filtern | | 
 |=========================================
 
-Der Nutzer hat über eine feste URL/IP Zugriff auf die Web-Applikaiton. Dabei kann er zwischen einer Ankunftstafel, einer Abfahrtstafel und einer Zuglaufsdarstellung wählen. Er hat ebenfalls die Möglichkeit das Ergebniss nach einem bestimmten Zeitramen, Zugtypen oder Zielbahnhof zu filtern. 
+Der Nutzer hat über eine feste URL/IP Zugriff auf das Fahrgastinformationssystemes. Dabei kann er zwischen einer Ankunftstafel, einer Abfahrtstafel und einer Zuglaufsdarstellung wählen. Er hat ebenfalls die Möglichkeit das Ergebniss nach einem bestimmten Zeitramen, Zugtypen oder Zielbahnhof zu filtern. 
 
 Der Fahrplan-Server ist für die Bereitstellung aktueller Daten verantwortlich. So liefert dieser beispielsweise Telegramme mit Zugläufen oder die aktuelle Laborzeit. 
 
-Der Administrator hat die Möglichkeit den Hostname, den Port, die Client ID mit der sich das Fahrgast-Informationssystem am Fahrplan-Server anmeldet, den Timeout (TimeOutTillReconnect), der bestimmt, wann die Applikation nach einem Verbindungsabbruch einen Wiederverbindungsversuch startet, und den Timeout (TimeOutTill), der bestimmt nach welcher Zeit die Applikaiton in den Offline-Modus geht, einzustellen. Damit diese Änderungen in Kraft treten, muss das Fahrgast-Informationssystem neu gestartet werden. 
+Der Administrator hat die Möglichkeit den Hostname, den Port, die Client ID mit der sich das Fahrgastinformationssystemes am Fahrplan-Server anmeldet, den Timeout (TimeOutTillReconnect), der bestimmt, wann die Applikation nach einem Verbindungsabbruch einen Wiederverbindungsversuch startet, und den Timeout (TimeOutTill), der bestimmt nach welcher Zeit die Applikaiton in den Offline-Modus geht, einzustellen. Damit diese Änderungen in Kraft treten, muss das Fahrgast-Informationssystem neu gestartet werden. 
 
 == Lösungsstrategie
-Kurzer Überblick über Ihre grundlegenden Entscheidungen und Lösungsansätze, die jeder, der mit der Architektur zu tun hat, verstanden haben sollte.
+
+---
 
 == Bausteinsicht
-* Package-Diagramme
+
+image::Class_Diagram__Entwurfsklassendiagramm.jpg[Entwurfsklassendiagrammm, 100%, title="Entwurfsklassendiagramm"]
 
 == Entwurfsentscheidungen
-* Architektur
-* Verwendete Muster
-* Persistenz
-* Benutzeroberfläche
+
+===  Architektur
+
+---
+
+=== Verwendete Muster
+
+Das Spring-Framework orientiert sich bei seiner Implementierung der Nutzerschnittstelle an dem Model-View-Controller-Pattern, wodurch dieses auch in der Web-Applikation wieder zu finden ist in Form der TimetableData-Klasse (Model), der FisController-Klasse (Controller) und in der Thymeleaf implementierten Web-Darstellung (View). 
+
+Da die Telegramme unterschiedliche Form haben können und unterschiedliche Daten übermitteln sollen, aber diese jedoch alle Telegramme sind, wurde sich hier für das State-Pattern entschieden. Dadurch lassen sich die Telgramme leicht in Unterkategorien aufteilen und können allgemeine Eigenschaften aus ihren abstrakten Oberklassen erben. 
+
+Zusätzlich wurde das Observer-Pattern zwischen der TrainRoute-Klasse (Observable) und der Stop-Klasse (Observer), sowie zwischen der Station-Klasse (Observable) und der Stop-Klasse (Observer). Dies wird verwendet um Änderungen am Zugverlauf nehmen zu können (aus zum Beispiel einen Stop aus einem Zuglauf zu entfernen). 
+
+Auf das Singleton-Pattern wurde bei diesem Entwurf bewusst verzichtet, da sich dies mit der von dem Spring-Framework bereitgestellten "@Autowired" Annotation selbiges einfacher implementieren lässt. 
+
+=== Persistenz
+
+Die für das Anzeigen der Fahrpläne benötigten Daten werden bovorzugt von dem Fahrülan-Server bezogen und nur bei Verbindungsproblemen aus einer lokal gespeicherten XML-Datei geladen. 
+Weiterhin wird eine Konfigurationsdatei lokal gespeichert in der Hostname, Port, die Zeit bis zur Wiederverbindung (TimeOutTillReconnect) und die Zeit bis zum Verbindungsabbruch (TimeOut) gespeichert wird. 
+
+=== Benutzeroberfläche
+
+---
 
 [appendix]
 == Glossar
