@@ -67,8 +67,8 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |*ID* |*Methode* |*Anwendungsfall* |*Vorbedingungen* |*Eingabe* |*Ausgabe / zu überprüfende Wirkung*
 |*[U-Data-TrainRoute]*|||||
 |U-Data-TrainRoute-1 |updateTrainRoute |Zuglauf updaten|-|Neuer Zuglauf|(neuer Zuglauf statt des alten)
-|U-Data-TrainRoute-2 |addStop| Halt hinzufügen|-|null|Fehler oder Warnung
-|U-Data-TrainRoute-3 |addStop| Halt hinzufügen|-|hinzuzufügender Halt|(neuer Halt muss zur Liste stops hinzugefügt worden sein)
+|U-Data-TrainRoute-2 |addStop| Halt hinzufügen|Stop|null|Fehler oder Warnung
+|U-Data-TrainRoute-3 |addStop| Halt hinzufügen|Stop|hinzuzufügender Halt|(neuer Halt muss zur Liste stops hinzugefügt worden sein)
 |U-Data-TrainRoute-4 |removeStop| Halt entfernen|-|in der Liste stops enthaltener Halt|Entfernung des Halts aus stops
 |U-Data-TrainRoute-5 |removeStop| Halt entfernen|-|in stops nicht enthaltener Halt|nichts
 |U-Data-TrainRoute-6 |getLastStop| Endhalt abfragen|-|-|letzter Eintrag von stops
@@ -97,4 +97,17 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |U-Data-TimetableData-13|addTrainRoute|Zuglauf zum Plan hinzufügen|-|Zuglauf|Hinzufügen des Zuglaufs zu routes
 |U-Data-TimetableData-14|addCategory|Zugkategorie zum Plan hinzufügen|-|null|Fehler/Warnung
 |U-Data-TimetableData-15|addCategory|Zugkategorie zum Plan hinzufügen|-|Zugkategorie|Hinzufügen zu trainCategories
+|*[U-Data-TimetableController]*|||||
+|U-Data-TimetableController-1|loadTimetable|Timetable laden|Pfad aus Config gelesen, timetable2data funktioniert|-|Geladener Fahrplan
+|U-Data-TimetableController-1|forwardTelegram|Telegram verwerten|gesamte Telegramstruktur|StatusTelegram|Geupdatete Zeit
+|U-Data-TimetableController-2|forwardTelegram|Telegram verwerten|gesamte Telegramstruktur|TrainRouteTelegram|Fahrplan aus Telegram laden
+|U-Data-TimetableController-3|forwardTelegram|Telegram verwerten|gesamte Telegramstruktur|ModificationTelegram|Fahrplanänderungen
+|*[U-XML-railml2data]*|||||
+|U-XML-railml2data-1|loadML|Geparste Railml-Daten in die eigene Datenstruktur bringen|RailMLParser, Data|ungültiger Pfad|*Fehler*
+|U-XML-railml2data-2|loadML|Geparste Railml-Daten in die eigene Datenstruktur bringen|RailMLParser, Data|gültiger Pfad+Datei|Übernahme in die eigene Datenstruktur
+|*[U-XML-RailMLParser]*|||||
+|U-XML-railml2data-1|ParseRailML|RailML parsen|RailML-Schemaklassen|ungültiger Pfad|*Fehler*
+|U-XML-railml2data-2|ParseRailML|RailML parsen|RailML-Schemaklassen|ungültige Datei|*Fehler*
+|U-XML-railml2data-3|ParseRailML|RailML parsen|RailML-Schemaklassen|gültiger Pfad+gültige Datei|RailML-Objekt
+
 |===
