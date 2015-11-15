@@ -1,0 +1,74 @@
+= Test-Plan
+
+Dieser Testplan stellt eine vereinfachte Version der IEEE 829-1998 Vorlage dar.
+
+== Einführung
+Wozu dient das Dokument? Zielgruppe?
+
+== Aufbau der Testbezeichner
+Die Test-IDs werden nach folgendem Schema benannt:
+  * UnitTests:
+    [U] - [Bereich] - [Klasse] - [Mehode]
+  
+  *IntegrationTests:
+    [I] - [TestNr]
+
+*Beispiele*: 
+* U-Data-TrainRoute-1
+* U-XML-railml2data-1
+* I-1
+
+
+== Test Gegenstände
+
+== Zu testende Funktionalitäten
+* Datenstruktur
+  *umfasst die Klassen TimetableController, TimetableData, Station, Stop, TrainRoute, TrainCategory
+* Parsen der RailML und Einbringen in die eigene Datenstruktur
+* Teile des FisControllers (z.B. String-Ausgabe)
+* Kommunikation mit dem Fahrplanserver über die Telegramme
+* Konfigurationsmöglichkeiten (bspw. Server-IP)
+
+== Nicht zu testende Funktionalitäten
+*RailML-Schemaklassen und der eigentliche Parser (Ausname: Ansprechen des Parsers)
+*GUI (Ausnahme: FisController)
+*sämtliche Spring-Funktionalitäten (bspw. der lokale Webserver)
+
+== Herangehensweise
+
+*Die Klassen werden mit JUnit getestet.
+*Die Integrationstests verlaufen nach Bottom-Up Prinzip, d.h. wenn das Zusammenspiel von einzelnen Subsystemen klappt,
+werden diese zu größeren Modulen zusammengefasst, die als nächstes getestet werden.
+
+== Umgebungsvoraussetzungen
+* Wird spezielle Hardware benötigt?
+  * Abgesehen von der Anwenderhardware, die die Vorraussetzungen für Java8 erfüllt: nein
+* Welche Daten müssen bereitgestellt werden? Wie werden die Daten bereitgestellt?
+  *RailML-Fahrplan
+  *Telegramdaten durch einen Telegram-Testserver
+* Wird zusätzliche Software für das Testen benötigt?
+  *Es wird ein Testserver benötigt, der dem FIS Telegramme senden kann
+* Wie kommuniziert die Software während des Testens? Internet? Netzwerk?
+  *Die Kommunikation erfolgt während des Testens vorerst nur zwischen dem Testserver und dem FIS, bzw. zwischen FIS und Browser des Anwenders.
+  Während des Testens laufen diese Dinge lokal auf dem gleichen Rechner.
+
+== Testfälle und Verantwortlichkeit
+Jede testbezogene Aufgabe muss einem Ansprechpartner zugeordnet werden.
+
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="headers"]
+|===
+== Unit Tests
+
+|ID |Methode |Anwendungsfall |Vorbedingungen |Eingabe |Ausgabe / zu überprüfende Wirkung
+|U-Data-TrainRoute-1 |updateTrainRoute |Zuglauf updaten|-|Neuer Zuglauf|(neuer Zuglauf statt des alten)
+|U-Data-TrainRoute-2 |addStop| Halt hinzufügen|-|null|Fehler oder Warnung
+|U-Data-TrainRoute-3 |addStop| Halt hinzufügen|-|hinzuzufügender Halt|(neuer Halt muss zur Liste stops hinzugefügt worden sein)
+|U-Data-TrainRoute-4 |removeStop| Halt entfernen|-|in der Liste stops enthaltener Halt|Entfernung des Halts aus stops
+|U-Data-TrainRoute-5 |removeStop| Halt entfernen|-|in stops nicht enthaltener Halt|nichts
+|U-Data-TrainRoute-6 |getLastStop| Endhalt abfragen|-|-|letzter Eintrag von stops
+|U-Data-TrainRoute-7 |getFirstStop| Beginn-Halt abfragen|-|-|erster Eintrag von stops
+|U-Data-Stop-1|(new Stop)|Erzeugen des Stops|Abfahrt, Ankunft, Gleis, Bahnhof (geplant)|korrektes Speichern in den vorgesehenen Variablen
+|U-Data-Stop-2 |set XY| Updaten des Haltes (durch Telegramme verursacht)|neue Zeiten, Gleis, Meldung|korrektes Speichern in den vorgesehenen Variablen|
+ 
+|===
