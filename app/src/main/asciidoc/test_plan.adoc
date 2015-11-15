@@ -7,6 +7,7 @@ Wozu dient das Dokument? Zielgruppe?
 
 == Aufbau der Testbezeichner
 Die Test-IDs werden nach folgendem Schema benannt:
+
   * UnitTests:
     [U] - [Bereich] - [Klasse] - [Methode]
   
@@ -59,10 +60,11 @@ Jede testbezogene Aufgabe muss einem Ansprechpartner zugeordnet werden.
 
 // See http://asciidoctor.org/docs/user-manual/#tables
 [options="headers"]
-|===
 == Unit Tests
+|===
 
-|ID |Methode |Anwendungsfall |Vorbedingungen |Eingabe |Ausgabe / zu überprüfende Wirkung
+
+|*ID* |*Methode* |*Anwendungsfall* |*Vorbedingungen* |*Eingabe* |*Ausgabe / zu überprüfende Wirkung*
 |U-Data-TrainRoute-1 |updateTrainRoute |Zuglauf updaten|-|Neuer Zuglauf|(neuer Zuglauf statt des alten)
 |U-Data-TrainRoute-2 |addStop| Halt hinzufügen|-|null|Fehler oder Warnung
 |U-Data-TrainRoute-3 |addStop| Halt hinzufügen|-|hinzuzufügender Halt|(neuer Halt muss zur Liste stops hinzugefügt worden sein)
