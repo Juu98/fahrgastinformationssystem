@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * Example Timetable to generate some output.
  * @author Robert
  */
-@Component
+//@Component
 public class TimetableExample extends Timetable {
 	private final String STATE = "online";
 	private TimetableData data;

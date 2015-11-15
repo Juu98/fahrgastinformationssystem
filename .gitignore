@@ -1,5 +1,6 @@
 *~
 *.bak
+*.mdzip
 /app/.classpath
 /app/.project
 /app/.settings/org.eclipse.core.resources.prefs

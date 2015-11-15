@@ -28,7 +28,7 @@ public class FisController {
 	 * @param tt
 	 */
 	@Autowired
-	public FisController(TimetableExample tt){
+	public FisController(Timetable tt){
 		this.timetable = tt;
 	}
 	
@@ -49,15 +49,15 @@ public class FisController {
 	 */
 	@RequestMapping("/fis")
 	public String fis(Model model, FilterForm form){
-		String currentStation = form.getStationId();
-		if (currentStation == null || currentStation.isEmpty()){
+		Station currentStation = this.timetable.getData().getStationByID(form.getStationId());
+		/*if (currentStation == null || currentStation.isEmpty()){
 			currentStation = "HBF";
-		}
+		}*/ // init station for mockup
 		model.addAttribute("time", this.timetable.getTime());
 		model.addAttribute("connState", this.timetable.getStateName());
 		model.addAttribute("trains", this.timetable.filterByStation(
 				this.timetable.getData().getTrainRoutes(),
-				this.timetable.getData().getStationByID(currentStation)));
+				currentStation));
 		model.addAttribute("form", form);
 		model.addAttribute("stations", this.timetable.getData().getStations());
 		model.addAttribute("currentStation", currentStation);

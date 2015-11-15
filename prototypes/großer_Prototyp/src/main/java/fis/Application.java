@@ -16,8 +16,8 @@ public class Application {
 	
 	@Autowired Timetable timetable;
 	
-	@PostConstruct
+	/*@PostConstruct
 	void init(){
 		timetable = new TimetableExample();
-	}
+	}*/
 }
