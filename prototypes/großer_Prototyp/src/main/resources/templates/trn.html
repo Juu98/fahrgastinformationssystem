@@ -1,0 +1,81 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<script th:src="@{/webjars/jquery/2.1.3/jquery.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+		<script th:src="@{/webjars/Bootstrap-3-Typeahead/3.1.1/bootstrap3-typeahead.js}"></script>
+		
+		<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" type="text/css" />
+		<link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+		
+		<title th:text="#{fis.title.short}">FIS EBL</title>
+	</head>
+	<body class="container">
+		<div class="row" id="header">
+			<img th:src="@{/resources/img/tu_logo.png}" class="col-md-2 img-responsive" id="logo" />
+			
+			<h1 class="col-md-8 text-center" th:text="#{fis.title}">Fahrgastinformationssystem</h1>
+			<h2 class="col-md-2" th:text="${#dates.format(#dates.createNow(), 'HH:mm')}">13:37</h2>
+		</div>
+		
+		<ul class="col-md-8 col-md-offset-2 nav nav-tabs">
+			<li><a href="/dep">Abfahrten</a></li>
+			<li><a href="/arr">Ankünfte</a></li>
+			<li class="active"><a href="/trn">Zugnummer</a></li>
+		</ul>
+		
+		<div class="tab-content col-md-8 col-md-offset-2">
+			<div class="tab-pane active" id="trn">
+				<form method="post" role="form" action="">
+					<div class="form-group">
+						<div class="input-group col-md-8 pull-left">
+							<span class="input-group-addon">#</span>
+							<input type="text" class="form-control" placeholder="Zugnummer"
+								   name="trainRoute" autocomplete="off" id="trainRoute" data-provide="typeahead"
+								   th:value="${currentTrainRoute} ? |${currentTrainRoute.id}: ${currentTrainRoute.stops[0].station.name} - ${currentTrainRoute.stops[currentTrainRoute.stops.size()-1].station.name}|" />
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button" data-toggle="collapse"
+										data-target="#trainRouteList">
+									<i class="glyphicon glyphicon-chevron-down"></i>
+								</button>
+							</span>
+						</div>
+						<input type="hidden" name="trainRouteId" id="trainRouteId" th:value="${currentTrainRoute} ? ${currentTrainRoute.id}" />
+						<input type="submit" name="submit" class="btn btn-primary col-md-2 col-md-offset-2" value="Anzeigen" />
+						<div class="clearfix"></div>
+					</div>
+					<div class="collapse" id="trainRouteList">
+						<ul class="list-group row">
+							<li class="list-group-item col-xs-6" th:each="tr : ${trainRoutes}">
+								<a th:href="|#${tr.id}|" th:text="|${tr.id}: ${tr.stops[0].station.name} - ${tr.stops[tr.stops.size()-1].station.name}|">Bahnhof</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+				<table class="table table-hover table-striped" th:if="${currentTrainRoute}">
+					<thead>
+						<tr>
+							<th>An</th>
+							<th>Ab</th>
+							<th>Bahnhof</th>
+							<th>Gleis</th>
+							<th>Bemerkungen</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="st : ${currentTrainRoute.stops}">
+							<td th:text="${st.ScheduledArrival}">an</td>
+							<td th:text="${st.ScheduledDeparture}">ab</td>
+							<td th:text="${st.station.name}">Bahnhof</td>
+							<td th:text="${st.ScheduledTrack}">Gleis</td>
+							<td th:text="'--'">Meldung</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<script th:src="@{/resources/js/fis.js}"></script>
+	</body>
+</html>

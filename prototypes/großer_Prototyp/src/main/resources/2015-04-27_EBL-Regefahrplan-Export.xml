@@ -16174,7 +16174,7 @@
         </formationTT>
         <operatingPeriodRef ref='opp_0'/>
         <ocpsTT>
-          <ocpTT ocpRef='ocp_DKT' trackInfo='4&lt;' ocpType='begin'>
+          <ocpTT ocpRef='ocp_DKT' trackInfo='4' ocpType='begin'>
             <times scope='scheduled' departure='08:37:18'/>
             <sectionTT section='DKT-B911' lineRef='ln_11' trackInfo='1' percentageSupplement='3' distance='2.369'>
               <trackRef ref='tr_11_1'/>
@@ -16752,7 +16752,7 @@
         </formationTT>
         <operatingPeriodRef ref='opp_0'/>
         <ocpsTT>
-          <ocpTT ocpRef='ocp_DKT' trackInfo='4&lt;' ocpType='begin'>
+          <ocpTT ocpRef='ocp_DKT' trackInfo='4' ocpType='begin'>
             <times scope='scheduled' departure='09:37:18'/>
             <sectionTT section='DKT-B911' lineRef='ln_11' trackInfo='1' percentageSupplement='3' distance='2.369'>
               <trackRef ref='tr_11_1'/>
@@ -17330,7 +17330,7 @@
         </formationTT>
         <operatingPeriodRef ref='opp_0'/>
         <ocpsTT>
-          <ocpTT ocpRef='ocp_DKT' trackInfo='4&lt;' ocpType='begin'>
+          <ocpTT ocpRef='ocp_DKT' trackInfo='4' ocpType='begin'>
             <times scope='scheduled' departure='10:37:18'/>
             <sectionTT section='DKT-B911' lineRef='ln_11' trackInfo='1' percentageSupplement='3' distance='2.369'>
               <trackRef ref='tr_11_1'/>
@@ -17908,7 +17908,7 @@
         </formationTT>
         <operatingPeriodRef ref='opp_0'/>
         <ocpsTT>
-          <ocpTT ocpRef='ocp_DKT' trackInfo='4&lt;' ocpType='begin'>
+          <ocpTT ocpRef='ocp_DKT' trackInfo='4' ocpType='begin'>
             <times scope='scheduled' departure='11:37:18'/>
             <sectionTT section='DKT-B911' lineRef='ln_11' trackInfo='1' percentageSupplement='3' distance='2.369'>
               <trackRef ref='tr_11_1'/>
@@ -18486,7 +18486,7 @@
         </formationTT>
         <operatingPeriodRef ref='opp_0'/>
         <ocpsTT>
-          <ocpTT ocpRef='ocp_DKT' trackInfo='4&lt;' ocpType='begin'>
+          <ocpTT ocpRef='ocp_DKT' trackInfo='4' ocpType='begin'>
             <times scope='scheduled' departure='12:37:18'/>
             <sectionTT section='DKT-B911' lineRef='ln_11' trackInfo='1' percentageSupplement='3' distance='2.369'>
               <trackRef ref='tr_11_1'/>
@@ -19064,7 +19064,7 @@
         </formationTT>
         <operatingPeriodRef ref='opp_0'/>
         <ocpsTT>
-          <ocpTT ocpRef='ocp_DKT' trackInfo='4&lt;' ocpType='begin'>
+          <ocpTT ocpRef='ocp_DKT' trackInfo='4' ocpType='begin'>
             <times scope='scheduled' departure='13:37:18'/>
             <sectionTT section='DKT-B911' lineRef='ln_11' trackInfo='1' percentageSupplement='3' distance='2.369'>
               <trackRef ref='tr_11_1'/>
@@ -19642,7 +19642,7 @@
         </formationTT>
         <operatingPeriodRef ref='opp_0'/>
         <ocpsTT>
-          <ocpTT ocpRef='ocp_DKT' trackInfo='4&lt;' ocpType='begin'>
+          <ocpTT ocpRef='ocp_DKT' trackInfo='4' ocpType='begin'>
             <times scope='scheduled' departure='14:37:18'/>
             <sectionTT section='DKT-B911' lineRef='ln_11' trackInfo='1' percentageSupplement='3' distance='2.369'>
               <trackRef ref='tr_11_1'/>
@@ -20220,7 +20220,7 @@
         </formationTT>
         <operatingPeriodRef ref='opp_0'/>
         <ocpsTT>
-          <ocpTT ocpRef='ocp_DKT' trackInfo='4&lt;' ocpType='begin'>
+          <ocpTT ocpRef='ocp_DKT' trackInfo='4' ocpType='begin'>
             <times scope='scheduled' departure='15:37:18'/>
             <sectionTT section='DKT-B911' lineRef='ln_11' trackInfo='1' percentageSupplement='3' distance='2.369'>
               <trackRef ref='tr_11_1'/>

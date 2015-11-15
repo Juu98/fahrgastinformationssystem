@@ -9,12 +9,12 @@ public class Stop {
 	private LocalTime ActualArrival;
 	private LocalTime ActualDeparture;
 	
-	private byte ScheduledTrack;
-	private byte ActualTrack;
+	private String ScheduledTrack;
+	private String ActualTrack;
 	private String Meldung; //Hier bin ich noch unsicher, was dort genau rein soll
 	private StopType stopType;
 	
-	public Stop(Station station,StopType stopType,LocalTime ScheduledArrival, LocalTime ScheduledDeparture, byte ScheduledTrack){
+	public Stop(Station station,StopType stopType,LocalTime ScheduledArrival, LocalTime ScheduledDeparture, String ScheduledTrack){
 		this.station=station;
 		this.stopType=stopType;
 		this.ScheduledArrival=ScheduledArrival;
@@ -44,7 +44,7 @@ public class Stop {
 		this.ActualDeparture=ActualDeparture;
 	}
 	
-	public void updateGleis(byte ActualTrack){
+	public void updateGleis(String ActualTrack){
 		this.ActualTrack=ActualTrack;
 	}
 	
@@ -52,8 +52,8 @@ public class Stop {
 	public LocalTime getScheduledArrival(){return ScheduledArrival;}
 	public LocalTime getActualDeparture(){return ActualDeparture;}
 	public LocalTime getActualArrival(){return ActualArrival;}
-	public byte getScheduledTrack(){return ScheduledTrack;}
-	public byte getActualTrack(){return ActualTrack;}
+	public String getScheduledTrack(){return ScheduledTrack;}
+	public String getActualTrack(){return ActualTrack;}
 	
 	//public LocalTime getVerspaetung(){
 		//Ankunft oder Abfahrtszeit heranziehen??
@@ -62,7 +62,12 @@ public class Stop {
 	public void printDebugInformation(){
 		//erstmal nur zum Testen
 		System.out.println("---");
-		System.out.println("Station: "+station.getName());
+		if(station!=null){
+			System.out.println("Station: "+station.getName());
+		} else {
+			System.out.println("!!STATION: NULL!!");
+		}
+		System.out.println("Train Number: ");
 		System.out.println("Scheduled Arrival: "+ScheduledArrival);
 		System.out.println("Scheduled Departure: "+ScheduledDeparture);
 		System.out.println("Scheduled Track: "+ScheduledTrack);
