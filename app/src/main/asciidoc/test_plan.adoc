@@ -104,10 +104,16 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |U-Data-TimetableController-3|forwardTelegram|Telegram verwerten|gesamte Telegramstruktur|ModificationTelegram|Fahrplanänderungen
 |*[U-XML-railml2data]*|||||
 |U-XML-railml2data-1|loadML|Geparste Railml-Daten in die eigene Datenstruktur bringen|RailMLParser, Data|ungültiger Pfad|*Fehler*
-|U-XML-railml2data-2|loadML|Geparste Railml-Daten in die eigene Datenstruktur bringen|RailMLParser, Data|gültiger Pfad+Datei|Übernahme in die eigene Datenstruktur
 |*[U-XML-RailMLParser]*|||||
 |U-XML-railml2data-1|ParseRailML|RailML parsen|RailML-Schemaklassen|ungültiger Pfad|*Fehler*
 |U-XML-railml2data-2|ParseRailML|RailML parsen|RailML-Schemaklassen|ungültige Datei|*Fehler*
 |U-XML-railml2data-3|ParseRailML|RailML parsen|RailML-Schemaklassen|gültiger Pfad+gültige Datei|RailML-Objekt
+|===
+
+== IntegrationTests
 
 |===
+|*ID*|*Bereich(e)*|*Beteiligte Klassen*|*Anwendungsfall*|*Vorbedingungen*|*Eingabe*|*Ausgabe / zu überprüfende Wirkung*
+
+|I-1|Data, XML|TimetableData, TrainCategory, TrainRoute, Stop, Station,XMLConverter,RailMLParser,railml2data|Parsen+Auswerten einer RailML-Datei|-|Dateipfad|Laden der RailML; Einfügen in die eigene Datenstruktur
+|I-2|Data, XML|TimetableController,TimetableData, TrainCategory, TrainRoute, Stop, Station,XMLConverter,RailMLParser,railml2data|*Fall Offline:* Laden des Offline-Fahrplans|-|Status Offline|Laden der RailML; Einfügen in die eigene Datenstruktur
