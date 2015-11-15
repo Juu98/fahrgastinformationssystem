@@ -72,8 +72,8 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |U-Data-TrainRoute-5 |removeStop| Halt entfernen|-|in stops nicht enthaltener Halt|nichts
 |U-Data-TrainRoute-6 |getLastStop| Endhalt abfragen|-|-|letzter Eintrag von stops
 |U-Data-TrainRoute-7 |getFirstStop| Beginn-Halt abfragen|-|-|erster Eintrag von stops
-|U-Data-Stop-1|(new Stop)|Erzeugen des Stops|Abfahrt, Ankunft, Gleis, Bahnhof (geplant)|korrektes Speichern in den vorgesehenen Variablen
-|U-Data-Stop-2 |set XY| Updaten des Haltes (durch Telegramme verursacht)|neue Zeiten, Gleis, Meldung|korrektes Speichern in den vorgesehenen Variablen|
+|U-Data-Stop-1|(new Stop)|Erzeugen des Stops|-|Abfahrt, Ankunft, Gleis, Bahnhof (geplant)|korrektes Speichern in den vorgesehenen Variablen
+|U-Data-Stop-2 |set XY| Updaten des Haltes (durch Telegramme verursacht)|-|neue Zeiten, Gleis, Meldung|korrektes Speichern in den vorgesehenen Variablen|
 |U-Data-Station-1|addStop|Halt hinzufügen|-|null|Fehler/Warnung
 |U-Data-Station-2|addStop|Halt hinzufügen|-|hinzuzufügender Halt|(neuer Halt muss zur Liste stops hinzugefügt werden)
 |U-Data-Station-3|removeStop|Halt entfernen|-|null / nicht in stops enthaltener Halt|nichts
