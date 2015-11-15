@@ -138,7 +138,6 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |U-TelegramReceiver-TelegramReceiver-1|parseConnection|Telegramme parsen|TelegramReceiver Objekt|CharArrayByteStream mit gültigen Telegrammdaten|Future mit byte[255]
 |U-Telegram-RegistrationTelegram-1|RegistrationTelegram|Am Fahrplanserver anmelden|-|byte ClientID|Objekt RegistrationTelegram
 |U-Telegram-RegistrationTelegram-2|getRawTelegram|Am Fahrplanserver anmelden| RegistrationTelegram Objekt|-|gültiges byte[255] mit Anmeldetelegramm
-||||||
 |===
 
 == IntegrationTests
@@ -148,3 +147,5 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 
 |I-1|Data, XML|TimetableData, TrainCategory, TrainRoute, Stop, Station,XMLConverter,RailMLParser,railml2data|Parsen+Auswerten einer RailML-Datei|-|Dateipfad|Laden der RailML; Einfügen in die eigene Datenstruktur
 |I-2|Data, XML|TimetableController,TimetableData, TrainCategory, TrainRoute, Stop, Station,XMLConverter,RailMLParser,railml2data|*Fall Offline:* Laden des Offline-Fahrplans|-|Status Offline|Laden der RailML; Einfügen in die eigene Datenstruktur
+|I-3|TelegramReceiver, Telegrams|TelegramReceiver, TelegramReceiverConfig, ConnectionStatus, sämtliche Telegram Klassen|Telegramme empfangen und parsen|Telegramm-Testserver läuft, Verbindungsdaten in Konfigurationsdatei, Mock-Version von TimeTableController.forwardTelegram() |TCP-Pakete des Testservers|gültige Telegramme
+||||||
