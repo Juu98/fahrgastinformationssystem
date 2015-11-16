@@ -1,0 +1,151 @@
+= Test-Plan
+
+Dieser Testplan stellt eine vereinfachte Version der IEEE 829-1998 Vorlage dar.
+
+== Einführung
+Dieser Tesplan soll eine Übersicht der zum aktuellen Zeitpunkt geplanten Tests darstellen. Es werden dabei noch keine konkreten Daten benutzt, sondern Fallunterscheidungen getroffen, die nach aktuellem Kenntnisstand eintreten können. Dies soll als Hilfestellung für das spätere Erstellen der einzelnen Tests dienen.
+
+== Aufbau der Testbezeichner
+Die Test-IDs werden nach folgendem Schema benannt:
+
+  * UnitTests:
+    [U] - [Bereich] - [Klasse] - [Methode]
+  
+  * IntegrationTests:
+    [I] - [TestNr]
+
+*Beispiele:* 
+
+* U-Data-TrainRoute-1
+* U-XML-railml2data-1
+* I-1
+
+
+== Test Gegenstände
+
+== Zu testende Funktionalitäten
+* Datenstruktur
+  -> umfasst die Klassen TimetableController, TimetableData, Station, Stop, TrainRoute, TrainCategory
+* Parsen der RailML und Einbringen in die eigene Datenstruktur
+* Teile des FisControllers (z.B. String-Ausgabe)
+* Kommunikation mit dem Fahrplanserver über die Telegramme
+* Konfigurationsmöglichkeiten (bspw. Server-IP)
+
+== Nicht zu testende Funktionalitäten
+*RailML-Schemaklassen und der eigentliche Parser (Ausnahme: Ansprechen des Parsers)
+*GUI (Ausnahme: FisController)
+*sämtliche Spring-Funktionalitäten (bspw. der lokale Webserver)
+
+== Herangehensweise
+
+*Die Klassen werden mit JUnit getestet.
+*Die Integrationstests verlaufen nach Bottom-Up Prinzip, d.h. wenn das Zusammenspiel von einzelnen Subsystemen klappt,
+werden diese zu größeren Modulen zusammengefasst, die als nächstes getestet werden.
+
+== Umgebungsvoraussetzungen
+* Wird spezielle Hardware benötigt?
+  -> Abgesehen von der Anwenderhardware, die die Vorraussetzungen für Java8 erfüllt: nein
+
+* Welche Daten müssen bereitgestellt werden? Wie werden die Daten bereitgestellt?
+  -> RailML-Fahrplan
+  -> Telegramdaten durch einen Telegram-Testserver
+* Wird zusätzliche Software für das Testen benötigt?
+  -> Es wird ein Testserver benötigt, der dem FIS Telegramme senden kann
+* Wie kommuniziert die Software während des Testens? Internet? Netzwerk?
+  -> Die Kommunikation erfolgt während des Testens vorerst nur zwischen dem Testserver und dem FIS, bzw. zwischen FIS und Browser des Anwenders.
+  Während des Testens laufen diese Dinge lokal auf dem gleichen Rechner.
+
+== Testfälle und Verantwortlichkeit
+Jede testbezogene Aufgabe muss einem Ansprechpartner zugeordnet werden.
+
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="headers"]
+== Unit Tests
+Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz der jeweiligen Klasse benötigt wird, weil dies so gut wie immer der Fall ist.
+
+|===
+|*ID* |*Methode* |*Anwendungsfall* |*Vorbedingungen* |*Eingabe* |*Ausgabe / zu überprüfende Wirkung*
+|*[U-Data-TrainRoute]*|||||
+|U-Data-TrainRoute-1 |updateTrainRoute |Zuglauf updaten|-|Neuer Zuglauf|(neuer Zuglauf statt des alten)
+|U-Data-TrainRoute-2 |addStop| Halt hinzufügen|Stop|null|Fehler oder Warnung
+|U-Data-TrainRoute-3 |addStop| Halt hinzufügen|Stop|hinzuzufügender Halt|(neuer Halt muss zur Liste stops hinzugefügt worden sein)
+|U-Data-TrainRoute-4 |removeStop| Halt entfernen|-|in der Liste stops enthaltener Halt|Entfernung des Halts aus stops
+|U-Data-TrainRoute-5 |removeStop| Halt entfernen|-|in stops nicht enthaltener Halt|nichts
+|U-Data-TrainRoute-6 |getLastStop| Endhalt abfragen|-|-|letzter Eintrag von stops
+|U-Data-TrainRoute-7 |getFirstStop| Beginn-Halt abfragen|-|-|erster Eintrag von stops
+|*[U-Data-Stop]*|||||
+|U-Data-Stop-1|(new Stop)|Erzeugen des Stops|-|Abfahrt, Ankunft, Gleis, Bahnhof (geplant)|korrektes Speichern in den vorgesehenen Variablen
+|U-Data-Stop-2 |set XY| Updaten des Haltes (durch Telegramme verursacht)|-|neue Zeiten, Gleis, Meldung|korrektes Speichern in den vorgesehenen Variablen
+|*[U-Data-Station]*|||||
+|U-Data-Station-1|addStop|Halt hinzufügen|-|null|Fehler/Warnung
+|U-Data-Station-2|addStop|Halt hinzufügen|-|hinzuzufügender Halt|(neuer Halt muss zur Liste stops hinzugefügt werden)
+|U-Data-Station-3|removeStop|Halt entfernen|-|null / nicht in stops enthaltener Halt|nichts
+|U-Data-Station-4|removeStop|Halt entfernen|-|zu entfernender Halt|Entfernen des Haltes aus stops
+|*[U-Data-TimetableData]*|||||
+|U-Data-TimetableData-1|getStationByName|Bahnhof mit Namen suchen|-|Name (enthalten)|erster Bahnhof in der Liste mit entspr. Namen
+|U-Data-TimetableData-2|getStationByName|Bahnhof mit Namen suchen|-|Name (nicht enthalten)|null
+|U-Data-TimetableData-3|getStationByCode|Bahnhof mit ID suchen|-|ID (enthalten)|erster Bahnhof in der Liste mit entspr. ID
+|U-Data-TimetableData-4|getStationByCode|Bahnhof mit ID suchen|-|ID (nicht enthalten)|null
+|U-Data-TimetableData-5|getTrainRouteByNumber|Zuglauf mit Nr suchen|-|Nr (enthalten)|erster Zuglauf in der Liste mit entspr. Nr.
+|U-Data-TimetableData-6|getTrainRouteByNumber|Zuglauf mit Nr suchen|-|Nr (nicht enthalten)|null
+|U-Data-TimetableData-7|getTrainRouteByDestination|Nach Endbahnhof filtern|-|Bahnhof|Alle Zugläufe, die im gegebenen Bahnhof enden
+|U-Data-TimetableData-8|addStop|Halt zum Plan hinzufügen|-|null|Fehler/Warnung
+|U-Data-TimetableData-9|addStop|Halt zum Plan hinzufügen|-|Halt|Halt sowohl zu stops hinzufügen, als auch in die Liste stops des entsprechenden Bahnhofs!
+|U-Data-TimetableData-10|addStation|Bahnhof zum Plan hinzufügen|-|null|Fehler/Warnung
+|U-Data-TimetableData-11|addStation|Bahnhof zum Plan hinzufügen|-|Bahnhof|Hinzufügen des Bahnhofs zu stations
+|U-Data-TimetableData-12|addTrainRoute|Zuglauf zum Plan hinzufügen|-|null|Fehler/Warnung
+|U-Data-TimetableData-13|addTrainRoute|Zuglauf zum Plan hinzufügen|-|Zuglauf|Hinzufügen des Zuglaufs zu routes
+|U-Data-TimetableData-14|addCategory|Zugkategorie zum Plan hinzufügen|-|null|Fehler/Warnung
+|U-Data-TimetableData-15|addCategory|Zugkategorie zum Plan hinzufügen|-|Zugkategorie|Hinzufügen zu trainCategories
+|*[U-Data-TimetableController]*|||||
+|U-Data-TimetableController-1|loadTimetable|Timetable laden|Pfad aus Config gelesen, timetable2data funktioniert|-|Geladener Fahrplan
+|U-Data-TimetableController-1|forwardTelegram|Telegram verwerten|gesamte Telegramstruktur|StatusTelegram|Geupdatete Zeit
+|U-Data-TimetableController-2|forwardTelegram|Telegram verwerten|gesamte Telegramstruktur|TrainRouteTelegram|Fahrplan aus Telegram laden
+|U-Data-TimetableController-3|forwardTelegram|Telegram verwerten|gesamte Telegramstruktur|ModificationTelegram|Fahrplanänderungen
+|*[U-XML-railml2data]*|||||
+|U-XML-railml2data-1|loadML|Geparste Railml-Daten in die eigene Datenstruktur bringen|RailMLParser, Data|ungültiger Pfad|*Fehler*
+|*[U-XML-RailMLParser]*|||||
+|U-XML-railml2data-1|ParseRailML|RailML parsen|RailML-Schemaklassen|ungültiger Pfad|*Fehler*
+|U-XML-railml2data-2|ParseRailML|RailML parsen|RailML-Schemaklassen|ungültige Datei|*Fehler*
+|U-XML-railml2data-3|ParseRailML|RailML parsen|RailML-Schemaklassen|gültiger Pfad+gültige Datei|RailML-Objekt
+|*[U-Telegram-Telegram]*|||||
+|U-Telegram-Telegram-1|parseTelegram|Telegramme parsen|-|byte[] mit Typ Bestätigungstelegramm|Objekt ConfirmationTelegram
+|U-Telegram-Telegram-2|parseTelegram|Telegramme parsen|-|byte[] mit Typ Statustelegramm|Objekt StatusTelegram
+|U-Telegram-Telegram-3|parseTelegram|Telegramme parsen|-|byte[] mit Typ Zuglauftelegramm|Objekt TrainRouteTelegram
+|U-Telegram-Telegram-4|parseTelegram|Telegramme parsen|-|byte[] mit Typ Änderungstelegramm Meldung|Objekt MessageModificationTelegram
+|U-Telegram-Telegram-5|parseTelegram|Telegramme parsen|-|byte[] mit Typ Änderungstelegramm Zugstrecke|Objekt TrackModificationTelegram
+|U-Telegram-Telegram-6|parseTelegram|Telegramme parsen|-|byte[] mit Typ Änderungstelegramm Ankunft|Objekt ArrivalModificationTelegram
+|U-Telegram-Telegram-7|parseTelegram|Telegramme parsen|-|byte[] mit Typ Änderungstelegramm Abfahrt|Objekt DepartureModificationTelegram
+|U-Telegram-Telegram-8|parseTelegram|Telegramme parsen|-|byte[] mit ungültigem Typ|Fehler "ungültiger Telegrammtyp"
+|U-Telegram-TrainRouteTelegram-1|TrainRouteTelegram|Telegramme parsen|-|gültiges TrainRoute Objekt|Objekt TrainRouteTelegram
+|U-Telegram-TrainRouteTelegram-2|TrainRouteTelegram|Telegramme parsen|-|null|InvalidArgumentException
+|U-Telegram-StatusTelegram-1|StatusTelegram|Telegramme parsen|-|gültiges Time Objekt|Objekt StatusTelegram
+|U-Telegram-StatusTelegram-2|StatusTelegram|Telegramme parsen|-|null|InvalidArgumentException
+|U-Telegram-ConfirmationTelegram-1|ConfirmationTelegram|Telegramme parsen|-|gültiges Time Objekt|Objekt ConfirmationTelegram
+|U-Telegram-ConfirmationTelegram|ConfirmationTelegram|Telegramme parsen|-|null|InvalidArgumentException
+|U-Telegram-MessageModificationTelegram-1|MessageModificationTelegram|Telegramme parsen|-|gültiges stop Objekt, int platform > 0|Objekt MessageModificationTelegram
+|U-Telegram-MessageModificationTelegram-2|MessageModificationTelegram|Telegramme parsen|-|gültiges stop Objekt, int platform <= 0|InvalidArgumentException
+|U-Telegram-MessageModificationTelegram-3|MessageModificationTelegram|Telegramme parsen|-|stop null|InvalidArgumentException
+|U-Telegram-TrackModificationTelegram-1|TrackModificationTelegram|Telegramme parsen|-|gültiges stop Objekt, int platform > 0|Objekt TrackModificationTelegram
+|U-Telegram-TrackModificationTelegram-2|TrackModificationTelegram|Telegramme parsen|-|gültiges stop Objekt, int platform <= 0|InvalidArgumentException
+|U-Telegram-TrackModificationTelegram-3|TrackModificationTelegram|Telegramme parsen|-|stop null|InvalidArgumentException
+|U-Telegram-ArrivalModificationTelegram-1|ArrivalModificationTelegram|Telegramme parsen|-|gültiges Time Objekt, gültiges Stop Objekt|Objekt ArrivalModificationTelegram
+|U-Telegram-ArrivalModificationTelegram-2|ArrivalModificationTelegram|Telegramme parsen|-|Time null, gültiges Stop Objekt |InvalidArgumentException
+|U-Telegram-ArrivalModificationTelegram-3|ArrivalModificationTelegram|Telegramme parsen|-|Stop null, gültiges Time Objekt |InvalidArgumentException
+|U-Telegram-DepartureModificationTelegram-1|DepartureModificationTelegram|Telegramme parsen|-|gültiges Time Objekt, gültiges Stop Objekt|Objekt DepartureModificationTelegram
+|U-Telegram-DepartureModificationTelegram-2|DepartureModificationTelegram|Telegramme parsen|-|Time null, gültiges Stop Objekt |InvalidArgumentException
+|U-Telegram-DepartureModificationTelegram-3|DepartureModificationTelegram|Telegramme parsen|-|Stop null, gültiges Time Objekt |InvalidArgumentException
+|U-TelegramReceiver-TelegramReceiver-1|parseConnection|Telegramme parsen|TelegramReceiver Objekt|CharArrayByteStream mit gültigen Telegrammdaten|Future mit byte[255]
+|U-Telegram-RegistrationTelegram-1|RegistrationTelegram|Am Fahrplanserver anmelden|-|byte ClientID|Objekt RegistrationTelegram
+|U-Telegram-RegistrationTelegram-2|getRawTelegram|Am Fahrplanserver anmelden| RegistrationTelegram Objekt|-|gültiges byte[255] mit Anmeldetelegramm
+|===
+
+== IntegrationTests
+
+|===
+|*ID*|*Bereich(e)*|*Beteiligte Klassen*|*Anwendungsfall*|*Vorbedingungen*|*Eingabe*|*Ausgabe / zu überprüfende Wirkung*
+
+|I-1|Data, XML|TimetableData, TrainCategory, TrainRoute, Stop, Station,XMLConverter,RailMLParser,railml2data|Parsen+Auswerten einer RailML-Datei|-|Dateipfad|Laden der RailML; Einfügen in die eigene Datenstruktur
+|I-2|Data, XML|TimetableController,TimetableData, TrainCategory, TrainRoute, Stop, Station,XMLConverter,RailMLParser,railml2data|*Fall Offline:* Laden des Offline-Fahrplans|-|Status Offline|Laden der RailML; Einfügen in die eigene Datenstruktur
+|I-3|TelegramReceiver, Telegrams|TelegramReceiver, TelegramReceiverConfig, ConnectionStatus, sämtliche Telegram Klassen|Telegramme empfangen und parsen|Telegramm-Testserver läuft, Verbindungsdaten in Konfigurationsdatei, Mock-Version von TimeTableController.forwardTelegram() |TCP-Pakete des Testservers|gültige Telegramme
+||||||

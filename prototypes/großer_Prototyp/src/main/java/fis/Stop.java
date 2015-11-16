@@ -36,15 +36,15 @@ public class Stop {
 		this.stopType=newStopType;
 	}
 	
-	public void updateAnkunft(LocalTime ActualArrival){
+	public void updateArrival(LocalTime ActualArrival){
 		this.ActualArrival=ActualArrival;
 	}
 	
-	public void updateAbfahrt(LocalTime ActualDeparture){
+	public void updateDeparture(LocalTime ActualDeparture){
 		this.ActualDeparture=ActualDeparture;
 	}
 	
-	public void updateGleis(String ActualTrack){
+	public void updateTrack(String ActualTrack){
 		this.ActualTrack=ActualTrack;
 	}
 	
