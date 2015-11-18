@@ -37,10 +37,10 @@ Im Rahmen des Softwarepraktikums soll eine webbasierte Ankunfts- und Abfahrtsanz
 	** Abfahrtszeit (planmäßig und Verpätung)
 	** aktuelle Meldungen
 * mehrere Tabs möglich
-* muss auf Hard- und Software des Kunden laufen: SLES 11, Apache 2.2, Java freie Entscheidung
+* muss auf Hard- und Software des Kunden laufen (siehe Randbedingungen)
 
 * Interaktiver Wechsel zwischen Bahnhofs- und Zuglaufdarstellung durch Klick auf das jeweilige Objekt
-* Verbindung zum Fahrplanserver muss konfigurierbar sein (IP, Port, ClientID)
+* Verbindung zum Fahrplanserver muss konfigurierbar sein (Hostname, Port, ClientID)
 * Zuordnung von Betriebsstelle und Kürzel über Textdatei (Kürzel=Voller Name)
 
 ==== Kann-Kriterien
@@ -101,11 +101,11 @@ image::Use_Case_Diagram__Anwendungsfalldiagramm.png[Anwendungsfalldiagramm, 100%
 | Ergebnisse filtern | | 
 |=========================================
 
-Der Nutzer hat über einen festen Hostname Zugriff auf das Fahrgastinformationssystemes. Dabei kann er zwischen einer Ankunftstafel, einer Abfahrtstafel und einer Zuglaufsdarstellung wählen. Er hat ebenfalls die Möglichkeit das Ergebniss nach einem bestimmten Zeitramen, Zugtypen oder Zielbahnhof zu filtern. 
+Der Nutzer hat über einen festen Hostnamen Zugriff auf das Fahrgastinformationssystemes. Dabei kann er zwischen einer Ankunftstafel, einer Abfahrtstafel und einer Zuglaufsdarstellung wählen. Er hat ebenfalls die Möglichkeit das Ergebniss nach einem bestimmten Zeitramen, Zugtypen oder Zielbahnhof zu filtern. 
 
 Der Fahrplan-Server ist für die Bereitstellung aktueller Daten verantwortlich. So liefert dieser beispielsweise Telegramme mit Zugläufen oder die aktuelle Laborzeit. 
 
-Der Administrator hat die Möglichkeit den Hostname, den Port, die Client ID mit der sich das Fahrgastinformationssystemes am Fahrplan-Server anmeldet, den Timeout (TimeOutTillReconnect), der bestimmt, wann die Applikation nach einem Verbindungsabbruch einen Wiederverbindungsversuch startet, und den Timeout (TimeOutTill), der bestimmt nach welcher Zeit die Applikaiton in den Offline-Modus geht, einzustellen. Damit diese Änderungen in Kraft treten, muss das Fahrgast-Informationssystem neu gestartet werden. 
+Der Administrator hat die Möglichkeit den Hostname, den Port, die Client ID (mit der sich das Fahrgastinformationssystemes am Fahrplan-Server anmeldet), den Timeout (TimeOutTillReconnect), der bestimmt, wann die Applikation nach einem Verbindungsabbruch einen Wiederverbindungsversuch startet, und den Timeout (TimeOut), der bestimmt nach welcher Zeit die Applikaiton in den Offline-Modus geht, einzustellen. Damit diese Änderungen in Kraft treten, muss das Fahrgast-Informationssystem neu gestartet werden. 
 
 == Lösungsstrategie
 
@@ -123,7 +123,7 @@ image::Class_Diagram__Entwurfsklassendiagramm.jpg[Entwurfsklassendiagrammm, 100%
 
 ===  Architektur
 
-Das Fahrgastinformationssystem wurde mithilfe des Spring-Frameworks in Java 8 implementiert. 
+Das Fahrgastinformationssystem ist mithilfe des Spring-Frameworks in Java 8 implementiert. 
 Grundlegend ist es in Telegrammteil (Telegram), einen Telegrammempfängerteil (TelegramReceiver), einen XML-Teil (XML), einen GUI-Teil (GUI) und einen Fahrplanteil (Timetable) (mit einem gekapselten Datenteil (TimetableData)) unterteilt. 
 
 Der Telegrammteil beinhaltet alle erstellbaren Telegramme, welche durch die parseTelegram()-Funktion in der Telegram-Klasse erstellt werden. Der Telegrammenpfänger kümmert sich um die Interatkion mit dem Fahrplan-Server und gibt dem Telegrammteil gegebenfalls den Auftrag und die Daten zum Erstellen eines Telegrammes, welches dann an den Fahrplan weitergegeben wird. Dort wird das Telegramm aufgelöst und die Änderung wird an dem entsprechenden Objekten in den Fahplandaten vorgenommen. Eine Ausnahme davon ist die aktuelle Laborzeit (time in der TimetableData-Klasse), welche sofort vom Telegrammempfänger gesetzt wird. Dies dadurch möglich, dass die aktuelle Laborzeit mit der "@Autowired"-Annotation versehen wurde. 
@@ -142,7 +142,7 @@ Auf das Singleton-Pattern wurde bei diesem Entwurf bewusst verzichtet, da sich d
 
 === Persistenz
 
-Die für das Anzeigen der Fahrpläne benötigten Daten werden bovorzugt von dem Fahrplan-Server bezogen und nur bei Verbindungsproblemen aus einer lokal gespeicherten XML-Datei geladen. 
+Die für das Anzeigen der Fahrpläne benötigten Daten werden bevorzugt von dem Fahrplan-Server bezogen und nur bei Verbindungsproblemen aus einer lokal gespeicherten XML-Datei geladen. 
 Weiterhin wird eine Konfigurationsdatei lokal gespeichert in der Hostname, Port, die Zeit bis zur Wiederverbindung (TimeOutTillReconnect) und die Zeit bis zum Verbindungsabbruch (TimeOut) gespeichert wird. 
 
 === Benutzeroberfläche
