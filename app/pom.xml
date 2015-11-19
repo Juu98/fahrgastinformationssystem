@@ -18,11 +18,6 @@
 	</properties>
 
     <dependencies>
-		<dependency>
-            <groupId>de.tudresden.inf.st</groupId>
-            <artifactId>salespoint-framework</artifactId>
-            <version>6.2.0.RC1</version>
-        </dependency>
 
         <!-- Web -->
 
