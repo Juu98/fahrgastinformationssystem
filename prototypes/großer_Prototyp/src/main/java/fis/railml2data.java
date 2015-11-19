@@ -124,7 +124,9 @@ public class railml2data {
 				int trainNumber=Integer.parseInt(trainPart.getTrainNumber());
 				
 				//evtl. gehen die Categories eleganter, dasselbe gilt für die Ocp's weiter oben
-				data.addTrainRoute(new TrainRoute(trainPart.getId(),trainNumber,data.getTrainCategoryById(((ECategory)trainPart.getCategoryRef()).getId()),stops));
+				if(stops.size()>0){
+					data.addTrainRoute(new TrainRoute(trainPart.getId(),trainNumber,data.getTrainCategoryById(((ECategory)trainPart.getCategoryRef()).getId()),stops));
+				}
 			}
 		}
 		catch(Exception ex){
