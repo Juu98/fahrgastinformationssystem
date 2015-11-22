@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id$ -->
+<xs:schema xmlns:rail="http://www.railml.org/schemas/2009"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+    targetNamespace="http://www.railml.org/schemas/2009"
+	elementFormDefault="qualified" version="2.0">
+
+    <xs:annotation>
+        <xs:documentation>
+        Copyright (c) railML.org; All Rights Reserved. 
+
+        This work is licensed under a Creative Commons Attribution 2.0 License. 
+        http://creativecommons.org/licenses/by/2.0/
+
+        For further information see: http://www.railml.org/
+
+        Content of this file: 
+        XML Schema for railML(R) 2.0 
+        Definition of root element "railml", refers to elements of all 
+        sub schemas from "xs:include" paths
+        </xs:documentation>
+    </xs:annotation>
+
+	<xs:include schemaLocation="infrastructure.xsd" />
+	<xs:include schemaLocation="rollingstock.xsd" />
+	<xs:include schemaLocation="timetable.xsd" />
+
+    <xs:import namespace="http://purl.org/dc/elements/1.1/"
+        schemaLocation="http://dublincore.org/schemas/xmls/qdc/2008/02/11/dc.xsd">
+        <xs:annotation>
+            <xs:documentation>
+            Portions of this software may use XML schemas 
+            Copyright (c) 2009 DCMI, the Dublin Core Metadata Initiative.
+            These are licensed under the Creative Commons 3.0 Attribution license.
+            
+            For further information see:  http://dublincore.org/
+            License link: http://creativecommons.org/licenses/by/3.0/
+            </xs:documentation>
+        </xs:annotation>
+    </xs:import>
+
+	<!---->
+	<!-- railml                                                                  -->
+    <!--   +- metadata                                                           -->
+	<!--   +- infrastructure                                                     -->
+	<!--   +- infrastructureVisualizations                                       -->
+	<!--   +- rollingstock                                                       -->
+	<!--   +- timetable                                                          -->
+	<!---->
+
+	<xs:element name="railml">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="metadata" type="dc:elementContainer"
+                    minOccurs="0" />
+                <xs:element ref="rail:infrastructure" minOccurs="0" />
+                <xs:element ref="rail:infrastructureVisualizations"
+                    minOccurs="0" />
+				<xs:element ref="rail:rollingstock" minOccurs="0" />
+				<xs:element ref="rail:timetable" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute name="version" type="rail:tRailMLVersion" />
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

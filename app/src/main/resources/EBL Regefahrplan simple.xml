@@ -1,0 +1,2013 @@
+﻿<?xml version='1.0' encoding='UTF-8' ?>
+<railml version='2.0' xmlns='http://www.railml.org/schemas/2009' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.railml.org/schemas/2009 http://www.railml.org/schemas/2009/railML-2.0/railML.xsd'>
+  <!--Users of this file must accept and respect www.railml.org, Licence terms-->
+  <metadata>
+    <dc:format>2.0.0</dc:format>
+    <dc:identifier>4</dc:identifier>
+    <dc:language>1252  (ANSI - Lateinisch I)</dc:language>
+    <dc:source>iPLAN.exe V1.4.1.789 NtzIntf_RailML2.dll V2.2.4.59</dc:source>
+    <!--created with FBS (www.irfp.de) iPLAN.exe V1.4.1.789 NtzIntf_RailML2.dll V2.2.4.59-->
+    <dc:source>EBL Regefahrplan.ntz</dc:source>
+    <dc:date>2015-11-04T12:21:50</dc:date>
+    <dc:creator>TU Dresden, IEL</dc:creator>
+  </metadata>
+  <infrastructure id='infra_EBL_Regefahrplan'>
+    <metadata>
+      <dc:source>&lt;NTZ&gt;\EBL_2015-1.bsv</dc:source>
+    </metadata>
+    <operationControlPoints>
+      <ocp id='ocp_IZ' abbrevation='IZ' name='Zellwald'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService passenger='true' goodsMarshalling='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='true' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_ISW' abbrevation='ISW' name='Schwarzburg'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='true' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IZ_E-L' abbrevation='IZ E-L' name='Zellwald Esig L'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IZO' abbrevation='IZO' name='Zellwald Ort'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_ID_E-L' abbrevation='ID E-L' name='Dornbach Esig L'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_ID' abbrevation='ID' name='Dornbach'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='true' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_ID_E-A' abbrevation='ID E-A' name='Dornbach Esig A'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_ID_SW' abbrevation='ID SW' name='Dornbach Awanst Sägewerk'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService goodsSiding='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IGT_B' abbrevation='IGT B' name='Grüntal BkSig'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IGT' abbrevation='IGT' name='Grüntal Abzweig'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='true' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+        <propOther>
+          <additionalName value='Grüntal' type='operationalName'/>
+        </propOther>
+      </ocp>
+      <ocp id='ocp_IGT2' abbrevation='IGT2' name='Grüntal Hp Gl2'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+        <propOther>
+          <additionalName value='Grüntal Hp Gleis 2' type='operationalName'/>
+        </propOther>
+      </ocp>
+      <ocp id='ocp_ICD1' abbrevation='ICD1' name='Crottendorf Hp Gl1'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+        <propOther>
+          <additionalName value='Crottendorf Hp Gleis 1' type='operationalName'/>
+        </propOther>
+      </ocp>
+      <ocp id='ocp_ICD' abbrevation='ICD' name='Crottendorf Abzweig'>
+        <propOperational operationalType='junction' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+        <propOther>
+          <additionalName value='Crottendorf' type='operationalName'/>
+        </propOther>
+      </ocp>
+      <ocp id='ocp_ISW_E-C' abbrevation='ISW E-C' name='Schwarzburg Esig C'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IE' abbrevation='IE' name='Eisenberg'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IT' abbrevation='IT' name='Talheim'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IZ_E-A' abbrevation='IZ E-A' name='Zellwald Esig A'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IZ_E-K' abbrevation='IZ E-K' name='Zellwald Esig K'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IPMH' abbrevation='IPMH' name='Papiermühle Hp'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_A61' abbrevation='A61' name='BSig 61'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IPM' abbrevation='IPM' name='Papiermühle Bk'>
+        <propOperational operationalType='blockPost' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+        <propOther>
+          <additionalName value='Papiermühle' type='operationalName'/>
+        </propOther>
+      </ocp>
+      <ocp id='ocp_A72' abbrevation='A72' name='BSig 72'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_A81' abbrevation='A81' name='BSig 81'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IKLB' abbrevation='IKLB' name='Klausenburg'>
+        <propOperational operationalType='blockPost' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_A92' abbrevation='A92' name='BSig 92'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IA_E101' abbrevation='IA E101' name='Adorf Esig 101'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IA' abbrevation='IA' name='Adorf'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService passenger='true' goodsMarshalling='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='true' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IA_E132' abbrevation='IA E132' name='Adorf Esig 132'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_A101' abbrevation='A101' name='BSig 101'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_A112' abbrevation='A112' name='BSig 112'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IW_E-C' abbrevation='IW E-C' name='Waldhof Esig C'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IW' abbrevation='IW' name='Waldhof'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService passenger='true' service='true' goodsLoading='true' goodsIntermodal='true' goodsMarshalling='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='true' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IW_E-H' abbrevation='IW E-H' name='Waldhof Esig H'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DSEN' abbrevation='DSEN' name='Seitschen'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IS' abbrevation='IS' name='Strassburg'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DDT' abbrevation='DDT' name='Demitz-Thumitz'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DBW' abbrevation='DBW' name='Bischofswerda'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService passenger='true' service='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='true' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+        <propOther>
+          <additionalName value='Schiebock' type='trafficName'/>
+        </propOther>
+      </ocp>
+      <ocp id='ocp_DWEI' abbrevation='DWEI' name='Weickersdorf (Sachsen)'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_B923' abbrevation='B923' name='BSig 923'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_B926' abbrevation='B926' name='BSig 926'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DGRT' abbrevation='DGRT' name='Großharthau'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DAF' abbrevation='DAF' name='Arnsdorf (bei Dresden)'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService passenger='true' service='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='true' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DRAG' abbrevation='DRAG' name='Radeberg'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService passenger='true' service='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='true' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_B902' abbrevation='B902' name='BSig 902'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DLAB' abbrevation='DLAB' name='Langebrück (Sachsen)'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_B903' abbrevation='B903' name='BSig 903'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DKTB' abbrevation='DKTB' name='Dresden-Klotzsche Bbf'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DKT' abbrevation='DKT' name='Dresden-Klotzsche'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService passenger='true' service='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='true' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+        <propOther>
+          <additionalName value='Klotzsche' type='operationalName'/>
+        </propOther>
+      </ocp>
+      <ocp id='ocp_B911' abbrevation='B911' name='BSig 911'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_B912' abbrevation='B912' name='BSig 912'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_B913' abbrevation='B913' name='BSig 913'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_B914' abbrevation='B914' name='BSig 914'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_INI' abbrevation='INI' name='Neustadt Industriegelände'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_B915' abbrevation='B915' name='BSig 915'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_BEST' abbrevation='BEST' name='Schnittstelle IEL/BEST'>
+        <propOperational operationalType='crossover' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_B916' abbrevation='B916' name='BSig 916'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_N110' abbrevation='N110' name='BSig 110'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_N109' abbrevation='N109' name='BSig 109'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_N108' abbrevation='N108' name='BSig 108'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_N107' abbrevation='N107' name='Bsig 107'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_N106' abbrevation='N106' name='BSig 106'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_N105' abbrevation='N105' name='BSig 105'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_N104' abbrevation='N104' name='BSig 104'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_N103' abbrevation='N103' name='BSig 103'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_N102' abbrevation='N102' name='BSig 102'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_N101' abbrevation='N101' name='BSig 101'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IN_E-F' abbrevation='IN E-F' name='Neustadt Esig F'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IN' abbrevation='IN' name='Neustadt'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService passenger='true' goodsLoading='true' goodsIntermodal='true' goodsMarshalling='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='true' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IN_E-A' abbrevation='IN E-A' name='Neustadt Esig A'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_N902' abbrevation='N902' name='BSig 902'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_N901' abbrevation='N901' name='BSig 901'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IWW' abbrevation='IWW' name='Waldhof West'>
+        <propOperational operationalType='crossover' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+        <propOther>
+          <additionalName value='Waldhof West Üst.' type='operationalName'/>
+        </propOther>
+      </ocp>
+      <ocp id='ocp_NL25' abbrevation='NL25' name='LZB 25+26'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_NL23' abbrevation='NL23' name='LZB 23+24'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_NL21' abbrevation='NL21' name='LZB 21+22'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_NL19' abbrevation='NL19' name='LZB 19+20'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_NL17' abbrevation='NL17' name='LZB 17+18'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_NL15' abbrevation='NL15' name='LZB 15+16'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_NL13' abbrevation='NL13' name='LZB 13+14'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_NL11' abbrevation='NL11' name='LZB 11+12'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_NL09' abbrevation='NL09' name='LZB 09+10'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_NL07' abbrevation='NL07' name='LZB 07+08'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_NL05' abbrevation='NL05' name='LZB 05+06'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_NL03' abbrevation='NL03' name='LZB 03+04'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IW_E-A' abbrevation='IW E-A' name='Waldhof Esig A'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IW_E-F' abbrevation='IW E-F' name='Waldhof Esig F'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_N512' abbrevation='N512' name='BSig 512'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_NL01' abbrevation='NL01' name='LZB 01'>
+        <propOperational operationalType='blockPost' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_NL02' abbrevation='NL02' name='LZB 02'>
+        <propOperational operationalType='blockPost' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_N411' abbrevation='N411' name='BSig 411'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IA_E134' abbrevation='IA E134' name='Adorf Esig 134'>
+        <propOperational operationalType='blockSignal' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IFB' abbrevation='IFB' name='Feldberg'>
+        <propOperational operationalType='blockPost' orderChangeable='false' ensuresTrainSequence='true'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_IGT1' abbrevation='IGT1' name='Grüntal HP Gl1'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+        <propOther>
+          <additionalName value='Grüntal Hp Gleis 1' type='operationalName'/>
+        </propOther>
+      </ocp>
+      <ocp id='ocp_IM' abbrevation='IM' name='Moorhof Süd'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_ICD2' abbrevation='ICD2' name='Crottendorf Unter Bhf HP2'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+        <propOther>
+          <additionalName value='Crottendorf Hp Gleis 2' type='operationalName'/>
+        </propOther>
+      </ocp>
+      <ocp id='ocp_IMN' abbrevation='IMN' name='Moorhof Nord'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DKTF' abbrevation='DKTF' name='Dresden Flughafen'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='true' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+        <propOther>
+          <additionalName value='Klotzsche Flughafen' type='operationalName'/>
+          <additionalName value='Dresden-Flughafen' type='trafficName'/>
+        </propOther>
+      </ocp>
+      <ocp id='ocp_DGRSK' abbrevation='DGRSK' name='Dresden Grenzstraße Weiche'>
+        <propOperational operationalType='crossover' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DGRS' abbrevation='DGRS' name='Dresden Grenzstraße'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DOS' abbrevation='DOS' name='Ottendorf-Okrilla Süd'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='true' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DWXB' abbrevation='DWXB' name='Weixdorf Bad'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DWX' abbrevation='DWX' name='Weixdorf'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DHS' abbrevation='DHS' name='Hermsdorf (bei Dresden)'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DGRF' abbrevation='DGRF' name='Großröhrsdorf'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='true' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DKRD' abbrevation='DKRD' name='Kleinröhrsdorf'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DRR' abbrevation='DRR' name='Dürrröhrsdorf'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='true' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DDI' abbrevation='DDI' name='Dittersbach (bei Dürrröhrsdorf)'>
+        <propOperational orderChangeable='false' ensuresTrainSequence='false'/>
+        <propService passenger='true'/>
+        <propEquipment>
+          <summary hasHomeSignals='false' hasStarterSignals='false' hasSwitches='false'/>
+        </propEquipment>
+      </ocp>
+      <ocp id='ocp_DNKW' abbrevation='DNKW' name='Neukirch West'>
+        <propOperational operationalType='station' orderChangeable='true' ensuresTrainSequence='true'/>
+        <propService/>
+        <propEquipment>
+          <summary hasHomeSignals='true' hasStarterSignals='true' hasSwitches='true'/>
+        </propEquipment>
+        <propOther>
+          <additionalName value='Neukirch (Lausitz) West' type='operationalName'/>
+        </propOther>
+      </ocp>
+    </operationControlPoints>
+  </infrastructure>
+
+  <timetable infrastructureRef='infra_EBL_Regefahrplan' rollingstockRef='rs_EBL_Regefahrplan' id='tt_EBL_Regefahrplan' name='EBL Regefahrplan' description=''>
+    <operatingPeriods>
+      <operatingPeriod id='opp_0' name='täglich' description='verkehrt täglich, auch an Feiertagen'>
+        <operatingDay operatingCode='1111111'/>
+      </operatingPeriod>
+    </operatingPeriods>
+    <categories>
+      <category id='cat_RB' name='RB' description='RegionalBahn' trainUsage='passenger'/>
+    </categories>
+    <trainParts>
+      <trainPart id='tp_25001' name='25001' trainNumber='25001' processStatus='planned' categoryRef='cat_RB'>
+        <formationTT formationRef='fmt_0' weight='84.000' length='46' speed='120'>
+          <passengerUsage>
+            <places category='class1' count='16'/>
+            <places category='class2' count='130'/>
+          </passengerUsage>
+        </formationTT>
+        <operatingPeriodRef ref='opp_0'/>
+        <ocpsTT>
+          <ocpTT ocpRef='ocp_IE' ocpType='begin'>
+            <times scope='scheduled' departure='08:33:18'/>
+            <sectionTT section='IE-IZ E-A' lineRef='ln_21' trackInfo='1' percentageSupplement='3' distance='6.237'>
+              <trackRef ref='tr_21_1'/>
+              <runTimes minimalTime='PT3M47S' operationalReserve='PT7S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'/>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ_E-A' ocpType='pass'>
+            <times scope='scheduled' departure='08:37:11'/>
+            <sectionTT section='IZ E-A-IZ' lineRef='ln_21' trackInfo='1' percentageSupplement='3' distance='0.825'>
+              <trackRef ref='tr_21_1'/>
+              <runTimes minimalTime='PT1M5S' operationalReserve='PT2S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ' trackInfo='5' ocpType='stop'>
+            <times scope='scheduled' arrival='08:38:18' departure='08:40:48'/>
+            <sectionTT section='IZ-IZ E-L' lineRef='ln_31' percentageSupplement='3' distance='0.825'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT49S' operationalReserve='PT2S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ_E-L' ocpType='pass'>
+            <times scope='scheduled' departure='08:41:39'/>
+            <sectionTT section='IZ E-L-IZO' lineRef='ln_31' percentageSupplement='3' distance='6.348'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT3M53S' operationalReserve='PT7S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZO' ocpType='stop'>
+            <times scope='scheduled' arrival='08:45:39' departure='08:46:09'/>
+            <sectionTT section='IZO-ID E-L' lineRef='ln_31' percentageSupplement='3' distance='3.606'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M28S' operationalReserve='PT4S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_E-L' ocpType='pass'>
+            <times scope='scheduled' departure='08:48:42'/>
+            <sectionTT section='ID E-L-ID' lineRef='ln_31' percentageSupplement='3' distance='0.554'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT43S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID' trackInfo='1' ocpType='stop'>
+            <times scope='scheduled' arrival='08:49:26' departure='08:51:18'/>
+            <sectionTT section='ID-ID E-A' lineRef='ln_31' percentageSupplement='3' distance='1.040'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT57S' operationalReserve='PT2S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_E-A' ocpType='pass'>
+            <times scope='scheduled' departure='08:52:17'/>
+            <sectionTT section='ID E-A-ID SW' lineRef='ln_31' percentageSupplement='3' distance='1.000'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT36S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_SW' ocpType='pass'>
+            <times scope='scheduled' departure='08:52:54'/>
+            <sectionTT section='ID SW-IGT B' lineRef='ln_31' percentageSupplement='3' distance='5.410'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT3M2S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT_B' ocpType='pass'>
+            <times scope='scheduled' departure='08:56:02'/>
+            <sectionTT section='IGT B-IGT' lineRef='ln_31' percentageSupplement='3' distance='0.206'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT8S' operationalReserve='PT0S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT' ocpType='pass'>
+            <times scope='scheduled' departure='08:56:10'/>
+            <sectionTT section='IGT-IGT2' lineRef='ln_31' percentageSupplement='3' distance='0.379'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT34S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT2' ocpType='stop'>
+            <times scope='scheduled' arrival='08:56:46' departure='08:57:16'/>
+            <sectionTT section='IGT2-ICD1' lineRef='ln_31' percentageSupplement='3' distance='3.145'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M45S' operationalReserve='PT5S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ICD1' ocpType='stop'>
+            <times scope='scheduled' arrival='09:00:06' departure='09:00:36'/>
+            <sectionTT section='ICD1-ICD' lineRef='ln_31' percentageSupplement='3' distance='0.300'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT26S' operationalReserve='PT1S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ICD' ocpType='pass'>
+            <times scope='scheduled' departure='09:01:03'/>
+            <sectionTT section='ICD-ISW E-C' lineRef='ln_31' percentageSupplement='3' distance='4.420'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M48S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ISW_E-C' ocpType='pass'>
+            <times scope='scheduled' departure='09:03:56'/>
+            <sectionTT section='ISW E-C-ISW' lineRef='ln_31' percentageSupplement='3' distance='0.460'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT53S' operationalReserve='PT2S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ISW' trackInfo='2' ocpType='end'>
+            <times scope='scheduled' arrival='09:04:51'/>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+        </ocpsTT>
+      </trainPart>
+      <trainPart id='tp_25002' name='25002' trainNumber='25002' processStatus='planned' categoryRef='cat_RB'>
+        <formationTT formationRef='fmt_0' weight='84.000' length='46' speed='120'>
+          <passengerUsage>
+            <places category='class1' count='16'/>
+            <places category='class2' count='130'/>
+          </passengerUsage>
+        </formationTT>
+        <operatingPeriodRef ref='opp_0'/>
+        <ocpsTT>
+          <ocpTT ocpRef='ocp_ISW' trackInfo='2' ocpType='begin'>
+            <times scope='scheduled' departure='09:25:18'/>
+            <sectionTT section='ISW-ISW E-C' lineRef='ln_31' percentageSupplement='3' distance='0.460'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT43S' operationalReserve='PT1S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ISW_E-C' ocpType='pass'>
+            <times scope='scheduled' departure='09:26:02'/>
+            <sectionTT section='ISW E-C-ICD' lineRef='ln_31' percentageSupplement='3' distance='4.420'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M30S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ICD' ocpType='pass'>
+            <times scope='scheduled' departure='09:28:36'/>
+            <sectionTT section='ICD-ICD1' lineRef='ln_31' percentageSupplement='3' distance='0.300'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT33S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ICD1' ocpType='stop'>
+            <times scope='scheduled' arrival='09:29:11' departure='09:29:41'/>
+            <sectionTT section='ICD1-IGT2' lineRef='ln_31' percentageSupplement='3' distance='3.145'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M34S' operationalReserve='PT5S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT2' ocpType='stop'>
+            <times scope='scheduled' arrival='09:32:19' departure='09:32:49'/>
+            <sectionTT section='IGT2-IGT' lineRef='ln_31' percentageSupplement='3' distance='0.379'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT28S' operationalReserve='PT1S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT' ocpType='pass'>
+            <times scope='scheduled' departure='09:33:18'/>
+            <sectionTT section='IGT-IGT B' lineRef='ln_31' percentageSupplement='3' distance='0.206'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT9S' operationalReserve='PT0S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT_B' ocpType='pass'>
+            <times scope='scheduled' departure='09:33:27'/>
+            <sectionTT section='IGT B-ID SW' lineRef='ln_31' percentageSupplement='3' distance='5.410'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT3M3S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_SW' ocpType='pass'>
+            <times scope='scheduled' departure='09:36:36'/>
+            <sectionTT section='ID SW-ID E-A' lineRef='ln_31' percentageSupplement='3' distance='1.000'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT36S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_E-A' ocpType='pass'>
+            <times scope='scheduled' departure='09:37:13'/>
+            <sectionTT section='ID E-A-ID' lineRef='ln_31' percentageSupplement='3' distance='1.040'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT1M1S' operationalReserve='PT2S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID' trackInfo='1' ocpType='stop'>
+            <times scope='scheduled' arrival='09:38:15' departure='09:39:18'/>
+            <sectionTT section='ID-ID E-L' lineRef='ln_31' percentageSupplement='3' distance='0.554'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT38S' operationalReserve='PT1S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_E-L' ocpType='pass'>
+            <times scope='scheduled' departure='09:39:57'/>
+            <sectionTT section='ID E-L-IZO' lineRef='ln_31' percentageSupplement='3' distance='3.606'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M30S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZO' ocpType='stop'>
+            <times scope='scheduled' arrival='09:42:32' departure='09:43:02'/>
+            <sectionTT section='IZO-IZ E-L' lineRef='ln_31' percentageSupplement='3' distance='6.348'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT3M49S' operationalReserve='PT7S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ_E-L' ocpType='pass'>
+            <times scope='scheduled' departure='09:46:58'/>
+            <sectionTT section='IZ E-L-IZ' lineRef='ln_31' percentageSupplement='3' distance='0.825'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT54S' operationalReserve='PT2S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ' trackInfo='5' ocpType='stop'>
+            <times scope='scheduled' arrival='09:47:53' departure='09:52:18'/>
+            <sectionTT section='IZ-IZ E-A' lineRef='ln_21' trackInfo='1' percentageSupplement='3' distance='0.825'>
+              <trackRef ref='tr_21_2'/>
+              <runTimes minimalTime='PT56S' operationalReserve='PT2S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ_E-A' ocpType='pass'>
+            <times scope='scheduled' departure='09:53:16'/>
+            <sectionTT section='IZ E-A-IE' lineRef='ln_21' trackInfo='1' percentageSupplement='3' distance='6.237'>
+              <trackRef ref='tr_21_2'/>
+              <runTimes minimalTime='PT3M42S' operationalReserve='PT7S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IE' ocpType='end'>
+            <times scope='scheduled' arrival='09:57:05'/>
+            <stopDescription commercial='true' stopOnRequest='false'/>
+          </ocpTT>
+        </ocpsTT>
+      </trainPart>
+      <trainPart id='tp_25003' name='25003' trainNumber='25003' processStatus='planned' categoryRef='cat_RB'>
+        <formationTT formationRef='fmt_0' weight='84.000' length='46' speed='120'>
+          <passengerUsage>
+            <places category='class1' count='16'/>
+            <places category='class2' count='130'/>
+          </passengerUsage>
+        </formationTT>
+        <operatingPeriodRef ref='opp_0'/>
+        <ocpsTT>
+          <ocpTT ocpRef='ocp_IE' ocpType='begin'>
+            <times scope='scheduled' departure='10:33:18'/>
+            <sectionTT section='IE-IZ E-A' lineRef='ln_21' trackInfo='1' percentageSupplement='3' distance='6.237'>
+              <trackRef ref='tr_21_1'/>
+              <runTimes minimalTime='PT3M45S' operationalReserve='PT7S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'/>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ_E-A' ocpType='pass'>
+            <times scope='scheduled' departure='10:37:11'/>
+            <sectionTT section='IZ E-A-IZ' lineRef='ln_21' trackInfo='1' percentageSupplement='3' distance='0.825'>
+              <trackRef ref='tr_21_1'/>
+              <runTimes minimalTime='PT1M5S' operationalReserve='PT2S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ' trackInfo='5' ocpType='stop'>
+            <times scope='scheduled' arrival='10:38:18' departure='10:40:48'/>
+            <sectionTT section='IZ-IZ E-L' lineRef='ln_31' percentageSupplement='3' distance='0.825'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT49S' operationalReserve='PT2S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ_E-L' ocpType='pass'>
+            <times scope='scheduled' departure='10:41:39'/>
+            <sectionTT section='IZ E-L-IZO' lineRef='ln_31' percentageSupplement='3' distance='6.348'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT3M53S' operationalReserve='PT7S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZO' ocpType='stop'>
+            <times scope='scheduled' arrival='10:45:39' departure='10:46:09'/>
+            <sectionTT section='IZO-ID E-L' lineRef='ln_31' percentageSupplement='3' distance='3.606'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M28S' operationalReserve='PT4S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_E-L' ocpType='pass'>
+            <times scope='scheduled' departure='10:48:42'/>
+            <sectionTT section='ID E-L-ID' lineRef='ln_31' percentageSupplement='3' distance='0.554'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT43S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID' trackInfo='1' ocpType='stop'>
+            <times scope='scheduled' arrival='10:49:26' departure='10:51:18'/>
+            <sectionTT section='ID-ID E-A' lineRef='ln_31' percentageSupplement='3' distance='1.040'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT57S' operationalReserve='PT2S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_E-A' ocpType='pass'>
+            <times scope='scheduled' departure='10:52:17'/>
+            <sectionTT section='ID E-A-ID SW' lineRef='ln_31' percentageSupplement='3' distance='1.000'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT36S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_SW' ocpType='pass'>
+            <times scope='scheduled' departure='10:52:54'/>
+            <sectionTT section='ID SW-IGT B' lineRef='ln_31' percentageSupplement='3' distance='5.410'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT3M2S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT_B' ocpType='pass'>
+            <times scope='scheduled' departure='10:56:02'/>
+            <sectionTT section='IGT B-IGT' lineRef='ln_31' percentageSupplement='3' distance='0.206'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT8S' operationalReserve='PT0S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT' ocpType='pass'>
+            <times scope='scheduled' departure='10:56:10'/>
+            <sectionTT section='IGT-IGT2' lineRef='ln_31' percentageSupplement='3' distance='0.379'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT34S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT2' ocpType='stop'>
+            <times scope='scheduled' arrival='10:56:46' departure='10:57:16'/>
+            <sectionTT section='IGT2-ICD1' lineRef='ln_31' percentageSupplement='3' distance='3.145'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M45S' operationalReserve='PT5S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ICD1' ocpType='stop'>
+            <times scope='scheduled' arrival='11:00:06' departure='11:00:36'/>
+            <sectionTT section='ICD1-ICD' lineRef='ln_31' percentageSupplement='3' distance='0.300'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT26S' operationalReserve='PT1S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ICD' ocpType='pass'>
+            <times scope='scheduled' departure='11:01:03'/>
+            <sectionTT section='ICD-ISW E-C' lineRef='ln_31' percentageSupplement='3' distance='4.420'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M48S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ISW_E-C' ocpType='pass'>
+            <times scope='scheduled' departure='11:03:56'/>
+            <sectionTT section='ISW E-C-ISW' lineRef='ln_31' percentageSupplement='3' distance='0.460'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT53S' operationalReserve='PT2S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ISW' trackInfo='2' ocpType='end'>
+            <times scope='scheduled' arrival='11:04:51'/>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+        </ocpsTT>
+      </trainPart>
+      <trainPart id='tp_25004' name='25004' trainNumber='25004' processStatus='planned' categoryRef='cat_RB'>
+        <formationTT formationRef='fmt_0' weight='84.000' length='46' speed='120'>
+          <passengerUsage>
+            <places category='class1' count='16'/>
+            <places category='class2' count='130'/>
+          </passengerUsage>
+        </formationTT>
+        <operatingPeriodRef ref='opp_0'/>
+        <ocpsTT>
+          <ocpTT ocpRef='ocp_ISW' trackInfo='2' ocpType='begin'>
+            <times scope='scheduled' departure='11:25:18'/>
+            <sectionTT section='ISW-ISW E-C' lineRef='ln_31' percentageSupplement='3' distance='0.460'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT43S' operationalReserve='PT1S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ISW_E-C' ocpType='pass'>
+            <times scope='scheduled' departure='11:26:02'/>
+            <sectionTT section='ISW E-C-ICD' lineRef='ln_31' percentageSupplement='3' distance='4.420'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M30S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ICD' ocpType='pass'>
+            <times scope='scheduled' departure='11:28:36'/>
+            <sectionTT section='ICD-ICD1' lineRef='ln_31' percentageSupplement='3' distance='0.300'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT33S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ICD1' ocpType='stop'>
+            <times scope='scheduled' arrival='11:29:11' departure='11:29:41'/>
+            <sectionTT section='ICD1-IGT2' lineRef='ln_31' percentageSupplement='3' distance='3.145'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M34S' operationalReserve='PT5S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT2' ocpType='stop'>
+            <times scope='scheduled' arrival='11:32:19' departure='11:32:49'/>
+            <sectionTT section='IGT2-IGT' lineRef='ln_31' percentageSupplement='3' distance='0.379'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT28S' operationalReserve='PT1S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT' ocpType='pass'>
+            <times scope='scheduled' departure='11:33:18'/>
+            <sectionTT section='IGT-IGT B' lineRef='ln_31' percentageSupplement='3' distance='0.206'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT9S' operationalReserve='PT0S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT_B' ocpType='pass'>
+            <times scope='scheduled' departure='11:33:27'/>
+            <sectionTT section='IGT B-ID SW' lineRef='ln_31' percentageSupplement='3' distance='5.410'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT3M3S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_SW' ocpType='pass'>
+            <times scope='scheduled' departure='11:36:36'/>
+            <sectionTT section='ID SW-ID E-A' lineRef='ln_31' percentageSupplement='3' distance='1.000'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT36S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_E-A' ocpType='pass'>
+            <times scope='scheduled' departure='11:37:13'/>
+            <sectionTT section='ID E-A-ID' lineRef='ln_31' percentageSupplement='3' distance='1.040'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT1M1S' operationalReserve='PT2S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID' trackInfo='1' ocpType='stop'>
+            <times scope='scheduled' arrival='11:38:15' departure='11:39:18'/>
+            <sectionTT section='ID-ID E-L' lineRef='ln_31' percentageSupplement='3' distance='0.554'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT38S' operationalReserve='PT1S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_E-L' ocpType='pass'>
+            <times scope='scheduled' departure='11:39:57'/>
+            <sectionTT section='ID E-L-IZO' lineRef='ln_31' percentageSupplement='3' distance='3.606'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M30S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZO' ocpType='stop'>
+            <times scope='scheduled' arrival='11:42:32' departure='11:43:02'/>
+            <sectionTT section='IZO-IZ E-L' lineRef='ln_31' percentageSupplement='3' distance='6.348'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT3M49S' operationalReserve='PT7S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ_E-L' ocpType='pass'>
+            <times scope='scheduled' departure='11:46:58'/>
+            <sectionTT section='IZ E-L-IZ' lineRef='ln_31' percentageSupplement='3' distance='0.825'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT54S' operationalReserve='PT2S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ' trackInfo='5' ocpType='stop'>
+            <times scope='scheduled' arrival='11:47:53' departure='11:52:18'/>
+            <sectionTT section='IZ-IZ E-A' lineRef='ln_21' trackInfo='1' percentageSupplement='3' distance='0.825'>
+              <trackRef ref='tr_21_2'/>
+              <runTimes minimalTime='PT56S' operationalReserve='PT2S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ_E-A' ocpType='pass'>
+            <times scope='scheduled' departure='11:53:16'/>
+            <sectionTT section='IZ E-A-IE' lineRef='ln_21' trackInfo='1' percentageSupplement='3' distance='6.237'>
+              <trackRef ref='tr_21_2'/>
+              <runTimes minimalTime='PT3M42S' operationalReserve='PT7S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IE' ocpType='end'>
+            <times scope='scheduled' arrival='11:57:05'/>
+            <stopDescription commercial='true' stopOnRequest='false'/>
+          </ocpTT>
+        </ocpsTT>
+      </trainPart>
+      <trainPart id='tp_25005' name='25005' trainNumber='25005' processStatus='planned' categoryRef='cat_RB'>
+        <formationTT formationRef='fmt_0' weight='84.000' length='46' speed='120'>
+          <passengerUsage>
+            <places category='class1' count='16'/>
+            <places category='class2' count='130'/>
+          </passengerUsage>
+        </formationTT>
+        <operatingPeriodRef ref='opp_0'/>
+        <ocpsTT>
+          <ocpTT ocpRef='ocp_IE' ocpType='begin'>
+            <times scope='scheduled' departure='12:33:18'/>
+            <sectionTT section='IE-IZ E-A' lineRef='ln_21' trackInfo='1' percentageSupplement='3' distance='6.237'>
+              <trackRef ref='tr_21_1'/>
+              <runTimes minimalTime='PT3M45S' operationalReserve='PT7S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'/>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ_E-A' ocpType='pass'>
+            <times scope='scheduled' departure='12:37:11'/>
+            <sectionTT section='IZ E-A-IZ' lineRef='ln_21' trackInfo='1' percentageSupplement='3' distance='0.825'>
+              <trackRef ref='tr_21_1'/>
+              <runTimes minimalTime='PT1M5S' operationalReserve='PT2S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ' trackInfo='5' ocpType='stop'>
+            <times scope='scheduled' arrival='12:38:18' departure='12:40:48'/>
+            <sectionTT section='IZ-IZ E-L' lineRef='ln_31' percentageSupplement='3' distance='0.825'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT49S' operationalReserve='PT2S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ_E-L' ocpType='pass'>
+            <times scope='scheduled' departure='12:41:39'/>
+            <sectionTT section='IZ E-L-IZO' lineRef='ln_31' percentageSupplement='3' distance='6.348'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT3M53S' operationalReserve='PT7S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZO' ocpType='stop'>
+            <times scope='scheduled' arrival='12:45:39' departure='12:46:09'/>
+            <sectionTT section='IZO-ID E-L' lineRef='ln_31' percentageSupplement='3' distance='3.606'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M28S' operationalReserve='PT4S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_E-L' ocpType='pass'>
+            <times scope='scheduled' departure='12:48:42'/>
+            <sectionTT section='ID E-L-ID' lineRef='ln_31' percentageSupplement='3' distance='0.554'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT43S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID' trackInfo='1' ocpType='stop'>
+            <times scope='scheduled' arrival='12:49:26' departure='12:51:18'/>
+            <sectionTT section='ID-ID E-A' lineRef='ln_31' percentageSupplement='3' distance='1.040'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT57S' operationalReserve='PT2S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_E-A' ocpType='pass'>
+            <times scope='scheduled' departure='12:52:17'/>
+            <sectionTT section='ID E-A-ID SW' lineRef='ln_31' percentageSupplement='3' distance='1.000'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT36S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_SW' ocpType='pass'>
+            <times scope='scheduled' departure='12:52:54'/>
+            <sectionTT section='ID SW-IGT B' lineRef='ln_31' percentageSupplement='3' distance='5.410'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT3M2S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT_B' ocpType='pass'>
+            <times scope='scheduled' departure='12:56:02'/>
+            <sectionTT section='IGT B-IGT' lineRef='ln_31' percentageSupplement='3' distance='0.206'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT8S' operationalReserve='PT0S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT' ocpType='pass'>
+            <times scope='scheduled' departure='12:56:10'/>
+            <sectionTT section='IGT-IGT2' lineRef='ln_31' percentageSupplement='3' distance='0.379'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT34S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT2' ocpType='stop'>
+            <times scope='scheduled' arrival='12:56:46' departure='12:57:16'/>
+            <sectionTT section='IGT2-ICD1' lineRef='ln_31' percentageSupplement='3' distance='3.145'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M45S' operationalReserve='PT5S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ICD1' ocpType='stop'>
+            <times scope='scheduled' arrival='13:00:06' departure='13:00:36'/>
+            <sectionTT section='ICD1-ICD' lineRef='ln_31' percentageSupplement='3' distance='0.300'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT26S' operationalReserve='PT1S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ICD' ocpType='pass'>
+            <times scope='scheduled' departure='13:01:03'/>
+            <sectionTT section='ICD-ISW E-C' lineRef='ln_31' percentageSupplement='3' distance='4.420'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M48S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ISW_E-C' ocpType='pass'>
+            <times scope='scheduled' departure='13:03:56'/>
+            <sectionTT section='ISW E-C-ISW' lineRef='ln_31' percentageSupplement='3' distance='0.460'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT53S' operationalReserve='PT2S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ISW' trackInfo='2' ocpType='end'>
+            <times scope='scheduled' arrival='13:04:51'/>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+        </ocpsTT>
+      </trainPart>
+      <trainPart id='tp_25006' name='25006' trainNumber='25006' processStatus='planned' categoryRef='cat_RB'>
+        <formationTT formationRef='fmt_0' weight='84.000' length='46' speed='120'>
+          <passengerUsage>
+            <places category='class1' count='16'/>
+            <places category='class2' count='130'/>
+          </passengerUsage>
+        </formationTT>
+        <operatingPeriodRef ref='opp_0'/>
+        <ocpsTT>
+          <ocpTT ocpRef='ocp_ISW' trackInfo='2' ocpType='begin'>
+            <times scope='scheduled' departure='13:25:18'/>
+            <sectionTT section='ISW-ISW E-C' lineRef='ln_31' percentageSupplement='3' distance='0.460'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT43S' operationalReserve='PT1S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ISW_E-C' ocpType='pass'>
+            <times scope='scheduled' departure='13:26:02'/>
+            <sectionTT section='ISW E-C-ICD' lineRef='ln_31' percentageSupplement='3' distance='4.420'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M30S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ICD' ocpType='pass'>
+            <times scope='scheduled' departure='13:28:36'/>
+            <sectionTT section='ICD-ICD1' lineRef='ln_31' percentageSupplement='3' distance='0.300'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT33S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ICD1' ocpType='stop'>
+            <times scope='scheduled' arrival='13:29:11' departure='13:29:41'/>
+            <sectionTT section='ICD1-IGT2' lineRef='ln_31' percentageSupplement='3' distance='3.145'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M34S' operationalReserve='PT5S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT2' ocpType='stop'>
+            <times scope='scheduled' arrival='13:32:19' departure='13:32:49'/>
+            <sectionTT section='IGT2-IGT' lineRef='ln_31' percentageSupplement='3' distance='0.379'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT28S' operationalReserve='PT1S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT' ocpType='pass'>
+            <times scope='scheduled' departure='13:33:18'/>
+            <sectionTT section='IGT-IGT B' lineRef='ln_31' percentageSupplement='3' distance='0.206'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT9S' operationalReserve='PT0S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT_B' ocpType='pass'>
+            <times scope='scheduled' departure='13:33:27'/>
+            <sectionTT section='IGT B-ID SW' lineRef='ln_31' percentageSupplement='3' distance='5.410'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT3M3S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_SW' ocpType='pass'>
+            <times scope='scheduled' departure='13:36:36'/>
+            <sectionTT section='ID SW-ID E-A' lineRef='ln_31' percentageSupplement='3' distance='1.000'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT36S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_E-A' ocpType='pass'>
+            <times scope='scheduled' departure='13:37:13'/>
+            <sectionTT section='ID E-A-ID' lineRef='ln_31' percentageSupplement='3' distance='1.040'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT1M1S' operationalReserve='PT2S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID' trackInfo='1' ocpType='stop'>
+            <times scope='scheduled' arrival='13:38:15' departure='13:39:18'/>
+            <sectionTT section='ID-ID E-L' lineRef='ln_31' percentageSupplement='3' distance='0.554'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT38S' operationalReserve='PT1S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_E-L' ocpType='pass'>
+            <times scope='scheduled' departure='13:39:57'/>
+            <sectionTT section='ID E-L-IZO' lineRef='ln_31' percentageSupplement='3' distance='3.606'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M30S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZO' ocpType='stop'>
+            <times scope='scheduled' arrival='13:42:32' departure='13:43:02'/>
+            <sectionTT section='IZO-IZ E-L' lineRef='ln_31' percentageSupplement='3' distance='6.348'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT3M49S' operationalReserve='PT7S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ_E-L' ocpType='pass'>
+            <times scope='scheduled' departure='13:46:58'/>
+            <sectionTT section='IZ E-L-IZ' lineRef='ln_31' percentageSupplement='3' distance='0.825'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT54S' operationalReserve='PT2S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ' trackInfo='5' ocpType='stop'>
+            <times scope='scheduled' arrival='13:47:53' departure='13:52:18'/>
+            <sectionTT section='IZ-IZ E-A' lineRef='ln_21' trackInfo='1' percentageSupplement='3' distance='0.825'>
+              <trackRef ref='tr_21_2'/>
+              <runTimes minimalTime='PT56S' operationalReserve='PT2S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ_E-A' ocpType='pass'>
+            <times scope='scheduled' departure='13:53:16'/>
+            <sectionTT section='IZ E-A-IE' lineRef='ln_21' trackInfo='1' percentageSupplement='3' distance='6.237'>
+              <trackRef ref='tr_21_2'/>
+              <runTimes minimalTime='PT3M42S' operationalReserve='PT7S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IE' ocpType='end'>
+            <times scope='scheduled' arrival='13:57:05'/>
+            <stopDescription commercial='true' stopOnRequest='false'/>
+          </ocpTT>
+        </ocpsTT>
+      </trainPart>
+      <trainPart id='tp_25007' name='25007' trainNumber='25007' processStatus='planned' categoryRef='cat_RB'>
+        <formationTT formationRef='fmt_0' weight='84.000' length='46' speed='120'>
+          <passengerUsage>
+            <places category='class1' count='16'/>
+            <places category='class2' count='130'/>
+          </passengerUsage>
+        </formationTT>
+        <operatingPeriodRef ref='opp_0'/>
+        <ocpsTT>
+          <ocpTT ocpRef='ocp_IE' ocpType='begin'>
+            <times scope='scheduled' departure='14:33:18'/>
+            <sectionTT section='IE-IZ E-A' lineRef='ln_21' trackInfo='1' percentageSupplement='3' distance='6.237'>
+              <trackRef ref='tr_21_1'/>
+              <runTimes minimalTime='PT3M45S' operationalReserve='PT7S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'/>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ_E-A' ocpType='pass'>
+            <times scope='scheduled' departure='14:37:11'/>
+            <sectionTT section='IZ E-A-IZ' lineRef='ln_21' trackInfo='1' percentageSupplement='3' distance='0.825'>
+              <trackRef ref='tr_21_1'/>
+              <runTimes minimalTime='PT1M5S' operationalReserve='PT2S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ' trackInfo='5' ocpType='stop'>
+            <times scope='scheduled' arrival='14:38:18' departure='14:40:48'/>
+            <sectionTT section='IZ-IZ E-L' lineRef='ln_31' percentageSupplement='3' distance='0.825'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT49S' operationalReserve='PT2S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ_E-L' ocpType='pass'>
+            <times scope='scheduled' departure='14:41:39'/>
+            <sectionTT section='IZ E-L-IZO' lineRef='ln_31' percentageSupplement='3' distance='6.348'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT3M53S' operationalReserve='PT7S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZO' ocpType='stop'>
+            <times scope='scheduled' arrival='14:45:39' departure='14:46:09'/>
+            <sectionTT section='IZO-ID E-L' lineRef='ln_31' percentageSupplement='3' distance='3.606'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M28S' operationalReserve='PT4S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_E-L' ocpType='pass'>
+            <times scope='scheduled' departure='14:48:42'/>
+            <sectionTT section='ID E-L-ID' lineRef='ln_31' percentageSupplement='3' distance='0.554'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT43S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID' trackInfo='1' ocpType='stop'>
+            <times scope='scheduled' arrival='14:49:26' departure='14:51:18'/>
+            <sectionTT section='ID-ID E-A' lineRef='ln_31' percentageSupplement='3' distance='1.040'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT57S' operationalReserve='PT2S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_E-A' ocpType='pass'>
+            <times scope='scheduled' departure='14:52:17'/>
+            <sectionTT section='ID E-A-ID SW' lineRef='ln_31' percentageSupplement='3' distance='1.000'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT36S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_SW' ocpType='pass'>
+            <times scope='scheduled' departure='14:52:54'/>
+            <sectionTT section='ID SW-IGT B' lineRef='ln_31' percentageSupplement='3' distance='5.410'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT3M2S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT_B' ocpType='pass'>
+            <times scope='scheduled' departure='14:56:02'/>
+            <sectionTT section='IGT B-IGT' lineRef='ln_31' percentageSupplement='3' distance='0.206'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT8S' operationalReserve='PT0S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT' ocpType='pass'>
+            <times scope='scheduled' departure='14:56:10'/>
+            <sectionTT section='IGT-IGT2' lineRef='ln_31' percentageSupplement='3' distance='0.379'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT34S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT2' ocpType='stop'>
+            <times scope='scheduled' arrival='14:56:46' departure='14:57:16'/>
+            <sectionTT section='IGT2-ICD1' lineRef='ln_31' percentageSupplement='3' distance='3.145'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M45S' operationalReserve='PT5S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ICD1' ocpType='stop'>
+            <times scope='scheduled' arrival='15:00:06' departure='15:00:36'/>
+            <sectionTT section='ICD1-ICD' lineRef='ln_31' percentageSupplement='3' distance='0.300'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT26S' operationalReserve='PT1S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ICD' ocpType='pass'>
+            <times scope='scheduled' departure='15:01:03'/>
+            <sectionTT section='ICD-ISW E-C' lineRef='ln_31' percentageSupplement='3' distance='4.420'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M48S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ISW_E-C' ocpType='pass'>
+            <times scope='scheduled' departure='15:03:56'/>
+            <sectionTT section='ISW E-C-ISW' lineRef='ln_31' percentageSupplement='3' distance='0.460'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT53S' operationalReserve='PT2S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ISW' trackInfo='2' ocpType='end'>
+            <times scope='scheduled' arrival='15:04:51'/>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+        </ocpsTT>
+      </trainPart>
+      <trainPart id='tp_25008' name='25008' trainNumber='25008' processStatus='planned' categoryRef='cat_RB'>
+        <formationTT formationRef='fmt_0' weight='84.000' length='46' speed='120'>
+          <passengerUsage>
+            <places category='class1' count='16'/>
+            <places category='class2' count='130'/>
+          </passengerUsage>
+        </formationTT>
+        <operatingPeriodRef ref='opp_0'/>
+        <ocpsTT>
+          <ocpTT ocpRef='ocp_ISW' trackInfo='2' ocpType='begin'>
+            <times scope='scheduled' departure='15:25:18'/>
+            <sectionTT section='ISW-ISW E-C' lineRef='ln_31' percentageSupplement='3' distance='0.460'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT43S' operationalReserve='PT1S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ISW_E-C' ocpType='pass'>
+            <times scope='scheduled' departure='15:26:02'/>
+            <sectionTT section='ISW E-C-ICD' lineRef='ln_31' percentageSupplement='3' distance='4.420'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M30S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ICD' ocpType='pass'>
+            <times scope='scheduled' departure='15:28:36'/>
+            <sectionTT section='ICD-ICD1' lineRef='ln_31' percentageSupplement='3' distance='0.300'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT33S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ICD1' ocpType='stop'>
+            <times scope='scheduled' arrival='15:29:11' departure='15:29:41'/>
+            <sectionTT section='ICD1-IGT2' lineRef='ln_31' percentageSupplement='3' distance='3.145'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M34S' operationalReserve='PT5S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT2' ocpType='stop'>
+            <times scope='scheduled' arrival='15:32:19' departure='15:32:49'/>
+            <sectionTT section='IGT2-IGT' lineRef='ln_31' percentageSupplement='3' distance='0.379'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT28S' operationalReserve='PT1S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT' ocpType='pass'>
+            <times scope='scheduled' departure='15:33:18'/>
+            <sectionTT section='IGT-IGT B' lineRef='ln_31' percentageSupplement='3' distance='0.206'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT9S' operationalReserve='PT0S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IGT_B' ocpType='pass'>
+            <times scope='scheduled' departure='15:33:27'/>
+            <sectionTT section='IGT B-ID SW' lineRef='ln_31' percentageSupplement='3' distance='5.410'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT3M3S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_SW' ocpType='pass'>
+            <times scope='scheduled' departure='15:36:36'/>
+            <sectionTT section='ID SW-ID E-A' lineRef='ln_31' percentageSupplement='3' distance='1.000'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT36S' operationalReserve='PT1S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_E-A' ocpType='pass'>
+            <times scope='scheduled' departure='15:37:13'/>
+            <sectionTT section='ID E-A-ID' lineRef='ln_31' percentageSupplement='3' distance='1.040'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT1M1S' operationalReserve='PT2S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID' trackInfo='1' ocpType='stop'>
+            <times scope='scheduled' arrival='15:38:15' departure='15:39:18'/>
+            <sectionTT section='ID-ID E-L' lineRef='ln_31' percentageSupplement='3' distance='0.554'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT38S' operationalReserve='PT1S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_ID_E-L' ocpType='pass'>
+            <times scope='scheduled' departure='15:39:57'/>
+            <sectionTT section='ID E-L-IZO' lineRef='ln_31' percentageSupplement='3' distance='3.606'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT2M30S' operationalReserve='PT5S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZO' ocpType='stop'>
+            <times scope='scheduled' arrival='15:42:32' departure='15:43:02'/>
+            <sectionTT section='IZO-IZ E-L' lineRef='ln_31' percentageSupplement='3' distance='6.348'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT3M49S' operationalReserve='PT7S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT30S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ_E-L' ocpType='pass'>
+            <times scope='scheduled' departure='15:46:58'/>
+            <sectionTT section='IZ E-L-IZ' lineRef='ln_31' percentageSupplement='3' distance='0.825'>
+              <trackRef ref='tr_31'/>
+              <runTimes minimalTime='PT54S' operationalReserve='PT2S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ' trackInfo='5' ocpType='stop'>
+            <times scope='scheduled' arrival='15:47:53' departure='15:52:18'/>
+            <sectionTT section='IZ-IZ E-A' lineRef='ln_21' trackInfo='1' percentageSupplement='3' distance='0.825'>
+              <trackRef ref='tr_21_2'/>
+              <runTimes minimalTime='PT56S' operationalReserve='PT2S'/>
+            </sectionTT>
+            <stopDescription commercial='true' stopOnRequest='false'>
+              <stopTimes minimalTime='PT48S'/>
+            </stopDescription>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IZ_E-A' ocpType='pass'>
+            <times scope='scheduled' departure='15:53:16'/>
+            <sectionTT section='IZ E-A-IE' lineRef='ln_21' trackInfo='1' percentageSupplement='3' distance='6.237'>
+              <trackRef ref='tr_21_2'/>
+              <runTimes minimalTime='PT3M42S' operationalReserve='PT7S'/>
+            </sectionTT>
+          </ocpTT>
+          <ocpTT ocpRef='ocp_IE' ocpType='end'>
+            <times scope='scheduled' arrival='15:57:05'/>
+            <stopDescription commercial='true' stopOnRequest='false'/>
+          </ocpTT>
+        </ocpsTT>
+      </trainPart>
+    </trainParts>
+    <trains>
+      <train id='tro_25001' type='operational' trainNumber='25001' scope='primary'>
+        <trainPartSequence sequence='1'>
+          <trainPartRef ref='tp_25001' position='1'/>
+        </trainPartSequence>
+      </train>
+      <train id='tro_25002' type='operational' trainNumber='25002' scope='primary'>
+        <trainPartSequence sequence='1'>
+          <trainPartRef ref='tp_25002' position='1'/>
+        </trainPartSequence>
+      </train>
+      <train id='tro_25003' type='operational' trainNumber='25003' scope='primary'>
+        <trainPartSequence sequence='1'>
+          <trainPartRef ref='tp_25003' position='1'/>
+        </trainPartSequence>
+      </train>
+      <train id='tro_25004' type='operational' trainNumber='25004' scope='primary'>
+        <trainPartSequence sequence='1'>
+          <trainPartRef ref='tp_25004' position='1'/>
+        </trainPartSequence>
+      </train>
+      <train id='tro_25005' type='operational' trainNumber='25005' scope='primary'>
+        <trainPartSequence sequence='1'>
+          <trainPartRef ref='tp_25005' position='1'/>
+        </trainPartSequence>
+      </train>
+      <train id='tro_25006' type='operational' trainNumber='25006' scope='primary'>
+        <trainPartSequence sequence='1'>
+          <trainPartRef ref='tp_25006' position='1'/>
+        </trainPartSequence>
+      </train>
+      <train id='tro_25007' type='operational' trainNumber='25007' scope='primary'>
+        <trainPartSequence sequence='1'>
+          <trainPartRef ref='tp_25007' position='1'/>
+        </trainPartSequence>
+      </train>
+      <train id='tro_25008' type='operational' trainNumber='25008' scope='primary'>
+        <trainPartSequence sequence='1'>
+          <trainPartRef ref='tp_25008' position='1'/>
+        </trainPartSequence>
+      </train>
+      <train id='trc_25001' type='commercial' trainNumber='25001' name='25001'>
+        <trainPartSequence sequence='1'>
+          <trainPartRef ref='tp_25001' position='1'/>
+        </trainPartSequence>
+      </train>
+      <train id='trc_25002' type='commercial' trainNumber='25002' name='25002'>
+        <trainPartSequence sequence='1'>
+          <trainPartRef ref='tp_25002' position='1'/>
+        </trainPartSequence>
+      </train>
+      <train id='trc_25003' type='commercial' trainNumber='25003' name='25003'>
+        <trainPartSequence sequence='1'>
+          <trainPartRef ref='tp_25003' position='1'/>
+        </trainPartSequence>
+      </train>
+      <train id='trc_25004' type='commercial' trainNumber='25004' name='25004'>
+        <trainPartSequence sequence='1'>
+          <trainPartRef ref='tp_25004' position='1'/>
+        </trainPartSequence>
+      </train>
+      <train id='trc_25005' type='commercial' trainNumber='25005' name='25005'>
+        <trainPartSequence sequence='1'>
+          <trainPartRef ref='tp_25005' position='1'/>
+        </trainPartSequence>
+      </train>
+      <train id='trc_25006' type='commercial' trainNumber='25006' name='25006'>
+        <trainPartSequence sequence='1'>
+          <trainPartRef ref='tp_25006' position='1'/>
+        </trainPartSequence>
+      </train>
+      <train id='trc_25007' type='commercial' trainNumber='25007' name='25007'>
+        <trainPartSequence sequence='1'>
+          <trainPartRef ref='tp_25007' position='1'/>
+        </trainPartSequence>
+      </train>
+      <train id='trc_25008' type='commercial' trainNumber='25008' name='25008'>
+        <trainPartSequence sequence='1'>
+          <trainPartRef ref='tp_25008' position='1'/>
+        </trainPartSequence>
+      </train>
+    </trains>
+  </timetable>
+</railml>

@@ -1,0 +1,63 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<script th:src="@{/webjars/jquery/2.1.3/jquery.min.js}"></script>
+		<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+		<script th:src="@{/webjars/Bootstrap-3-Typeahead/3.1.1/bootstrap3-typeahead.js}"></script>
+		
+		<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" type="text/css" />
+		<link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+		
+		<title th:text="#{fis.title.short}">FIS EBL</title>
+	</head>
+	<body class="container">
+		<div class="row" id="header">
+			<img th:src="@{/resources/img/tu_logo.png}" class="col-md-2 img-responsive" id="logo" />
+			
+			<h1 class="col-md-8 text-center" th:text="#{fis.title}">Fahrgastinformationssystem</h1>
+			<h2 class="col-md-2" th:text="${#dates.format(#dates.createNow(), 'HH:mm')}">13:37</h2>
+		</div>
+		
+		<ul class="col-md-8 col-md-offset-2 nav nav-tabs">
+			<li><a href="/dep">Abfahrten</a></li>
+			<li class="active"><a href="/arr">Ankünfte</a></li>
+			<li><a href="/trn">Zugnummer</a></li>
+		</ul>
+		
+		<div class="tab-content col-md-8 col-md-offset-2">
+			<div class="tab-pane active" id="arr">
+				<div th:include="filter :: filter-form"></div>
+								
+				<table class="table table-hover table-striped" th:if="${currentStation}">
+					<thead>
+						<tr><th>Zeit</th>
+							<th>Zug</th>
+							<th>Herkunft (Unterwegshaltestellen)</th>
+							<th>Gleis</th>
+							<th>Aktuelles</th></tr>
+					</thead>
+					<tbody>
+						<tr th:each="train : ${trains}">
+							<th:block th:each="stop, trnStat : ${train.stops}" th:if="${ {stop.station} == {currentStation} } and ${stop.stopType!=T(fis.StopType).begin}" >
+								<td th:text="${stop.ScheduledArrival}">13:37</td>
+								<td th:text="${train.id}">ICE 123</td>
+								<td>
+									<th:block th:each="nStop, stpStat : ${train.stops}">
+										<span th:text="|${nStop.station.name} ${nStop.ScheduledDeparture}|"
+											  th:if="${stpStat.index} &lt; ${train.stops.indexOf(stop)}">Hogwarts 13:37</span>
+									</th:block>
+								</td>
+								<td th:text="${stop.ScheduledTrack}">9 3/4</td>
+								<td>...</td>
+							</th:block>
+							
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<script th:src="@{/resources/js/fis.js}"></script>
+	</body>
+</html>
