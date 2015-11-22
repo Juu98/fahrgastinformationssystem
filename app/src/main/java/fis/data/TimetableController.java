@@ -3,6 +3,8 @@ package fis.data;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fis.FilterTime;
@@ -13,7 +15,7 @@ import fis.telegramReceiver.TelegramReceiver;
 @Component
 public class TimetableController {
 	private TimetableData data;
-	private TelegramReceiver receiver;
+	@Autowired private TelegramReceiver receiver;
 	
 	public TimetableController(){
 		try{

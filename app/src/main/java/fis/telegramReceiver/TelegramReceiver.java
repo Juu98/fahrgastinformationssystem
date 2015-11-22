@@ -1,5 +1,8 @@
 package fis.telegramReceiver;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class TelegramReceiver {
 	private ConnectionStatus connectionStatus;
 	
