@@ -26,7 +26,7 @@ public class Stop {
 		this.ActualDeparture=ScheduledDeparture;
 		this.ActualTrack=ScheduledTrack;
 		
-		this.station.addStop(this);	
+		station.addStop(this);	
 	}
 	public Station getStation(){return station;}
 	

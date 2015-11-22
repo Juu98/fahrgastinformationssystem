@@ -1,6 +1,7 @@
 package fis.data;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Station {
@@ -11,7 +12,7 @@ public class Station {
 	public Station(String id, String name){
 		this.name=name;
 		this.id=id;
-		this.stops=new ArrayList<Stop>();
+		this.stops=new LinkedList<Stop>();
 	}
 	
 	public String getName(){
