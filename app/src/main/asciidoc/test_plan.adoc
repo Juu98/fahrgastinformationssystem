@@ -32,14 +32,14 @@ Die Test-IDs werden nach folgendem Schema benannt:
 * Konfigurationsmöglichkeiten (bspw. Server-IP)
 
 == Nicht zu testende Funktionalitäten
-*RailML-Schemaklassen und der eigentliche Parser (Ausnahme: Ansprechen des Parsers)
-*GUI (Ausnahme: FisController)
-*sämtliche Spring-Funktionalitäten (bspw. der lokale Webserver)
+* RailML-Schemaklassen und der eigentliche Parser (Ausnahme: Ansprechen des Parsers)
+* GUI (Ausnahme: FisController)
+* sämtliche Spring-Funktionalitäten (bspw. der lokale Webserver)
 
 == Herangehensweise
 
-*Die Klassen werden mit JUnit getestet.
-*Die Integrationstests verlaufen nach Bottom-Up Prinzip, d.h. wenn das Zusammenspiel von einzelnen Subsystemen klappt,
+* Die Klassen werden mit JUnit getestet.
+* Die Integrationstests verlaufen nach Bottom-Up Prinzip, d.h. wenn das Zusammenspiel von einzelnen Subsystemen klappt,
 werden diese zu größeren Modulen zusammengefasst, die als nächstes getestet werden.
 
 == Umgebungsvoraussetzungen
