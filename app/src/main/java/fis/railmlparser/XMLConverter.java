@@ -3,10 +3,12 @@ package fis.railmlparser;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import org.springframework.core.io.ClassPathResource;
 
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
@@ -47,9 +49,9 @@ public class XMLConverter {
     }
 
     public Object convertFromXMLToObject(String xmlfile) throws IOException, JAXBException {
-	FileInputStream is = null;
+	InputStream is = null;
 	try {
-	    is = new FileInputStream(xmlfile);
+	    is = new ClassPathResource(xmlfile).getInputStream();
 	    return getUnmarshaller().unmarshal(new StreamSource(is));
 	} finally {
 	    if (is != null) {

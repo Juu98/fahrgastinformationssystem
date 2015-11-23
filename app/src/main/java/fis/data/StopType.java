@@ -1,4 +1,4 @@
-package fis;
+package fis.data;
 
 public enum StopType {
 	begin,

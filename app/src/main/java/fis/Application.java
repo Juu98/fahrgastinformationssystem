@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import fis.data.TimetableController;
+
 /**
  * Created by spiollinux on 05.11.15.
  */
@@ -14,10 +16,10 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 	
-	@Autowired Timetable timetable;
+	@Autowired TimetableController timetable;
 	
-	@PostConstruct
+	/*@PostConstruct
 	void init(){
 		timetable = new TimetableExample();
-	}
+	}*/
 }

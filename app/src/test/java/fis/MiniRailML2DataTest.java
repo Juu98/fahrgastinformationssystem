@@ -3,17 +3,18 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-import fis.*;
+
+import fis.data.TimetableController;
 
 public class MiniRailML2DataTest {
-	Timetable timetable;
+	TimetableController timetable;
 	
 	public MiniRailML2DataTest(){
 		
 	}
 	@Before
 	public void setUp() throws Exception{
-		timetable=new Timetable();
+		timetable=new TimetableController();
 	}
 	
 	

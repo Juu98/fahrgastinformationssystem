@@ -1,14 +1,16 @@
-package fisTests;
+package fis;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import fis.*;
+import fis.data.TimetableController;
+import fis.data.TrainCategory;
+
 
 public class TimetableDataTest {
-	Timetable timetable;
+	TimetableController timetable;
 	
 	public TimetableDataTest(){
 		
@@ -16,7 +18,7 @@ public class TimetableDataTest {
 	@Before
 	public void setUp(){
 		System.out.println("\n -- TimetableData Test >Initialize< -- \n");
-		timetable=new Timetable();
+		timetable=new TimetableController();
 		
 		System.out.println("\n -- TimetableData Test >Start Test< -- \n");
 	}
