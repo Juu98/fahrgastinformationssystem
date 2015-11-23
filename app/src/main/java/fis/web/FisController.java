@@ -5,10 +5,11 @@
  */
 package fis.web;
 
-import fis.data.Station;
-import fis.data.TimetableController;
-import fis.data.TrainRoute;
+import fis.Station;
+import fis.Timetable;
 
+import fis.TrainRoute;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,14 +23,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class FisController {
-	private final TimetableController timetable;
+	private final Timetable timetable;
 	
 	/**
 	 * TODO: add paramteres
 	 * @param tt
 	 */
 	@Autowired
-	public FisController(TimetableController tt){
+	public FisController(Timetable tt){
 		this.timetable = tt;
 	}
 	
@@ -123,12 +124,12 @@ public class FisController {
 	 * @return 
 	 */
 	@RequestMapping("stations.json")
-	public @ResponseBody List<Station> getStations(){
-		return this.timetable.getData().getStations();
+	public @ResponseBody List<JSONProvider.StationView> getStations(){
+		return new JSONProvider().getStations(this.timetable.getData().getStations());
 	}
 	
 	@RequestMapping("trainRoutes.json")
-	public @ResponseBody List<TrainRoute> getTrainRoutes(){
-		return this.timetable.getData().getTrainRoutes();
+	public @ResponseBody List<JSONProvider.TrainRouteView> getTrainRoutes(){
+		return new JSONProvider().getTrainRoutes(this.timetable.getData().getTrainRoutes());
 	}
 }
