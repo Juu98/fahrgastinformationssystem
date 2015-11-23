@@ -5,10 +5,10 @@
  */
 package fis.web;
 
-import fis.Station;
-import fis.Timetable;
+import fis.data.Station;
+import fis.data.TimetableController;
 
-import fis.TrainRoute;
+import fis.data.TrainRoute;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +23,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class FisController {
-	private final Timetable timetable;
+	private final TimetableController timetable;
 	
 	/**
 	 * TODO: add paramteres
 	 * @param tt
 	 */
 	@Autowired
-	public FisController(Timetable tt){
+	public FisController(TimetableController tt){
 		this.timetable = tt;
 	}
 	

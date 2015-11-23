@@ -5,8 +5,8 @@
  */
 package fis.web;
 
-import fis.Station;
-import fis.TrainRoute;
+import fis.data.Station;
+import fis.data.TrainRoute;
 import java.util.ArrayList;
 import java.util.List;
 
