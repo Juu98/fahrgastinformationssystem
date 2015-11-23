@@ -12,6 +12,11 @@ import fis.FilterType;
 import fis.railml2data;
 import fis.telegramReceiver.TelegramReceiver;
 
+/**
+ * Controller for TimetableData. 
+ * Contains forwarding of incoming Telegrams and handling the connection state (e.g. deciding when to load RailML)
+ * @author Eric
+ */
 @Component
 public class TimetableController {
 	private TimetableData data;
@@ -26,18 +31,31 @@ public class TimetableController {
 		}
 	}
 	
+	/**
+	 * @return The current laboratory time (if available)
+	 */
 	public LocalTime getTime(){
 		return LocalTime.now();
 	}
 	
+	/**
+	 * @return Raw timetable data
+	 */
 	public TimetableData getData(){
 		return data;
 	}
 	
+	/**
+	 * Receives a telegram and either forwards the updated/new data to the data structure or updates the time depending on telegram type
+	 * @param telegram Telegram to 
+	 */
 	public void receiveTelegram(){
 		
 	}
 		
+	/**
+	 * @return String representation of the current state (Offline, Online, Connecting)
+	 */
 	public String getStateName(){
 		switch(receiver.getConnectionStatus()){
 			case OFFLINE:return "Offline";
@@ -45,6 +63,28 @@ public class TimetableController {
 			case CONNECTING:return "Connecting";
 		}
 		return "unknown";
+	}
+	
+	
+	/**
+	 * @see data.getTrainRoutes
+	 */
+	public List<TrainRoute> getTrainRoutes(){
+		return data.getTrainRoutes();
+	}
+	
+	/**
+	 * @see data.getStations
+	 */
+	public List<Station> getStations(){
+		return data.getStations();
+	}
+	
+	/**
+	 * @see data.getTrainCategories
+	 */
+	public List<TrainCategory> getTrainCategories(){
+		return data.getTrainCategories();
 	}
 	
 	
@@ -84,46 +124,42 @@ public class TimetableController {
 		for(TrainRoute route:listToFilter){
 			for(Stop stop:route.getStops()){
 				if(stop.getStation()==station){
-				LocalTime stopTime;
+					LocalTime stopTime;
 				
-				switch(filterTime){
-				case Scheduled:
-					//Es soll nach Scheduled gefiltert werden
-					if(type==FilterType.Arrival){
-						stopTime=stop.getScheduledArrival();
-					} else {
-						stopTime=stop.getScheduledDeparture();
-					}
-					break;
+					switch(filterTime){
+					case Scheduled:
+						//Es soll nach Scheduled gefiltert werden
+						if(type==FilterType.Arrival){
+							stopTime=stop.getScheduledArrival();
+						} else {
+							stopTime=stop.getScheduledDeparture();
+						}
+						break;
 				
-				default:
-					//Es soll nach Actual gefiltert werden
-					if(type==FilterType.Arrival){
-						stopTime=stop.getActualArrival();
-					} else {
-						stopTime=stop.getActualDeparture();
+					default:
+						//Es soll nach Actual gefiltert werden
+						if(type==FilterType.Arrival){
+							stopTime=stop.getActualArrival();
+						} else {
+							stopTime=stop.getActualDeparture();
+						}
+						break;
 					}
-					break;
-				}
 				
-				//hier passiert der eigentliche Vergleich
-				//Die equals sind laut Test ebenfalls notwendig!
-				if(stopTime!=null && from!=null && to!=null){
-					if((stopTime.isAfter(from) || stopTime.equals(from)) && (stopTime.isBefore(to) || stopTime.equals(to))){
-						newList.add(stop);
-						System.out.println("FILTER: Stop at station "+stop.getStation()+" added!");
+					//hier passiert der eigentliche Vergleich
+					//Die equals sind laut Test ebenfalls notwendig!
+					if(stopTime!=null && from!=null && to!=null){
+						if((stopTime.isAfter(from) || stopTime.equals(from)) && (stopTime.isBefore(to) || stopTime.equals(to))){
+							newList.add(stop);
+							System.out.println("FILTER: Stop at station "+stop.getStation()+" added!");
+						}
 					}
-				}
 				}
 			}
 			
 		}
-		return newList;
-		
-		
+		return newList;	
 	}
-
-	
 	
 		
 }
