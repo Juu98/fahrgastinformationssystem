@@ -22,4 +22,4 @@ $mvn spring-boot:run
 * Robert Mörseburg (https://github.com/fl4m[@fl4m])
 * Zdravko Yanakiev (https://github.com/z-yan[@z-yan])
 
-Betreuung durch Ronny Kaiser (https://github.com/rks[@rks]), Lehrstuhl Softwaretechnologie, Institut für Software- und Multimediatechnik, Fakultät Informatik der TU dresden.
+Betreuung durch Ronny Kaiser (https://github.com/rks[@rksr]), Lehrstuhl Softwaretechnologie, Institut für Software- und Multimediatechnik, Fakultät Informatik der TU dresden.
