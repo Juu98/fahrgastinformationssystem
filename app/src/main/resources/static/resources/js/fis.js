@@ -3,6 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+/* station typeahead */
 var stations = $.get('/stations.json', function(data){
     $("#station").typeahead({
 		source:	data,
@@ -12,10 +14,19 @@ var stations = $.get('/stations.json', function(data){
 		afterSelect: function(active){
 			//alert(active.id);
 			$("#stationId").val(active.id);
+			window.location.replace("./"+active.id);
 		}
 	});
 },'json');
 
+/* select content when clikcing on the input */
+$(function(){
+	$(document).on('click', '#station, #trainRoute', function(){
+		$(this).select();
+	});
+});
+
+/* click event on a station list link */
 $(function(){
 	$(document).on('click', '#stationList a', function(){
 		$("#stationId").val($(this).attr('href').substr(1));
@@ -24,22 +35,24 @@ $(function(){
 	});
 });
 
+/* train route typeahead */
 var trainRoutes = $.get('/trainRoutes.json', function(data){
-    $("#trainNumber").typeahead({
+    $("#trainRoute").typeahead({
 		source:	data,
 		showHintOnFocus: true,
 		items: 10,
 		minLength: 1,
 		displayText: function(item){
-			return item.id + ': ' + item.stops[0].station.name + ' - ' + item.stops[item.stops.length - 1].station.name;
+			return item.id + ': ' + item.begin.name + " – " + item.end.name;
 		},
 		afterSelect: function(active){
-			//alert(active.id);
 			$("#trainRouteId").val(active.id);
+			window.location.replace("./"+active.id);			
 		}
 	});
 },'json');
 
+/* click event on a train route list link */
 $(function(){
 	$(document).on('click', '#trainRouteList a', function(){
 		$("#trainRouteId").val($(this).attr('href').substr(1));

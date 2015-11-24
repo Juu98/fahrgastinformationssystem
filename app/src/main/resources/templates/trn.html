@@ -37,7 +37,7 @@
 					<div class="collapse" id="trainRouteList">
 						<ul class="list-group row">
 							<li class="list-group-item col-xs-6" th:each="tr : ${trainRoutes}">
-								<a th:href="|#${tr.id}|" th:text="|${tr.id}: ${tr.stops[0].station.name} &ndash; ${tr.stops[tr.stops.size()-1].station.name}|">Bahnhof</a>
+								<a th:href="|./${tr.id}|" th:text="|${tr.id}: ${tr.stops[0].station.name} &ndash; ${tr.stops[tr.stops.size()-1].station.name}|">Bahnhof</a>
 							</li>
 						</ul>
 					</div>
