@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import fis.FilterTime;
 import fis.FilterType;
-import fis.railml2data;
+import fis.RailML2Data;
 import fis.telegramReceiver.TelegramReceiver;
 
 /**
@@ -24,7 +24,7 @@ public class TimetableController {
 	
 	public TimetableController(){
 		try{
-			data=railml2data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");	
+			data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");	
 		}
 		catch(Exception ex){
 			System.out.println(ex.toString());
