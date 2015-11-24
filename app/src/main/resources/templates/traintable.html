@@ -18,7 +18,7 @@
 							<th:block th:case="'dep'" th:text="${#temporals.format(stop.ScheduledDeparture, 'HH:mm')}">13:37</th:block>
 							<th:block th:case="'arr'" th:text="${#temporals.format(stop.ScheduledArrival, 'HH:mm')}">13:37</th:block>
 						</td>
-						<td th:text="${train.id}">ICE 123</td>
+						<td><a th:href="|/trn/${train.id}" th:text="${train.id}">ICE 123</a></td>
 						<td th:switch="${active}">
 							<th:block th:case="'dep'">
 								<th:block th:each="nStop, stpStat : ${train.stops}">

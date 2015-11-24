@@ -166,19 +166,46 @@ public class FisController {
 	}
 	
 	/**
-	 * TrainRoute display page.
-	 * @param model
-	 * @param formTR
+	 * Arrivals display page for no given station.
+	 * @param model		the {@link Application}'s model
+	 * @param formTR	the {@link FilterForm} submitted by the user
+	 * @return the empty departures page
+	 */
+	@RequestMapping("/trn/")
+	public String trnDefault(Model model, TrainRouteForm formTR){
+		return trn(model, formTR, null);
+	}
+	
+	/**
+	 * Redirection to only use valid URIs.
 	 * @return 
 	 */
-	@RequestMapping("trn")
-	public String trn(Model model, TrainRouteForm formTR){
+	@RequestMapping("/trn")
+	public String trnRedir(){
+		return "redirect:/trn/";
+	}
+	
+	/**
+	 * Train display page.
+	 * @param model		the {@link Application}'s model
+	 * @param formTR	the {@link TrainRouteForm} submitted by the user
+	 * @param trt		the currently selected {@link TrainRoute}
+	 * @return the arrivals page read from {@linkplain src/main/resources/templates/trn.html}
+	 */
+	@RequestMapping("/trn/{trt}")
+	public String trn(Model model, TrainRouteForm formTR, @PathVariable("trt") String trt){
+		// add default parameters to the model
 		defaults(model);
 		
-		TrainRoute currentTrainRoute = null;
-		if (formTR.getTrainRouteId() != null){
+		// get current train route from URL or Form
+		TrainRoute currentTrainRoute= null;
+		if (trt != null && !trt.isEmpty()){
+			currentTrainRoute = this.timetable.getData().getTrainRouteById(trt);
+		}
+		if(formTR.getTrainRouteId() != null){
 			currentTrainRoute = this.timetable.getData().getTrainRouteById(formTR.getTrainRouteId());
 		}
+		LOGGER.info("*TRN* Current train route: " + currentTrainRoute);
 		
 		model.addAttribute("trainRoutes", this.timetable.getData().getTrainRoutes());
 		model.addAttribute("currentTrainRoute", currentTrainRoute);
@@ -187,7 +214,7 @@ public class FisController {
 	}
 	
 	/**
-	 * JSON list with all stations for the typeahead
+	 * JSON list with all {@link Station}s for the typeahead.
 	 * @return 
 	 */
 	@RequestMapping("stations.json")
@@ -195,6 +222,10 @@ public class FisController {
 		return new JSONProvider().getStations(this.timetable.getData().getStations());
 	}
 	
+	/**
+	 * JSON list with all {@link TrainRoute}s for the typeahead.
+	 * @return 
+	 */
 	@RequestMapping("trainRoutes.json")
 	public @ResponseBody List<JSONProvider.TrainRouteView> getTrainRoutes(){
 		return new JSONProvider().getTrainRoutes(this.timetable.getData().getTrainRoutes());
