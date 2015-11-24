@@ -87,22 +87,25 @@ public class TimetableController {
 		return data.getTrainCategories();
 	}
 	
-	
 	public List<TrainRoute> filterByStation(List<TrainRoute> listToFilter, Station stationIncluded){
+		return filterByStation(listToFilter, stationIncluded, FilterType.ANY);
+	}
+	
+	public List<TrainRoute> filterByStation(List<TrainRoute> listToFilter, Station stationIncluded, FilterType filterType){
 		/* 
 		 * filtert die gegebene Liste mit Zugläufen nach dem angegebenen Bahnhof
 		 * Ausgabeliste enthält alle Zugläufe, die den angegebenen Bahnhof enthalten 
 		*/
 		
-		List<TrainRoute> newList=new ArrayList<>();
+		List<TrainRoute> newList = new ArrayList<>();
 		
-		if(stationIncluded==null) {
+		if(stationIncluded == null) {
 			System.out.println("Filter got NULL-Station!");
-			return new ArrayList<TrainRoute>();
+			return new ArrayList<>();
 		}
 		
 		for (TrainRoute route : listToFilter){
-			if(route.containsStation(stationIncluded)){
+			if(route.containsStation(stationIncluded, filterType)){
 				newList.add(route);
 			}
 		}
@@ -117,19 +120,19 @@ public class TimetableController {
 		 */
 		if(station==null) {
 			System.out.println("Filter got NULL-Station!");
-			return new ArrayList<Stop>();
+			return new ArrayList<>();
 		}
 		
-		List<Stop> newList=new ArrayList<Stop>();
+		List<Stop> newList=new ArrayList<>();
 		for(TrainRoute route:listToFilter){
 			for(Stop stop:route.getStops()){
 				if(stop.getStation()==station){
 					LocalTime stopTime;
 				
 					switch(filterTime){
-					case Scheduled:
+					case SCHEDLED:
 						//Es soll nach Scheduled gefiltert werden
-						if(type==FilterType.Arrival){
+						if(type==FilterType.ARRIVAL){
 							stopTime=stop.getScheduledArrival();
 						} else {
 							stopTime=stop.getScheduledDeparture();
@@ -138,7 +141,7 @@ public class TimetableController {
 				
 					default:
 						//Es soll nach Actual gefiltert werden
-						if(type==FilterType.Arrival){
+						if(type==FilterType.ARRIVAL){
 							stopTime=stop.getActualArrival();
 						} else {
 							stopTime=stop.getActualDeparture();

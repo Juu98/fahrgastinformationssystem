@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import fis.data.TimetableController;
+import org.springframework.context.annotation.Bean;
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 
 /**
  * Created by spiollinux on 05.11.15.
@@ -18,8 +20,8 @@ public class Application {
 	
 	@Autowired TimetableController timetable;
 	
-	/*@PostConstruct
-	void init(){
-		timetable = new TimetableExample();
-	}*/
+	@Bean
+	public Java8TimeDialect timeDialect(){
+		return new Java8TimeDialect();
+	}
 }

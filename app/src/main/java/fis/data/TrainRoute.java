@@ -1,5 +1,6 @@
 package fis.data;
 
+import fis.FilterType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,16 +32,33 @@ public class TrainRoute {
 	}
 	
 	public boolean containsStation(Station station){
-		boolean isNull=false;
+		return containsStation(station, FilterType.ANY);
+	}
+	public boolean containsStation(Station station, FilterType filterType){
+		boolean isNull = false;
 		
 		for (Stop s : this.stops){
-			if(s.getStation()==null){
+			if (s.getStation() == null){
 				System.out.println("Stop-Bahnhof ist NULL!");
 				s.printDebugInformation();
-				isNull=true;
+				isNull = true;
 			}
-			if(isNull){ debugPrint(); return false;}
-			if (s.getStation().equals(station)) return true;
+			
+			if (isNull){
+				debugPrint();
+				return false;
+			}
+			
+			if (s.getStation().equals(station)){
+				switch (filterType){
+					// show only arriving trains, not those beginning at this station
+					case ARRIVAL: return (s.getStopType() != StopType.BEGIN);
+					// show only departing trains, not those ending at this station
+					case DEPARTURE: return (s.getStopType() != StopType.END);
+					// show it anyway
+					default: return true;
+				}
+			}
 		}
 		return false;
 	}

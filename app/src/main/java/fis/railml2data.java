@@ -81,23 +81,23 @@ public class railml2data {
 		
 							String type=ocptt.getOcpType();
 							switch(type){
-								case "begin": stopType=StopType.begin; break;
-								case "pass": stopType=StopType.pass; break;
-								case "stop": stopType=StopType.stop; break;
-								default: stopType=StopType.end;
+								case "begin": stopType=StopType.BEGIN; break;
+								case "pass": stopType=StopType.PASS; break;
+								case "stop": stopType=StopType.STOP; break;
+								default: stopType=StopType.END;
 							}			
 					
 						System.out.println("StopType: "+stopType.toString());
 					
 					
 						//TODO: Hier wird's etwas hässlich, unbedingt überprüfen, ob das funktioniert!
-						if(stopType==StopType.stop || stopType==StopType.end){	
+						if(stopType==StopType.STOP || stopType==StopType.END){	
 							XMLGregorianCalendar calArrival=ocptt.getTimes().get(0).getArrival();		
 							arrival=LocalTime.of(calArrival.getHour(), calArrival.getMinute(), calArrival.getSecond());
 							System.out.println("Ankunft: "+arrival.toString());
 						}
 					
-						if(stopType!=StopType.end){			
+						if(stopType!=StopType.END){			
 							XMLGregorianCalendar calDeparture=ocptt.getTimes().get(0).getDeparture();		
 							departure=LocalTime.of(calDeparture.getHour(), calDeparture.getMinute(), calDeparture.getSecond());				
 							System.out.println("Abfahrt: "+departure.toString());
