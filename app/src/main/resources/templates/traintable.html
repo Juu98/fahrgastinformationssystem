@@ -1,12 +1,12 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 	<body>
-		<table th:fragment="traintable(active)" th:with="isDep=${active == 'dep'}">
+		<table th:fragment="traintable(active)">
 			<thead>
 				<tr>
 					<th th:text="#{fis.traintable.time}">Zeit</th>
 					<th th:text="#{fis.traintable.train}">Zug</th>
-					<th th:text="${isDep}? #{fis.traintable.dest} : #{fis.traintable.origin}">Richtung (Unterwegshaltestellen)</th>
+					<th th:text="${active == 'dep'}? #{fis.traintable.dest} : #{fis.traintable.origin}">Richtung (Unterwegshaltestellen)</th>
 					<th th:text="#{fis.traintable.track}">Gleis</th>
 					<th th:text="#{fis.traintable.info}">Aktuelles</th>
 				</tr>
