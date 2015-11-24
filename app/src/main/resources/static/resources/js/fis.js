@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var stations = $.get('stations.json', function(data){
+var stations = $.get('/stations.json', function(data){
     $("#station").typeahead({
 		source:	data,
 		showHintOnFocus: true,
@@ -24,7 +24,7 @@ $(function(){
 	});
 });
 
-var trainRoutes = $.get('trainRoutes.json', function(data){
+var trainRoutes = $.get('/trainRoutes.json', function(data){
     $("#trainNumber").typeahead({
 		source:	data,
 		showHintOnFocus: true,

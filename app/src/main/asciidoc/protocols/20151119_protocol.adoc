@@ -1,0 +1,57 @@
+= Protokoll Gruppe 03
+
+[cols="<h,<a"]
+|===
+|Treffen am 19.11.2015    |16:40 Uhr, APB
+|Schriftführer            |Robert Mörseburg
+|Nächstes Treffen         |24.11.2015, 13:00 Uhr, POT 011
+|Teilnehmer               |
+* Eric Schölzel (Scrum-Master)
+* Jonas Schenke
+* Oliver Schmidt
+* Robert Mörseburg
+* Zdravko Yanakiev
+* Ronny Kaiser (Betreuer Lehrstuhl SWT)
+|===
+
+== Bemerkungen
+Für die kommende Implementierung sollten Änderungen aus feature-branches in den `develop`-Branch mittels eines Pull-Requests übernommmen werden. Treten dabei keine Fehler auf und baut die Applikation anschließend immer noch, dann können diese mittels eines weiteren Pull-Requests in den `master`-Branch übernommen werden.
+Dieser sollte zu jedem Zeitpunkt einen lauffähigen Stand enthalten.
+
+== Retrospektive des letzten Sprints
+Im letzten Sprint wurde der objektorientierte Entwurf abgeschlossen.
+Dazu wurden der große Prototyp, die Entwicklerdokumentation mit dem Testplan und das Entwurfsklassendiagramm abgeschlossen.
+Des weiteren wurde die Arbeit an der Telegramm-Verarbeitung fortgeführt.
+
+[options="header"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|19 |Entwicklerdokumentation	|abgeschlossen 		|durch Kunden bestätigt
+|20 |Testplan			|abgeschlossen		|durch Kunden bestätigt
+|21 |XML parsen 		|abgeschlossen		|mit "großer" XML
+|22 |Großer Prototyp 	|abgeschlossen		|durch Lehrstuhl SWT bestätigt
+|24 |UML-Entwurfsklassendiagramm |abgeschlossen	|durch Lehrstuhl SWT bestätigt
+|27 |GUI erweitern / anpassen 	 |abgeschlossen	|siehe großer Prototyp
+|28 |TCP Telegramme parsen		 |in Bearbeitung	|Spezifikationen fehlen noch
+|===
+
+== Aktueller Stand
+
+Die Zwischenpräsentation wird am Dienstag, den 24.11.2015 in den Räumen des EBL stattfinden. Dazu soll das Projekt in 30 Minuten vorgestellt werden, wobei diese sich aus 10 Minuten Vortrag, 10 Minuten Demonstration und 10 Minuten Diskussion/Fragen zusammen setzen.
+
+Die Gliederung für die Präsentation und die Verteilung der Aufgaben werden über einen separaten Issue geregelt. Zur Demonstration sollte eine lauffähige Version auf Basis des großen Prototypen vorliegen (eigener tag).
+
+== Planung des nächsten Sprints
+
+Im nächsten Sprint beginnt die Implementierung. Im ersten Schritt wird die Codebasis des großen Prototypen restrukturiert und in die Applikation übernommen.
+Dazu zählen die Aufteilung in Packages, das Schreiben von Tests und die Dokumentation mittels Javadoc.
+
+Außerdem muss die anstehende Zwischenpräsentation vorbereitet werden.
+
+[options="header"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|28 |TCP Telegramme parsen		|in Bearbeitung	|weitere Test, neue Telegramme nach Erhalt der Spezifikation vom Kunden (durch **Oliver**)
+|35 |Opera 11 Kompatibilität	|in Bearbeitung	|Anpassung der GUI (durch **Robert**)
+|36	|Zwischenpräsentation		|in Bearbeitung |Erstellen der Folien, Verteilung der Aufgaben (durch **alle**)
+|===

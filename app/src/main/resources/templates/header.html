@@ -1,0 +1,26 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<th:block th:fragment="header(active)">
+			<div class="row" id="header">
+				<img th:src="@{/resources/img/tu_logo.png}" class="col-md-2 img-responsive" id="logo" />
+
+				<h1 class="col-md-8 text-center" th:text="#{fis.title}">Fahrgastinformationssystem</h1>
+				<h2 class="col-md-2" th:text="${#temporals.format(time, 'HH:mm')}">13:37</h2>
+			</div>
+			<ul class="col-md-8 col-md-offset-2 nav nav-tabs">
+				<li th:class="${active == 'dep'}? 'active'">
+					<a th:href="${currentStation} ? |/dep/${currentStation.id}| : '/dep/'"
+					   th:text="#{fis.nav.dep}">Abfahrten</a>
+				</li>
+				<li th:class="${active == 'arr'}? 'active'">
+					<a th:href="${currentStation} ? |/arr/${currentStation.id}| : '/arr/'"
+					   th:text="#{fis.nav.arr}">Ankünfte</a>
+				</li>
+				<li th:class="${active == 'trn'}? 'active'">
+					<a href="/trn"
+					   th:text="#{fis.nav.trn}">Zugnummer</a></li>
+			</ul>
+		</th:block>
+	</body>
+</html>
