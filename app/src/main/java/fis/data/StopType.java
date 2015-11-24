@@ -1,8 +1,8 @@
 package fis.data;
 
 public enum StopType {
-	begin,
-	stop,
-	pass,
-	end
+	BEGIN,
+	END,
+	PASS,
+	STOP
 }

@@ -1,0 +1,48 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<table th:fragment="traintable(active)">
+			<thead>
+				<tr>
+					<th th:text="#{fis.traintable.time}">Zeit</th>
+					<th th:text="#{fis.traintable.train}">Zug</th>
+					<th th:text="${active == 'dep'}? #{fis.traintable.dest} : #{fis.traintable.origin}">Richtung (Unterwegshaltestellen)</th>
+					<th th:text="#{fis.traintable.track}">Gleis</th>
+					<th th:text="#{fis.traintable.info}">Aktuelles</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="train : ${trains}">
+					<th:block th:each="stop, trnStat : ${train.stops}" th:if="${stop.station == currentStation}">
+						<td th:switch="${active}">
+							<th:block th:case="'dep'" th:text="${#temporals.format(stop.ScheduledDeparture, 'HH:mm')}">13:37</th:block>
+							<th:block th:case="'arr'" th:text="${#temporals.format(stop.ScheduledArrival, 'HH:mm')}">13:37</th:block>
+						</td>
+						<td><a th:href="|/trn/${train.id}" th:text="${train.id}">ICE 123</a></td>
+						<td th:switch="${active}">
+							<th:block th:case="'dep'">
+								<th:block th:each="nStop, stpStat : ${train.stops}">
+									<span th:text="|${nStop.station.name} ${#temporals.format(nStop.ScheduledArrival, 'HH:mm')}|"
+										  th:if="${stpStat.index} &gt; ${train.stops.indexOf(stop)}"
+										  th:class="${stpStat.last}? 'station-end'">Hogwarts 13:37</span>
+									<span th:if="${stpStat.index} &gt; ${train.stops.indexOf(stop)}"
+										  th:unless="${stpStat.last}">&ndash;</span>
+								</th:block>
+							</th:block>
+							<th:block th:case="'arr'">
+								<th:block th:each="nStop, stpStat : ${train.stops}">
+									<span th:text="|${nStop.station.name} ${#temporals.format(nStop.ScheduledDeparture, 'HH:mm')}|"
+										  th:if="${stpStat.index} &lt; ${train.stops.indexOf(stop)}"
+										  th:class="${stpStat.first}? 'station-begin'">Hogwarts 13:37</span>
+									<span th:if="${stpStat.index} &lt; ${train.stops.indexOf(stop) -1}">&ndash;</span>
+								</th:block>
+							</th:block>
+						</td>
+						<td th:text="${stop.ScheduledTrack}">9 3/4</td>
+						<td th:text="'&mdash;'">...</td>
+					</th:block>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>

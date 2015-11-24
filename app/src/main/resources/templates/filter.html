@@ -8,7 +8,7 @@
 						<span class="input-group-addon">
 							<i class="glyphicon glyphicon-search"></i>
 						</span>
-						<input type="text" class="form-control" placeholder="Bahnhof" id="station"
+						<input type="text" class="form-control" th:placeholder="#{fis.filterform.station}" id="station"
 							   name="stationName" autocomplete="off" data-provide="typeahead"
 							   th:value="${currentStation} ? ${currentStation.name}"/>
 						<span class="input-group-btn">
@@ -19,13 +19,13 @@
 						</span>
 					</div>
 					<input type="hidden" name="stationId" id="stationId" th:value="${currentStation} ? ${currentStation.id}" />
-					<input type="submit" name="submit" class="btn btn-primary col-md-2 col-md-offset-2" value="Anzeigen" />
+					<input type="submit" name="submit" class="btn btn-primary col-md-2 col-md-offset-2" th:value="#{fis.filterform.submit}" />
 					<div class="clearfix row"> </div>
 				</div>
 				<div class="collapse" id="stationList">
 					<ul class="list-group row">
 						<li class="list-group-item col-xs-4" th:each="st : ${stations}">
-							<a th:href="|#${st.id}|" th:text="${st.name}">Bahnhof</a>
+							<a th:href="|./${st.id}|" th:text="${st.name}">Bahnhof</a>
 						</li>
 					</ul>
 				</div>

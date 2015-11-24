@@ -12,49 +12,20 @@
 		<title th:text="#{fis.title.short}">FIS EBL</title>
 	</head>
 	<body class="container">
-		<div class="row" id="header">
-			<img th:src="@{/resources/img/tu_logo.png}" class="col-md-2 img-responsive" id="logo" />
-			
-			<h1 class="col-md-8 text-center" th:text="#{fis.title}">Fahrgastinformationssystem</h1>
-			<h2 class="col-md-2" th:text="${#dates.format(#dates.createNow(), 'HH:mm')}">13:37</h2>
-		</div>
-		
-		<ul class="col-md-8 col-md-offset-2 nav nav-tabs">
-			<li><a href="/dep">Abfahrten</a></li>
-			<li class="active"><a href="/arr">Ankünfte</a></li>
-			<li><a href="/trn">Zugnummer</a></li>
-		</ul>
+		<th:block th:include="header :: header(arr)"></th:block>
 		
 		<div class="tab-content col-md-8 col-md-offset-2">
 			<div class="tab-pane active" id="arr">
 				<div th:include="filter :: filter-form"></div>
 								
-				<table class="table table-hover table-striped" th:if="${currentStation}">
-					<thead>
-						<tr><th>Zeit</th>
-							<th>Zug</th>
-							<th>Herkunft (Unterwegshaltestellen)</th>
-							<th>Gleis</th>
-							<th>Aktuelles</th></tr>
-					</thead>
-					<tbody>
-						<tr th:each="train : ${trains}">
-							<th:block th:each="stop, trnStat : ${train.stops}" th:if="${ {stop.station} == {currentStation} } and ${stop.stopType!=T(fis.StopType).begin}" >
-								<td th:text="${stop.ScheduledArrival}">13:37</td>
-								<td th:text="${train.id}">ICE 123</td>
-								<td>
-									<th:block th:each="nStop, stpStat : ${train.stops}">
-										<span th:text="|${nStop.station.name} ${nStop.ScheduledDeparture}|"
-											  th:if="${stpStat.index} &lt; ${train.stops.indexOf(stop)}">Hogwarts 13:37</span>
-									</th:block>
-								</td>
-								<td th:text="${stop.ScheduledTrack}">9 3/4</td>
-								<td>...</td>
-							</th:block>
-							
-						</tr>
-					</tbody>
+				<table th:include="traintable :: traintable(arr)" class="table table-hover table-striped"
+					th:if="${currentStation != null and not #lists.isEmpty(trains)}">						   
 				</table>
+				
+				<p th:if="${currentStation != null and #lists.isEmpty(trains)}" class="alert alert-warning"
+					th:text="#{fis.alerts.notrains.arr}">Keine Züge.</p>
+				<p th:unless="${currentStation}" class="alert alert-info"
+					th:text="#{fis.alerts.nostation.arr}">Kein Bahnhof ausgewählt.</p>
 			</div>
 		</div>
 		
