@@ -98,7 +98,7 @@ public class FisController {
 		LOGGER.info("*DEP* Current station: " + currentStation);
 		
 		// Add all trains containing the given station as departure to the model
-		model.addAttribute("trains", this.timetable.getTrainRoutesByStation(currentStation));
+		model.addAttribute("trains", this.timetable.getTrainRoutesByStation(currentStation,FilterType.DEPARTURE));
 		model.addAttribute("form", form);
 		
 		model.addAttribute("stations", this.timetable.getData().getStations());
@@ -150,7 +150,7 @@ public class FisController {
 		LOGGER.info("*ARR* Current station: " + currentStation);
 		
 		// Add all trains containing the given station as departure to the model
-		model.addAttribute("trains", this.timetable.getTrainRoutesByStation(currentStation));
+		model.addAttribute("trains", this.timetable.getTrainRoutesByStation(currentStation,FilterType.ARRIVAL));
 		model.addAttribute("form", form);
 		
 		model.addAttribute("stations", this.timetable.getData().getStations());

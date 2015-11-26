@@ -107,15 +107,22 @@ public class TimetableController {
 	 * @param station
 	 * @return
 	 */
-	public Set<TrainRoute> getTrainRoutesByStation(Station station){
+	public Set<TrainRoute> getTrainRoutesByStation(Station station, FilterType type){
 		if(station==null) return new HashSet<TrainRoute>();
 		
 		HashSet<TrainRoute> set=new HashSet<TrainRoute>();
 		for(Stop stop:station.getStops()){
-			set.add(stop.getTrainRoute());
+			if((type==FilterType.ARRIVAL && stop.getStopType()!=StopType.BEGIN) 
+					|| (type==FilterType.DEPARTURE && stop.getStopType()!=StopType.END) 
+					|| (type==FilterType.ANY)){
+				
+						set.add(stop.getTrainRoute());
+			}
 		}
 		return set;
 	}
+	
+	
 			
 	public List<Stop> filter(List<TrainRoute> listToFilter, Station station, LocalTime from, LocalTime to, FilterType type,FilterTime filterTime){
 		/* 
