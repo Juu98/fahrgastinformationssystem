@@ -104,7 +104,6 @@ public class TimetableData {
 
 
 	/**
-	 * 
 	 * @param id The ID to search
 	 * @return {@link TrainRoute} with the given ID (if available)
 	 */

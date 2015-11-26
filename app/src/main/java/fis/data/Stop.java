@@ -115,15 +115,37 @@ public class Stop {
 		this.ActualTrack=ActualTrack;
 	}
 	
+	/**
+	 * @return Scheduled Departure
+	 */
 	public LocalTime getScheduledDeparture(){return ScheduledDeparture;}
+	
+	/** 
+	 * @return Scheduled Arrival
+	 */
 	public LocalTime getScheduledArrival(){return ScheduledArrival;}
+	
+	/**
+	 * @return Actual Departure
+	 */
 	public LocalTime getActualDeparture(){return ActualDeparture;}
+	
+	/**
+	 * @return Actual Arrival
+	 */
 	public LocalTime getActualArrival(){return ActualArrival;}
+	
+	/**
+	 * @return Scheduled Track
+	 */
 	public String getScheduledTrack(){return ScheduledTrack;}
+	
+	/**
+	 * @return Actual Track
+	 */
 	public String getActualTrack(){return ActualTrack;}
 	
 
-	
 	public void printDebugInformation(){
 		//erstmal nur zum Testen
 		System.out.println("---");

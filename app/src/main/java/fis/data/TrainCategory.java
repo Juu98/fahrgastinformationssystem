@@ -2,7 +2,7 @@ package fis.data;
 
 /**
  * Stores a specific TrainCategory
- * @author Eric
+ * @author Luux
  */
 public class TrainCategory {
 	private String id;

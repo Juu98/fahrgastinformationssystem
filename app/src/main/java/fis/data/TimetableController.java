@@ -15,7 +15,7 @@ import fis.telegramReceiver.TelegramReceiver;
 /**
  * Controller for TimetableData. 
  * Contains forwarding of incoming Telegrams and handling the connection state (e.g. deciding when to load RailML)
- * @author Eric
+ * @author Luux
  */
 @Component
 public class TimetableController {
@@ -87,29 +87,16 @@ public class TimetableController {
 		return data.getTrainCategories();
 	}
 	
-	public List<TrainRoute> filterByStation(List<TrainRoute> listToFilter, Station stationIncluded){
-		return filterByStation(listToFilter, stationIncluded, FilterType.ANY);
-	}
-	
-	public List<TrainRoute> filterByStation(List<TrainRoute> listToFilter, Station stationIncluded, FilterType filterType){
-		/* 
-		 * filtert die gegebene Liste mit Zugläufen nach dem angegebenen Bahnhof
-		 * Ausgabeliste enthält alle Zugläufe, die den angegebenen Bahnhof enthalten 
-		*/
-		
-		List<TrainRoute> newList = new ArrayList<>();
-		
-		if(stationIncluded == null) {
-			System.out.println("Filter got NULL-Station!");
-			return new ArrayList<>();
-		}
-		
-		for (TrainRoute route : listToFilter){
-			if(route.containsStation(stationIncluded, filterType)){
-				newList.add(route);
-			}
-		}
-		return newList;		
+
+	/**
+	 * Returns all stops at a station if the station is not null. If it is null, returns an empty List instead.
+	 * @see Station.getStops
+	 * @param station
+	 * @return
+	 */
+	public List<Stop> getStopsByStation(Station station){
+		if(station==null) return new ArrayList<Stop>();
+		return station.getStops();
 	}
 			
 	public List<Stop> filter(List<TrainRoute> listToFilter, Station station, LocalTime from, LocalTime to, FilterType type,FilterTime filterTime){
