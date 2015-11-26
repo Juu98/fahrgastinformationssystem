@@ -145,6 +145,12 @@ public class Stop {
 	 */
 	public String getActualTrack(){return ActualTrack;}
 	
+	/**
+	 * @return The TrainRoute containing this stop. Note that this has to be set before!
+	 */
+	public TrainRoute getTrainRoute(){
+		return trainRoute;
+	}
 
 	public void printDebugInformation(){
 		//erstmal nur zum Testen
@@ -159,5 +165,7 @@ public class Stop {
 		System.out.println("Scheduled Departure: "+ScheduledDeparture);
 		System.out.println("Scheduled Track: "+ScheduledTrack);
 	}
+	
+	
 	
 }

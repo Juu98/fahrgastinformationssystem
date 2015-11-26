@@ -21,6 +21,7 @@ public class TimetableData {
 		trainroutes=new ArrayList<TrainRoute>();
 		stations=new ArrayList<Station>();
 		trainCategories=new ArrayList<TrainCategory>();
+		
 	}
 	
 	/**
@@ -29,7 +30,6 @@ public class TimetableData {
 	 */
 	public void addTrainRoute(TrainRoute trainRoute){
 		trainroutes.add(trainRoute);
-		
 	}
 	
 	/** 

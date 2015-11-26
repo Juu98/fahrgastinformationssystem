@@ -2,7 +2,10 @@ package fis.data;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -97,6 +100,21 @@ public class TimetableController {
 	public List<Stop> getStopsByStation(Station station){
 		if(station==null) return new ArrayList<Stop>();
 		return station.getStops();
+	}
+	
+	/**
+	 * Returns all TrainRoutes at a station if the station is not null. If it is null, returns an empty List instead.
+	 * @param station
+	 * @return
+	 */
+	public Set<TrainRoute> getTrainRoutesByStation(Station station){
+		if(station==null) return new HashSet<TrainRoute>();
+		
+		HashSet<TrainRoute> set=new HashSet<TrainRoute>();
+		for(Stop stop:station.getStops()){
+			set.add(stop.getTrainRoute());
+		}
+		return set;
 	}
 			
 	public List<Stop> filter(List<TrainRoute> listToFilter, Station station, LocalTime from, LocalTime to, FilterType type,FilterTime filterTime){

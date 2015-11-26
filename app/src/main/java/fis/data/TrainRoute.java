@@ -26,6 +26,11 @@ public class TrainRoute {
 		this.trainNumber=trainNumber;
 		this.trainCategory=trainCategory;
 		this.stops=stops;
+		
+		//link stops
+		for(Stop stop:stops){
+			linkStop(stop);
+		}
 	}
 	
 	/**
@@ -33,6 +38,14 @@ public class TrainRoute {
 	 */
 	public String getId(){
 		return id;
+	}
+	
+	/**
+	 * Links the given stop to this train route
+	 * @param stop
+	 */
+	public void linkStop(Stop stop){
+		if(stop!=null) stop.setTrainRoute(this);
 	}
 	
 	/**
@@ -59,6 +72,7 @@ public class TrainRoute {
 	public void removeStop(Stop stop){
 		stop.deleteStop();
 	}
+	
 	
 	public void debugPrint(){
 		System.out.println("DEBUG PRINT FOR TRAINROUTE WITH ID #"+id);
