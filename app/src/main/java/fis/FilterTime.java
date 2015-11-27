@@ -1,6 +1,6 @@
 package fis;
 
 public enum FilterTime {
-	SCHEDLED,
+	SCHEDULED,
 	ACTUAL
 }
