@@ -10,7 +10,6 @@
 		contextPath="org.purl.dc.elements._1:org.railml.schemas._2009:org.w3._1998.math.mathml" />
 
 	<bean id="XMLConverter" class="fis.railmlparser.XMLConverter">
-		<property name="marshaller" ref="jaxb2Marshaller" />
 		<property name="unmarshaller" ref="jaxb2Marshaller" />
 	</bean>
 </beans>  
