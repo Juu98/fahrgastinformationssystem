@@ -130,7 +130,7 @@ public class TimetableController {
 					LocalTime stopTime;
 				
 					switch(filterTime){
-					case SCHEDLED:
+					case SCHEDULED:
 						//Es soll nach Scheduled gefiltert werden
 						if(type==FilterType.ARRIVAL){
 							stopTime=stop.getScheduledArrival();

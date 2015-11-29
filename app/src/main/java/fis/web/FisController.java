@@ -6,6 +6,7 @@
 package fis.web;
 
 import fis.Application;
+import fis.FilterTime;
 import fis.FilterType;
 import fis.data.Station;
 import fis.data.TimetableController;
@@ -99,6 +100,7 @@ public class FisController {
 		LOGGER.debug("*DEP* Current station: " + currentStation);
 		
 		// Add all trains containing the given station as departure to the model
+		model.addAttribute("comp", new TrainRouteComparator(currentStation, FilterTime.SCHEDULED, FilterType.DEPARTURE));
 		model.addAttribute("trains", this.timetable.filterByStation(
 			this.timetable.getData().getTrainRoutes(),
 			currentStation,
@@ -154,6 +156,7 @@ public class FisController {
 		LOGGER.debug("*ARR* Current station: " + currentStation);
 		
 		// Add all trains containing the given station as departure to the model
+		model.addAttribute("comp", new TrainRouteComparator(currentStation, FilterTime.SCHEDULED, FilterType.ARRIVAL));
 		model.addAttribute("trains", this.timetable.filterByStation(
 			this.timetable.getData().getTrainRoutes(),
 			currentStation,
