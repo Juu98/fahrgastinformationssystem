@@ -1,11 +1,10 @@
 package fis.data;
 
-import fis.FilterType;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A class for a single train route.
+ * Eine Klasse für einen Zuglauf
  * @author Luux
  *
  */
@@ -16,10 +15,10 @@ public class TrainRoute {
 	private List<Stop> stops=new ArrayList<Stop>();
 	
 	/**
-	 * @param id The ID of the route
-	 * @param trainNumber Number of the train
-	 * @param trainCategory Category of the train. See {@link TrainCategory}.
-	 * @param stops A list of all {@link Stop}s in the route.
+	 * @param id Zuglauf-ID
+	 * @param trainNumber Zugnummer
+	 * @param trainCategory Zugkategorie. Siehe {@link TrainCategory}.
+	 * @param stops List von allen {@link Stop}s dieses Zuglaufs.
 	 */
 	public TrainRoute(String id,int trainNumber, TrainCategory trainCategory, List<Stop> stops){
 		this.id=id;
@@ -34,14 +33,14 @@ public class TrainRoute {
 	}
 	
 	/**
-	 * @return ID of the train route.
+	 * @return ID des Zuglaufs
 	 */
 	public String getId(){
 		return id;
 	}
 	
 	/**
-	 * Links the given stop to this train route
+	 * Verlinkt den gegebenen Stop zu diesem Zuglauf
 	 * @param stop
 	 */
 	public void linkStop(Stop stop){
@@ -49,28 +48,41 @@ public class TrainRoute {
 	}
 	
 	/**
-	 * @return Number of the train.
+	 * @return Zugnummer
 	 */
 	public int getTrainNumber(){
 		return trainNumber;
 	}
 	
 	/**
-	 * @return Category of the train. See {@link TrainCategory}.
+	 * @return Zugkategorie. Siehe {@link TrainCategory}.
 	 */
 	public TrainCategory getTrainCategory(){
 		return trainCategory;
 	}
 	
 	/**
-	 * @return Returns a list of all stops in this route.
+	 * @return Eine Liste von allen {@link Stop}s dieses Zuglaufs
 	 */
 	public List<Stop> getStops(){
 		return stops;
 	}
 	
-	public void removeStop(Stop stop){
-		stop.deleteStop();
+	/**
+	 * 
+	 * @return Das Ende des Zuglaufs
+	 */
+	public Stop getLastStop(){
+		return stops.get(stops.size()-1);
+	}
+	
+	/**
+	 * 
+	 * @return Den Anfang des Zuglaufs
+	 */
+	
+	public Stop getFirstStop(){
+		return stops.get(0);
 	}
 	
 	

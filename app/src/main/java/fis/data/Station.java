@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * A station class. Contains all the information of a station for the data structure.
+ * Bahnhofsklasse.
  * @author Luux
  *
  */
@@ -16,18 +16,26 @@ public class Station {
 	
 	/**
 	 * 
-	 * @param id The ID of the station
-	 * @param name The name of the station
+	 * @param id Bahnhofs-ID
+	 * @param name Name des Bahnhofs
 	 */
 	public Station(String id, String name){
 		this.name=name;
 		this.id=id;
 		this.stops=new LinkedList<Stop>();
+	}	
+	
+	/**
+	 * Fügt den gegebenen Halt {@link Stop} zur Liste aller Halte dieses Bahnhofs hinzu.
+	 * @param stop
+	 */
+	public void addStop(Stop stop){
+		stops.add(stop);
 	}
 	
 	/**
 	 * 
-	 * @return The name of this station.
+	 * @return Name des Bahnhofs
 	 */
 	public String getName(){
 		return name;
@@ -35,35 +43,32 @@ public class Station {
 	
 	/**
 	 * 
-	 * @return The ID of this station.
+	 * @return ID des Bahnhofs
 	 */
 	public String getId(){
 		return id;
 	}
 	
-	public void addStop(Stop stop){
-		stops.add(stop);
-	}
-	
+
 	/** 
-	 * @return A list of all stops at this station. To access from gui, better use {TimetableController.getStopsByStation}, since it checks if the station is null.
+	 * @return Liste von allen Halten an diesem Bahnhof. Zum Aufruf aus der GUI, besser {TimetableController.getStopsByStation} benutzen, da dort auf null überprüft wird.
 	 */
 	public List<Stop> getStops(){
 		return stops;
 	}
 	
 	/**
-	 * Checks if the given stop is at this station
-	 * @param stop The stop to check
-	 * @return If the stop is at this station: True; If not: False 
+	 * Überprüft, ob der gegebene Halt an diesem Bahnhof ist.
+	 * @param stop Der Halt.
+	 * @return True, wenn der Halt an diesem Bahnhof ist, sonst False
 	 */
 	public boolean hasStop(Stop stop){
 		return stops.contains(stop);
 	}
 	
 	/**
-	 * Removes the given stop (if possible). Calls {@link Stop.deleteStop} for data consistency.
-	 * @param stop The stop to remove.
+	 * Entfernt den gegebenen Halt (sofern möglich). Ruft wegen der Datenkonsistenz {@link Stop.deleteStop} auf.
+	 * @param stop Halt, der entfernt werden soll.
 	 */
 	public void removeStop(Stop stop){
 		stop.deleteStop();

@@ -15,8 +15,8 @@ import fis.RailML2Data;
 import fis.telegramReceiver.TelegramReceiver;
 
 /**
- * Controller for TimetableData. 
- * Contains forwarding of incoming Telegrams and handling the connection state (e.g. deciding when to load RailML)
+ * Controller für {@link TimetableData}
+ * Beinhaltet Weiterreichen von einkommenden Telegrammen und Aktionen, die vom ConnectionState abhängen (z.B. Entscheidung, dass RailML-Fahrplan geladen werden soll)
  * @author Luux
  */
 @Component
@@ -34,21 +34,21 @@ public class TimetableController {
 	}
 	
 	/**
-	 * @return The current laboratory time (if available)
+	 * @return Aktuelle Laborzeit (falls verfügbar)
 	 */
 	public LocalTime getTime(){
 		return LocalTime.now();
 	}
 	
 	/**
-	 * @return Raw timetable data
+	 * @return "Rohe" Fahrplandatenstruktur
 	 */
 	public TimetableData getData(){
 		return data;
 	}
 	
 	/**
-	 * Receives a telegram and either forwards the updated/new data to the data structure or updates the time depending on telegram type
+	 * Empfängt ein Telegram und führt Updates der Datenstruktur durch oder aktualisiert die Laborzeit (je nach Telegram)
 	 * @param telegram Telegram to 
 	 */
 	public void receiveTelegram(){
@@ -56,7 +56,7 @@ public class TimetableController {
 	}
 		
 	/**
-	 * @return String representation of the current state (Offline, Online, Connecting)
+	 * @return Stringrepräsentation des aktuellen ConnectionStates
 	 */
 	public String getStateName(){
 		switch(receiver.getConnectionStatus()){
@@ -91,10 +91,9 @@ public class TimetableController {
 	
 
 	/**
-	 * Returns all stops at a station if the station is not null. If it is null, returns an empty List instead.
 	 * @see Station.getStops
 	 * @param station
-	 * @return
+	 * @return Alle Halte eines Bahnhofs, wenn station nicht null ist. Falls station null ist, gibt die Funktion eine leere Liste zurück.
 	 */
 	public List<Stop> getStopsByStation(Station station){
 		if(station==null) return new ArrayList<Stop>();
@@ -102,9 +101,10 @@ public class TimetableController {
 	}
 	
 	/**
-	 * Returns all TrainRoutes at a station if the station is not null. If it is null, returns an empty List instead.
+	 * Gibt alle Zugläufe eines Bahnhofs aus
 	 * @param station
-	 * @return
+	 * @param type Je nach {@link FilterType} gibt die Funktion alle Zugläufe, ein- oder ausfahrende Zugläufe an.
+	 * @return Alle Zugläufe eines Bahnhofs, sofern station nicht null ist (sonst leere Liste)
 	 */
 	public Set<TrainRoute> getTrainRoutesByStation(Station station, FilterType type){
 		if(station==null) return new HashSet<TrainRoute>();
