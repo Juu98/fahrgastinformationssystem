@@ -9,6 +9,7 @@ import fis.Application;
 import fis.FilterType;
 import fis.data.Station;
 import fis.data.TimetableController;
+import fis.data.TrainCategory;
 import fis.data.TrainRoute;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -95,7 +96,7 @@ public class FisController {
 		if(form.getStationId() != null){
 			currentStation = this.timetable.getData().getStationByID(form.getStationId());
 		}
-		LOGGER.info("*DEP* Current station: " + currentStation);
+		LOGGER.debug("*DEP* Current station: " + currentStation);
 		
 		// Add all trains containing the given station as departure to the model
 		model.addAttribute("trains", this.timetable.filterByStation(
@@ -150,7 +151,7 @@ public class FisController {
 		if(form.getStationId() != null){
 			currentStation = this.timetable.getData().getStationByID(form.getStationId());
 		}
-		LOGGER.info("*ARR* Current station: " + currentStation);
+		LOGGER.debug("*ARR* Current station: " + currentStation);
 		
 		// Add all trains containing the given station as departure to the model
 		model.addAttribute("trains", this.timetable.filterByStation(
@@ -205,7 +206,7 @@ public class FisController {
 		if(formTR.getTrainRouteId() != null){
 			currentTrainRoute = this.timetable.getData().getTrainRouteById(formTR.getTrainRouteId());
 		}
-		LOGGER.info("*TRN* Current train route: " + currentTrainRoute);
+		LOGGER.debug("*TRN* Current train route: " + currentTrainRoute);
 		
 		model.addAttribute("trainRoutes", this.timetable.getData().getTrainRoutes());
 		model.addAttribute("currentTrainRoute", currentTrainRoute);

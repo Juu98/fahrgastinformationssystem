@@ -74,5 +74,8 @@ public class TrainRoute {
 		}
 	}
 	
-	
+	@Override
+	public String toString(){
+		return String.format("%s %s", this.trainCategory.getName(), this.trainNumber);
+	}
 }

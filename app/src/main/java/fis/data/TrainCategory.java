@@ -56,4 +56,13 @@ public class TrainCategory {
 		return trainUsage;
 	}
 	
+	/**
+	 * TODO find useful information
+	 * @return 
+	 */
+	@Override
+	public String toString(){
+		return String.format("TRAIN CATEGORY\n\t[id  ]\t %s \n\t[name]\t %s \n\t[desc]\t %s \n\t[use ]\t %s \n",
+				this.id, this.name, this.description, this.trainUsage);
+	}
 }

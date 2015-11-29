@@ -22,7 +22,7 @@
 							<span class="input-group-addon">#</span>
 							<input type="text" class="form-control" placeholder="Zugnummer"
 								   name="trainRoute" autocomplete="off" id="trainRoute" data-provide="typeahead"
-								   th:value="${currentTrainRoute} ? |${currentTrainRoute.id}: ${currentTrainRoute.stops[0].station.name} &ndash; ${currentTrainRoute.stops[currentTrainRoute.stops.size()-1].station.name}|" />
+								   th:value="${currentTrainRoute} ? |${currentTrainRoute}: ${currentTrainRoute.stops[0].station.name} &ndash; ${currentTrainRoute.stops[currentTrainRoute.stops.size()-1].station.name}|" />
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="button" data-toggle="collapse"
 										data-target="#trainRouteList">
@@ -37,7 +37,7 @@
 					<div class="collapse" id="trainRouteList">
 						<ul class="list-group row">
 							<li class="list-group-item col-xs-6" th:each="tr : ${trainRoutes}">
-								<a th:href="|./${tr.id}|" th:text="|${tr.id}: ${tr.stops[0].station.name} &ndash; ${tr.stops[tr.stops.size()-1].station.name}|">Bahnhof</a>
+								<a th:href="|./${tr.id}|" th:text="|${tr}: ${tr.stops[0].station.name} &ndash; ${tr.stops[tr.stops.size()-1].station.name}|">Bahnhof</a>
 							</li>
 						</ul>
 					</div>
