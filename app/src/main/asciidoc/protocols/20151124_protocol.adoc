@@ -55,6 +55,6 @@ Implementierung weiterer Features und Schreiben von Dokumentation und Tests.
 |28 |TCP Telegramme parsen		|in Bearbeitung	|weitere Test, neue Telegramme nach Erhalt der Spezifikation vom Kunden (durch **Oliver**)
 |35 |Opera 11 Kompatibilität	|in Bearbeitung	|Anpassung der GUI (durch **Robert**)
 |39 |Javadoc 					|in Bearbeitung	|weitere Dokumentation (durch **alle**)
-|41 |Konsolenausgabe			|offen			|Integration in das Spring-Logsystem (durch **Erik**)
+|41 |Konsolenausgabe			|offen			|Integration in das Spring-Logsystem (durch **Eric**)
 |46 |Sortierung					|offen			|Abfahrten und Ankünfte nach Zeit
 |===
