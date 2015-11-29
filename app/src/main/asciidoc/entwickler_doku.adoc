@@ -11,7 +11,7 @@ Im Rahmen des Softwarepraktikums soll eine webbasierte Ankunfts- und Abfahrtsanz
 === Qualitätsziele
 
 ==== Muss-Kriterien
-* Erreichbarkeit unter http://<IP-des-Webserevrs>/fis
+* Erreichbarkeit unter http://<Hostname-des-Webserevrs>/fis
 * Auswahl des anzuzeigenden Inhalts:
 	** Abfahrtstafel
 	** Ankunftstafel
@@ -56,7 +56,7 @@ Im Rahmen des Softwarepraktikums soll eine webbasierte Ankunfts- und Abfahrtsanz
 * unmittelbare Reaktion auf Benutzerinteraktion
 * Sortierung der Abfahrten/ Ankünfte nach Sollzeit
 * Header und Footer
-	** optional: konfigurierbar in INI (mitscrollend oder fix)
+	** optional: konfigurierbar in einer Konfigurationsdatei (mitscrollend oder fix)
 
 == Randbedingungen
 
@@ -101,19 +101,19 @@ image::Use_Case_Diagram__Anwendungsfalldiagramm.png[Anwendungsfalldiagramm, 100%
 | Ergebnisse filtern | | 
 |=========================================
 
-Der Nutzer hat über einen festen Hostnamen Zugriff auf das Fahrgastinformationssystemes. Dabei kann er zwischen einer Ankunftstafel, einer Abfahrtstafel und einer Zuglaufsdarstellung wählen. Er hat ebenfalls die Möglichkeit das Ergebniss nach einem bestimmten Zeitramen, Zugtypen oder Zielbahnhof zu filtern. 
+Der Nutzer hat über einen festen Hostnamen Zugriff auf das Fahrgastinformationssystem. Dabei kann er zwischen einer Ankunftstafel, einer Abfahrtstafel und einer Zuglaufsdarstellung wählen. Er hat ebenfalls die Möglichkeit das Ergebnis nach einem bestimmten Zeitrahmen, Zugtypen oder Zielbahnhof zu filtern. 
 
 Der Fahrplan-Server ist für die Bereitstellung aktueller Daten verantwortlich. So liefert dieser beispielsweise Telegramme mit Zugläufen oder die aktuelle Laborzeit. 
 
-Der Administrator hat die Möglichkeit den Hostname, den Port, die Client ID (mit der sich das Fahrgastinformationssystemes am Fahrplan-Server anmeldet), den Timeout (TimeOutTillReconnect), der bestimmt, wann die Applikation nach einem Verbindungsabbruch einen Wiederverbindungsversuch startet, und den Timeout (TimeOut), der bestimmt nach welcher Zeit die Applikaiton in den Offline-Modus geht, einzustellen. Damit diese Änderungen in Kraft treten, muss das Fahrgast-Informationssystem neu gestartet werden. 
+Der Administrator hat die Möglichkeit den Hostnamen, den Port, die Client ID (mit der sich das Fahrgastinformationssystemes am Fahrplan-Server anmeldet), den Timeout (TimeOutTillReconnect), der bestimmt, wann die Applikation nach einem Verbindungsabbruch einen Wiederverbindungsversuch startet, und den Timeout (TimeOut), der bestimmt nach welcher Zeit die Applikation in den Offline-Modus übergeht, einzustellen. Damit diese Änderungen in Kraft treten, muss das Fahrgastinformationssystem neu gestartet werden. 
 
 == Lösungsstrategie
 
-Die Klasse TimetableData agiert als "Masterklasse" und sie hat alle wichtigen Instanzen der Fahrplandaten, wodurch man über die Klasse auf alle Daten zugreifen kann. Die TimetableController-Klasse hat die Aufgabe die TimetableData mit entsprechenden Daten anfangs zu füllen und stellt eine Schnittstelle nach außen für das Timetable-Packege dar. 
-Jede TrainRoute hat eine Liste von Stops, welche wiederrum eine Referenz auf eine TrainRoute und eine Station haben. Die Station-Klasse verhällt sich analog. Dies dient Verlinkung der Objekte und der Möglichkeit, von einem bestimmten Zuglauf über einen Stop zu dem zugehörigen Bahnhof zu kommen und umgekehrt. 
-In der GUI hat jeweils die Abfahrts-, die Ankunfts- und die Zuglaufsanzeige ihre eigene Funktion, da diese auf verschiedene URLs verweisen. Dadurch können Links kopiert und auf anderen Geräten ebenfalls aufgerufen werden und das Ergebnis ist identisch.
+Die Klasse TimetableData agiert als "Masterklasse" und hat alle wichtigen Instanzen der Fahrplandaten, wodurch man über die Klasse auf alle Daten zugreifen kann. Die TimetableController-Klasse hat die Aufgabe die TimetableData mit entsprechenden Daten anfangs zu füllen und stellt eine Schnittstelle nach außen für das Timetable-Packege dar. 
+Jede TrainRoute hat eine Liste von Stops, welche wiederrum eine Referenz auf eine TrainRoute und eine Station haben. Die Station-Klasse verhällt sich analog. Dies dient der Verlinkung der Objekte und der Möglichkeit, von einem bestimmten Zuglauf über einen Stop zu dem zugehörigen Bahnhof zu kommen und umgekehrt. 
+In dem GUI hat jeweils die Abfahrts-, die Ankunfts- und die Zuglaufsanzeige jeweils ihre eigene Funktion, da diese auf verschiedene URLs verweisen. Dadurch können Links kopiert und auf anderen Geräten ebenfalls (mit identischem Ergebnis) aufgerufen werden.
 Die TelegramReceiver-Klasse läuft in einem seperaten Thread, der nur die Aufgabe hat, auf Telegramme zu warten. Die Funktion erstellt bei Erhalt eines Telegramms ein solches und gibt es dann der TimetableController-Klasse weiter. Dabei werden die Daten "gelocked", um einen Zugriff während des Änderungsvorganges zu verhindern. 
-Die XML-Datei, die den Fahrplan für den Offline-Modus beinhaltet ist im RailML-Format. Das railml-Package stellt dafür alle nötigen Funktionen zum Auswerten der Daten bereit. 
+Die XML-Datei, die den Fahrplan für den Offline-Modus liegt im RailML-Format vor. Das railml-Package stellt dafür alle nötigen Funktionen zum Auswerten der Daten bereit. 
 
 == Bausteinsicht
 
@@ -126,7 +126,7 @@ image::Class_Diagram__Entwurfsklassendiagramm.jpg[Entwurfsklassendiagrammm, 100%
 Das Fahrgastinformationssystem ist mithilfe des Spring-Frameworks in Java 8 implementiert. 
 Grundlegend ist es in Telegrammteil (Telegram), einen Telegrammempfängerteil (TelegramReceiver), einen XML-Teil (XML), einen GUI-Teil (GUI) und einen Fahrplanteil (Timetable) (mit einem gekapselten Datenteil (TimetableData)) unterteilt. 
 
-Der Telegrammteil beinhaltet alle erstellbaren Telegramme, welche durch die parseTelegram()-Funktion in der Telegram-Klasse erstellt werden. Der Telegrammenpfänger kümmert sich um die Interatkion mit dem Fahrplan-Server und gibt dem Telegrammteil gegebenfalls den Auftrag und die Daten zum Erstellen eines Telegrammes, welches dann an den Fahrplan weitergegeben wird. Dort wird das Telegramm aufgelöst und die Änderung wird an dem entsprechenden Objekten in den Fahplandaten vorgenommen. Eine Ausnahme davon ist die aktuelle Laborzeit (time in der TimetableData-Klasse), welche sofort vom Telegrammempfänger gesetzt wird. Dies dadurch möglich, dass die aktuelle Laborzeit mit der "@Autowired"-Annotation versehen wurde. 
+Der Telegrammteil beinhaltet alle erstellbaren Telegramme, welche durch die parseTelegram()-Funktion in der Telegram-Klasse erstellt werden. Der Telegrammenpfänger kümmert sich um die Interatkion mit dem Fahrplan-Server und gibt dem Telegrammteil gegebenfalls den Auftrag und die Daten zum Erstellen eines Telegrammes, welches dann an den Fahrplan weitergegeben wird. Dort wird das Telegramm aufgelöst und die Änderung wird an dem entsprechenden Objekten in den Fahrplandaten vorgenommen. Eine Ausnahme davon ist die aktuelle Laborzeit (time in der TimetableData-Klasse), welche sofort vom Telegrammempfänger gesetzt wird. Dies dadurch möglich, dass die aktuelle Laborzeit mit der "@Autowired"-Annotation versehen ist. 
 Falls anfangs keine Verbindung zum Fahrplan-Server hergestellt werden kann, werden die benötigten Daten mithilfe des XML-Teiles geladen und anschließend durch den Fahrplan in die Fahrplandaten übernommen. 
 Die TimetableController-Klasse hat die Aufgabe die Daten des Fahrplanes für das GUI bereitzustellen, welches diese dann filtert und mittels Thymeleaf dann auf der Webseite ausgibt. 
 
@@ -138,7 +138,7 @@ Da die Telegramme unterschiedliche Form haben können und unterschiedliche Daten
 
 In der abtrakten Telegram-Klasse ist zusätzlich das Factory-Method-Pattern implementiert um das erstellen von Telegrammen aus Byte-Informationen zu erleichtern. 
 
-Auf das Singleton-Pattern wurde bei diesem Entwurf bewusst verzichtet, da sich dies mit der von dem Spring-Framework bereitgestellten "@Autowired" Annotation selbiges einfacher implementieren lässt. 
+Auf das Singleton-Pattern wurde bei diesem Entwurf bewusst verzichtet, da sich dies mit der von dem Spring-Framework bereitgestellten "@Autowired" Annotation ähnliches einfacher implementieren lässt. 
 
 === Persistenz
 
