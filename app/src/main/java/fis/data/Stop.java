@@ -173,22 +173,6 @@ public class Stop {
 	 */
 	public TrainRoute getTrainRoute(){
 		return trainRoute;
-	}
-
-	public void printDebugInformation(){
-		//erstmal nur zum Testen
-		System.out.println("---");
-		if(station!=null){
-			System.out.println("Station: "+station.getName());
-		} else {
-			System.out.println("!!STATION: NULL!!");
-		}
-		System.out.println("Train Number: ");
-		System.out.println("Scheduled Arrival: "+scheduledArrival);
-		System.out.println("Scheduled Departure: "+scheduledDeparture);
-		System.out.println("Scheduled Track: "+scheduledTrack);
-	}
-	
-	
+	}	
 	
 }

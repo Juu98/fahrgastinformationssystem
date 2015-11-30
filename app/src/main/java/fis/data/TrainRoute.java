@@ -83,15 +83,5 @@ public class TrainRoute {
 	
 	public Stop getFirstStop(){
 		return stops.get(0);
-	}
-	
-	
-	public void debugPrint(){
-		System.out.println("DEBUG PRINT FOR TRAINROUTE WITH ID #"+id);
-		for(Stop s:this.stops){
-			s.printDebugInformation();
-		}
-	}
-	
-	
+	}		
 }

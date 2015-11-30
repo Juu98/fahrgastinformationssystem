@@ -3,6 +3,8 @@ package fis.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 /**
  * Zeitplandatenstruktur
  * Enthält Rohdaten. Keine Beachtung von Konnektivitätsstatus, Filtern (außer getByID-Funktionen) o.Ä.
@@ -13,6 +15,7 @@ public class TimetableData {
 	private List<TrainRoute> trainRoutes;
 	private List<Station> stations;
 	private List<TrainCategory> trainCategories;
+	private static final Logger LOGGER = Logger.getLogger(TimetableData.class);
 	
 	/**
 	 * Initialisiert TimetableData
@@ -83,11 +86,11 @@ public class TimetableData {
 		if(id==null) return null;
 		for(Station station:getStations()){
 			if(station.getId().equals(id)){
-				System.out.println("Bahnhof mit der ID "+id+": "+station.getName());
+				LOGGER.info("Bahnhof mit der ID "+id+": "+station.getName());
 				return station;
 			}
 		}
-		System.out.println(id + " seems to be NO station!");
+		LOGGER.info(id + " scheint kein Bahnhof zu sein!");
 		return null;
 	}
 	
@@ -102,7 +105,7 @@ public class TimetableData {
 				return cat;
 			}
 		}
-		System.out.println("ACHTUNG: TrainCategory mit der ID "+id+" nicht gefunden!");
+		LOGGER.info("TrainCategory mit der ID "+id+" nicht gefunden!");
 		return null;
 	}
 
@@ -122,7 +125,7 @@ public class TimetableData {
 			}
 		}
 		
-		System.out.println("!!! TrainRoute [" + id + "] not found!");
+		LOGGER.info("TrainRoute [" + id + "] nicht gefunden!");
 		return null;
 	}
 

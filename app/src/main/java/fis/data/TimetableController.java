@@ -130,7 +130,6 @@ public class TimetableController {
 		 * TODO: Testen (ist garantiert voller Fehler...)
 		 */
 		if(station==null) {
-			System.out.println("Filter got NULL-Station!");
 			return new ArrayList<>();
 		}
 		
@@ -165,7 +164,6 @@ public class TimetableController {
 					if(stopTime!=null && from!=null && to!=null){
 						if((stopTime.isAfter(from) || stopTime.equals(from)) && (stopTime.isBefore(to) || stopTime.equals(to))){
 							newList.add(stop);
-							System.out.println("FILTER: Stop at station "+stop.getStation()+" added!");
 						}
 					}
 				}

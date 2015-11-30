@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
+import org.apache.log4j.Logger;
 import org.railml.schemas._2009.ECategory;
 import org.railml.schemas._2009.EOcp;
 import org.railml.schemas._2009.EOcpTT;
@@ -25,6 +26,7 @@ import fis.data.TrainRoute;
 import fis.railmlparser.RailMLParser;
 
 public class RailML2Data {
+	private static final Logger LOGGER = Logger.getLogger(RailML2Data.class);
 	
 	public static TimetableData loadML(String path) throws Exception{
 		
@@ -32,12 +34,12 @@ public class RailML2Data {
 		
 		RailMLParser parser=new RailMLParser();
 		try{
-			System.out.println("Parsing "+path);
+			LOGGER.info("Parsing "+path);
 			Railml railml=parser.parseRailML(path);
 			System.out.println("Parsed "+path);
 			
 			Infrastructure infra=railml.getInfrastructure();
-			System.out.println("Got Infrastrucure");
+			LOGGER.info("Got Infrastrucure");
 			for(EOcp ocp:infra.getOperationControlPoints().getOcp()){
 				TOcpOperationalType ocptype=ocp.getPropOperational().getOperationalType();
 				if(ocptype==TOcpOperationalType.STATION || ocptype==null){ //Entweder Bahnhof oder unbestimmt (da manche Halte unbestimmt sind!)
@@ -48,7 +50,7 @@ public class RailML2Data {
 			
 			
 			Timetable timetable=railml.getTimetable();
-			System.out.println("Got Timetable");
+			LOGGER.info("Got Timetable");
 			for(ECategory cat:timetable.getCategories().getCategory()){
 				//Categories auslesen
 				
@@ -64,8 +66,8 @@ public class RailML2Data {
 			for(ETrainPart trainPart:timetable.getTrainParts().getTrainPart()){
 				List<Stop> stops=new ArrayList<Stop>();
 				
-				System.out.println("..");
-				System.out.println("Zuglauf "+trainPart.getId());
+				LOGGER.info("..");
+				LOGGER.info("Zuglauf "+trainPart.getId());
 				
 				for(EOcpTT ocptt:trainPart.getOcpsTT().getOcpTT()){
 					String ocpttID=((EOcp)ocptt.getOcpRef()).getId();
@@ -87,20 +89,20 @@ public class RailML2Data {
 								default: stopType=StopType.END;
 							}			
 					
-						System.out.println("StopType: "+stopType.toString());
+							LOGGER.info("StopType: "+stopType.toString());
 					
 					
 						//TODO: Hier wird's etwas hässlich, unbedingt überprüfen, ob das funktioniert!
 						if(stopType==StopType.STOP || stopType==StopType.END){	
 							XMLGregorianCalendar calArrival=ocptt.getTimes().get(0).getArrival();		
 							arrival=LocalTime.of(calArrival.getHour(), calArrival.getMinute(), calArrival.getSecond());
-							System.out.println("Ankunft: "+arrival.toString());
+							LOGGER.info("Ankunft: "+arrival.toString());
 						}
 					
 						if(stopType!=StopType.END){			
 							XMLGregorianCalendar calDeparture=ocptt.getTimes().get(0).getDeparture();		
 							departure=LocalTime.of(calDeparture.getHour(), calDeparture.getMinute(), calDeparture.getSecond());				
-							System.out.println("Abfahrt: "+departure.toString());
+							LOGGER.info("Abfahrt: "+departure.toString());
 						}
 							
 					
@@ -110,15 +112,15 @@ public class RailML2Data {
 						if(ocptt.getTrackInfo()!=null){
 							//track=Byte.parseByte(ocptt.getTrackInfo()); 
 							track=ocptt.getTrackInfo();
-							System.out.println("Gleis: "+track);
+							LOGGER.info("Gleis: "+track);
 						} else {
 							track="";
-							System.out.println("Gleis: Keine Angabe [0]");} //warum auch immer manchmal kein Gleis dabei steht...
+							LOGGER.info("Gleis: Keine Angabe [0]");} //warum auch immer manchmal kein Gleis dabei steht...
 					
 							Stop stop=new Stop(station, stopType, arrival, departure, track);
 					
 							if(stop.getStation()==null){
-								System.out.println("Station ist NULL!");
+								LOGGER.info("Station ist NULL!");
 							}
 					
 							stops.add(stop);
@@ -135,7 +137,6 @@ public class RailML2Data {
 			}
 		}
 		catch(Exception ex){
-			//System.out.println(ex.);
 			ex.printStackTrace();
 		}
 		
