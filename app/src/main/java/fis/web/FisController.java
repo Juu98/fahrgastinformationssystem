@@ -21,8 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Main Controller class for the FIS application.
- * @author Robert
+ * Haupt-Controller-Klasse der Anwendung.
+ * 
+ * <p> Ist für Darstellung der GUI verantwortlich und verarbeitet sämtliche
+ * Nutzereingaben.
+ * 
+ * <p> Bietet außerdem die REST-Schnittstelle mit einigen Daten im JSON-Format.
+ * 
+ * @author Robert Mörseburg ({@linkplain https://github.com/fl4m})
  */
 @Controller
 public class FisController {
@@ -30,8 +36,12 @@ public class FisController {
 	private static final Logger LOGGER = Logger.getLogger(FisController.class);
 	
 	/**
-	 * TODO: add paramteres
-	 * @param tt
+	 * Standardkonstruktor.
+	 * 
+	 * <p> Der {@link TimetableController} wird durch die Spring-Annotation
+	 * automatisch angelegt und übergeben.
+	 * 
+	 * @param tt Der aktuell gültige {@link TimetableController}
 	 */
 	@Autowired
 	public FisController(TimetableController tt){
@@ -39,8 +49,12 @@ public class FisController {
 	}
 	
 	/**
-	 * Adds default attributes to the model.
-	 * @param model 
+	 * Fügt Standardparameter zum Model hinzu.
+	 * 
+	 * <p> Es werden die aktuelle Zeit sowie der Verbindungsstatus bei jedem
+	 * Seitenaufruf dem {@link Model} hinzugefügt.
+	 * 
+	 * @param model	das Model der {@link Application}
 	 */
 	public void defaults(Model model){
 		model.addAttribute("time", this.timetable.getTime());
@@ -48,8 +62,12 @@ public class FisController {
 	}
 	
 	/**
-	 * sets Landing page to departures
-	 * @return 
+	 * Startseite der Anwendung.
+	 * 
+	 * <p> Wird beim Aufruf von {@linkplain http://localhost:8080} aufgerufen
+	 * und leitet an die Abfahrtsanzeige weiter.
+	 * 
+	 * @return Spring-redirect
 	 */
 	@RequestMapping({"/", "/fis"})
 	public String index(){
@@ -57,10 +75,14 @@ public class FisController {
 	}
 	
 	/**
-	 * Departures display page for no given station.
-	 * @param model		the {@link Application}'s model
-	 * @param form		the {@link FilterForm} submitted by the user
-	 * @return the empty departures page
+	 * Startseite der Abfahrtsanzeige.
+	 * 
+	 * <p> Wird angezeigt, wenn noch kein Bahnhof ausgewählt wurde.
+	 * 
+	 * @param model		das Model der {@link Application}
+	 * @param form		Nutzereingaben im {@link FilterForm}
+	 * @return leere Abfahrtsanzeige durch Verarbeitung des
+	 *		{@linkplain src/main/resources/templates/dep.html}-Templates
 	 */
 	@RequestMapping("/dep/")
 	public String depDefault(Model model, FilterForm form){
@@ -68,8 +90,15 @@ public class FisController {
 	}
 	
 	/**
-	 * Redirection to only use valid URIs.
-	 * @return 
+	 * Weiterleitung bei inkorrekter URI.
+	 * 
+	 * <p> Es werden vom System nur URIs mit "trailing slash" verwendet. Sollte
+	 * dieser fehlen, so wird er durch diese Methode angehängt.
+	 * 
+	 * <p> Der Slash ist wichtig, damit die (relativen) Links im Template
+	 * ordnungsgemäß funktionieren.
+	 * 
+	 * @return Spring-redirect
 	 */
 	@RequestMapping("/dep")
 	public String depRedir(){
@@ -77,18 +106,27 @@ public class FisController {
 	}
 	
 	/**
-	 * Departures display page.
-	 * @param model		the {@link Application}'s model
-	 * @param form		the {@link FilterForm} submitted by the user
-	 * @param stn		the currently selected {@link Station}'s ID
-	 * @return the departures page read from {@linkplain src/main/resources/templates/dep.html}
+	 * Verarbeitungsmethode der Abfahrtsanzeige.
+	 * 
+	 * <p> Der URL-Parameter {@code \{stn\}} enthält die ID der aktuell 
+	 * ausgewählten {@link Station}.
+	 * 
+	 * <p> Diese Methode ermittelt alle anzuzeigenden Zugläufe und stellt diese
+	 * sowei einen {@link TrainRouteComparator} zum Sortieren im {@link Model}
+	 * bereit.
+	 * 
+	 * @param model		das Model der {@link Application}
+	 * @param form		Nutzereingaben im {@link FilterForm}
+	 * @param stn		ID der aktuellen {@link Station}
+	 * @return Abfahrtsanzeige durch Verarbeitung des
+	 *		{@linkplain src/main/resources/templates/dep.html}-Templates
 	 */
 	@RequestMapping("/dep/{stn}")
 	public String dep(Model model, FilterForm form, @PathVariable("stn") String stn){
-		// add default parameters to the model
+		// Standardparameter zum Model hinzufügen
 		defaults(model);
 		
-		// get current station from URL or Form
+		// aktuelle Station bestimmen
 		Station currentStation = null;
 		if (stn != null && !stn.isEmpty()){
 			currentStation = this.timetable.getData().getStationById(stn);
@@ -98,12 +136,14 @@ public class FisController {
 		}
 		LOGGER.debug("*DEP* Current station: " + currentStation);
 		
-		// Add all trains containing the given station as departure to the model
+		// Comparator zum Sortieren zum Model hinzufügen
 		model.addAttribute("comp", new TrainRouteComparator(currentStation, FilterTime.SCHEDULED, FilterType.DEPARTURE));
 
+		// alle Zugläufe mit diesem Bahnhof zum Model hinzufügen
 		model.addAttribute("trains", this.timetable.getTrainRoutesByStation(currentStation,FilterType.DEPARTURE));
 		model.addAttribute("form", form);
 		
+		// alle Bahnhöfe für die Liste zum Model hinzufügen
 		model.addAttribute("stations", this.timetable.getData().getStations());
 		model.addAttribute("currentStation", currentStation);
 		
@@ -111,10 +151,14 @@ public class FisController {
 	}
 	
 	/**
-	 * Arrivals display page for no given station.
-	 * @param model		the {@link Application}'s model
-	 * @param form		the {@link FilterForm} submitted by the user
-	 * @return the empty departures page
+	 * Startseite der Ankunftsanzeige.
+	 * 
+	 * <p> Wird angezeigt, wenn noch kein Bahnhof ausgewählt wurde.
+	 * 
+	 * @param model		das Model der {@link Application}
+	 * @param form		Nutzereingaben im {@link FilterForm}
+	 * @return leere Ankunftsanzeige durch Verarbeitung des
+	 *		{@linkplain src/main/resources/templates/arr.html}-Templates
 	 */
 	@RequestMapping("/arr/")
 	public String arrDefault(Model model, FilterForm form){
@@ -122,8 +166,15 @@ public class FisController {
 	}
 	
 	/**
-	 * Redirection to only use valid URIs.
-	 * @return 
+	 * Weiterleitung bei inkorrekter URI.
+	 * 
+	 * <p> Es werden vom System nur URIs mit "trailing slash" verwendet. Sollte
+	 * dieser fehlen, so wird er durch diese Methode angehängt.
+	 * 
+	 * <p> Der Slash ist wichtig, damit die (relativen) Links im Template
+	 * ordnungsgemäß funktionieren.
+	 * 
+	 * @return Spring-redirect
 	 */
 	@RequestMapping("/arr")
 	public String arrRedir(){
@@ -131,18 +182,27 @@ public class FisController {
 	}
 	
 	/**
-	 * Arrivals display page.
-	 * @param model		the {@link Application}'s model
-	 * @param form		the {@link FilterForm} submitted by the user
-	 * @param stn		the currently selected {@link Station}
-	 * @return the arrivals page read from {@linkplain src/main/resources/templates/arr.html}
+	 * Verarbeitungsmethode der Ankunftsanzeige.
+	 * 
+	 * <p> Der URL-Parameter {@code \{stn\}} enthält die ID der aktuell 
+	 * ausgewählten {@link Station}.
+	 * 
+	 * <p> Diese Methode ermittelt alle anzuzeigenden zugläufe und stellt diese
+	 * sowei einen {@link TrainRouteComparator} zum Sortieren im {@link Model}
+	 * bereit.
+	 * 
+	 * @param model		das Model der {@link Application}
+	 * @param form		Nutzereingaben im {@link FilterForm}
+	 * @param stn		ID der aktuellen {@link Station}
+	 * @return Ankunftsanzeige durch Verarbeitung des
+	 *		{@linkplain src/main/resources/templates/arr.html}-Templates
 	 */
 	@RequestMapping("/arr/{stn}")
 	public String arr(Model model, FilterForm form, @PathVariable("stn") String stn){
-		// add default parameters to the model
+		// Standardparameter zum Model hinzufügen
 		defaults(model);
 		
-		// get current station from URL or Form
+		// aktuelle Station bestimmen
 		Station currentStation = null;
 		if (stn != null && !stn.isEmpty()){
 			currentStation = this.timetable.getData().getStationById(stn);
@@ -152,12 +212,14 @@ public class FisController {
 		}
 		LOGGER.debug("*ARR* Current station: " + currentStation);
 		
-		// Add all trains containing the given station as departure to the model
+		// Comparator zum Sortieren zum Model hinzufügen
 		model.addAttribute("comp", new TrainRouteComparator(currentStation, FilterTime.SCHEDULED, FilterType.ARRIVAL));
 
+		// Alle Zugläufe mit diesem Bahnhof zum Model hinzufügen
 		model.addAttribute("trains", this.timetable.getTrainRoutesByStation(currentStation,FilterType.ARRIVAL));
 		model.addAttribute("form", form);
 		
+		// alle Bahnhöfe für die Liste zum Model hinzufügen
 		model.addAttribute("stations", this.timetable.getData().getStations());
 		model.addAttribute("currentStation", currentStation);
 		
@@ -165,10 +227,14 @@ public class FisController {
 	}
 	
 	/**
-	 * Arrivals display page for no given station.
-	 * @param model		the {@link Application}'s model
-	 * @param formTR	the {@link FilterForm} submitted by the user
-	 * @return the empty departures page
+	 * Startseite der Zuglaufanzeige.
+	 * 
+	 * <p> Wird angezeigt, wenn noch kein Zuglauf ausgewählt wurde.
+	 * 
+	 * @param model		das Model der {@link Application}
+	 * @param formTR	Nutzereingaben im {@link TrainRouteForm}
+	 * @return leere Zuglaufanzeige durch Verarbeitung des
+	 *		{@linkplain src/main/resources/templates/trn.html}-Templates
 	 */
 	@RequestMapping("/trn/")
 	public String trnDefault(Model model, TrainRouteForm formTR){
@@ -176,8 +242,15 @@ public class FisController {
 	}
 	
 	/**
-	 * Redirection to only use valid URIs.
-	 * @return 
+	 * Weiterleitung bei inkorrekter URI.
+	 * 
+	 * <p> Es werden vom System nur URIs mit "trailing slash" verwendet. Sollte
+	 * dieser fehlen, so wird er durch diese Methode angehängt.
+	 * 
+	 * <p> Der Slash ist wichtig, damit die (relativen) Links im Template
+	 * ordnungsgemäß funktionieren.
+	 * 
+	 * @return Spring-redirect
 	 */
 	@RequestMapping("/trn")
 	public String trnRedir(){
@@ -185,18 +258,27 @@ public class FisController {
 	}
 	
 	/**
-	 * Train display page.
-	 * @param model		the {@link Application}'s model
-	 * @param formTR	the {@link TrainRouteForm} submitted by the user
-	 * @param trt		the currently selected {@link TrainRoute}
-	 * @return the arrivals page read from {@linkplain src/main/resources/templates/trn.html}
+	 * Verarbeitungsmethode der Zuglaufanzeige.
+	 * 
+	 * <p> Der URL-Parameter {@code \{trt\}} enthält die ID der aktuellen
+	 * {@link TrainRoute}.
+	 * 
+	 * <p> Die Methode ermittelt die darzustellende {@link TrainRoute} aus
+	 * diesem Parameter oder dem Formular und fügt diese dem {@link Model}
+	 * hinzu.
+	 * 
+	 * @param model		das Model der {@link Application}
+	 * @param formTR	Nutzereingaben im {@link TrainRouteForm}
+	 * @param trt		ID der aktuellen {@link TrainRoute}
+	 * @return Zuglaufanzeige durch Verarbeitung des
+	 *		{@linkplain src/main/resources/templates/trn.html}-Templates
 	 */
 	@RequestMapping("/trn/{trt}")
 	public String trn(Model model, TrainRouteForm formTR, @PathVariable("trt") String trt){
-		// add default parameters to the model
+		// Standardparameter zum Model hinzufügen
 		defaults(model);
 		
-		// get current train route from URL or Form
+		// aktuelle TrainRoute bestimmen
 		TrainRoute currentTrainRoute= null;
 		if (trt != null && !trt.isEmpty()){
 			currentTrainRoute = this.timetable.getData().getTrainRouteById(trt);
@@ -206,6 +288,7 @@ public class FisController {
 		}
 		LOGGER.debug("*TRN* Current train route: " + currentTrainRoute);
 		
+		// TrainRoutes zum Model hinzufügen
 		model.addAttribute("trainRoutes", this.timetable.getData().getTrainRoutes());
 		model.addAttribute("currentTrainRoute", currentTrainRoute);
 		
@@ -213,8 +296,15 @@ public class FisController {
 	}
 	
 	/**
-	 * JSON list with all {@link Station}s for the typeahead.
-	 * @return 
+	 * Liefert eine JSON-Liste mit allen {@link Station}s in diesem Fahrplan.
+	 * 
+	 * <p> Wird asynchron abgerufen und liefert die Daten für die Textersetzung
+	 * im {@code typeahead}-Element der Bahnhofssuche.
+	 * 
+	 * <p> Die Daten werden durch den {@link JSONProvider} so gefiltert, dass
+	 * für jeden Bahnhof nur ID und Name übergeben werden.
+	 * 
+	 * @return JSON body
 	 */
 	@RequestMapping("stations.json")
 	public @ResponseBody List<JSONProvider.StationView> getStations(){
@@ -222,8 +312,16 @@ public class FisController {
 	}
 	
 	/**
-	 * JSON list with all {@link TrainRoute}s for the typeahead.
-	 * @return 
+	 * Liefert eine JSON-Liste mit allen {@link TrainRoute}s in diesem Fahrplan.
+	 * 
+	 * <p> Wird asynchron abgerufen und liefert die Daten für die Textersetzung
+	 * im {@code typeahead}-Element der Zuglaufsuche.
+	 * 
+	 * <p> Die Daten werden durch den {@link JSONProvider} so gefiltert, dass
+	 * für jeden Zuglauf nur ID, Zugnummer, Anfang und Ende aufgeführt werden.
+	 * {@see JSONProvider.TrainRouteView}.
+	 * 
+	 * @return JSON body
 	 */
 	@RequestMapping("trainRoutes.json")
 	public @ResponseBody List<JSONProvider.TrainRouteView> getTrainRoutes(){
