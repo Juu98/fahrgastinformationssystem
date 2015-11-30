@@ -89,6 +89,7 @@ public class Stop {
 	 * @param newStopType Der neue {@link StopType}
 	 */
 	public void updateStopType(StopType newStopType){
+		if(newStopType==null) throw new NullPointerException("newStopType darf nicht null sein");
 		this.stopType=newStopType;
 	}
 	
@@ -97,6 +98,7 @@ public class Stop {
 	 * @param actualArrival Die neue tatsächliche Ankunftszeit.
 	 */
 	public void updateArrival(LocalTime actualArrival){
+		if(actualArrival==null) throw new NullPointerException("actualArrival darf nicht null sein");
 		this.actualArrival=actualArrival;
 	}
 	
@@ -105,6 +107,7 @@ public class Stop {
 	 * @param actualDeparture Die neue tatsächliche Abfahrtszeit
 	 */
 	public void updateDeparture(LocalTime actualDeparture){
+		if(actualDeparture==null) throw new NullPointerException("actualDeparture darf nicht null sein");
 		this.actualDeparture=actualDeparture;
 	}
 	
@@ -114,6 +117,7 @@ public class Stop {
 	 * @param actualTrack Der neue Gleis.
 	 */
 	public void updateTrack(String actualTrack){
+		if(actualTrack==null) throw new NullPointerException("actualTrack darf nicht null sein");
 		this.actualTrack=actualTrack;
 	}
 	
@@ -122,6 +126,7 @@ public class Stop {
 	 * @param message
 	 */
 	public void updateMessage(String message){
+		if(message==null) throw new NullPointerException("message darf nicht null sein");
 		this.message=message;
 	}
 	

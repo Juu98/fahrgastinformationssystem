@@ -69,7 +69,7 @@ public class RailML2Data {
 				
 				for(EOcpTT ocptt:trainPart.getOcpsTT().getOcpTT()){
 					String ocpttID=((EOcp)ocptt.getOcpRef()).getId();
-					Station station=data.getStationByID(ocpttID);
+					Station station=data.getStationById(ocpttID);
 
 					if(station!=null){
 						if(!ocptt.getOcpType().equals("pass")){ //auch hier gibts Stopsignale etc; zudem sollen Passes sollen nicht angezeigt werden

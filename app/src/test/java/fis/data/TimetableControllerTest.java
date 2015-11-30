@@ -56,23 +56,17 @@ public class TimetableControllerTest {
 		
 		data.addTrainRoute(route1);
 		data.addTrainRoute(route2);
-	}
+	}	
 	
-	@Test
-	public void testAddStation(){
-		Station s=new Station("000","s");
-		data.addStation(s);
 	
-		assertTrue(data.getStations().contains(s));
-	}
 	
 	@Test
 	public void testGetStopsByStation(){
-		if(timetable.getStopsByStation(null)==null) fail("Should return an empty List if the given station is null.");
+		if(timetable.getStopsByStation(null)==null) fail("Wenn station null ist, soll eine leere Liste zurückgegeben werden.");
 		
 		List<Stop> testList=timetable.getStopsByStation(s1);
 		assertTrue( "GetStopsByStation enthält nicht alle Stops des Bahnhofs.",testList.contains(stop1));
 		assertTrue( "GetStopsByStation enthält nicht alle Stops des Bahnhofs.",testList.contains(stop5));
-
 	}
+	
 }

@@ -48,12 +48,24 @@ public class StopTest {
 		assertEquals("Aktualisierung der Ankunftszeit funktioniert nicht.",stop1.getActualArrival(),t);
 	}
 	
+	@Test(expected=NullPointerException.class)
+	public void testUpdateActualArrival_null(){	
+		stop1.updateArrival(null);
+		fail("Update mit null darf nicht möglich sein!");
+	}
+	
 	@Test
 	public void testUpdateActualDeparture(){
 		LocalTime t=LocalTime.of(3, 3);
 		
 		stop1.updateDeparture(t);
 		assertEquals("Aktualisierung der Ankunftszeit funktioniert nicht.",stop1.getActualDeparture(),t);
+	}
+	
+	@Test(expected=NullPointerException.class)
+	public void testUpdateActualDeparture_null(){	
+		stop1.updateDeparture(null);
+		fail("Update mit null darf nicht möglich sein!");
 	}
 	
 	@Test
@@ -63,11 +75,35 @@ public class StopTest {
 		assertEquals("Aktualisierung des Gleises funktioniert nicht",stop1.getActualTrack(),track);
 	}
 	
+	@Test(expected=NullPointerException.class)
+	public void testUpdateTrack_null(){	
+		stop1.updateTrack(null);
+		fail("Update mit null darf nicht möglich sein!");
+	}
+	
+	@Test
+	public void testUpdateStopType(){
+		stop1.updateStopType(StopType.STOP);
+		assertEquals("Aktualisierung des StopTypes funktioniert nicht",stop1.getStopType(),StopType.STOP);
+	}
+	
+	@Test(expected=NullPointerException.class)
+	public void testUpdateStopType_null(){	
+		stop1.updateStopType(null);
+		fail("Update mit null darf nicht möglich sein!");
+	}
+	
 	@Test
 	public void testUpdateMessage(){
 		String message="42";
 		stop1.updateMessage(message);
 		assertEquals("Aktualisierung der Nachricht funktioniert nicht",stop1.getMessage(),message);
+	}
+	
+	@Test(expected=NullPointerException.class)
+	public void testUpdateMessage_null(){	
+		stop1.updateMessage(null);
+		fail("Update mit null darf nicht möglich sein!");
 	}
 	
 	

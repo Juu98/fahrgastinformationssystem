@@ -38,12 +38,12 @@ public class StationTest {
 	List<Stop> oldStops = new LinkedList<Stop>(station.getStops());
 
 	station.removeStop(null);
-	assertTrue("Das Entfernen eines null-Halts muss die Liste nicht verändern!",
+	assertTrue("Das Entfernen eines null-Halts darf die Liste nicht verändern!",
 		oldStops.equals(station.getStops()));
 
 	Stop stop2 = new Stop(station, StopType.STOP, LocalTime.of(12, 00), LocalTime.of(12, 05), "2");
 	station.removeStop(stop2);
-	assertTrue("Das Entfernen eines in der Liste nicht enthaltenen Halts muss die Liste nicht verändern!",
+	assertTrue("Das Entfernen eines in der Liste nicht enthaltenen Halts darf die Liste nicht verändern!",
 		oldStops.equals(station.getStops()));
 	
 	station.removeStop(stop1);

@@ -90,10 +90,10 @@ public class FisController {
 		// get current station from URL or Form
 		Station currentStation = null;
 		if (stn != null && !stn.isEmpty()){
-			currentStation = this.timetable.getData().getStationByID(stn);
+			currentStation = this.timetable.getData().getStationById(stn);
 		}
 		if(form.getStationId() != null){
-			currentStation = this.timetable.getData().getStationByID(form.getStationId());
+			currentStation = this.timetable.getData().getStationById(form.getStationId());
 		}
 		LOGGER.info("*DEP* Current station: " + currentStation);
 		
@@ -142,10 +142,10 @@ public class FisController {
 		// get current station from URL or Form
 		Station currentStation = null;
 		if (stn != null && !stn.isEmpty()){
-			currentStation = this.timetable.getData().getStationByID(stn);
+			currentStation = this.timetable.getData().getStationById(stn);
 		}
 		if(form.getStationId() != null){
-			currentStation = this.timetable.getData().getStationByID(form.getStationId());
+			currentStation = this.timetable.getData().getStationById(form.getStationId());
 		}
 		LOGGER.info("*ARR* Current station: " + currentStation);
 		

@@ -29,6 +29,7 @@ public class TimetableData {
 	 * @param trainRoute {@link TrainRoute} zum Hinzufügen
 	 */
 	public void addTrainRoute(TrainRoute trainRoute){
+		if(trainRoute==null) throw new NullPointerException("TrainRoute darf nicht null sein!");
 		trainRoutes.add(trainRoute);
 	}
 	
@@ -61,6 +62,7 @@ public class TimetableData {
 	 * @param category
 	 */
 	public void addTrainCategory(TrainCategory category){
+		if(category==null) throw new NullPointerException("Category darf nicht null sein!");
 		trainCategories.add(category);
 	}
 	
@@ -69,6 +71,7 @@ public class TimetableData {
 	 * @param station
 	 */
 	public void addStation(Station station){
+		if(station==null) throw new NullPointerException("Station darf nicht null sein!");
 		stations.add(station);
 	}
 	
@@ -76,8 +79,8 @@ public class TimetableData {
 	 * @param id Die gesuchte ID
 	 * @return {@link Station} mit der gesuchten ID (falls verfügbar)
 	 */
-	public Station getStationByID(String id){
-		if(id==null) throw new NullPointerException();
+	public Station getStationById(String id){
+		if(id==null) return null;
 		for(Station station:getStations()){
 			if(station.getId().equals(id)){
 				System.out.println("Bahnhof mit der ID "+id+": "+station.getName());
@@ -93,6 +96,7 @@ public class TimetableData {
 	 * @return {@link TrainCategory} mit der gesuchten ID (falls verfügbar)
 	 */
 	public TrainCategory getTrainCategoryById(String id){
+		if(id==null) return null;
 		for(TrainCategory cat:getTrainCategories()){
 			if(cat.getId().equals(id)){
 				return cat;
@@ -109,7 +113,7 @@ public class TimetableData {
 	 */
 	public TrainRoute getTrainRouteById(String id){
 		if (id == null){
-			throw new NullPointerException("TrainRoute.ID must not be null.");
+			return null;
 		}
 		
 		for (TrainRoute tr : getTrainRoutes()){
