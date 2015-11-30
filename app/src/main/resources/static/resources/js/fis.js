@@ -43,7 +43,7 @@ var trainRoutes = $.get('/trainRoutes.json', function(data){
 		items: 10,
 		minLength: 1,
 		displayText: function(item){
-			return item.id + ': ' + item.begin.name + " – " + item.end.name;
+			return item.name + ': ' + item.begin.name + " – " + item.end.name;
 		},
 		afterSelect: function(active){
 			$("#trainRouteId").val(active.id);

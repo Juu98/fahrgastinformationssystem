@@ -24,7 +24,7 @@ import fis.data.TrainCategory;
 import fis.data.TrainRoute;
 import fis.railmlparser.RailMLParser;
 
-public class railml2data {
+public class RailML2Data {
 	
 	public static TimetableData loadML(String path) throws Exception{
 		

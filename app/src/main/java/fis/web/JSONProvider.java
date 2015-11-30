@@ -39,21 +39,28 @@ public class JSONProvider {
 	
 	public class TrainRouteView {
 		private String id;
+		private String name;
 		private StationView begin;
 		private StationView end;
-		public TrainRouteView(String id, StationView begin, StationView end){
+		public TrainRouteView(String id, StationView begin, String name, StationView end){
 			this.id = id;
+			this.name = name;
 			this.begin = begin;
 			this.end = end;
 		}
 		public TrainRouteView(TrainRoute tr){
 			this.id = tr.getId();
+			this.name = tr.toString();
 			this.begin = new StationView(tr.getStops().get(0).getStation());
 			this.end = new StationView(tr.getStops().get(tr.getStops().size()-1).getStation());
 		}
 
 		public String getId() {
 			return id;
+		}
+		
+		public String getName() {
+			return name;
 		}
 
 		public StationView getBegin() {

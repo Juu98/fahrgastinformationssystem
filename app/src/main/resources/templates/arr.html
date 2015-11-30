@@ -19,7 +19,7 @@
 				<div th:include="filter :: filter-form"></div>
 								
 				<table th:include="traintable :: traintable(arr)" class="table table-hover table-striped"
-					th:if="${currentStation != null and not #lists.isEmpty(trains)}">						   
+					th:if="${currentStation != null and not #lists.isEmpty(trains)}" id="traintable">						   
 				</table>
 				
 				<p th:if="${currentStation != null and #lists.isEmpty(trains)}" class="alert alert-warning"

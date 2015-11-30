@@ -25,7 +25,12 @@
 	background-color:#eeeeee;
 }
 
-/* last station on a trainroute */
+/* first and last station on a trainroute */
 .station-end, .station-begin {
 	font-weight: bold;
+}
+
+/* links in the traintable */
+#traintable a {
+	color: #555;
 }
