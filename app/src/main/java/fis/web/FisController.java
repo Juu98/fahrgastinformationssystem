@@ -10,7 +10,6 @@ import fis.FilterTime;
 import fis.FilterType;
 import fis.data.Station;
 import fis.data.TimetableController;
-import fis.data.TrainCategory;
 import fis.data.TrainRoute;
 import java.util.List;
 import org.apache.log4j.Logger;
