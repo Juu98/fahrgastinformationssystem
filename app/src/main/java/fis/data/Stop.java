@@ -3,64 +3,66 @@ package fis.data;
 import java.time.LocalTime;
 
 /**
- * Represents a specific stop
+ * Repräsentiert einen spezifischen Halt
  * @author Eric
  *
  */
 public class Stop {
 	private Station station;
-	private LocalTime ScheduledDeparture;
-	private LocalTime ScheduledArrival;
-	private LocalTime ActualArrival;
-	private LocalTime ActualDeparture;
+	private LocalTime scheduledDeparture;
+	private LocalTime scheduledArrival;
+	private LocalTime actualArrival;
+	private LocalTime actualDeparture;
 	
-	private String ScheduledTrack;
-	private String ActualTrack;
-	private String Message; //Hier bin ich noch unsicher, was dort genau rein soll
+	private String scheduledTrack;
+	private String actualTrack;
+	private String message; //Hier bin ich noch unsicher, was dort genau rein soll
 	private StopType stopType;
 	private TrainRoute trainRoute;
 
 	/**
-	 * Creates a new Stop
-	 * @param station The Station where the train stops
-	 * @param stopType {@link StopType} of the stop
-	 * @param ScheduledArrival Scheduled Arrival of the train
-	 * @param ScheduledDeparture Scheduled Departure of the train
-	 * @param ScheduledTrack Scheduled Track where the train arrives at the station
+	 * Erzeugt einen neuen Halt
+	 * @param station Der Bahnhof, an dem der Zug hält
+	 * @param stopType {@link StopType} dieses Haltes
+	 * @param scheduledArrival Geplante Ankunftszeit des Zuges
+	 * @param scheduledDeparture Geplante Abfahrtszeit des Zuges.
+	 * @param scheduledTrack Geplanter Gleis, an dem der Zug halten soll
 	 */
-	public Stop(Station station,StopType stopType,LocalTime ScheduledArrival, LocalTime ScheduledDeparture, String ScheduledTrack){
+	public Stop(Station station,StopType stopType,LocalTime scheduledArrival, LocalTime scheduledDeparture, String scheduledTrack){
 		this.station=station;
 		this.stopType=stopType;
-		this.ScheduledArrival=ScheduledArrival;
-		this.ScheduledDeparture=ScheduledDeparture;
-		this.ScheduledTrack=ScheduledTrack;	
+		this.scheduledArrival=scheduledArrival;
+		this.scheduledDeparture=scheduledDeparture;
+		this.scheduledTrack=scheduledTrack;	
 		
-		this.ActualArrival=ScheduledArrival;
-		this.ActualDeparture=ScheduledDeparture;
-		this.ActualTrack=ScheduledTrack;
+		this.actualArrival=scheduledArrival;
+		this.actualDeparture=scheduledDeparture;
+		this.actualTrack=scheduledTrack;
+		
+		this.message="";
 		
 		station.addStop(this);	
 	}
 	
 	/**
-	 * Getter for station
-	 * @return The {@link Station} where the train stops.
+	 * Getter für station
+	 * @return Den Bahnhof {@link Station}, an dem dieser Halt erfolgt.
 	 */
 	public Station getStation(){
 		return station;
 		}
 	
 	/**
-	 * Sets the Train Route where this stops occurs
-	 * @param route The {@link TrainRoute} that contains this stop
+	 * Setzt den Link auf den Zuglauf {@link TrainRoute}, zu der dieser Halt gehört.
+	 * @param route Der Zuglauf {@link TrainRoute}, der diesen Halt beinhaltet.
 	 */
 	public void setTrainRoute(TrainRoute route){
 		this.trainRoute=route;
 	}
 	
 	/**
-	 * Cleans the connection of the Train Route and the Station with this stop.
-	 * Do use if you want to remove this stop for data consistency. Should normally be executed by {@link Station.removeStop} or {@link TrainRoute.removeStop}
+	 * Entfernt die Verlinkung dieses Halts zum bisherigen Zuglauf {@link TrainRoute}
+	 * Aufrufen, wenn dieser Halt entfernt werden soll (für Datenkonsistenz). Wird im Normalfall automatisch durch {@link Station.removeStop} oder {@link TrainRoute.removeStop} ausgeführt.
 	 */
 	public void deleteStop(){
 		if(trainRoute!=null){
@@ -74,8 +76,8 @@ public class Stop {
 	}
 
 	/**
-	 * Getter for stopType
-	 * @return The stored {@link StopType} for this stop
+	 * Getter für stopType
+	 * @return {@link StopType} dieses Haltes
 	 */
 	public StopType getStopType(){
 		return stopType;
@@ -83,59 +85,94 @@ public class Stop {
 	
 	
 	/**
-	 * Updates the stop type of this stop (use for update telegrams)
-	 * @param newStopType The new {@link StopType}
+	 * Aktualisiert den {@link StopType}
+	 * @param newStopType Der neue {@link StopType}
 	 */
 	public void updateStopType(StopType newStopType){
+		if(newStopType==null) throw new NullPointerException("newStopType darf nicht null sein");
 		this.stopType=newStopType;
 	}
 	
 	/**
-	 * Updates the actual arrival time of the train (use for update telegrams).
-	 * @param ActualArrival The new actual arrival time.
+	 * Aktualisiert die tatsächliche Ankunftszeit des Zuges
+	 * @param actualArrival Die neue tatsächliche Ankunftszeit.
 	 */
-	public void updateArrival(LocalTime ActualArrival){
-		this.ActualArrival=ActualArrival;
+	public void updateArrival(LocalTime actualArrival){
+		if(actualArrival==null) throw new NullPointerException("actualArrival darf nicht null sein");
+		this.actualArrival=actualArrival;
 	}
 	
 	/**
-	 * Updates the actual departure time of the train (use for update telegrams).
-	 * @param ActualDeparture The new actual departure time.
+	 * Aktualisiert die tatsächliche Abfahrtszeit des Zuges
+	 * @param actualDeparture Die neue tatsächliche Abfahrtszeit
 	 */
-	public void updateDeparture(LocalTime ActualDeparture){
-		this.ActualDeparture=ActualDeparture;
+	public void updateDeparture(LocalTime actualDeparture){
+		if(actualDeparture==null) throw new NullPointerException("actualDeparture darf nicht null sein");
+		this.actualDeparture=actualDeparture;
 	}
 	
 	
 	/**
-	 * Updates the actual track where the train arrives at the station (use for update telegrams).
-	 * @param ActualTrack The new actual track
+	 * Aktualisiert den tatsächlichen Gleis, an de, der Zug hält.
+	 * @param actualTrack Der neue Gleis.
 	 */
-	public void updateTrack(String ActualTrack){
-		this.ActualTrack=ActualTrack;
+	public void updateTrack(String actualTrack){
+		if(actualTrack==null) throw new NullPointerException("actualTrack darf nicht null sein");
+		this.actualTrack=actualTrack;
 	}
 	
-	public LocalTime getScheduledDeparture(){return ScheduledDeparture;}
-	public LocalTime getScheduledArrival(){return ScheduledArrival;}
-	public LocalTime getActualDeparture(){return ActualDeparture;}
-	public LocalTime getActualArrival(){return ActualArrival;}
-	public String getScheduledTrack(){return ScheduledTrack;}
-	public String getActualTrack(){return ActualTrack;}
-	
-
-	
-	public void printDebugInformation(){
-		//erstmal nur zum Testen
-		System.out.println("---");
-		if(station!=null){
-			System.out.println("Station: "+station.getName());
-		} else {
-			System.out.println("!!STATION: NULL!!");
-		}
-		System.out.println("Train Number: ");
-		System.out.println("Scheduled Arrival: "+ScheduledArrival);
-		System.out.println("Scheduled Departure: "+ScheduledDeparture);
-		System.out.println("Scheduled Track: "+ScheduledTrack);
+	/**
+	 * Aktualisiert die aktuelle Meldung
+	 * @param message
+	 */
+	public void updateMessage(String message){
+		if(message==null) throw new NullPointerException("message darf nicht null sein");
+		this.message=message;
 	}
+	
+	/**
+	 * @return Die aktuelle "besondere Nachricht"/Information des Haltes
+	 */
+	public String getMessage(){
+		return message;
+	}
+	
+	
+	/**
+	 * @return Geplante Abfahrtszeit
+	 */
+	public LocalTime getScheduledDeparture(){return scheduledDeparture;}
+	
+	/** 
+	 * @return Geplante Ankunftszeit
+	 */
+	public LocalTime getScheduledArrival(){return scheduledArrival;}
+	
+	/**
+	 * @return Tatsächliche Abfahrtszeit
+	 */
+	public LocalTime getActualDeparture(){return actualDeparture;}
+	
+	/**
+	 * @return Tatsächliche Ankunftszeit
+	 */
+	public LocalTime getActualArrival(){return actualArrival;}
+	
+	/**
+	 * @return Geplanter Gleis
+	 */
+	public String getScheduledTrack(){return scheduledTrack;}
+	
+	/**
+	 * @return Tatsächlicher Gleis
+	 */
+	public String getActualTrack(){return actualTrack;}
+	
+	/**
+	 * @return Der Zuglauf {@link TrainRoute}, der diesen Halt beinhaltet (muss natürlich vorher gesetzt worden sein!)
+	 */
+	public TrainRoute getTrainRoute(){
+		return trainRoute;
+	}	
 	
 }

@@ -10,7 +10,6 @@ import fis.FilterTime;
 import fis.FilterType;
 import fis.data.Station;
 import fis.data.TimetableController;
-import fis.data.TrainCategory;
 import fis.data.TrainRoute;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -92,19 +91,17 @@ public class FisController {
 		// get current station from URL or Form
 		Station currentStation = null;
 		if (stn != null && !stn.isEmpty()){
-			currentStation = this.timetable.getData().getStationByID(stn);
+			currentStation = this.timetable.getData().getStationById(stn);
 		}
 		if(form.getStationId() != null){
-			currentStation = this.timetable.getData().getStationByID(form.getStationId());
+			currentStation = this.timetable.getData().getStationById(form.getStationId());
 		}
 		LOGGER.debug("*DEP* Current station: " + currentStation);
 		
 		// Add all trains containing the given station as departure to the model
 		model.addAttribute("comp", new TrainRouteComparator(currentStation, FilterTime.SCHEDULED, FilterType.DEPARTURE));
-		model.addAttribute("trains", this.timetable.filterByStation(
-			this.timetable.getData().getTrainRoutes(),
-			currentStation,
-			FilterType.DEPARTURE));
+
+		model.addAttribute("trains", this.timetable.getTrainRoutesByStation(currentStation,FilterType.DEPARTURE));
 		model.addAttribute("form", form);
 		
 		model.addAttribute("stations", this.timetable.getData().getStations());
@@ -148,19 +145,17 @@ public class FisController {
 		// get current station from URL or Form
 		Station currentStation = null;
 		if (stn != null && !stn.isEmpty()){
-			currentStation = this.timetable.getData().getStationByID(stn);
+			currentStation = this.timetable.getData().getStationById(stn);
 		}
 		if(form.getStationId() != null){
-			currentStation = this.timetable.getData().getStationByID(form.getStationId());
+			currentStation = this.timetable.getData().getStationById(form.getStationId());
 		}
 		LOGGER.debug("*ARR* Current station: " + currentStation);
 		
 		// Add all trains containing the given station as departure to the model
 		model.addAttribute("comp", new TrainRouteComparator(currentStation, FilterTime.SCHEDULED, FilterType.ARRIVAL));
-		model.addAttribute("trains", this.timetable.filterByStation(
-			this.timetable.getData().getTrainRoutes(),
-			currentStation,
-			FilterType.ARRIVAL));
+
+		model.addAttribute("trains", this.timetable.getTrainRoutesByStation(currentStation,FilterType.ARRIVAL));
 		model.addAttribute("form", form);
 		
 		model.addAttribute("stations", this.timetable.getData().getStations());
