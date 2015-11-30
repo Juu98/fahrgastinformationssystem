@@ -35,21 +35,21 @@ public class TrainRouteComparatorTest {
 	@Before
 	public void setUp(){
 		// TR1: A -> B -> C
-		tr1 = new TrainRoute("tr1", 1, null, new ArrayList());
+		tr1 = new TrainRoute("tr1", 1, null, new ArrayList<Stop>());
 		tr1.getStops().add(new Stop(sA, StopType.BEGIN, null, LocalTime.of(12, 00), null));
 		tr1.getStops().add(new Stop(sB, StopType.STOP, LocalTime.of(12, 15), LocalTime.of(12, 20), null));
 		tr1.getStops().add(new Stop(sC, StopType.END, LocalTime.of(12, 30), null, null));
 		this.trList.add(tr1);
 		
 		// TR2: C -> B -> A
-		tr2 = new TrainRoute("tr2", 2, null, new ArrayList());
+		tr2 = new TrainRoute("tr2", 2, null, new ArrayList<Stop>());
 		tr2.getStops().add(new Stop(sC, StopType.BEGIN, null, LocalTime.of(12, 00), null));
 		tr2.getStops().add(new Stop(sB, StopType.STOP, LocalTime.of(12, 17), LocalTime.of(12, 18), null));
 		tr2.getStops().add(new Stop(sA, StopType.END, LocalTime.of(12, 30), null, null));
 		this.trList.add(tr2);
 		
 		// TR3: A -> C
-		tr3 = new TrainRoute("tr3", 3, null, new ArrayList());
+		tr3 = new TrainRoute("tr3", 3, null, new ArrayList<Stop>());
 		tr3.getStops().add(new Stop(sA, StopType.BEGIN, null, LocalTime.of(12, 00), null));
 		tr3.getStops().add(new Stop(sC, StopType.END, LocalTime.of(12, 30), null, null));
 	}
