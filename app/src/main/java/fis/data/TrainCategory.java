@@ -1,8 +1,8 @@
 package fis.data;
 
 /**
- * Stores a specific TrainCategory
- * @author Eric
+ * Speichert eine bestimmte Zugkategorie
+ * @author Luux
  */
 public class TrainCategory {
 	private String id;
@@ -14,8 +14,8 @@ public class TrainCategory {
 	 * 
 	 * @param id ID
 	 * @param name Name
-	 * @param description Description
-	 * @param trainUsage Usage of the trains in this category
+	 * @param description Beschreibung
+	 * @param trainUsage Nutzung der Züge dieser Kategorie
 	 */
 	public TrainCategory(String id, String name, String description, String trainUsage){
 		this.id=id;
@@ -25,32 +25,32 @@ public class TrainCategory {
 	}
 	
 	/**
-	 * Getter for id
-	 * @return ID of this TrainCategory
+	 * Getter für id
+	 * @return ID dieser Kategorie
 	 */
 	public String getId(){
 		return id;
 	}
 	
 	/**
-	 * Getter for name
-	 * @return Name of this TrainCategory
+	 * Getter für name
+	 * @return Name dieser Zugkategorie
 	 */
 	public String getName(){
 		return name;
 	}
 	
 	/**
-	 * Getter for description
-	 * @return Description of this TrainCategory
+	 * Getter für description
+	 * @return Beschreibung dieser Zugkategorie
 	 */
 	public String getDescription(){
 		return description;
 	}
 	
 	/**
-	 * Getter for trainUsage
-	 * @return Usage of the trains in this Category
+	 * Getter für trainUsage
+	 * @return Nutzung der Züge dieser Kategorie
 	 */
 	public String getTrainUsage(){
 		return trainUsage;

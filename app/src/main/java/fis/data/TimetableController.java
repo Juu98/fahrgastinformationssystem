@@ -2,7 +2,9 @@ package fis.data;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,9 +15,9 @@ import fis.RailML2Data;
 import fis.telegramReceiver.TelegramReceiver;
 
 /**
- * Controller for TimetableData. 
- * Contains forwarding of incoming Telegrams and handling the connection state (e.g. deciding when to load RailML)
- * @author Eric
+ * Controller für {@link TimetableData}
+ * Beinhaltet Weiterreichen von einkommenden Telegrammen und Aktionen, die vom ConnectionState abhängen (z.B. Entscheidung, dass RailML-Fahrplan geladen werden soll)
+ * @author Luux
  */
 @Component
 public class TimetableController {
@@ -32,21 +34,21 @@ public class TimetableController {
 	}
 	
 	/**
-	 * @return The current laboratory time (if available)
+	 * @return Aktuelle Laborzeit (falls verfügbar)
 	 */
 	public LocalTime getTime(){
 		return LocalTime.now();
 	}
 	
 	/**
-	 * @return Raw timetable data
+	 * @return "Rohe" Fahrplandatenstruktur
 	 */
 	public TimetableData getData(){
 		return data;
 	}
 	
 	/**
-	 * Receives a telegram and either forwards the updated/new data to the data structure or updates the time depending on telegram type
+	 * Empfängt ein Telegram und führt Updates der Datenstruktur durch oder aktualisiert die Laborzeit (je nach Telegram)
 	 * @param telegram Telegram to 
 	 */
 	public void receiveTelegram(){
@@ -54,7 +56,7 @@ public class TimetableController {
 	}
 		
 	/**
-	 * @return String representation of the current state (Offline, Online, Connecting)
+	 * @return Stringrepräsentation des aktuellen ConnectionStates
 	 */
 	public String getStateName(){
 		switch(receiver.getConnectionStatus()){
@@ -87,30 +89,39 @@ public class TimetableController {
 		return data.getTrainCategories();
 	}
 	
-	public List<TrainRoute> filterByStation(List<TrainRoute> listToFilter, Station stationIncluded){
-		return filterByStation(listToFilter, stationIncluded, FilterType.ANY);
+
+	/**
+	 * @see Station.getStops
+	 * @param station
+	 * @return Alle Halte eines Bahnhofs, wenn station nicht null ist. Falls station null ist, gibt die Funktion eine leere Liste zurück.
+	 */
+	public List<Stop> getStopsByStation(Station station){
+		if(station==null) return new ArrayList<Stop>();
+		return station.getStops();
 	}
 	
-	public List<TrainRoute> filterByStation(List<TrainRoute> listToFilter, Station stationIncluded, FilterType filterType){
-		/* 
-		 * filtert die gegebene Liste mit Zugläufen nach dem angegebenen Bahnhof
-		 * Ausgabeliste enthält alle Zugläufe, die den angegebenen Bahnhof enthalten 
-		*/
+	/**
+	 * Gibt alle Zugläufe eines Bahnhofs aus
+	 * @param station
+	 * @param type Je nach {@link FilterType} gibt die Funktion alle Zugläufe, ein- oder ausfahrende Zugläufe an.
+	 * @return Alle Zugläufe eines Bahnhofs, sofern station nicht null ist (sonst leere Liste)
+	 */
+	public Set<TrainRoute> getTrainRoutesByStation(Station station, FilterType type){
+		if(station==null) return new HashSet<TrainRoute>();
 		
-		List<TrainRoute> newList = new ArrayList<>();
-		
-		if(stationIncluded == null) {
-			System.out.println("Filter got NULL-Station!");
-			return new ArrayList<>();
-		}
-		
-		for (TrainRoute route : listToFilter){
-			if(route.containsStation(stationIncluded, filterType)){
-				newList.add(route);
+		HashSet<TrainRoute> set=new HashSet<TrainRoute>();
+		for(Stop stop:station.getStops()){
+			if((type==FilterType.ARRIVAL && stop.getStopType()!=StopType.BEGIN) 
+					|| (type==FilterType.DEPARTURE && stop.getStopType()!=StopType.END) 
+					|| (type==FilterType.ANY)){
+				
+						set.add(stop.getTrainRoute());
 			}
 		}
-		return newList;		
+		return set;
 	}
+	
+	
 			
 	public List<Stop> filter(List<TrainRoute> listToFilter, Station station, LocalTime from, LocalTime to, FilterType type,FilterTime filterTime){
 		/* 
@@ -119,7 +130,6 @@ public class TimetableController {
 		 * TODO: Testen (ist garantiert voller Fehler...)
 		 */
 		if(station==null) {
-			System.out.println("Filter got NULL-Station!");
 			return new ArrayList<>();
 		}
 		
@@ -154,7 +164,6 @@ public class TimetableController {
 					if(stopTime!=null && from!=null && to!=null){
 						if((stopTime.isAfter(from) || stopTime.equals(from)) && (stopTime.isBefore(to) || stopTime.equals(to))){
 							newList.add(stop);
-							System.out.println("FILTER: Stop at station "+stop.getStation()+" added!");
 						}
 					}
 				}

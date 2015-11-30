@@ -3,114 +3,120 @@ package fis.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 /**
- * Timetable datastructure.
- * Contains raw data. Free of any state or filtering logic, just storing and updating data. (Except the getByID-Functions)
+ * Zeitplandatenstruktur
+ * Enthält Rohdaten. Keine Beachtung von Konnektivitätsstatus, Filtern (außer getByID-Funktionen) o.Ä.
  * @author Eric
  *
  */
 public class TimetableData {
-	private List<TrainRoute> trainroutes;
+	private List<TrainRoute> trainRoutes;
 	private List<Station> stations;
 	private List<TrainCategory> trainCategories;
+	private static final Logger LOGGER = Logger.getLogger(TimetableData.class);
 	
 	/**
-	 * Initialize TimetableData
+	 * Initialisiert TimetableData
 	 */
 	public TimetableData(){
-		trainroutes=new ArrayList<TrainRoute>();
+		trainRoutes=new ArrayList<TrainRoute>();
 		stations=new ArrayList<Station>();
 		trainCategories=new ArrayList<TrainCategory>();
-	}
-	
-	/**
-	 * Adds the given TrainRoute to the datastructure
-	 * @param trainRoute TrainRoute to add
-	 */
-	public void addTrainRoute(TrainRoute trainRoute){
-		trainroutes.add(trainRoute);
 		
 	}
 	
+	/**
+	 * Fügt den gegebenen Zuglauf zur Datenstruktur hinzu
+	 * @param trainRoute {@link TrainRoute} zum Hinzufügen
+	 */
+	public void addTrainRoute(TrainRoute trainRoute){
+		if(trainRoute==null) throw new NullPointerException("TrainRoute darf nicht null sein!");
+		trainRoutes.add(trainRoute);
+	}
+	
 	/** 
-	 * Getter for TrainRoutes
-	 * @return A list of all available {@link TrainRoute}s currently stored in TimetableData
+	 * Getter für trainRoutes
+	 * @return Eine Liste aller verfügbaren {@link TrainRoute}s in der Datenstruktur
 	 */
 	public List<TrainRoute> getTrainRoutes(){
-		return trainroutes;
+		return trainRoutes;
 	}
 	
 	/**
-	 * Getter for Stations
-	 * @return A list of all available {@link Station}s
+	 * Getter für stations
+	 * @return Liste von allen verfügbaren {@link Station}s
 	 */
 	public List<Station> getStations(){
 		return stations;
 	}
 	
 	/**
-	 * Getter for TrainCategories
-	 * @return A list of all available instancs of {@link TrainCategory}
+	 * Getter für trainCategories
+	 * @return Liste von allen verfügbaren {@link TrainCategory}
 	 */
 	public List<TrainCategory> getTrainCategories(){
 		return trainCategories;
 	}
 	
 	/**
-	 * Adds the given {@link TrainCategory} to the data structure
-	 * @param category The TrainCategory to add
+	 * Fügt die gegebene {@link TrainCategory} hinzu
+	 * @param category
 	 */
 	public void addTrainCategory(TrainCategory category){
+		if(category==null) throw new NullPointerException("Category darf nicht null sein!");
 		trainCategories.add(category);
 	}
 	
 	/**
-	 * Adds the given {@link Station} to the data structure
-	 * @param station The station to add
+	 * Fügt den gegebenen Bahnhof {@link Station} hinzu.
+	 * @param station
 	 */
 	public void addStation(Station station){
+		if(station==null) throw new NullPointerException("Station darf nicht null sein!");
 		stations.add(station);
 	}
 	
 	/**
-	 * @param id The id to search
-	 * @return {@link Station} with the given ID (if available)
+	 * @param id Die gesuchte ID
+	 * @return {@link Station} mit der gesuchten ID (falls verfügbar)
 	 */
-	public Station getStationByID(String id){
-		if(id==null) throw new NullPointerException();
+	public Station getStationById(String id){
+		if(id==null) return null;
 		for(Station station:getStations()){
 			if(station.getId().equals(id)){
-				System.out.println("Bahnhof mit der ID "+id+": "+station.getName());
+				LOGGER.info("Bahnhof mit der ID "+id+": "+station.getName());
 				return station;
 			}
 		}
-		System.out.println(id + " seems to be NO station!");
+		LOGGER.info(id + " scheint kein Bahnhof zu sein!");
 		return null;
 	}
 	
 	/**
-	 * @param id The ID to search
-	 * @return {@link TrainCategory} with the given ID (if available)
+	 * @param id Die gesuchte ID
+	 * @return {@link TrainCategory} mit der gesuchten ID (falls verfügbar)
 	 */
 	public TrainCategory getTrainCategoryById(String id){
+		if(id==null) return null;
 		for(TrainCategory cat:getTrainCategories()){
 			if(cat.getId().equals(id)){
 				return cat;
 			}
 		}
-		System.out.println("ACHTUNG: TrainCategory mit der ID "+id+" nicht gefunden!");
+		LOGGER.info("TrainCategory mit der ID "+id+" nicht gefunden!");
 		return null;
 	}
 
 
 	/**
-	 * 
-	 * @param id The ID to search
-	 * @return {@link TrainRoute} with the given ID (if available)
+	 * @param id Die gesuchte ID
+	 * @return {@link TrainRoute} mit der gesuchten ID (falls verfügbar)
 	 */
 	public TrainRoute getTrainRouteById(String id){
 		if (id == null){
-			throw new NullPointerException("TrainRoute.ID must not be null.");
+			return null;
 		}
 		
 		for (TrainRoute tr : getTrainRoutes()){
@@ -119,7 +125,7 @@ public class TimetableData {
 			}
 		}
 		
-		System.out.println("!!! TrainRoute [" + id + "] not found!");
+		LOGGER.info("TrainRoute [" + id + "] nicht gefunden!");
 		return null;
 	}
 
