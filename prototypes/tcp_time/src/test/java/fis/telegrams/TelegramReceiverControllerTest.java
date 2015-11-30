@@ -14,7 +14,7 @@ import static org.mockito.Mockito.*;
 /**
  * Created by spiollinux on 22.11.15.
  */
-public class TelegramReceiverTest {
+public class TelegramReceiverControllerTest {
 	TelegramReceiverController realReceiverController;
 	TelegramReceiver mockedReceiver;
 	TelegramReceiverConfig realConfig ;
