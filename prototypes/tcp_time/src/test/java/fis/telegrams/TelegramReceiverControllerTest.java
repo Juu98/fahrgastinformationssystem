@@ -48,7 +48,7 @@ public class TelegramReceiverControllerTest {
 	public void testConfigNotNull() {
 		try {
 			realReceiverController.connectToHost();
-			fail("telegramserver configuration must have valid values");
+			fail("telegramserver Konfiguration muss gültige Werte haben");
 		} catch (ConfigurationException e) {
 			return;
 		} catch (IOException e) {
@@ -68,7 +68,7 @@ public class TelegramReceiverControllerTest {
 		realReceiverController = new TelegramReceiverController(mockedReceiver,mockedConfig, mockedSocket);
 		realReceiverController.start();
 		Thread.sleep(1000);
-		assertEquals("Receiver not connected",ConnectionStatus.ONLINE, realReceiverController.getConnectionStatus());
+		assertEquals("TelegramReceiver nicht verbunden",ConnectionStatus.ONLINE, realReceiverController.getConnectionStatus());
 		realReceiverController.interrupt();
 		while(realReceiverController.isAlive()) {
 			Thread.sleep(5);
