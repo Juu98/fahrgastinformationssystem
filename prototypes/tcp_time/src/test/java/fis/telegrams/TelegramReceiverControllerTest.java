@@ -44,13 +44,13 @@ public class TelegramReceiverControllerTest {
 	}
 
 	@Test
-	public void configNotNull() {
+	public void testConfigNotNull() {
 
 	}
 
 
 	@Test
-	public void connecting() throws InterruptedException, IOException {
+	public void testConnecting() throws InterruptedException, IOException {
 		realConfig.setHostname("localhost");
 		realConfig.setPort(42);
 		realConfig.setTimeout(23);
@@ -60,13 +60,12 @@ public class TelegramReceiverControllerTest {
 		realReceiverController = new TelegramReceiverController(mockedReceiver,mockedConfig, mockedSocket);
 		realReceiverController.start();
 		Thread.sleep(1000);
+		assertEquals("Receiver not connected",ConnectionStatus.ONLINE, realReceiverController.getConnectionStatus());
 		realReceiverController.interrupt();
 		while(realReceiverController.isAlive()) {
 			Thread.sleep(5);
-			System.out.println(realReceiverController.isInterrupted());
 		}
 		verify(mockedSocket).connect(any(),anyInt());
-		assertEquals("Receiver not connected",ConnectionStatus.ONLINE, realReceiverController.getConnectionStatus());
 	}
 
 	@After
