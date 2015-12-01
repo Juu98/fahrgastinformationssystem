@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fis.web;
 
 import fis.Application;
@@ -10,7 +5,9 @@ import fis.FilterTime;
 import fis.FilterType;
 import fis.data.Station;
 import fis.data.TimetableController;
+import fis.data.TrainCategory;
 import fis.data.TrainRoute;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +27,17 @@ public class FisController {
 	private static final Logger LOGGER = Logger.getLogger(FisController.class);
 	
 	/**
-	 * TODO: add paramteres
-	 * @param tt
+	 * Verwendungszweck der anzuzeigenden Zugläufe.
+	 */
+	private static final String TRAIN_USAGE = "PASSENGER";
+	
+	/**
+	 * Standardkonstruktor.
+	 * 
+	 * <p> Der {@link TimetableController} wird durch die Spring-Annotation
+	 * automatisch angelegt und übergeben.
+	 * 
+	 * @param tt Der aktuell gültige {@link TimetableController}
 	 */
 	@Autowired
 	public FisController(TimetableController tt){
@@ -88,7 +94,11 @@ public class FisController {
 		// add default parameters to the model
 		defaults(model);
 		
-		// get current station from URL or Form
+		// Formularzustand bestimmen
+		boolean formSent = (form.getSubmit() != null && !form.getSubmit().isEmpty());
+		boolean resetForm = (form.getReset() != null && !form.getReset().isEmpty());
+		
+		// aktuelle Station bestimmen
 		Station currentStation = null;
 		if (stn != null && !stn.isEmpty()){
 			currentStation = this.timetable.getData().getStationById(stn);
@@ -98,7 +108,22 @@ public class FisController {
 		}
 		LOGGER.debug("*DEP* Current station: " + currentStation);
 		
-		// Add all trains containing the given station as departure to the model
+		// aktuell anzuzeigende Zugtypen bestimmen
+		List<TrainCategory> currentCategories;
+		if (!formSent || resetForm){
+			currentCategories = this.timetable.getTrainCategories(TRAIN_USAGE);
+		}
+		else {
+			currentCategories = new ArrayList<>();
+			if (form.getCategories() != null){
+				for (String tc : form.getCategories()){
+					currentCategories.add(this.timetable.getTrainCategoryById(tc));
+				}
+			}
+		}
+		model.addAttribute("currentCategories", currentCategories);
+		
+		// Comparator zum Sortieren zum Model hinzufügen
 		model.addAttribute("comp", new TrainRouteComparator(currentStation, FilterTime.SCHEDULED, FilterType.DEPARTURE));
 
 		model.addAttribute("trains", this.timetable.getTrainRoutesByStation(currentStation,FilterType.DEPARTURE));
@@ -106,6 +131,9 @@ public class FisController {
 		
 		model.addAttribute("stations", this.timetable.getData().getStations());
 		model.addAttribute("currentStation", currentStation);
+		
+		// alle Zugkategorien zum Model hinzufügen
+		model.addAttribute("categories", this.timetable.getTrainCategories(TRAIN_USAGE));
 		
 		return "dep";
 	}
@@ -142,7 +170,11 @@ public class FisController {
 		// add default parameters to the model
 		defaults(model);
 		
-		// get current station from URL or Form
+		// Formularzustand bestimmen
+		boolean formSent = (form.getSubmit() != null && !form.getSubmit().isEmpty());
+		boolean resetForm = (form.getReset() != null && !form.getReset().isEmpty());
+				
+		// aktuelle Station bestimmen
 		Station currentStation = null;
 		if (stn != null && !stn.isEmpty()){
 			currentStation = this.timetable.getData().getStationById(stn);
@@ -152,7 +184,22 @@ public class FisController {
 		}
 		LOGGER.debug("*ARR* Current station: " + currentStation);
 		
-		// Add all trains containing the given station as departure to the model
+		// aktuell anzuzeigende Zugtypen bestimmen
+		List<TrainCategory> currentCategories;
+		if (!formSent || resetForm){
+			currentCategories = this.timetable.getTrainCategories(TRAIN_USAGE);
+		}
+		else {
+			currentCategories = new ArrayList<>();
+			if (form.getCategories() != null){
+				for (String tc : form.getCategories()){
+					currentCategories.add(this.timetable.getTrainCategoryById(tc));
+				}
+			}
+		}
+		model.addAttribute("currentCategories", currentCategories);
+		
+		// Comparator zum Sortieren zum Model hinzufügen
 		model.addAttribute("comp", new TrainRouteComparator(currentStation, FilterTime.SCHEDULED, FilterType.ARRIVAL));
 
 		model.addAttribute("trains", this.timetable.getTrainRoutesByStation(currentStation,FilterType.ARRIVAL));
@@ -160,6 +207,9 @@ public class FisController {
 		
 		model.addAttribute("stations", this.timetable.getData().getStations());
 		model.addAttribute("currentStation", currentStation);
+		
+		// alle Zugkategorien zum Model hinzufügen
+		model.addAttribute("categories", this.timetable.getTrainCategories(TRAIN_USAGE));
 		
 		return "arr";
 	}
@@ -218,7 +268,8 @@ public class FisController {
 	 */
 	@RequestMapping("stations.json")
 	public @ResponseBody List<JSONProvider.StationView> getStations(){
-		return new JSONProvider().getStations(this.timetable.getData().getStations());
+		return new JSONProvider().getStations(
+				this.timetable.getData().getStations());
 	}
 	
 	/**
@@ -228,5 +279,18 @@ public class FisController {
 	@RequestMapping("trainRoutes.json")
 	public @ResponseBody List<JSONProvider.TrainRouteView> getTrainRoutes(){
 		return new JSONProvider().getTrainRoutes(this.timetable.getData().getTrainRoutes());
+	}
+	
+	/**
+	 * Liefert eine JSON-Liste mit allen {@link TrainCategory} Einträgen 
+	 * des aktuellen Fahrplans.
+	 * 
+	 * <p> Wird für die Ausgabe der Liste der Zugtypen zum Filtern verwendet.
+	 * 
+	 * @return JSON body
+	 */
+	@RequestMapping("trainCategories.json")
+	public @ResponseBody List<TrainCategory> getTrainCategories(){
+		return this.timetable.getTrainCategories();
 	}
 }

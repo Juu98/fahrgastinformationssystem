@@ -57,12 +57,11 @@ public class TrainCategory {
 	}
 	
 	/**
-	 * TODO find useful information
-	 * @return 
+	 * Liefert menschenlesbare Reptäsentation der {@link TrainCategory}
+	 * @return String der Form [RE] RegionalExpress
 	 */
 	@Override
 	public String toString(){
-		return String.format("TRAIN CATEGORY\n\t[id  ]\t %s \n\t[name]\t %s \n\t[desc]\t %s \n\t[use ]\t %s \n",
-				this.id, this.name, this.description, this.trainUsage);
+		return String.format("[%s] %s", this.name, this.description);
 	}
 }
