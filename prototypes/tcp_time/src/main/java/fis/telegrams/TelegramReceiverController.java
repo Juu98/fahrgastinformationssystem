@@ -54,6 +54,7 @@ public class TelegramReceiverController extends Thread {
 			    try {
 				    Thread.sleep(receiverConfig.getTimeTillReconnect());
 			    } catch (InterruptedException e) {
+				    this.interrupt();
 				    break;
 			    }
 		    }
