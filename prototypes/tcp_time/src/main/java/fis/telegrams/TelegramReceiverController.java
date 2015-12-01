@@ -3,6 +3,7 @@ package fis.telegrams;
 import fis.TimeTableController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -15,17 +16,21 @@ import java.net.SocketAddress;
 @Service
 public class TelegramReceiverController extends Thread {
 
-    @Autowired
-    TelegramReceiverConfig receiverConfig;
-    @Autowired
-    TelegramReceiver receiver;
-    @Autowired
-    private Socket server;
+    private final TelegramReceiverConfig receiverConfig;
+    private final TelegramReceiver receiver;
+    private final Socket server;
     private ConnectionStatus connectionStatus;
     private TimeTableController timeTableController;
 
-    public TelegramReceiverController() {
-        this.connectionStatus = ConnectionStatus.OFFLINE;
+	@Autowired
+    public TelegramReceiverController(TelegramReceiver receiver, TelegramReceiverConfig config, Socket server) {
+		Assert.notNull(receiver,"TelegramReceiver mustn't be null");
+		Assert.notNull(config,"TelegramReceiverConfig mustn't be null");
+		Assert.notNull(server,"Socket mustn't be null");
+		this.receiver = receiver;
+		this.receiverConfig = config;
+		this.server = server;
+		this.connectionStatus = ConnectionStatus.OFFLINE;
     }
 
     @Override

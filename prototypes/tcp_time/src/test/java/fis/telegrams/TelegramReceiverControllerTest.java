@@ -19,7 +19,7 @@ public class TelegramReceiverControllerTest {
 	TelegramReceiver mockedReceiver;
 	TelegramReceiverConfig realConfig ;
 	TelegramReceiverConfig mockedConfig ;
-	Socket mockedSocket;
+	TelegramSocket mockedSocket;
 	byte[] buf = new byte[255];
 
 	@Before
@@ -27,10 +27,8 @@ public class TelegramReceiverControllerTest {
 		mockedReceiver = mock(TelegramReceiver.class);
 		realConfig = new TelegramReceiverConfig();
 		mockedConfig = spy(realConfig);
-		realReceiverController = new TelegramReceiverController();
-		ReflectionTestUtils.setField(realReceiverController,"receiverConfig",mockedConfig);
-		mockedSocket = mock(Socket.class);
-		ReflectionTestUtils.setField(realReceiverController,"server",mockedSocket);
+		mockedSocket = mock(TelegramSocket.class);
+		realReceiverController = new TelegramReceiverController(mockedReceiver,mockedConfig, mockedSocket);
 
 		OutputStream out = new ByteArrayOutputStream();
 		InputStream in = new ByteArrayInputStream(buf);
@@ -58,8 +56,8 @@ public class TelegramReceiverControllerTest {
 		realConfig.setTimeout(23);
 		//updating spy
 		mockedConfig = spy(realConfig);
-		ReflectionTestUtils.setField(realReceiverController, "receiverConfig", mockedConfig);
-		ReflectionTestUtils.setField(realReceiverController, "receiver", mockedReceiver);
+		//creating it again because config has changed
+		realReceiverController = new TelegramReceiverController(mockedReceiver,mockedConfig, mockedSocket);
 		realReceiverController.start();
 		Thread.sleep(1000);
 		realReceiverController.interrupt();
