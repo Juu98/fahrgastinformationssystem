@@ -1,5 +1,6 @@
 package fis.telegrams;
 
+import fis.ConfigurationException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +46,14 @@ public class TelegramReceiverControllerTest {
 
 	@Test
 	public void testConfigNotNull() {
-
+		try {
+			realReceiverController.connectToHost();
+			fail("telegramserver configuration must have valid values");
+		} catch (ConfigurationException e) {
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 

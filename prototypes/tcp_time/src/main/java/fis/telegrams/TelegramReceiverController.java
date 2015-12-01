@@ -1,5 +1,6 @@
 package fis.telegrams;
 
+import fis.ConfigurationException;
 import fis.TimeTableController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,9 @@ public class TelegramReceiverController extends Thread {
 				    this.setConnectionStatus(ConnectionStatus.OFFLINE);
 				    //TODO: Log connection fail
 			    }
+			    catch(ConfigurationException e) {
+				    //Todo: Log config error
+			    }
 			    try {
 				    Thread.sleep(receiverConfig.getTimeTillReconnect());
 			    } catch (InterruptedException e) {
@@ -87,11 +91,20 @@ public class TelegramReceiverController extends Thread {
 	    }
     }
 
-    public void connectToHost() throws IOException {
+    public void connectToHost() throws IOException, ConfigurationException {
         setConnectionStatus(ConnectionStatus.CONNECTING);
-        SocketAddress hostAddress = new InetSocketAddress(receiverConfig.getHostname(), receiverConfig.getPort());
-        server.connect(hostAddress, receiverConfig.getTimeout());
-        setConnectionStatus(ConnectionStatus.ONLINE);
+	    try {
+		    SocketAddress hostAddress = new InetSocketAddress(receiverConfig.getHostname(), receiverConfig.getPort());
+		    try {
+			    server.connect(hostAddress, receiverConfig.getTimeout());
+			    setConnectionStatus(ConnectionStatus.ONLINE);
+		    } catch (IllegalArgumentException e) {
+			    throw(new ConfigurationException("Telegramserver: configuration of timeout not valid"));
+		    }
+	    }
+		catch (IllegalArgumentException e) {
+			throw(new ConfigurationException("Telegramserver: configuration of hostname or port not valid"));
+		}
     }
 
     /**
