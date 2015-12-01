@@ -29,6 +29,7 @@ public class RailMLParserTest {
     @Test
     public void testParseRailML() throws IOException, JAXBException {
 	Railml railml = railMLParser.parseRailML("EBL Regefahrplan simple.xml");
-	assertTrue("Das Parsen einer gültigen Datei soll ein Railml-Objekt erzeugen!", railml instanceof Railml);
+	assertTrue("Das Parsen einer gültigen Datei soll ein Railml-Objekt erzeugen!",
+		railml.getClass().equals(Railml.class));
     }
 }
