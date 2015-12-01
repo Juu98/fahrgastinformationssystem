@@ -33,7 +33,7 @@ public class RailML2Data {
 		TimetableData data=new TimetableData();
 		
 		RailMLParser parser=new RailMLParser();
-		try{
+		
 			LOGGER.info("Parsing "+path);
 			Railml railml=parser.parseRailML(path);
 			System.out.println("Parsed "+path);
@@ -135,10 +135,8 @@ public class RailML2Data {
 					data.addTrainRoute(new TrainRoute(trainPart.getId(),trainNumber,data.getTrainCategoryById(((ECategory)trainPart.getCategoryRef()).getId()),stops));
 				}
 			}
-		}
-		catch(Exception ex){
-			ex.printStackTrace();
-		}
+		
+		
 		
 		return data;
 	}
