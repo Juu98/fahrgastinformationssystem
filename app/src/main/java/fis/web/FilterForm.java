@@ -1,20 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fis.web;
 
 import java.time.LocalTime;
+import java.util.List;
 
 /**
- * Interface mapping data from the filter form.
- * @author Robert
+ * Interface, das die Nutzerdaten aus dem Filter-Formular abbildet.
+ * @author Robert Mörseburg ({@linkplain https://github.com/fl4m})
  */
 public interface FilterForm {
+	// aktueller Bahnhof
 	public String getStationId();
 	public String getStationName();
+	
+	// Zugtypen
+	public List<String> getCategories();
+	
+	// Zielbahnhof
 	public String getDestination();
+	
+	// Zeitfenster
 	public LocalTime getStart();
 	public LocalTime getEnd();
+	
+	// Buttonaktionen
+	public String getSubmit();
+	public String getReset();
 }

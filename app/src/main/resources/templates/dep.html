@@ -14,21 +14,23 @@
 	<body class="container">
 		<th:block th:include="header :: header(dep)"></th:block>
 		
-		<div class="tab-content col-md-8 col-md-offset-2">
-			<div class="tab-pane active" id="dep">
-				<div th:include="filter :: filter-form"></div>
-								
-				<table th:include="traintable :: traintable(dep)" class="table table-hover table-striped"
-					th:if="${currentStation != null and not #lists.isEmpty(trains)}" id="traintable">						   
-				</table>
-				
-				<p th:if="${currentStation != null and #lists.isEmpty(trains)}" class="alert alert-warning"
-					th:text="#{fis.alerts.notrains.dep}">Keine Züge.</p>
-				<p th:unless="${currentStation}" class="alert alert-info"
-					th:text="#{fis.alerts.nostation.dep}">Kein Bahnhof ausgewählt.</p>
+		<div class="row">
+			<div class="tab-content col-md-8 col-md-offset-2">
+				<div class="tab-pane active" id="dep">
+					<div th:include="filter :: filter-form"></div>
+
+					<table th:include="traintable :: traintable(dep)" class="table table-hover table-striped"
+						th:if="${currentStation != null and not #lists.isEmpty(trains)}" id="traintable">						   
+					</table>
+
+					<p th:if="${currentStation != null and #lists.isEmpty(trains)}" class="alert alert-warning"
+						th:text="#{fis.alerts.notrains.dep}">Keine Züge.</p>
+					<p th:unless="${currentStation}" class="alert alert-info"
+						th:text="#{fis.alerts.nostation.dep}">Kein Bahnhof ausgewählt.</p>
+				</div>
 			</div>
 		</div>
-		
+			
 		<script th:src="@{/resources/js/fis.js}"></script>
 	</body>
 </html>

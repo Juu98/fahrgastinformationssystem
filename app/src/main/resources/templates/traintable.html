@@ -13,7 +13,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="train : ${#lists.sort(trains, comp)}">
+				<tr th:each="train : ${#lists.sort(trains, comp)}"
+					th:if="${#lists.contains(currentCategories, train.trainCategory)}">
 					<th:block th:each="stop, trnStat : ${train.stops}" th:if="${stop.station == currentStation}">
 						<td th:switch="${active}">
 							<th:block th:case="'dep'" th:text="${#temporals.format(stop.ScheduledDeparture, 'HH:mm')}">13:37</th:block>
