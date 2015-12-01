@@ -13,6 +13,7 @@ import fis.FilterTime;
 import fis.FilterType;
 import fis.RailML2Data;
 import fis.telegramReceiver.TelegramReceiver;
+import java.util.function.Predicate;
 
 /**
  * Controller für {@link TimetableData}
@@ -21,6 +22,43 @@ import fis.telegramReceiver.TelegramReceiver;
  */
 @Component
 public class TimetableController {
+	/**
+	 * Predicate zum Filtern der {@link TrainRoute}s nach ihrer
+	 * {@link TrainCategory}.
+	 * 
+	 * <p> Um das Filtern zu erleichtern liefert dieses {@link Predicate} alle 
+	 * {@link TrainCategory}s, die nicht dem übergebenen Verwendungszweck
+	 * entsprechen.
+	 */
+	private class TrainUsagePredicate implements Predicate<TrainCategory>{
+		private String usage;
+		
+		/**
+		 * Standardkonstruktor.
+		 * @param usage der Verwendungszweck, z.B. {@literal PASSENGER}, nach
+		 *		dem gefiltert werden soll
+		 */
+		public TrainUsagePredicate(String usage){
+			super();
+			
+			if (usage == null) throw new NullPointerException("You need to specify a usage to filter by!");
+			if (usage.isEmpty()) throw new IllegalArgumentException("Empty usage is not allowed.");
+			else this.usage = usage;
+		}
+		
+		/**
+		 * Vergleichsmethode.
+		 * @param t Die Kategory, die untersucht wird
+		 * @return {@literal true} genau dann, wenn der Verwendungszweck mit dem
+		 *		im Konstruktor Angegebenen NICHT übereinstimmt, ansonsten
+		 *		{@literal false}.
+		 */
+		@Override
+		public boolean test(TrainCategory t) {
+			return !(t.getTrainUsage().equalsIgnoreCase(this.usage));
+		}
+	}
+	
 	private TimetableData data;
 	@Autowired private TelegramReceiver receiver;
 	
@@ -87,6 +125,39 @@ public class TimetableController {
 	 */
 	public List<TrainCategory> getTrainCategories(){
 		return data.getTrainCategories();
+	}
+	
+	/**
+	 * Liefert alle {@link TrainCategory}s, die einen bestimmten
+	 * Verwendungszweck erfüllen.
+	 * 
+	 * @param use der zu erfüllende Verwendungszweck.
+	 * @return eine (ggf. leere) Liste von {@link TrainCategory}s
+	 */
+	public List<TrainCategory> getTrainCategories(String use){
+		List<TrainCategory> ret = new ArrayList<>(data.getTrainCategories());
+		ret.removeIf(new TrainUsagePredicate(use));
+		return ret;
+	}
+	
+	/**
+	 * Liefert eine {@link TrainCategory} anhand ihrer ID.
+	 * @param id die ID, nach der gesucht wird
+	 * @return die gesuchte {@link TrainCategory} oder {@literal null}, falls 
+	 *		keine passende gefunden wurde
+	 */
+	public TrainCategory getTrainCategoryById(String id){
+		if (id == null){
+			throw new NullPointerException("Accessing TrainCategory with ID null!");
+		}
+		
+		for (TrainCategory tc : data.getTrainCategories()){
+			if (tc.getId().equals(id)){
+				return tc;
+			}
+		}
+		
+		return null;
 	}
 	
 

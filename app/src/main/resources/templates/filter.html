@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 	<body>
 		<div th:fragment="filter-form">
-			<form method="post" role="form" action="" id="filter">
+			<form method="post" role="form" id="filter">
 				<div class="form-group">
 					<div class="input-group col-md-8 pull-left">
 						<span class="input-group-addon">
@@ -20,14 +20,35 @@
 					</div>
 					<input type="hidden" name="stationId" id="stationId" th:value="${currentStation} ? ${currentStation.id}" />
 					<input type="submit" name="submit" class="btn btn-primary col-md-2 col-md-offset-2" th:value="#{fis.filterform.submit}" />
-					<div class="clearfix row"> </div>
+					<div class="clearfix"> </div>
 				</div>
+							
 				<div class="collapse" id="stationList">
-					<ul class="list-group row">
+					<ul class="list-unstyled list-group">
 						<li class="list-group-item col-xs-4" th:each="st : ${stations}">
 							<a th:href="|./${st.id}|" th:text="${st.name}">Bahnhof</a>
 						</li>
+						<li class="clearfix"></li>
 					</ul>
+				</div>
+				
+				<div class="panel panel-default" id="filterOptions">
+					<div class="panel-heading panel-title" th:text="#{fis.filterform.heading}">Filter</div>
+					<div class="panel-body">
+						<h4 th:text="#{fis.filterform.category}">Kategorien</h4>
+						<div class="form-group">
+							<label class="checkbox-inline"
+								th:each="cat : ${categories}">
+								<input type="checkbox" name="categories" th:value="${cat.id}"
+									   th:checked="${#lists.contains(currentCategories, cat)}? 'checked'" />
+								<span th:text="${cat.name}" th:title="${cat.description}">Category</span>
+							</label>
+						</div>
+						<div class="form-group">
+							<input type="submit" name="submit" class="btn btn-primary col-md-2" th:value="#{fis.filterform.apply}" />
+							<input type="submit" name="reset" class="btn btn-default col-md-2 col-md-offset-2" th:value="#{fis.filterform.reset}" />
+						</div>
+					</div>
 				</div>
 			</form>
 		</div>

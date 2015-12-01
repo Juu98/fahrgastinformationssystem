@@ -83,7 +83,12 @@ public class TrainRoute {
 	
 	public Stop getFirstStop(){
 		return stops.get(0);
-	}		
+	}
+	
+	/**
+	 * Liefert eine menschenlesbare Zugnummer.
+	 * @return Zugnummer in der Form ICE 123
+	 */
 	@Override
 	public String toString(){
 		if (this.trainCategory != null) return String.format("%s %s", this.trainCategory.getName(), this.trainNumber);
