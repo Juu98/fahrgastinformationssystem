@@ -50,7 +50,7 @@ Im Bereich der Telegrammverarbeitung wurde der Code neu strukturiert und weitere
 
 == Planung des nächsten Sprints
 
-Bis zum **25.12.2015** müssen die *Muss-Kriterien* implementiert sein.
+Bis zum **15.12.2015** müssen die *Muss-Kriterien* implementiert sein.
 Für den nächsten Sprint stehen außerdem folgende Punkte auf der Agenda:
 
 === Logs
