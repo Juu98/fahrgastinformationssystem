@@ -49,7 +49,7 @@ public class TelegramReceiver {
 	}
 
     @Async
-    private Future<byte[]> parseConnection(InputStream in) throws IOException {
+    Future<byte[]> parseConnection(InputStream in) throws IOException {
         int readPos = 0, maxResponseLength = 255;
         byte[] response = new byte[maxResponseLength];
         while (readPos < maxResponseLength) {

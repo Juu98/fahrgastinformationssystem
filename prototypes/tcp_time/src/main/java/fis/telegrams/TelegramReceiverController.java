@@ -7,9 +7,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by spiollinux on 07.11.15.
@@ -62,6 +68,15 @@ public class TelegramReceiverController extends Thread {
 				    break;
 			    }
 		    }
+		    if(server.isConnected()) {
+			    try {
+				    register();
+			    } catch (IOException e) {
+				    //Todo: handle
+				    e.printStackTrace();
+			    }
+		    }
+		    else continue;
 		    try {
                 while (getConnectionStatus() == ConnectionStatus.ONLINE && !Thread.currentThread().isInterrupted()) {
                     receiver.handleConnection(server.getInputStream());
@@ -91,13 +106,39 @@ public class TelegramReceiverController extends Thread {
 	    }
     }
 
-    public void connectToHost() throws IOException, ConfigurationException {
+	private void register() throws IOException  {
+		OutputStream out = server.getOutputStream();
+		InputStream in = server.getInputStream();
+		RegistrationTelegram telegram = new RegistrationTelegram(receiverConfig.getClientID());
+		out.write(telegram.getRawTelegram());
+		Future<byte[]> response = receiver.parseConnection(in);
+		byte[] rawResponse = null;
+		try {
+			rawResponse = response.get(receiverConfig.getTimeout(), TimeUnit.MILLISECONDS);
+		} catch (TimeoutException e) {
+			//Todo: raise login error
+		} catch (InterruptedException e) {
+			this.interrupt();
+		} catch (ExecutionException e) {
+			//Todo: handle
+		}
+		if(rawResponse != null) {
+			Telegram responseTelegram = Telegram.parse(rawResponse);
+			if(responseTelegram.getClass() == LabTimeTelegram.class) {
+				setConnectionStatus(ConnectionStatus.ONLINE);
+				//Todo: forward telegram
+				return;
+			}
+		}
+		//Todo: Login error
+	}
+
+	public void connectToHost() throws IOException, ConfigurationException {
         setConnectionStatus(ConnectionStatus.CONNECTING);
 	    try {
 		    SocketAddress hostAddress = new InetSocketAddress(receiverConfig.getHostname(), receiverConfig.getPort());
 		    try {
 			    server.connect(hostAddress, receiverConfig.getTimeout());
-			    setConnectionStatus(ConnectionStatus.ONLINE);
 		    } catch (IllegalArgumentException e) {
 			    throw(new ConfigurationException("Telegramserver: configuration of timeout not valid"));
 		    }
