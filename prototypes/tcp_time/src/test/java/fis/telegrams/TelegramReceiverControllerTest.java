@@ -4,10 +4,8 @@ import fis.ConfigurationException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.*;
-import java.net.Socket;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -40,7 +38,7 @@ public class TelegramReceiverControllerTest {
 		doReturn(in).when(mockedSocket).getInputStream();
 
 		doNothing().when(mockedSocket).connect(any(),anyInt());
-		doNothing().when(mockedReceiver).handleConnection(any());
+		doNothing().when(mockedReceiver).handleConnection(any(InputStream.class), any(OutputStream.class));
 
 	}
 
@@ -59,13 +57,16 @@ public class TelegramReceiverControllerTest {
 
 	@Test
 	public void testConnecting() throws InterruptedException, IOException {
+		//setting additional mocks
+		doReturn(new LabTimeTelegram()).when(mockedReceiver).sendTelegram(any(InputStream.class), any(OutputStream.class), any(RegistrationTelegram.class));
+		when(mockedSocket.isConnected()).thenReturn(true);
 		realConfig.setHostname("localhost");
 		realConfig.setPort(42);
 		realConfig.setTimeout(23);
 		//updating spy
 		mockedConfig = spy(realConfig);
 		//creating it again because config has changed
-		realReceiverController = new TelegramReceiverController(mockedReceiver,mockedConfig, mockedSocket);
+		realReceiverController = spy(new TelegramReceiverController(mockedReceiver,mockedConfig, mockedSocket));
 		realReceiverController.start();
 		Thread.sleep(1000);
 		assertEquals("TelegramReceiver nicht verbunden",ConnectionStatus.ONLINE, realReceiverController.getConnectionStatus());
@@ -73,7 +74,8 @@ public class TelegramReceiverControllerTest {
 		while(realReceiverController.isAlive()) {
 			Thread.sleep(5);
 		}
-		verify(mockedSocket).connect(any(),anyInt());
+		verify(mockedSocket).connect(any(), anyInt());
+		verify(mockedReceiver).sendTelegram(any(InputStream.class), any(OutputStream.class), any(RegistrationTelegram.class));
 	}
 
 	@After

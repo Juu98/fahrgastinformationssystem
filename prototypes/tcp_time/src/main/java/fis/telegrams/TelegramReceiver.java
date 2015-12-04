@@ -4,12 +4,16 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by spiollinux on 07.11.15.
@@ -18,13 +22,15 @@ import java.util.concurrent.Future;
 public class TelegramReceiver {
 
     private List<byte[]> telegramQueue;
+	private int timeout;
 
-    public TelegramReceiver() {
+    public TelegramReceiver(int timeout) {
         this.telegramQueue = new LinkedList<>();
+	    this.timeout = timeout;
     }
 
 
-	void handleConnection(InputStream in) throws IOException {
+	void handleConnection(InputStream in, OutputStream out) throws IOException {
 		Future<byte[]> currentTelegram = parseConnection(in);
 		while (!currentTelegram.isDone()) {
 			if(Thread.currentThread().isInterrupted())
@@ -59,6 +65,23 @@ public class TelegramReceiver {
         //packet read to response
         parseTelegram(response);
         return new AsyncResult<>(response);
+    }
+
+    public Telegram sendTelegram(InputStream in, OutputStream out, SendableTelegram telegram) throws IOException {
+	    out.write(telegram.getRawTelegram());
+	    		Future<byte[]> response = parseConnection(in);
+		byte[] rawResponse = null;
+		try {
+			rawResponse = response.get(timeout, TimeUnit.MILLISECONDS);
+		} catch (TimeoutException e) {
+			//Todo: raise login error
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		} catch (ExecutionException e) {
+			//Todo: handle
+		}
+	    return Telegram.parse(rawResponse);
+	    //Todo: handle parse error
     }
 
     private void parseTelegram(byte[] response) {

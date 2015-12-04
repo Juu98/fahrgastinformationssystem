@@ -61,25 +61,26 @@ public class TelegramReceiverController extends Thread {
 			    catch(ConfigurationException e) {
 				    //Todo: Log config error
 			    }
+			    if(server.isConnected()) {
+					try {
+						register();
+					} catch (IOException e) {
+						//TODO: Log connection fail
+						this.setConnectionStatus(ConnectionStatus.OFFLINE);
+						continue;
+					}
+				}
 			    try {
 				    Thread.sleep(receiverConfig.getTimeTillReconnect());
 			    } catch (InterruptedException e) {
 				    this.interrupt();
 				    break;
 			    }
+
 		    }
-		    if(server.isConnected()) {
-			    try {
-				    register();
-			    } catch (IOException e) {
-				    //Todo: handle
-				    e.printStackTrace();
-			    }
-		    }
-		    else continue;
 		    try {
                 while (getConnectionStatus() == ConnectionStatus.ONLINE && !Thread.currentThread().isInterrupted()) {
-                    receiver.handleConnection(server.getInputStream());
+                    receiver.handleConnection(server.getInputStream(), server.getOutputStream());
                 }
 		    } catch (IOException e) {
 			    //Todo: handle error
@@ -107,23 +108,10 @@ public class TelegramReceiverController extends Thread {
     }
 
 	private void register() throws IOException  {
-		OutputStream out = server.getOutputStream();
-		InputStream in = server.getInputStream();
-		RegistrationTelegram telegram = new RegistrationTelegram(receiverConfig.getClientID());
-		out.write(telegram.getRawTelegram());
-		Future<byte[]> response = receiver.parseConnection(in);
-		byte[] rawResponse = null;
-		try {
-			rawResponse = response.get(receiverConfig.getTimeout(), TimeUnit.MILLISECONDS);
-		} catch (TimeoutException e) {
-			//Todo: raise login error
-		} catch (InterruptedException e) {
-			this.interrupt();
-		} catch (ExecutionException e) {
-			//Todo: handle
-		}
-		if(rawResponse != null) {
-			Telegram responseTelegram = Telegram.parse(rawResponse);
+		RegistrationTelegram regTelegram = new RegistrationTelegram(receiverConfig.getClientID());
+		Telegram responseTelegram = receiver.sendTelegram(server.getInputStream(), server.getOutputStream(), regTelegram);
+
+		if(responseTelegram != null) {
 			if(responseTelegram.getClass() == LabTimeTelegram.class) {
 				setConnectionStatus(ConnectionStatus.ONLINE);
 				//Todo: forward telegram
