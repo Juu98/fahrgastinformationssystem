@@ -46,4 +46,8 @@ public class TelegramReceiverConfig {
     public void setClientID(byte clientID) {
         this.clientID = clientID;
     }
+
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
 }
