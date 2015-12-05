@@ -1,5 +1,7 @@
 package fis.telegrams;
 
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
@@ -19,10 +21,12 @@ import java.util.concurrent.TimeoutException;
  * Created by spiollinux on 07.11.15.
  */
 @Service
-public class TelegramReceiver {
+public class TelegramReceiver implements ApplicationEventPublisherAware {
 
     private List<byte[]> telegramQueue;
 	private int timeout;
+	//needed for events
+	private ApplicationEventPublisher publisher;
 
     public TelegramReceiver(int timeout) {
         this.telegramQueue = new LinkedList<>();
@@ -37,7 +41,12 @@ public class TelegramReceiver {
 				return;
 			//Parse received telegrams while waiting for next
 			if (!telegramQueue.isEmpty()) {
-				parseTelegram(telegramQueue.get(0));
+				try {
+					Telegram telegramResponse = Telegram.parse(telegramQueue.get(0));
+					publisher.publishEvent(new TelegramParsedEvent(telegramResponse));
+				} catch (TelegramParseException e) {
+					//Todo: log parse error
+				}
 				telegramQueue.remove(0);
 			}
 			else
@@ -63,11 +72,10 @@ public class TelegramReceiver {
             readPos += responseLength;
         }
         //packet read to response
-        parseTelegram(response);
         return new AsyncResult<>(response);
     }
 
-    public Telegram sendTelegram(InputStream in, OutputStream out, SendableTelegram telegram) throws IOException {
+    public Telegram sendTelegram(InputStream in, OutputStream out, SendableTelegram telegram) throws IOException, TelegramParseException {
 	    out.write(telegram.getRawTelegram());
 	    		Future<byte[]> response = parseConnection(in);
 		byte[] rawResponse = null;
@@ -84,20 +92,8 @@ public class TelegramReceiver {
 	    //Todo: handle parse error
     }
 
-    private void parseTelegram(byte[] response) {
-        //Todo: add real parser logic
-        //Todo: response is 0000000... if connection ended
-        for (int i = 0; i < 3; ++i) {
-            if (response[i] != (byte) 0xFF) {
-                throw (new RuntimeException("Byte " + i + " hat falsches Format: " + response[i]));
-            }
-        }
-        int messageLength = response[3];
-        for (int i = 4; i < 3 + messageLength; ++i) {
-            if (i == 4) {
-                //Typangabe
-            }
-            System.out.println("Byte " + i + ": " + response[5]);
-        }
-    }
+	@Override
+	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+		this.publisher = applicationEventPublisher;
+	}
 }

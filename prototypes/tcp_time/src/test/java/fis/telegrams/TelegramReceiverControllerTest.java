@@ -4,6 +4,7 @@ import fis.ConfigurationException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.io.*;
 
@@ -19,6 +20,7 @@ public class TelegramReceiverControllerTest {
 	TelegramReceiverConfig realConfig ;
 	TelegramReceiverConfig mockedConfig ;
 	TelegramSocket mockedSocket;
+	ApplicationEventPublisher mockedPublisher;
 	byte[] buf = new byte[255];
 
 	@Before
@@ -28,6 +30,7 @@ public class TelegramReceiverControllerTest {
 		mockedConfig = spy(realConfig);
 		mockedSocket = mock(TelegramSocket.class);
 		realReceiverController = new TelegramReceiverController(mockedReceiver,mockedConfig, mockedSocket);
+		mockedPublisher = mock(ApplicationEventPublisher.class);
 
 		OutputStream out = new ByteArrayOutputStream();
 		InputStream in = new ByteArrayInputStream(buf);
@@ -39,6 +42,7 @@ public class TelegramReceiverControllerTest {
 
 		doNothing().when(mockedSocket).connect(any(),anyInt());
 		doNothing().when(mockedReceiver).handleConnection(any(InputStream.class), any(OutputStream.class));
+		doNothing().when(mockedPublisher).publishEvent(any(TelegramParsedEvent.class));
 
 	}
 
@@ -56,7 +60,7 @@ public class TelegramReceiverControllerTest {
 
 
 	@Test
-	public void testConnecting() throws InterruptedException, IOException {
+	public void testConnecting() throws InterruptedException, IOException, TelegramParseException {
 		//setting additional mocks
 		doReturn(new LabTimeTelegram()).when(mockedReceiver).sendTelegram(any(InputStream.class), any(OutputStream.class), any(RegistrationTelegram.class));
 		when(mockedSocket.isConnected()).thenReturn(true);
@@ -67,6 +71,8 @@ public class TelegramReceiverControllerTest {
 		mockedConfig = spy(realConfig);
 		//creating it again because config has changed
 		realReceiverController = spy(new TelegramReceiverController(mockedReceiver,mockedConfig, mockedSocket));
+		//mocking publisher
+		realReceiverController.setApplicationEventPublisher(mockedPublisher);
 		realReceiverController.start();
 		Thread.sleep(1000);
 		assertEquals("TelegramReceiver nicht verbunden",ConnectionStatus.ONLINE, realReceiverController.getConnectionStatus());

@@ -3,6 +3,8 @@ package fis.telegrams;
 import fis.ConfigurationException;
 import fis.TimeTableController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -21,13 +23,14 @@ import java.util.concurrent.TimeoutException;
  * Created by spiollinux on 07.11.15.
  */
 @Service
-public class TelegramReceiverController extends Thread {
+public class TelegramReceiverController extends Thread implements ApplicationEventPublisherAware{
 
     private final TelegramReceiverConfig receiverConfig;
     private final TelegramReceiver receiver;
     private final Socket server;
     private ConnectionStatus connectionStatus;
-    private TimeTableController timeTableController;
+	//needed for events
+	private ApplicationEventPublisher publisher;
 
 	@Autowired
     public TelegramReceiverController(TelegramReceiver receiver, TelegramReceiverConfig config, Socket server) {
@@ -52,14 +55,15 @@ public class TelegramReceiverController extends Thread {
 		    //try to connect until there is a connection
 		    //Todo: reconnecting after connection loss
 		    while (this.getConnectionStatus() != ConnectionStatus.ONLINE) {
-			    try {
-				    connectToHost();
-			    } catch (IOException e) {
-				    this.setConnectionStatus(ConnectionStatus.OFFLINE);
-				    //TODO: Log connection fail
-			    }
-			    catch(ConfigurationException e) {
-				    //Todo: Log config error
+			    if(this.getConnectionStatus() == ConnectionStatus.OFFLINE) {
+				    try {
+					    connectToHost();
+				    } catch (IOException e) {
+					    this.setConnectionStatus(ConnectionStatus.OFFLINE);
+					    //TODO: Log connection fail
+				    } catch (ConfigurationException e) {
+					    //Todo: Log config error
+				    }
 			    }
 			    if(server.isConnected()) {
 					try {
@@ -67,9 +71,11 @@ public class TelegramReceiverController extends Thread {
 					} catch (IOException e) {
 						//TODO: Log connection fail
 						this.setConnectionStatus(ConnectionStatus.OFFLINE);
-						continue;
+					} catch (TelegramParseException e) {
+						this.setConnectionStatus(ConnectionStatus.CONNECTING);
+						//Todo: log parse error
 					}
-				}
+			    }
 			    try {
 				    Thread.sleep(receiverConfig.getTimeTillReconnect());
 			    } catch (InterruptedException e) {
@@ -107,14 +113,15 @@ public class TelegramReceiverController extends Thread {
 	    }
     }
 
-	private void register() throws IOException  {
+	private void register() throws IOException, TelegramParseException {
 		RegistrationTelegram regTelegram = new RegistrationTelegram(receiverConfig.getClientID());
 		Telegram responseTelegram = receiver.sendTelegram(server.getInputStream(), server.getOutputStream(), regTelegram);
 
 		if(responseTelegram != null) {
 			if(responseTelegram.getClass() == LabTimeTelegram.class) {
 				setConnectionStatus(ConnectionStatus.ONLINE);
-				//Todo: forward telegram
+				//forward telegram
+				publisher.publishEvent(new TelegramParsedEvent(responseTelegram));
 				return;
 			}
 		}
@@ -159,4 +166,9 @@ public class TelegramReceiverController extends Thread {
             throw(new IllegalArgumentException("connectionStatus mustn't be null"));
         this.connectionStatus = connectionStatus;
     }
+
+	@Override
+	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+		this.publisher = applicationEventPublisher;
+	}
 }
