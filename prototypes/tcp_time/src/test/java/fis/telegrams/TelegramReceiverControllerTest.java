@@ -29,7 +29,7 @@ public class TelegramReceiverControllerTest {
 		realConfig = new TelegramReceiverConfig();
 		mockedConfig = spy(realConfig);
 		mockedSocket = mock(TelegramSocket.class);
-		realReceiverController = new TelegramReceiverController(mockedReceiver,mockedConfig, mockedSocket);
+		realReceiverController = new TelegramReceiverController(mockedConfig, mockedSocket,mockedReceiver);
 		mockedPublisher = mock(ApplicationEventPublisher.class);
 
 		OutputStream out = new ByteArrayOutputStream();
@@ -70,7 +70,7 @@ public class TelegramReceiverControllerTest {
 		//updating spy
 		mockedConfig = spy(realConfig);
 		//creating it again because config has changed
-		realReceiverController = spy(new TelegramReceiverController(mockedReceiver,mockedConfig, mockedSocket));
+		realReceiverController = spy(new TelegramReceiverController(mockedConfig, mockedSocket, mockedReceiver));
 		//mocking publisher
 		realReceiverController.setApplicationEventPublisher(mockedPublisher);
 		realReceiverController.start();

@@ -2,6 +2,7 @@ package fis;
 
 import fis.telegrams.Telegram;
 import fis.telegrams.TelegramParsedEvent;
+import org.springframework.context.PayloadApplicationEvent;
 import org.springframework.context.event.EventListener;
 
 /**

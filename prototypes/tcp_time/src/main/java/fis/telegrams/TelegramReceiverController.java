@@ -26,13 +26,12 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 	private ApplicationEventPublisher publisher;
 
 	@Autowired
-    public TelegramReceiverController(TelegramReceiver receiver, TelegramReceiverConfig config, Socket server) {
-		Assert.notNull(receiver,"TelegramReceiver mustn't be null");
+    public TelegramReceiverController(TelegramReceiverConfig config, Socket server, TelegramReceiver receiver) {
 		Assert.notNull(config,"TelegramReceiverConfig mustn't be null");
 		Assert.notNull(server,"Socket mustn't be null");
-		this.receiver = receiver;
 		this.receiverConfig = config;
 		this.server = server;
+		this.receiver = receiver;
 		this.connectionStatus = ConnectionStatus.OFFLINE;
     }
 
