@@ -1,8 +1,6 @@
 package fis.data;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.time.LocalTime;
 import java.util.LinkedList;
@@ -21,16 +19,35 @@ public class StationTest {
 	this.stop1 = new Stop(station, StopType.STOP, LocalTime.of(13, 37), LocalTime.of(16, 20), "1");
     }
 
+    @Test
+    public void testGetter(){
+    	assertEquals("ID stimmt nicht!","TS",station.getId());
+    	assertEquals("Name stimmt nicht!","Test Station",station.getName());
+    	assertTrue("Es soll eine leere Liste zurückgegeben werden, wenn noch keine Stops zur Station hinzugefügt worden sind!",(new Station("AA","bbb")).getStops().size()==0);
+    }
+    
+    @Test(expected=NullPointerException.class)
+	public void testNullConstructor_1(){
+		new Station(null,"blub");
+		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");
+	}
+    
+    @Test(expected=NullPointerException.class)
+   	public void testNullConstructor_2(){
+   		new Station("AB",null);
+   		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");
+   	}
+    
     @Test(expected = NullPointerException.class)
     public void testAddNullStop() {
-	station.addStop(null);
-	fail("addStop soll eine NullPointerException beim Hinzufügen eines null-Halts werfen!");
+    	station.addStop(null);
+    	fail("addStop soll eine NullPointerException beim Hinzufügen eines null-Halts werfen!");
     }
 
     @Test
     public void testAddStop() {
-	station.addStop(stop1);
-	assertTrue("Der Halt muss zur Liste hinzugefügt werden!", station.hasStop(stop1));
+    	station.addStop(stop1);
+    	assertTrue("Der Halt muss zur Liste hinzugefügt werden!", station.hasStop(stop1));
     }
 
     @Test

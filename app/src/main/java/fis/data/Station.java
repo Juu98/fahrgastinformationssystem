@@ -22,9 +22,10 @@ public class Station {
      *            Name des Bahnhofs
      */
     public Station(String id, String name) {
-	this.name = name;
-	this.id = id;
-	this.stops = new LinkedList<Stop>();
+    	if(id==null || name==null) throw new NullPointerException();
+    	this.name = name;
+    	this.id = id;
+    	this.stops = new LinkedList<Stop>();
     }
 
     /**
@@ -34,9 +35,9 @@ public class Station {
      * @param stop
      */
     public void addStop(Stop stop) throws NullPointerException {
-	if (stop == null)
-	    throw new NullPointerException();
-	stops.add(stop);
+    	if (stop == null)
+    		throw new NullPointerException();
+    	stops.add(stop);
     }
 
     /**
@@ -44,7 +45,7 @@ public class Station {
      * @return Name des Bahnhofs
      */
     public String getName() {
-	return name;
+    	return name;
     }
 
     /**
@@ -52,7 +53,7 @@ public class Station {
      * @return ID des Bahnhofs
      */
     public String getId() {
-	return id;
+    	return id;
     }
 
     /**
@@ -61,7 +62,7 @@ public class Station {
      *         auf null überprüft wird.
      */
     public List<Stop> getStops() {
-	return stops;
+    	return stops;
     }
 
     /**
@@ -72,7 +73,7 @@ public class Station {
      * @return True, wenn der Halt an diesem Bahnhof ist, sonst False
      */
     public boolean hasStop(Stop stop) {
-	return stops.contains(stop);
+    	return stops.contains(stop);
     }
 
     /**
@@ -83,12 +84,12 @@ public class Station {
      *            Halt, der entfernt werden soll.
      */
     public void removeStop(Stop stop) {
-	if (stop != null)
-	    stop.deleteStop();
+    	if (stop != null)
+    		stop.deleteStop();
     }
 
     @Override
     public String toString() {
-	return String.format("[%s] %s", id, name);
+    	return String.format("[%s] %s", id, name);
     }
 }
