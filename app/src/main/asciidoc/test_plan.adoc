@@ -66,37 +66,39 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |===
 |*ID* |*Methode* |*Anwendungsfall* |*Vorbedingungen* |*Eingabe* |*Ausgabe / zu überprüfende Wirkung*
 |*[U-Data-TrainRoute]*|||||
-|U-Data-TrainRoute-1 |updateTrainRoute |Zuglauf updaten|-|Neuer Zuglauf|(neuer Zuglauf statt des alten)
-|U-Data-TrainRoute-2 |addStop| Halt hinzufügen|Stop|null|Fehler oder Warnung
-|U-Data-TrainRoute-3 |addStop| Halt hinzufügen|Stop|hinzuzufügender Halt|(neuer Halt muss zur Liste stops hinzugefügt worden sein)
-|U-Data-TrainRoute-4 |removeStop| Halt entfernen|-|in der Liste stops enthaltener Halt|Entfernung des Halts aus stops
-|U-Data-TrainRoute-5 |removeStop| Halt entfernen|-|in stops nicht enthaltener Halt|nichts
-|U-Data-TrainRoute-6 |getLastStop| Endhalt abfragen|-|-|letzter Eintrag von stops
-|U-Data-TrainRoute-7 |getFirstStop| Beginn-Halt abfragen|-|-|erster Eintrag von stops
+|U-Data-TrainRoute-1|updateTrainRoute |Zuglauf updaten|-|Neuer Zuglauf|(neuer Zuglauf statt des alten)
+|U-Data-TrainRoute-2|(testGetter) |Abfragen der Attribute|-|-|Richtige Werte (gleichzeitig Test für Konstruktor)
+|U-Data-TrainRoute-3|(testNullConstructor) |-|-|Konstruktor mit null-Argumenten|NullPointerException
+|U-Data-TrainRoute-4|getLastStop| Endhalt abfragen|-|-|letzter Eintrag von stops
+|U-Data-TrainRoute-5|getFirstStop| Beginn-Halt abfragen|-|-|erster Eintrag von stops
 |*[U-Data-Stop]*|||||
-|U-Data-Stop-1|(new Stop)|Erzeugen des Stops|-|Abfahrt, Ankunft, Gleis, Bahnhof (geplant)|korrektes Speichern in den vorgesehenen Variablen
-|U-Data-Stop-2 |set XY| Updaten des Haltes (durch Telegramme verursacht)|-|neue Zeiten, Gleis, Meldung|korrektes Speichern in den vorgesehenen Variablen
+|U-Data-Stop-1|(testGetter)|Abfragen der Attribute|-|Abfahrt, Ankunft, Gleis, Bahnhof|getter liefern korrekte, vorher dem Konstruktor übergebene Werte; IstZeit=SollZeit
+|U-Data-Stop-2|update XY| Updaten des Haltes (durch Telegramme verursacht)|funktionierende Getter|neue Zeiten, Gleis, Meldung|korrektes Speichern in den vorgesehenen Variablen
+|U-Data-Stop-3|(testNullConstructor) |-|-|Konstruktor mit null-Argumenten|NullPointerException
 |*[U-Data-Station]*|||||
 |U-Data-Station-1|addStop|Halt hinzufügen|-|null|Fehler/Warnung
 |U-Data-Station-2|addStop|Halt hinzufügen|-|hinzuzufügender Halt|(neuer Halt muss zur Liste stops hinzugefügt werden)
 |U-Data-Station-3|removeStop|Halt entfernen|-|null / nicht in stops enthaltener Halt|nichts
 |U-Data-Station-4|removeStop|Halt entfernen|-|zu entfernender Halt|Entfernen des Haltes aus stops
+|U-Data-Station-5|(testNullConstructor)|-|-|Konstruktor mit null-Argumenten|NullPointerException
+|*[U-Data-TrainCategory]*|||||
+|U-Data-TrainCategory-1|(testGetter)|Abfragen der Attribute|-|-|vorher beim Erstellen im Konstruktur übergebene Werte
+|U-Data-TrainCategory-2|(testNullConstructor)|-|-|Konstruktor mit null-Argumenten|NullPointerException
 |*[U-Data-TimetableData]*|||||
-|U-Data-TimetableData-1|getStationByName|Bahnhof mit Namen suchen|-|Name (enthalten)|erster Bahnhof in der Liste mit entspr. Namen
-|U-Data-TimetableData-2|getStationByName|Bahnhof mit Namen suchen|-|Name (nicht enthalten)|null
-|U-Data-TimetableData-3|getStationByCode|Bahnhof mit ID suchen|-|ID (enthalten)|erster Bahnhof in der Liste mit entspr. ID
-|U-Data-TimetableData-4|getStationByCode|Bahnhof mit ID suchen|-|ID (nicht enthalten)|null
-|U-Data-TimetableData-5|getTrainRouteByNumber|Zuglauf mit Nr suchen|-|Nr (enthalten)|erster Zuglauf in der Liste mit entspr. Nr.
-|U-Data-TimetableData-6|getTrainRouteByNumber|Zuglauf mit Nr suchen|-|Nr (nicht enthalten)|null
-|U-Data-TimetableData-7|getTrainRouteByDestination|Nach Endbahnhof filtern|-|Bahnhof|Alle Zugläufe, die im gegebenen Bahnhof enden
-|U-Data-TimetableData-8|addStop|Halt zum Plan hinzufügen|-|null|Fehler/Warnung
-|U-Data-TimetableData-9|addStop|Halt zum Plan hinzufügen|-|Halt|Halt sowohl zu stops hinzufügen, als auch in die Liste stops des entsprechenden Bahnhofs!
-|U-Data-TimetableData-10|addStation|Bahnhof zum Plan hinzufügen|-|null|Fehler/Warnung
-|U-Data-TimetableData-11|addStation|Bahnhof zum Plan hinzufügen|-|Bahnhof|Hinzufügen des Bahnhofs zu stations
-|U-Data-TimetableData-12|addTrainRoute|Zuglauf zum Plan hinzufügen|-|null|Fehler/Warnung
-|U-Data-TimetableData-13|addTrainRoute|Zuglauf zum Plan hinzufügen|-|Zuglauf|Hinzufügen des Zuglaufs zu routes
-|U-Data-TimetableData-14|addCategory|Zugkategorie zum Plan hinzufügen|-|null|Fehler/Warnung
-|U-Data-TimetableData-15|addCategory|Zugkategorie zum Plan hinzufügen|-|Zugkategorie|Hinzufügen zu trainCategories
+|U-Data-TimetableData-1|getStationByID|Bahnhof mit ID suchen|-|ID (enthalten)|erster Bahnhof in der Liste mit entspr. ID
+|U-Data-TimetableData-2|getStationByID|Bahnhof mit ID suchen|-|ID (nicht enthalten)|null
+|U-Data-TimetableData-3|getTrainRouteByID|Zuglauf mit ID suchen|-|ID (enthalten)|erster Zuglauf in der Liste mit entspr. ID
+|U-Data-TimetableData-4|getTrainRouteByID|Zuglauf mit ID suchen|-|ID (nicht enthalten)|null
+|U-Data-TimetableData-5|getTrainCategoryByID|Kategorie mit ID suchen|-|ID (enthalten)|erste Kategorie in der Liste mit entspr. ID
+|U-Data-TimetableData-6|getTrainCategoryByID|Kategorie mit ID suchen|-|ID (nicht enthalten)|null
+|U-Data-TimetableData-7|addStop|Halt zum Plan hinzufügen|-|null|Fehler/Warnung
+|U-Data-TimetableData-8|addStop|Halt zum Plan hinzufügen|-|Halt|Halt sowohl zu stops hinzufügen, als auch in die Liste stops des entsprechenden Bahnhofs!
+|U-Data-TimetableData-9|addStation|Bahnhof zum Plan hinzufügen|-|null|Fehler/Warnung
+|U-Data-TimetableData-10|addStation|Bahnhof zum Plan hinzufügen|-|Bahnhof|Hinzufügen des Bahnhofs zu stations
+|U-Data-TimetableData-11|addTrainRoute|Zuglauf zum Plan hinzufügen|-|null|Fehler/Warnung
+|U-Data-TimetableData-12|addTrainRoute|Zuglauf zum Plan hinzufügen|-|Zuglauf|Hinzufügen des Zuglaufs zu routes
+|U-Data-TimetableData-13|addCategory|Zugkategorie zum Plan hinzufügen|-|null|Fehler/Warnung
+|U-Data-TimetableData-14|addCategory|Zugkategorie zum Plan hinzufügen|-|Zugkategorie|Hinzufügen zu trainCategories
 |*[U-Data-TimetableController]*|||||
 |U-Data-TimetableController-1|loadTimetable|Timetable laden|Pfad aus Config gelesen, timetable2data funktioniert|-|Geladener Fahrplan
 |U-Data-TimetableController-1|forwardTelegram|Telegram verwerten|gesamte Telegramstruktur|StatusTelegram|Geupdatete Zeit
