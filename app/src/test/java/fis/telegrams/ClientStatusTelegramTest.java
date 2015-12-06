@@ -32,6 +32,8 @@ public class ClientStatusTelegramTest {
 				rawReferenceTelegram[i] = 0;
 		}
 		rawReferenceTelegram[i] = status;
+		//set length
+		rawReferenceTelegram[3] = (byte) i;
 
 		//compare
 		assertArrayEquals("ClientStatusTelegram doesn't have expected value", rawReferenceTelegram, tele.getRawTelegram());

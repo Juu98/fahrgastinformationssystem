@@ -16,7 +16,7 @@ public class TelegramTest {
 	byte[] validRawTelegram;
 	@Before
 	public void setUp() throws Exception {
-		validRawTelegram = new byte[255];
+		validRawTelegram = new byte[Telegram.rawTelegramLength];
 		for(int i = 0; i < 3; ++i) {
 			validRawTelegram[i] = (byte) 255;
 		}
@@ -26,7 +26,7 @@ public class TelegramTest {
 	public void testFirstBytesValid() {
 		int r = (int) Math.floor(Math.random()*3);
 		//initialize invalid byte data
-		byte[] invalidRawTelegram = new byte[255];
+		byte[] invalidRawTelegram = new byte[Telegram.rawTelegramLength];
 		for(int i = 0; i < 3; i++) {
 			//force at least one bit to be != 255, the others are set randomly
 			if(i == r) {

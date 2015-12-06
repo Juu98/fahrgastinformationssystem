@@ -70,10 +70,10 @@ public class TelegramReceiver implements ApplicationEventPublisherAware {
 
     @Async
     Future<byte[]> parseConnection(InputStream in) throws IOException {
-        int readPos = 0, maxResponseLength = 255;
-        byte[] response = new byte[maxResponseLength];
-        while (readPos < maxResponseLength) {
-            int responseLength = in.read(response, readPos, maxResponseLength - readPos);
+        int readPos = 0;
+        byte[] response = new byte[Telegram.getRawTelegramLength()];
+        while (readPos < Telegram.getRawTelegramLength()) {
+            int responseLength = in.read(response, readPos, Telegram.getRawTelegramLength() - readPos);
             readPos += responseLength;
         }
         //packet read to response
