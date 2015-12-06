@@ -27,7 +27,7 @@ public class StopTest {
 		stop1=new Stop(s1,StopType.STOP,time1,time2,track1);
 	}
 	@Test
-	public void testConstructorAndGetter(){
+	public void testGetter(){
 		assertEquals("Bahnhof stimmt nicht überein!", stop1.getStation(),s1);
 		assertEquals("Geplante Ankunftszeit stimmt nicht",stop1.getScheduledArrival(),time1);
 		assertEquals("Tatsächliche Ankunftszeit muss hier gleich der geplanten Ankunftszeit sein!",stop1.getScheduledArrival(),stop1.getActualArrival());
@@ -40,10 +40,22 @@ public class StopTest {
 		assertEquals("Message sollte noch ein leerer String sein!", stop1.getMessage(),"");
 	}
 	
+	@Test(expected=NullPointerException.class)
+	public void testNullConstructor_1(){
+		new Stop(null,StopType.STOP,time1,time2,track1);
+		fail("Konstruktor soll bei Argumenten, die nicht null sein dürfen, entsprechende Exception werfen!");
+	}
+	
+	@Test(expected=NullPointerException.class)
+	public void testNullConstructor_2(){
+		new Stop(s1,null,time1,time2,track1);
+		fail("Konstruktor soll bei Argumenten, die nicht null sein dürfen, entsprechende Exception werfen!");
+	}
+	
+	
 	@Test
 	public void testUpdateActualArrival(){
-		LocalTime t=LocalTime.of(3, 3);
-		
+		LocalTime t=LocalTime.of(3, 3);	
 		stop1.updateArrival(t);
 		assertEquals("Aktualisierung der Ankunftszeit funktioniert nicht.",stop1.getActualArrival(),t);
 	}
