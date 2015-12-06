@@ -4,6 +4,11 @@ package fis.telegrams;
  * Created by spiollinux on 12.11.15.
  */
 public abstract class Telegram {
+	protected static final int rawTelegramLength = 255;
+
+	public static int getRawTelegramLength() {
+		return rawTelegramLength;
+	}
 	public static Telegram parse(byte[] rawResponse) throws TelegramParseException {
 		//Todo: add real parser logic
         //Todo: response is 0000000... if connection ended
