@@ -1,6 +1,7 @@
-package fis.telegrams;
+package fis.telegramReceiver;
 
 import fis.ConfigurationException;
+import fis.telegrams.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
@@ -107,7 +108,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
     }
 
 	private void register() throws IOException, TelegramParseException {
-		RegistrationTelegram regTelegram = new RegistrationTelegram(receiverConfig.getClientID());
+		SendableTelegram regTelegram = new RegistrationTelegram(receiverConfig.getClientID());
 		Telegram responseTelegram = receiver.sendTelegram(server.getInputStream(), server.getOutputStream(), regTelegram);
 
 		if(responseTelegram != null) {

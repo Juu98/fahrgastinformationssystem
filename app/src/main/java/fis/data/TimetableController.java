@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import fis.FilterTime;
 import fis.FilterType;
 import fis.RailML2Data;
-import fis.telegramReceiver.TelegramReceiver;
+import fis.telegramReceiver.TelegramReceiverController;
 import java.util.function.Predicate;
 
 /**
@@ -60,7 +60,7 @@ public class TimetableController {
 	}
 	
 	private TimetableData data;
-	@Autowired private TelegramReceiver receiver;
+	@Autowired private TelegramReceiverController receiver;
 	
 	public TimetableController(){
 		try{
