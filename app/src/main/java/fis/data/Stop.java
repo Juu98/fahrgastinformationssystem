@@ -29,6 +29,7 @@ public class Stop {
 	 * @param scheduledTrack Geplanter Gleis, an dem der Zug halten soll
 	 */
 	public Stop(Station station,StopType stopType,LocalTime scheduledArrival, LocalTime scheduledDeparture, String scheduledTrack){
+		if(station==null || stopType==null) throw new NullPointerException();
 		this.station=station;
 		this.stopType=stopType;
 		this.scheduledArrival=scheduledArrival;

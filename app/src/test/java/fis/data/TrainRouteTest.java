@@ -37,8 +37,36 @@ public class TrainRouteTest {
 		
 	}
 	
+	@Test(expected=NullPointerException.class)
+	public void testNullConstructor_1(){
+		new TrainRoute(null,0,cat1,stops1);
+		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");
+	}
+	
+	@Test(expected=NullPointerException.class)
+	public void testNullConstructor_2(){
+		new TrainRoute("2",0,null,stops1);
+		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");
+	}
+	
+	@Test(expected=NullPointerException.class)
+	public void testNullConstructor_3(){
+		new TrainRoute("2",0,cat1,null );
+		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");
+	}
+	
 	@Test
-	public void testConstructorAndGetter(){
+	public void testGetFirstStop(){
+		assertEquals("Es soll der erste Halt (=Starthalt) zurückgegeben werden!",route1.getFirstStop(),stop1);
+	}
+	
+	@Test
+	public void testGetLastStop(){
+		assertEquals("Es soll der letzte Halt (=Endhalt) zurückgegeben werden!",route1.getLastStop(),stop3);
+	}
+	
+	@Test
+	public void testGetter(){
 		assertEquals("ID der TrainRoute stimmt nicht!", route1.getId(),"1");
 		assertEquals("TrainCategory stimmt nicht!", route1.getTrainCategory(), cat1);
 		assertEquals("Stops stimmen nicht!", route1.getStops(),stops1);

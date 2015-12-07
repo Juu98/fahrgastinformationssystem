@@ -21,6 +21,10 @@ public class TrainRoute {
 	 * @param stops List von allen {@link Stop}s dieses Zuglaufs.
 	 */
 	public TrainRoute(String id,int trainNumber, TrainCategory trainCategory, List<Stop> stops){
+		if(id==null || trainCategory==null || stops==null){
+			throw new NullPointerException();
+		}
+		
 		this.id=id;
 		this.trainNumber=trainNumber;
 		this.trainCategory=trainCategory;
