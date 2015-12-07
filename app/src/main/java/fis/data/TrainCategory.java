@@ -18,6 +18,8 @@ public class TrainCategory {
 	 * @param trainUsage Nutzung der Züge dieser Kategorie
 	 */
 	public TrainCategory(String id, String name, String description, String trainUsage){
+		if(id==null || name==null || description==null || trainUsage==null) throw new NullPointerException();
+		
 		this.id=id;
 		this.name=name;
 		this.description=description;
