@@ -19,7 +19,7 @@ $mvn spring-boot:run
 
 * Eric Schölzel (https://github.com/luux[@luux])
 * Jonas Schenke (https://github.com/kloppstock[@kloppstock])
-* Oliver Schmitt (https://github.com/schmittlauch[@schmittlauch])
+* Oliver Schmidt (https://github.com/schmittlauch[@schmittlauch])
 * Robert Mörseburg (https://github.com/fl4m[@fl4m])
 * Zdravko Yanakiev (https://github.com/z-yan[@z-yan])
 
