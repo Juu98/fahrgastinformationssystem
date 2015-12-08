@@ -1,0 +1,104 @@
+= Protokoll Gruppe 03
+
+[cols="<h,<a"]
+|===
+|Treffen am 08.12.2015    |13:00 Uhr, APB
+|Schriftführer            |Robert Mörseburg
+|Nächstes Treffen         |15.12.2015, 13:00 Uhr, EBL
+|Teilnehmer               |
+* Eric Schölzel (Scrum-Master)
+* Jonas Schenke
+* Oliver Schmidt
+* Robert Mörseburg
+* Zdravko Yanakiev
+* Walerian Nesterenko (1h; Betreuer EBL)
+* Ronny Kaiser (Betreuer Lehrstuhl SWT)
+|===
+
+== Bemerkungen
+Zum nächsten Treffen am *15.12.2015* soll ein erster Test der Anwendung im EBL stattfinden.
+
+== Retrospektive des letzten Sprints
+
+Im letzten Sprint wurde die Anwendung um die Funktion zur Eingrenzung des dargestellten Zeitraum in der Ankunfts- und Abfahrtsanzeige erweitert.
+
+Das Klassendiagramm wurde an die aktuellen Änderungen, insbesondere bei den verschiedenen Telegrammtypen angepasst.
+
+Die TCP-Verarbeitung wurde voran getrieben und stückweise getestet.
+
+[options="header"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|28 |TCP Verarbeitung			|in Bearbeitung		|Telegrammempfang, unterschiedliche Telegrammtypen
+|35 |Opera 12 Kompatibilität	|fast abgeschlossen	|--
+|39 |Javadoc 					|in Bearbeitung		|--
+|41 |Konsolenausgabe			|in Bearbeitung		|--
+|===
+
+== Aktueller Stand
+
+* Der Kunde hat eine erste Spezifikation der Telegramme geliefert.
+* Die Laborzeit soll von der Anwendung nur angezeigt und zum Filtern verwendet werden.
+* Der "Laboruhr-Faktor" (schneller / langsamer) und das "Züge Stopp/Weiter"-Flag im Laborzeittelegramm können ignoriert werden.
+* Als Bestätigung des Zuglaufendetelegramms soll die Anwendung ein Clientstatustelegramm mit dem Namen `FIS` und dem Statuscode `0` senden.
+* Bei der Verarbeitung der Zuglauftelegeramme sind folgende Punkte zu beachten:
+	** Das Feld "Übergang in Zugnummer" kann ignoriert werden.
+	** Die "Fahrplannummer" kann ignoriert werden.
+	** Das Feld "TFz1" kann ignoriert werden.
+	** Der Meldungstext referenziert eine eindeutige Meldungs-ID.
+	** Es können mehrere Meldungen für ganze Zuglüufe oder einzelne Betriebsstellen auftreten, die als Liste angezeigt werden sollen.
+* Alle möglichen Meldungen werden in einer separaten CSV-Datei in folgender Form erfasst: `ID; Meldungstext bis zum nächsten Zeilenumbruch\n`
+* Der Pfad zu dieser Meldungsdatei wird in der Konfigurationsdatei des FIS angegeben.
+* Nach jeder Aktualisierung eines oder mehrerer Zugläufe wird vom Fahrplanserver ein Zuglaufendetelegramm gesendet.
+* Die Anwendung muss sich nicht vom Fahrplanserver abmelden.
+* Die ID-Felder für Bahnhöfe und Zugläufe unterscheiden sich zwischen der XML-Datei und den Telegrammen des Fahrplanservers.
+* Aus diesem Grund wird zur Vereinfachung der Datenstruktur folgendes Vorgehen bei einer Verbindungsstatusänderung festgelegt:
+	** beim Start verbunden: die XML-Datei wird ignoriert und die Datenstruktur aus den Telegrammen aufgebaut. Sollte die Verbindung zum Fahrplanserver zu einem späteren Zeitpunkt verloren gehen, so verbleibt die Datenstruktur in ihrem aktuellen Zustand.
+	** beim Start nicht verbunden: die XML-Datei wird ausgelesen. Sollte der Fahrplanserver zu einem späteren Zeitpunkt erreichbar sein, wird die Datenstruktur komplett verworfen und aus den aktuellen Telegrammen neu aufgebaut.
+
+== Planung des nächsten Sprints
+
+Bis zum *15.12.2015* müssen die *Muss-Kriterien* implementiert sein.
+Für den nächsten Sprint stehen außerdem folgende Punkte auf der Agenda:
+
+=== TCP (*Olliver*, weitere Aufgaben delegieren)
+* Telegrammspezifikationen implementieren
+* Testen
+
+=== Telegrammverarbeitung (*Eric*)
+* Spring-Events zum Aktualisieren verarbeiten
+* Anpassungen an der Datenstruktur zum korrekten Verarbeiten der Änderungen
+
+=== Logs (*Eric*)
+* wo notwendig Log-Level anpassen (von `info` auf `debug`)
+* umfangreiche Ausgabe beim XML-Parsen zusammenfassen und komprimiert ausgeben
+("RailML erfolgreich gelesen: x Bahnhöfe, y Zugläufe ...")
+
+=== Projektstruktur (*Robert*)
+* Restrukturierung der Contoller
+* Übernahme der Filterfunktionen aus dem `TimetableController` in das `fis.web`-Package
+* Überlegungen zur sinnvollen Versionierung der Anwendung, changelog
+* Versionsummern aus der `POM` auslesen
+
+=== GUI (*Robert*)
+* Filter-Parameter als GET-Variablen in die URL aufnehmen
+* Fußzeile mit Verbindungsstatus etc.
+
+=== Recherche
+* Port forwarding beim Apache bzw. Einsatz als reverse proxy (*Zdravko*)
+* Konfigurationsdatei außerhalb der `jar` (*Jonas*)
+* Meldungsdatei (`CSV`, außerhalb) verarbeiten (*Jonas*)
+
+[options="header"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|28 |TCP Verarbeitung			|in Bearbeitung		|Spezifikation implementieren, testen (durch *Olliver*, weitere Aufgaben bitte delegieren)
+|35 |Opera 12 Kompatibilität	|fast abgeschlossen	|abschließende Tests (durch *Robert*)
+|39 |Javadoc 					|in Bearbeitung		|erweitern (durch *alle*)
+|41 |Konsolenausgabe			|in Bearbeitung		|Log Level, Ausgaben zusammenfassen (durch *Eric*)
+|48 |Verarbeitung Update-Telegramme |offen			|mittels Events (durch *Eric*)
+|55	|Externe Konfigurationsdatei	|offen			|(durch *Jonas*)
+|56	|Apache-Konfiguration		|offen				|(durch *Zdravko*)
+|57	|Telegramme parsen 			|offen				|(durch *Olliver*, *Jonas*)
+|59	|Telegrammklassen implementieren und testen 	|offen |(durch *Jonas*)
+|===
