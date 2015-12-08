@@ -16,6 +16,9 @@ import java.net.SocketAddress;
 /**
  * Created by spiollinux on 07.11.15.
  */
+
+//Todo: solange connecting, bis erstes Zuglauf Ende Telegramm
+
 @Service
 public class TelegramReceiverController extends Thread implements ApplicationEventPublisherAware{
 
