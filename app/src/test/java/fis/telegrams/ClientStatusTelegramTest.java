@@ -1,41 +1,61 @@
 package fis.telegrams;
 
 import org.junit.Test;
-
+import org.junit.Before;
 import static org.junit.Assert.*;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by spiollinux on 06.12.15.
  */
 public class ClientStatusTelegramTest {
+	private ClientStatusTelegram telegram;
+	private String ID;
+	private byte status;
+	private byte[] rawReferenceTelegram;
 
-	@Test
-	public void testGetRawTelegram() throws Exception {
-		String ID ="FIS";
-		byte status = (byte) 1;
-		ClientStatusTelegram tele = new ClientStatusTelegram(ID, status);
+	@Before
+	public void setup() throws UnsupportedEncodingException{
+		this.ID ="FIS";
+		this.status = (byte) 0;
 		//construct a rawTelegram
-		byte[] rawReferenceTelegram = new byte[Telegram.rawTelegramLength];
-		byte[] rawID = ID.getBytes("windows-1252");
+		this.rawReferenceTelegram = new byte[Telegram.rawTelegramLength];
+		byte[] rawID = this.ID.getBytes("windows-1252");
 		int i = 0;
 		for(; i < 3; ++i) {
-			rawReferenceTelegram[i] = (byte) 255;
+			this.rawReferenceTelegram[i] = (byte) 255;
 		}
 		//skipping length byte for now
 		i++;
-		rawReferenceTelegram[i++] = (byte) 243;
+		this.rawReferenceTelegram[i++] = (byte) 243;
 		for(; i < 12; ++i) {
 			int j = i - 5;
 			if(j < rawID.length)
-				rawReferenceTelegram[i] = rawID[j];
+				this.rawReferenceTelegram[i] = rawID[j];
 			else
-				rawReferenceTelegram[i] = 0;
+				this.rawReferenceTelegram[i] = 0;
 		}
-		rawReferenceTelegram[i] = status;
+		this.rawReferenceTelegram[i] = this.status;
 		//set length
-		rawReferenceTelegram[3] = (byte) i;
-
+		this.rawReferenceTelegram[3] = (byte) (i-4);
+	}
+	
+	@Test
+	public void NullConstructorTest() throws UnsupportedEncodingException{
+		boolean exceptionCatched = false;
+		try{
+			this.telegram = new ClientStatusTelegram(null, this.status);
+		} catch (NullPointerException e) {
+			exceptionCatched = true;
+		}
+		assertTrue("The constructor should throw a NullPointerException if given a null parameter!", exceptionCatched);
+	}
+	
+	@Test
+	public void GetRawTelegramAndConstructorTest() throws NullPointerException, UnsupportedEncodingException{
+		this.telegram = new ClientStatusTelegram(ID, status);
 		//compare
-		assertArrayEquals("ClientStatusTelegram doesn't have expected value", rawReferenceTelegram, tele.getRawTelegram());
+		assertArrayEquals("ClientStatusTelegram doesn't have expected value", this.rawReferenceTelegram, this.telegram.getRawTelegram());
 	}
 }

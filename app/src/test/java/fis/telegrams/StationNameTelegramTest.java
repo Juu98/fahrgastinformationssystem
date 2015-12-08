@@ -42,18 +42,18 @@ public class StationNameTelegramTest {
 	@Test
 	public void GetIDAndConstructorTest(){
 		this.telegram = new StationNameTelegram(this.ID, this.code, this.name);
-		assertEquals(this.ID, this.telegram.getID());
+		assertEquals("The getID()-Method didn't return the expected value!", this.ID, this.telegram.getID());
 	}
 	
 	@Test
 	public void GetCodeAndConstructorTest(){
 		this.telegram = new StationNameTelegram(this.ID, this.code, this.name);
-		assertEquals(this.code, this.telegram.getCode());
+		assertEquals("The getCode()-Method didn't return the expected value!", this.code, this.telegram.getCode());
 	}
 	
 	@Test
 	public void GetNameAndConstructorTest(){
 		this.telegram = new StationNameTelegram(this.ID, this.code, this.name);
-		assertEquals(this.name, this.telegram.getName());
+		assertEquals("The getName()-Method didn't return the expected value!", this.name, this.telegram.getName());
 	}
 }

@@ -72,12 +72,12 @@ public class TrainRouteTelegramTest {
 	public void appendRouteTest(){
 		this.telegram = new TrainRouteTelegram(this.route1);
 		this.telegram.appendRoute(this.route2);
-		assertEquals(this.stops3, this.telegram.getTrainRoute().getStops());
+		assertEquals("The appendRoute()-Method didn't return the expected value!", this.stops3, this.telegram.getTrainRoute().getStops());
 	}
 	
 	@Test
 	public void GetTrainRouteAndConstructorTest(){
 		this.telegram = new TrainRouteTelegram(this.route1);
-		assertEquals(this.route1, this.telegram.getTrainRoute());
+		assertEquals("The getTrainRoute()-Method didn't return the expected value!", this.route1, this.telegram.getTrainRoute());
 	}
 }

@@ -4,7 +4,7 @@ import fis.data.TrainRoute;
 
 /**
  * Eine Klasse für Zuglauftelegramme. 
- * @author: spiollinux, kloppstock
+ * @author spiollinux, kloppstock
  */
 public class TrainRouteTelegram extends Telegram {
 	private TrainRoute route;

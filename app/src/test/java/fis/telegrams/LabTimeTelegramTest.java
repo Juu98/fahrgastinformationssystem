@@ -28,6 +28,6 @@ public class LabTimeTelegramTest {
 	@Test
 	public void ConstructorAndGetterTest(){
 		this.telegram = new LabTimeTelegram(this.time);
-		assertEquals(this.time, this.telegram.getTime());
+		assertEquals("The getTime()-Method didn't return the expected value!", this.time, this.telegram.getTime());
 	}
 }
