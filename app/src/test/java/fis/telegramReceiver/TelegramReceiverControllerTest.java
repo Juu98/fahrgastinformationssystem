@@ -64,7 +64,7 @@ public class TelegramReceiverControllerTest {
 	@Test
 	public void testConnecting() throws InterruptedException, IOException, TelegramParseException {
 		//setting additional mocks
-		doReturn(new LabTimeTelegram()).when(mockedReceiver).sendTelegram(any(InputStream.class), any(OutputStream.class), any(RegistrationTelegram.class));
+		doReturn(new LabTimeTelegram(null)).when(mockedReceiver).sendTelegram(any(InputStream.class), any(OutputStream.class), any(RegistrationTelegram.class));
 		when(mockedSocket.isConnected()).thenReturn(true);
 		realConfig.setHostname("localhost");
 		realConfig.setPort(42);
