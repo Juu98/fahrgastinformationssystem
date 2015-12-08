@@ -35,3 +35,11 @@
 #traintable a {
 	color: #555;
 }
+
+/* footer */
+#footer {
+	border-top: 1px solid #DDD;
+	font-size: small;
+	font-weight: lighter;
+	padding: 8px 0;
+}

@@ -10,7 +10,6 @@ import fis.data.TrainRoute;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -63,8 +62,20 @@ public class FisController {
 	 * @param model	das Model der {@link Application}
 	 */
 	public void defaults(Model model){
+		// aktuelle Laborzeit
 		model.addAttribute("time", this.timetable.getTime());
-		model.addAttribute("connState", this.timetable.getStateName());
+		
+		// Verbindungsstatus zum Fahrplanserver
+		model.addAttribute("connectionState", this.timetable.getStateName());
+		
+		// Version der Anwendung
+		// wird nur bei direkter Ausführung der jar geladen
+		String v = Application.class.getPackage().getImplementationVersion();
+		if (v == null){
+			LOGGER.error("Couldn't retrieve version information. Maybe you didn't execute the jar?");
+			v = "XX.Y.Z (jar ausführen!)";
+		}
+		model.addAttribute("programVersion", v);
 	}
 	
 	/**

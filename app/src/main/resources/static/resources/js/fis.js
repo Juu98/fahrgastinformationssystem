@@ -61,11 +61,19 @@ $(function(){
 	});
 });
 
+/* stationList */
+$(function(){
+	$('#stationList').on('show.bs.collapse hide.bs.collapse', function(){
+		$("#stationMenu").toggleClass('glyphicon-menu-down');
+		$("#stationMenu").toggleClass('glyphicon-menu-up');
+	});
+});
+
 /* filter options */
 $(function(){
 	$('#filterOptions').on('show.bs.collapse hide.bs.collapse', function(){
-		$("#filterChevron").toggleClass('glyphicon-chevron-down');
-		$("#filterChevron").toggleClass('glyphicon-chevron-right');
+		$("#filterMenu").toggleClass('glyphicon-menu-down');
+		$("#filterMenu").toggleClass('glyphicon-menu-right');
 	});
 });
 
