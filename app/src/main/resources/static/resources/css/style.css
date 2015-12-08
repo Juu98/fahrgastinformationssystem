@@ -1,6 +1,7 @@
 .container{
 	width: 80%;
 	margin: 1em auto;
+	overflow-y: scroll;
 }
 
 #header{

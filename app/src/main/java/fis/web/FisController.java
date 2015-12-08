@@ -7,6 +7,10 @@ import fis.data.Station;
 import fis.data.TimetableController;
 import fis.data.TrainCategory;
 import fis.data.TrainRoute;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -157,11 +161,41 @@ public class FisController {
 		}
 		model.addAttribute("currentCategories", currentCategories);
 		
+		// Zeitraum
+		LocalTime start = null, end = null;
+		if (formSent && !resetForm){
+			try {
+				start = LocalTime.parse(form.getStart());
+				end = LocalTime.parse(form.getEnd());
+			}
+			catch (DateTimeParseException e){
+				// LOGGER.error(e);
+				start = null;
+				end = null;
+			}
+		}
+		
+		if (start == null || end == null){
+			start = LocalTime.now();
+			// TODO default Zeitraum
+			end = start.plus(2, ChronoUnit.HOURS);
+		} 
+		
+		// Zeitraum zum Model hinzufügen
+		model.addAttribute("start", start);
+		model.addAttribute("end", end);
+		
 		// Comparator zum Sortieren zum Model hinzufügen
 		model.addAttribute("comp", new TrainRouteComparator(currentStation, FilterTime.SCHEDULED, FilterType.DEPARTURE));
 
 		// alle Zugläufe mit diesem Bahnhof zum Model hinzufügen
-		model.addAttribute("trains", this.timetable.getTrainRoutesByStation(currentStation,FilterType.DEPARTURE));
+		// sofern sie im Zeitrahmen liegen
+		model.addAttribute("trains", this.timetable.filter(
+				this.timetable.getTrainRoutesByStation(currentStation,FilterType.DEPARTURE),
+				currentStation,
+				start, end,
+				FilterType.DEPARTURE, FilterTime.SCHEDULED
+		));
 		model.addAttribute("form", form);
 		
 		// alle Bahnhöfe für die Liste zum Model hinzufügen
@@ -255,11 +289,41 @@ public class FisController {
 		}
 		model.addAttribute("currentCategories", currentCategories);
 		
+		// Zeitraum
+		LocalTime start = null, end = null;
+		if (formSent && !resetForm){
+			try {
+				start = LocalTime.parse(form.getStart());
+				end = LocalTime.parse(form.getEnd());
+			}
+			catch (DateTimeParseException e){
+				// LOGGER.error(e);
+				start = null;
+				end = null;
+			}
+		}
+		
+		if (start == null || end == null){
+			start = LocalTime.now();
+			// TODO default Zeitraum
+			end = start.plus(2, ChronoUnit.HOURS);
+		} 
+		
+		// Zeitraum zum Model hinzufügen
+		model.addAttribute("start", start);
+		model.addAttribute("end", end);
+		
 		// Comparator zum Sortieren zum Model hinzufügen
 		model.addAttribute("comp", new TrainRouteComparator(currentStation, FilterTime.SCHEDULED, FilterType.ARRIVAL));
 
 		// Alle Zugläufe mit diesem Bahnhof zum Model hinzufügen
-		model.addAttribute("trains", this.timetable.getTrainRoutesByStation(currentStation,FilterType.ARRIVAL));
+		// sofern sie im Zeitrahmen liegen
+		model.addAttribute("trains", this.timetable.filter(
+				this.timetable.getTrainRoutesByStation(currentStation,FilterType.ARRIVAL),
+				currentStation,
+				start, end,
+				FilterType.ARRIVAL, FilterTime.SCHEDULED
+		));
 		model.addAttribute("form", form);
 		
 		// alle Bahnhöfe für die Liste zum Model hinzufügen

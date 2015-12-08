@@ -60,3 +60,19 @@ $(function(){
 		$("#trainRouteList").collapse('hide');
 	});
 });
+
+/* filter options */
+$(function(){
+	$('#filterOptions').on('show.bs.collapse hide.bs.collapse', function(){
+		$("#filterChevron").toggleClass('glyphicon-chevron-down');
+		$("#filterChevron").toggleClass('glyphicon-chevron-right');
+	});
+});
+
+/* test timespan */
+$(function(){
+	$('#testTime').on('click', function(){
+		$("input[name='start']").val('10:00');
+		$("input[name='end']").val('12:00');
+	});
+});

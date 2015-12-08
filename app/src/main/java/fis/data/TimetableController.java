@@ -16,7 +16,7 @@ import fis.telegramReceiver.TelegramReceiver;
 import java.util.function.Predicate;
 
 /**
- * Controller für {@link TimetableData}
+ * Controller für {@link TimetableData}.
  * Beinhaltet Weiterreichen von einkommenden Telegrammen und Aktionen, die vom ConnectionState abhängen (z.B. Entscheidung, dass RailML-Fahrplan geladen werden soll)
  * @author Luux
  */
@@ -194,7 +194,7 @@ public class TimetableController {
 	
 	
 			
-	public List<Stop> filter(List<TrainRoute> listToFilter, Station station, LocalTime from, LocalTime to, FilterType type,FilterTime filterTime){
+	public List<TrainRoute> filter(Iterable<TrainRoute> listToFilter, Station station, LocalTime from, LocalTime to, FilterType type,FilterTime filterTime){
 		/* 
 		 * Filtert die gegebene Liste nach der Ankunfts-/Abfahrtszeit in der Zeit von [from] bis [to] am angegebenen Bahnhof
 		 * und gibt alle entsprechenden "Stop"-Objekte, die mit diesem Bahnhof assoziiert sind, zurück
@@ -204,37 +204,36 @@ public class TimetableController {
 			return new ArrayList<>();
 		}
 		
-		List<Stop> newList=new ArrayList<>();
-		for(TrainRoute route:listToFilter){
-			for(Stop stop:route.getStops()){
-				if(stop.getStation()==station){
+		List<TrainRoute> newList=new ArrayList<>();
+		for(TrainRoute route : listToFilter){
+			for(Stop stop : route.getStops()){
+				if(stop.getStation() == station){
 					LocalTime stopTime;
 				
 					switch(filterTime){
-					case SCHEDULED:
-						//Es soll nach Scheduled gefiltert werden
-						if(type==FilterType.ARRIVAL){
-							stopTime=stop.getScheduledArrival();
-						} else {
-							stopTime=stop.getScheduledDeparture();
-						}
-						break;
-				
-					default:
-						//Es soll nach Actual gefiltert werden
-						if(type==FilterType.ARRIVAL){
-							stopTime=stop.getActualArrival();
-						} else {
-							stopTime=stop.getActualDeparture();
-						}
-						break;
+						case SCHEDULED:
+							//Es soll nach Scheduled gefiltert werden
+							if(type==FilterType.ARRIVAL){
+								stopTime=stop.getScheduledArrival();
+							} else {
+								stopTime=stop.getScheduledDeparture();
+							}
+							break;
+
+						default:
+							//Es soll nach Actual gefiltert werden
+							if(type==FilterType.ARRIVAL){
+								stopTime=stop.getActualArrival();
+							} else {
+								stopTime=stop.getActualDeparture();
+							}
 					}
 				
 					//hier passiert der eigentliche Vergleich
 					//Die equals sind laut Test ebenfalls notwendig!
 					if(stopTime!=null && from!=null && to!=null){
 						if((stopTime.isAfter(from) || stopTime.equals(from)) && (stopTime.isBefore(to) || stopTime.equals(to))){
-							newList.add(stop);
+							newList.add(route);
 						}
 					}
 				}
@@ -246,9 +245,3 @@ public class TimetableController {
 	
 		
 }
-	
-
-	
-	
-	
-
