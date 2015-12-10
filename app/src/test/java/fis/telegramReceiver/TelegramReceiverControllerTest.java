@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationEventPublisher;
 
 import java.io.*;
+import java.time.LocalTime;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -64,7 +65,7 @@ public class TelegramReceiverControllerTest {
 	@Test
 	public void testConnecting() throws InterruptedException, IOException, TelegramParseException {
 		//setting additional mocks
-		doReturn(new LabTimeTelegram(null)).when(mockedReceiver).sendTelegram(any(InputStream.class), any(OutputStream.class), any(RegistrationTelegram.class));
+		doReturn(new LabTimeTelegram(LocalTime.now())).when(mockedReceiver).sendTelegram(any(InputStream.class), any(OutputStream.class), any(RegistrationTelegram.class));
 		when(mockedSocket.isConnected()).thenReturn(true);
 		realConfig.setHostname("localhost");
 		realConfig.setPort(42);

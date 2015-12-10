@@ -51,7 +51,6 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 		    //try to connect until there is a connection
 		    //Todo: reconnecting after connection loss
 		    while (this.getConnectionStatus() != ConnectionStatus.ONLINE) {
-			    System.out.println("foo");
 			    if(this.getConnectionStatus() == ConnectionStatus.OFFLINE) {
 				    try {
 					    connectToHost();
