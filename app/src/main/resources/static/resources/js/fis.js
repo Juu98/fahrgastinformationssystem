@@ -5,7 +5,7 @@
  */
 
 /* station typeahead */
-var stations = $.get('/stations.json', function(data){
+var stations = $.get('../stations.json', function(data){
     $("#station").typeahead({
 		source:	data,
 		showHintOnFocus: true,
@@ -36,7 +36,7 @@ $(function(){
 });
 
 /* train route typeahead */
-var trainRoutes = $.get('/trainRoutes.json', function(data){
+var trainRoutes = $.get('../trainRoutes.json', function(data){
     $("#trainRoute").typeahead({
 		source:	data,
 		showHintOnFocus: true,
