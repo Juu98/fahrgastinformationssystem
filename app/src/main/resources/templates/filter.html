@@ -14,7 +14,7 @@
 						<span class="input-group-btn">
 							<button class="btn btn-default" type="button" data-toggle="collapse"
 									data-target="#stationList">
-								<i class="glyphicon glyphicon-chevron-down"></i>
+								<i class="glyphicon glyphicon-menu-down" id="stationMenu"></i>
 							</button>
 						</span>
 					</div>
@@ -24,29 +24,52 @@
 				</div>
 							
 				<div class="collapse" id="stationList">
-					<ul class="list-unstyled list-group">
+					<ul class="list-unstyled list-group clearfix">
 						<li class="list-group-item col-xs-4" th:each="st : ${stations}">
 							<a th:href="|./${st.id}|" th:text="${st.name}">Bahnhof</a>
 						</li>
-						<li class="clearfix"></li>
 					</ul>
 				</div>
 				
-				<div class="panel panel-default" id="filterOptions">
-					<div class="panel-heading panel-title" th:text="#{fis.filterform.heading}">Filter</div>
-					<div class="panel-body">
-						<h4 th:text="#{fis.filterform.category}">Kategorien</h4>
-						<div class="form-group">
-							<label class="checkbox-inline"
-								th:each="cat : ${categories}">
-								<input type="checkbox" name="categories" th:value="${cat.id}"
-									   th:checked="${#lists.contains(currentCategories, cat)}? 'checked'" />
-								<span th:text="${cat.name}" th:title="${cat.description}">Category</span>
-							</label>
-						</div>
-						<div class="form-group">
-							<input type="submit" name="submit" class="btn btn-primary col-md-2" th:value="#{fis.filterform.apply}" />
-							<input type="submit" name="reset" class="btn btn-default col-md-2 col-md-offset-2" th:value="#{fis.filterform.reset}" />
+				<div class="panel panel-default">
+					<div class="panel-heading panel-title">
+						<a data-toggle="collapse" href="#filterOptions"><i class="glyphicon glyphicon-menu-down" id="filterMenu"></i></a>&ensp;
+						<a data-toggle="collapse" href="#filterOptions" th:text="#{fis.filterform.heading}">Filter</a>
+					</div>
+					<div class="panel-collapse collapse in" id="filterOptions">
+						<div class="panel-body">
+							<h4>Zeitraum</h4>
+							<div class="form-group clearfix">
+								<div class="input-group col-md-2 pull-left">
+									<span class="input-group-addon">
+										<i class="glyphicon glyphicon-time"></i>
+									</span>
+									<input type="time" name="start" class="form-control text-center" th:value="${#temporals.format(start, 'HH:mm')}" />
+								</div>
+								<span class="col-md-2 text-center form-control-static">&mdash;</span>
+								<div class="input-group col-md-2 pull-left">
+									<span class="input-group-addon">
+										<i class="glyphicon glyphicon-time"></i>
+									</span>
+									<input type="time" name="end" class="form-control text-center" th:value="${#temporals.format(end, 'HH:mm')}" />
+								</div>
+								<div class="col-md-2 col-md-offset-2">
+									<button type="button" class="btn btn-warning" id="testTime">Testzeitraum</button>
+								</div>
+							</div>
+							<h4 th:text="#{fis.filterform.category}">Kategorien</h4>
+							<div class="form-group">
+								<label class="checkbox-inline"
+									th:each="cat : ${categories}">
+									<input type="checkbox" name="categories" th:value="${cat.id}"
+										   th:checked="${#lists.contains(currentCategories, cat)}? 'checked'" />
+									<span th:text="${cat.name}" th:title="${cat.description}">Category</span>
+								</label>
+							</div>
+							<div class="form-group">
+								<input type="submit" name="submit" class="btn btn-primary col-md-2" th:value="#{fis.filterform.apply}" />
+								<input type="submit" name="reset" class="btn btn-default col-md-2 col-md-offset-2" th:value="#{fis.filterform.reset}" />
+							</div>
 						</div>
 					</div>
 				</div>

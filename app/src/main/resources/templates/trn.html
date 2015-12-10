@@ -1,75 +1,70 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-		<script th:src="@{/webjars/jquery/2.1.3/jquery.min.js}"></script>
-		<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
-		<script th:src="@{/webjars/Bootstrap-3-Typeahead/3.1.1/bootstrap3-typeahead.js}"></script>
-		
-		<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" type="text/css" />
-		<link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
-		
-		<title th:text="#{fis.title.short}">FIS EBL</title>
-	</head>
+	<head th:include="header :: meta"></head>
+	
 	<body class="container">
 		<th:block th:include="header :: header(trn)"></th:block>
 		
-		<div class="tab-content col-md-8 col-md-offset-2">
-			<div class="tab-pane active" id="trn">
-				<form method="post" role="form" action="">
-					<div class="form-group">
-						<div class="input-group col-md-8 pull-left">
-							<span class="input-group-addon">#</span>
-							<input type="text" class="form-control" placeholder="Zugnummer"
-								   name="trainRoute" autocomplete="off" id="trainRoute" data-provide="typeahead"
-								   th:value="${currentTrainRoute} ? |${currentTrainRoute}: ${currentTrainRoute.stops[0].station.name} &ndash; ${currentTrainRoute.stops[currentTrainRoute.stops.size()-1].station.name}|" />
-							<span class="input-group-btn">
-								<button class="btn btn-default" type="button" data-toggle="collapse"
-										data-target="#trainRouteList">
-									<i class="glyphicon glyphicon-chevron-down"></i>
-								</button>
-							</span>
+		<div class="row">
+			<div class="tab-content col-md-8 col-md-offset-2">
+				<div class="tab-pane active" id="trn">
+					<form method="post" role="form" action="">
+						<div class="form-group">
+							<div class="input-group col-md-8 pull-left">
+								<span class="input-group-addon">#</span>
+								<input type="text" class="form-control" placeholder="Zugnummer"
+									   name="trainRoute" autocomplete="off" id="trainRoute" data-provide="typeahead"
+									   th:value="${currentTrainRoute} ? |${currentTrainRoute}: ${currentTrainRoute.stops[0].station.name} &ndash; ${currentTrainRoute.stops[currentTrainRoute.stops.size()-1].station.name}|" />
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" data-toggle="collapse"
+											data-target="#trainRouteList">
+										<i class="glyphicon glyphicon-chevron-down"></i>
+									</button>
+								</span>
+							</div>
+							<input type="hidden" name="trainRouteId" id="trainRouteId" th:value="${currentTrainRoute} ? ${currentTrainRoute.id}" />
+							<input type="submit" name="submit" class="btn btn-primary col-md-2 col-md-offset-2" value="Anzeigen" />
+							<div class="clearfix"></div>
 						</div>
-						<input type="hidden" name="trainRouteId" id="trainRouteId" th:value="${currentTrainRoute} ? ${currentTrainRoute.id}" />
-						<input type="submit" name="submit" class="btn btn-primary col-md-2 col-md-offset-2" value="Anzeigen" />
-						<div class="clearfix"></div>
+						<div class="collapse" id="trainRouteList">
+							<ul class="list-group row">
+								<li class="list-group-item col-xs-6" th:each="tr : ${trainRoutes}">
+									<a th:href="|./${tr.id}|" th:text="|${tr}: ${tr.stops[0].station.name} &ndash; ${tr.stops[tr.stops.size()-1].station.name}|">Bahnhof</a>
+								</li>
+							</ul>
+						</div>
+					</form>
+					<table class="table table-hover table-striped" th:if="${currentTrainRoute}" id="traintable">
+						<thead>
+							<tr>
+								<th>An</th>
+								<th>Ab</th>
+								<th>Bahnhof</th>
+								<th>Gleis</th>
+								<th>Bemerkungen</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="st, stStat : ${currentTrainRoute.stops}">
+								<td th:text="${st.ScheduledArrival}? ${#temporals.format(st.ScheduledArrival, 'HH:mm')}">an</td>
+								<td th:text="${st.ScheduledDeparture}? ${#temporals.format(st.ScheduledDeparture, 'HH:mm')}">ab</td>
+								<td th:class="${stStat.first}? 'station-begin' : (${stStat.last}? 'station-end')">
+									<a th:href="|/dep/${st.station.id}|" th:text="${st.station.name}" th:title="#{fis.traintable.deptitle}">Bahnhof</a>
+								</td>
+								<td th:text="${st.ScheduledTrack}">Gleis</td>
+								<td th:text="'&mdash;'">Meldung</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div class="alert alert-info" th:unless="${currentTrainRoute}" th:text="#{fis.alerts.notrainroute}">
+						Keine Zugnummer.
 					</div>
-					<div class="collapse" id="trainRouteList">
-						<ul class="list-group row">
-							<li class="list-group-item col-xs-6" th:each="tr : ${trainRoutes}">
-								<a th:href="|./${tr.id}|" th:text="|${tr}: ${tr.stops[0].station.name} &ndash; ${tr.stops[tr.stops.size()-1].station.name}|">Bahnhof</a>
-							</li>
-						</ul>
-					</div>
-				</form>
-				<table class="table table-hover table-striped" th:if="${currentTrainRoute}" id="traintable">
-					<thead>
-						<tr>
-							<th>An</th>
-							<th>Ab</th>
-							<th>Bahnhof</th>
-							<th>Gleis</th>
-							<th>Bemerkungen</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="st, stStat : ${currentTrainRoute.stops}">
-							<td th:text="${st.ScheduledArrival}? ${#temporals.format(st.ScheduledArrival, 'HH:mm')}">an</td>
-							<td th:text="${st.ScheduledDeparture}? ${#temporals.format(st.ScheduledDeparture, 'HH:mm')}">ab</td>
-							<td th:class="${stStat.first}? 'station-begin' : (${stStat.last}? 'station-end')">
-								<a th:href="|/dep/${st.station.id}|" th:text="${st.station.name}" th:title="#{fis.traintable.deptitle}">Bahnhof</a>
-							</td>
-							<td th:text="${st.ScheduledTrack}">Gleis</td>
-							<td th:text="'&mdash;'">Meldung</td>
-						</tr>
-					</tbody>
-				</table>
-				
-				<div class="alert alert-info" th:unless="${currentTrainRoute}" th:text="#{fis.alerts.notrainroute}">
-					Keine Zugnummer.
 				</div>
 			</div>
 		</div>
+		
+		<th:block th:include="header :: footer"></th:block>
 		
 		<script th:src="@{/resources/js/fis.js}"></script>
 	</body>

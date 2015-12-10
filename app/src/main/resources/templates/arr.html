@@ -1,33 +1,28 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-		<script th:src="@{/webjars/jquery/2.1.3/jquery.min.js}"></script>
-		<script th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
-		<script th:src="@{/webjars/Bootstrap-3-Typeahead/3.1.1/bootstrap3-typeahead.js}"></script>
-		
-		<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" type="text/css" />
-		<link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
-		
-		<title th:text="#{fis.title.short}">FIS EBL</title>
-	</head>
+	<head th:include="header :: meta"></head>
+	
 	<body class="container">
 		<th:block th:include="header :: header(arr)"></th:block>
 		
-		<div class="tab-content col-md-8 col-md-offset-2">
-			<div class="tab-pane active" id="arr">
-				<div th:include="filter :: filter-form"></div>
-								
-				<table th:include="traintable :: traintable(arr)" class="table table-hover table-striped"
-					th:if="${currentStation != null and not #lists.isEmpty(trains)}" id="traintable">						   
-				</table>
-				
-				<p th:if="${currentStation != null and #lists.isEmpty(trains)}" class="alert alert-warning"
-					th:text="#{fis.alerts.notrains.arr}">Keine Züge.</p>
-				<p th:unless="${currentStation}" class="alert alert-info"
-					th:text="#{fis.alerts.nostation.arr}">Kein Bahnhof ausgewählt.</p>
+		<div class="row">
+			<div class="tab-content col-md-8 col-md-offset-2">
+				<div class="tab-pane active" id="arr">
+					<div th:include="filter :: filter-form"></div>
+
+					<table th:include="traintable :: traintable(arr)" class="table table-hover table-striped"
+						th:if="${currentStation != null and not #lists.isEmpty(trains)}" id="traintable">						   
+					</table>
+
+					<p th:if="${currentStation != null and #lists.isEmpty(trains)}" class="alert alert-warning"
+						th:text="#{fis.alerts.notrains.arr}">Keine Züge.</p>
+					<p th:unless="${currentStation}" class="alert alert-info"
+						th:text="#{fis.alerts.nostation.arr}">Kein Bahnhof ausgewählt.</p>
+				</div>
 			</div>
 		</div>
+		
+		<th:block th:include="header :: footer"></th:block>
 		
 		<script th:src="@{/resources/js/fis.js}"></script>
 	</body>

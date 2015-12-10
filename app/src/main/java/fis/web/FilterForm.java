@@ -19,8 +19,8 @@ public interface FilterForm {
 	public String getDestination();
 	
 	// Zeitfenster
-	public LocalTime getStart();
-	public LocalTime getEnd();
+	public String getStart();
+	public String getEnd();
 	
 	// Buttonaktionen
 	public String getSubmit();
