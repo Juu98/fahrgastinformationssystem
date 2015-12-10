@@ -64,7 +64,7 @@ public class TimetableDataTest {
 		assertTrue(data.getStations().contains(s));
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testAddNullStation(){	
 		data.addStation(null);
 		fail("Fehler bei Null-Station muss ausgegeben werden!");
@@ -77,7 +77,7 @@ public class TimetableDataTest {
 		assertTrue("Hinzufügen von TrainCategory funktioniert nicht!", data.getTrainCategories().contains(cat2));
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testAddNullTrainCategory(){	
 		data.addTrainCategory(null);
 		fail("Fehler bei Null-TrainCategory muss ausgegeben werden!");
@@ -101,7 +101,7 @@ public class TimetableDataTest {
 		
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testAddNullTrainRoute(){
 		data.addTrainRoute(null);
 		fail("Hinzufügen einer Null-TrainRoute darf nicht möglich sein!");

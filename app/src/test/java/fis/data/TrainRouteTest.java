@@ -37,19 +37,19 @@ public class TrainRouteTest {
 		
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_1(){
 		new TrainRoute(null,0,cat1,stops1);
 		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_2(){
 		new TrainRoute("2",0,null,stops1);
 		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_3(){
 		new TrainRoute("2",0,cat1,null );
 		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");

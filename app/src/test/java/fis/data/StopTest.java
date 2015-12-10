@@ -40,13 +40,13 @@ public class StopTest {
 		assertEquals("Message sollte noch ein leerer String sein!", stop1.getMessage(),"");
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_1(){
 		new Stop(null,StopType.STOP,time1,time2,track1);
 		fail("Konstruktor soll bei Argumenten, die nicht null sein dürfen, entsprechende Exception werfen!");
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_2(){
 		new Stop(s1,null,time1,time2,track1);
 		fail("Konstruktor soll bei Argumenten, die nicht null sein dürfen, entsprechende Exception werfen!");
@@ -60,7 +60,7 @@ public class StopTest {
 		assertEquals("Aktualisierung der Ankunftszeit funktioniert nicht.",stop1.getActualArrival(),t);
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testUpdateActualArrival_null(){	
 		stop1.updateArrival(null);
 		fail("Update mit null darf nicht möglich sein!");
@@ -74,7 +74,7 @@ public class StopTest {
 		assertEquals("Aktualisierung der Ankunftszeit funktioniert nicht.",stop1.getActualDeparture(),t);
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testUpdateActualDeparture_null(){	
 		stop1.updateDeparture(null);
 		fail("Update mit null darf nicht möglich sein!");
@@ -87,7 +87,7 @@ public class StopTest {
 		assertEquals("Aktualisierung des Gleises funktioniert nicht",stop1.getActualTrack(),track);
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testUpdateTrack_null(){	
 		stop1.updateTrack(null);
 		fail("Update mit null darf nicht möglich sein!");
@@ -99,7 +99,7 @@ public class StopTest {
 		assertEquals("Aktualisierung des StopTypes funktioniert nicht",stop1.getStopType(),StopType.STOP);
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testUpdateStopType_null(){	
 		stop1.updateStopType(null);
 		fail("Update mit null darf nicht möglich sein!");
@@ -112,7 +112,7 @@ public class StopTest {
 		assertEquals("Aktualisierung der Nachricht funktioniert nicht",stop1.getMessage(),message);
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testUpdateMessage_null(){	
 		stop1.updateMessage(null);
 		fail("Update mit null darf nicht möglich sein!");
