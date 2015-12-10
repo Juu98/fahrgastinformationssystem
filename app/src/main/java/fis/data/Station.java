@@ -22,7 +22,7 @@ public class Station {
      *            Name des Bahnhofs
      */
     public Station(String id, String name) {
-    	if(id==null || name==null) throw new NullPointerException();
+    	if(id==null || name==null) throw new IllegalArgumentException();
     	this.name = name;
     	this.id = id;
     	this.stops = new LinkedList<Stop>();
@@ -34,9 +34,9 @@ public class Station {
      * 
      * @param stop
      */
-    public void addStop(Stop stop) throws NullPointerException {
+    public void addStop(Stop stop) {
     	if (stop == null)
-    		throw new NullPointerException();
+    		throw new IllegalArgumentException();
     	stops.add(stop);
     }
 

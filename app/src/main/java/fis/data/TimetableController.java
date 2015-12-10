@@ -17,7 +17,8 @@ import java.util.function.Predicate;
 
 /**
  * Controller für {@link TimetableData}
- * Beinhaltet Weiterreichen von einkommenden Telegrammen und Aktionen, die vom ConnectionState abhängen (z.B. Entscheidung, dass RailML-Fahrplan geladen werden soll)
+ * Beinhaltet Weiterreichen von einkommenden Telegrammen und Aktionen, die vom ConnectionState abhängen 
+ * (z.B. Entscheidung, dass RailML-Fahrplan geladen werden soll)
  * @author Luux
  */
 @Component
@@ -41,8 +42,12 @@ public class TimetableController {
 		public TrainUsagePredicate(String usage){
 			super();
 			
-			if (usage == null) throw new NullPointerException("You need to specify a usage to filter by!");
-			if (usage.isEmpty()) throw new IllegalArgumentException("Empty usage is not allowed.");
+			if (usage == null){
+				throw new IllegalArgumentException("You need to specify a usage to filter by!");
+			}
+			if (usage.isEmpty()){
+				throw new IllegalArgumentException("Empty usage is not allowed.");
+			}
 			else this.usage = usage;
 		}
 		
@@ -65,8 +70,7 @@ public class TimetableController {
 	public TimetableController(){
 		try{
 			data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");	
-		}
-		catch(Exception ex){
+		}catch(Exception ex){
 			System.out.println(ex.toString());
 		}
 	}
@@ -100,9 +104,8 @@ public class TimetableController {
 		switch(receiver.getConnectionStatus()){
 			case OFFLINE:return "Offline";
 			case ONLINE:return "Online";
-			case CONNECTING:return "Connecting";
+			default:return "Connecting";
 		}
-		return "unknown";
 	}
 	
 	
@@ -148,7 +151,7 @@ public class TimetableController {
 	 */
 	public TrainCategory getTrainCategoryById(String id){
 		if (id == null){
-			throw new NullPointerException("Accessing TrainCategory with ID null!");
+			throw new IllegalArgumentException("Accessing TrainCategory with ID null!");
 		}
 		
 		for (TrainCategory tc : data.getTrainCategories()){
@@ -164,21 +167,28 @@ public class TimetableController {
 	/**
 	 * @see Station.getStops
 	 * @param station
-	 * @return Alle Halte eines Bahnhofs, wenn station nicht null ist. Falls station null ist, gibt die Funktion eine leere Liste zurück.
+	 * @return Alle Halte eines Bahnhofs, wenn station nicht null ist. 
+	 * Falls station null ist, gibt die Funktion eine leere Liste zurück.
 	 */
 	public List<Stop> getStopsByStation(Station station){
-		if(station==null) return new ArrayList<Stop>();
+		if(station==null){
+			return new ArrayList<Stop>();
+		}
 		return station.getStops();
 	}
 	
 	/**
 	 * Gibt alle Zugläufe eines Bahnhofs aus
 	 * @param station
-	 * @param type Je nach {@link FilterType} gibt die Funktion alle Zugläufe, ein- oder ausfahrende Zugläufe an.
-	 * @return Alle Zugläufe eines Bahnhofs, sofern station nicht null ist (sonst leere Liste)
+	 * @param type Je nach {@link FilterType} gibt die Funktion alle Zugläufe, 
+	 * ein- oder ausfahrende Zugläufe an.
+	 * @return Alle Zugläufe eines Bahnhofs, sofern station nicht null ist 
+	 * (sonst leere Liste)
 	 */
 	public Set<TrainRoute> getTrainRoutesByStation(Station station, FilterType type){
-		if(station==null) return new HashSet<TrainRoute>();
+		if(station==null){
+			return new HashSet<TrainRoute>();
+		}
 		
 		HashSet<TrainRoute> set=new HashSet<TrainRoute>();
 		for(Stop stop:station.getStops()){

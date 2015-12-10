@@ -22,7 +22,7 @@ public class TrainRoute {
 	 */
 	public TrainRoute(String id,int trainNumber, TrainCategory trainCategory, List<Stop> stops){
 		if(id==null || trainCategory==null || stops==null){
-			throw new NullPointerException();
+			throw new IllegalArgumentException("id, trainCategory und stops dürfen nicht null sein!");
 		}
 		
 		this.id=id;

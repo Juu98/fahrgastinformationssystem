@@ -32,7 +32,7 @@ public class TimetableData {
 	 * @param trainRoute {@link TrainRoute} zum Hinzufügen
 	 */
 	public void addTrainRoute(TrainRoute trainRoute){
-		if(trainRoute==null) throw new NullPointerException("TrainRoute darf nicht null sein!");
+		if(trainRoute==null) throw new IllegalArgumentException("TrainRoute darf nicht null sein!");
 		trainRoutes.add(trainRoute);
 	}
 	
@@ -65,7 +65,7 @@ public class TimetableData {
 	 * @param category
 	 */
 	public void addTrainCategory(TrainCategory category){
-		if(category==null) throw new NullPointerException("Category darf nicht null sein!");
+		if(category==null) throw new IllegalArgumentException("Category darf nicht null sein!");
 		trainCategories.add(category);
 	}
 	
@@ -74,7 +74,7 @@ public class TimetableData {
 	 * @param station
 	 */
 	public void addStation(Station station){
-		if(station==null) throw new NullPointerException("Station darf nicht null sein!");
+		if(station==null) throw new IllegalArgumentException("Station darf nicht null sein!");
 		stations.add(station);
 	}
 	
