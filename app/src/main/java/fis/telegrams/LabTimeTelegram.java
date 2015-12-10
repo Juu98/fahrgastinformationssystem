@@ -27,4 +27,8 @@ public class LabTimeTelegram extends Telegram {
 	public LocalTime getTime(){
 		return this.time;
 	}
+
+	public boolean equals(LabTimeTelegram telegram) {
+		return this.getTime().equals(telegram.getTime());
+	}
 }

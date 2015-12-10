@@ -3,10 +3,11 @@ package fis.telegrams;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
+import java.time.LocalTime;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Created by spiollinux on 06.12.15.
@@ -31,7 +32,7 @@ public class TelegramTest {
 			//force at least one bit to be != 255, the others are set randomly
 			if(i == r) {
 				do {
-					invalidRawTelegram[i] = (byte) ( (int) Math.ceil(Math.random()*255));
+					invalidRawTelegram[i] = (byte) (( (int) Math.ceil(Math.random()*255) & 0xFF));
 				} while( ((byte) 255) == invalidRawTelegram[i]);
 			}
 			else
@@ -49,9 +50,21 @@ public class TelegramTest {
 	@Test
 	public void testLabTimeTelegramParse() {
 		//create test rawTelegram
-		validRawTelegram[4] = (byte) 241;
+		validRawTelegram[4] = (byte) (241 & 0xFF);  //& 0xFF to emulate unsigned bytes with java's signed bytes
 		//Todo: add valid data here
+		validRawTelegram[5] = (byte) (1 & 0xFF);
+		validRawTelegram[6] = (byte) (59 & 0xFF);
+		validRawTelegram[7] = (byte) (59 & 0xFF);
 		//Todo: set length
-		fail("test not fully implemented");
+		validRawTelegram[3] = (byte) (6 & 0xFF);
+
+		LabTimeTelegram parsedTelegram = null;
+		try {
+			parsedTelegram = (LabTimeTelegram) Telegram.parse(validRawTelegram);
+		} catch (TelegramParseException e) {
+			fail("ParseException: " + e.getMessage());
+		}
+		LabTimeTelegram referenceTelegram = new LabTimeTelegram(LocalTime.of(1,59,59));
+		assertTrue("parsed LabTimeTelegram doesn't match the expected one",referenceTelegram.equals(parsedTelegram));
 	}
 }
