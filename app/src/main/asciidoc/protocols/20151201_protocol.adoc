@@ -1,0 +1,98 @@
+= Protokoll Gruppe 03
+
+[cols="<h,<a"]
+|===
+|Treffen am 01.12.2015    |13:00 Uhr, APB
+|Schriftführer            |Robert Mörseburg
+|Nächstes Treffen         |08.12.2015, 13:00 Uhr, APB
+|Teilnehmer               |
+* Eric Schölzel (Scrum-Master)
+* Jonas Schenke
+* Oliver Schmidt
+* Robert Mörseburg
+* Zdravko Yanakiev
+* Ronny Kaiser (Betreuer Lehrstuhl SWT)
+|===
+
+== Bemerkungen
+Keine.
+
+== Retrospektive des letzten Sprints
+
+Im letzten Sprint wurde die Anwendung um weitere Funktionen ergänzt:
+
+* In der Abfahrts- bzw. Ankunftsanzeige werden die Zugkäufe nun nach Zeit sortiert.
+* Es werden "schöne", das heißt menschenlesbare Zugnummern angezeigt, die auch die Kategorie enthalten (z.B. "RE 123" für RegionalExpress).
+* Zugläufe können nach ihrer Kategorie gefiltert werden.
+
+Außerdem wurde die Dokumentation der Anwendung mittels Javadoc und in Entwicklerdokumentation und Testplan voran getrieben. Zusätzlich wurden Tests für den RailML-Parser und weitere Teile der Datenstruktur ergänzt.
+
+Im Bereich der Telegrammverarbeitung wurde der Code neu strukturiert und weitere Tests geschrieben.
+
+[options="header"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|28 |TCP Telegramme parsen		|in Bearbeitung	|Mock-Tests, da noch keine Spezifikation vorhanden
+|35 |Opera 11 Kompatibilität	|fast abgeschlossen	|Version 12 läuft
+|39 |Javadoc 					|in Bearbeitung	|bereits für Datenstruktur, `FisController` und Teile der Telegramme aktuell
+|41 |Konsolenausgabe			|in Bearbeitung	|momentan komplette Debug-Ausgabe über Logs
+|46 |Sortierung					|abgeschlossen	|für Abfahrten und Ankünfte nach Zeit
+|48 |Verarbeitung Update-Telegramme |offen		|--
+|49 |RailML-Tests				|abgeschlossen	|--
+|===
+
+== Aktueller Stand
+
+* Es fehlt immer noch die Spezifikation der Telegeramme durch den Kunden.
+* Am 15.12.2015 soll ein erster Test der Anwendung beim Kunden auf der Hardware des EBL erfolgen.
+* Die Dokumentation, einschließlich des Javadoc soll in deutscher Sprache erfolgen.
+* Zum Loggen wird `log4j` verwendet
+
+== Planung des nächsten Sprints
+
+Bis zum **15.12.2015** müssen die *Muss-Kriterien* implementiert sein.
+Für den nächsten Sprint stehen außerdem folgende Punkte auf der Agenda:
+
+=== Logs
+* Umstellung auf das Spring-Logsystem abschließen
+* wo notwendig Log-Level anpassen (von `info` auf `debug`)
+* umfangreiche Ausgabe beim XML-Parsen zusammenfassen und komprimiert ausgeben
+("RailML erfolgreich gelesen: x Bahnhöfe, y Zugläufe ...")
+
+=== Dokumentation
+* UML-Entwurfsklassendiagramm um aktuelle Änderungen erweitern bzw. anpassen
+* Testplan aktualisieren
+* mehr Javadoc
+
+=== Projektstruktur
+* weitere Tests schreiben
+* `JPA` aus dependencies entfernen
+* Überlegungen zur sinnvollen Versionierung der Anwendung, changelog
+
+=== GUI
+* Filter-Parameter als GET-Variablen in die URL aufnehmen
+* Fußzeile mit Verbindungsstatus etc.
+
+=== Recherche
+* Port forwarding beim Apache bzw. Einsatz als reverse proxy
+* Konfigurationsdatei außerhalb der `jar`
+
+Über den nächsten Sprint hinaus sollte mit der Arbeit am Benutzerhandbuch inklusive Admin-Bereich begonnen werden. Dieses wird in einem separaten `dokumentation`-Ordner und Branch angelegt.
+Einträge sollen zwecks Exportierbarkeit in "GitHub flavored Markdown" (GFM) verfasst werden.
+
+Bis Ende des Jahres wird ein Konzept zur Umsetzung der folgenden *Kann-Kriterien* erarbeitet:
+
+* automatische Aktualisierung
+* Perlenschnur-Darstellung der Zugläufe
+* Logo in Konfiguration ändern
+* Farben in Konfiguration ändern
+
+[options="header"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|28 |TCP Telegramme parsen		|in Bearbeitung		|weitere Tests, eventuelle Spezifikation bearbeiten
+|35 |Opera 11 Kompatibilität	|fast abgeschlossen	|aktuelle Änderungen testen
+|39 |Javadoc 					|in Bearbeitung		|erweitern, übersetzen
+|41 |Konsolenausgabe			|in Bearbeitung		|Logs zusammenfassen
+|48 |Verarbeitung Update-Telegramme |offen			|--
+|===

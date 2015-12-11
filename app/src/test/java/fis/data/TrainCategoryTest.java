@@ -24,25 +24,25 @@ public class TrainCategoryTest {
 		assertEquals("TrainUsage stimmt nicht überein!", cat1.getTrainUsage(),"trainUsage1");
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_1(){
 		new TrainCategory(null," ", " ", " ");
 		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");	   
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_2(){
 		new TrainCategory(" ",null, " ", " ");
 		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");	   
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_3(){
 		new TrainCategory(" "," ", null, " ");
 		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");	   
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_4(){
 		new TrainCategory(" "," ", " ", null);
 		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");	   

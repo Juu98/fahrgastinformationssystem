@@ -1,9 +1,11 @@
 package fis;
 
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBException;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.apache.log4j.Logger;
@@ -28,7 +30,7 @@ import fis.railmlparser.RailMLParser;
 public class RailML2Data {
 	private static final Logger LOGGER = Logger.getLogger(RailML2Data.class);
 	
-	public static TimetableData loadML(String path) throws Exception{
+	public static TimetableData loadML(String path) throws IOException, JAXBException{
 		
 		TimetableData data=new TimetableData();
 		
@@ -81,8 +83,7 @@ public class RailML2Data {
 					String ocpttID=((EOcp)ocptt.getOcpRef()).getId();
 					Station station=data.getStationById(ocpttID);
 
-					if(station!=null){
-						if(!ocptt.getOcpType().equals("pass")){ //auch hier gibts Stopsignale etc; zudem sollen Passes sollen nicht angezeigt werden
+					if(station!=null && !ocptt.getOcpType().equals("pass")){ //auch hier gibts Stopsignale etc; zudem sollen Passes sollen nicht angezeigt werden
 							StopType stopType;
 										
 							//nur zur Initialisierung
@@ -123,7 +124,8 @@ public class RailML2Data {
 							LOGGER.info("Gleis: "+track);
 						} else {
 							track="";
-							LOGGER.info("Gleis: Keine Angabe [0]");} //warum auch immer manchmal kein Gleis dabei steht...
+							
+							LOGGER.info("Gleis: Keine Angabe [0]");}
 					
 							Stop stop=new Stop(station, stopType, arrival, departure, track);
 					
@@ -132,7 +134,6 @@ public class RailML2Data {
 							}
 					
 							stops.add(stop);
-						}
 					}
 				}
 				
@@ -140,12 +141,11 @@ public class RailML2Data {
 				
 				//evtl. gehen die Categories eleganter, dasselbe gilt für die Ocp's weiter oben
 				if(stops.size()>0){
-					data.addTrainRoute(new TrainRoute(trainPart.getId(),trainNumber,data.getTrainCategoryById(((ECategory)trainPart.getCategoryRef()).getId()),stops));
+					data.addTrainRoute(new TrainRoute(trainPart.getId(),trainNumber,
+							data.getTrainCategoryById(((ECategory)trainPart.getCategoryRef()).getId()),stops));
 				}
-			}
-		
-		
-		
+			} 
+			
 		return data;
 	}
 }
