@@ -73,6 +73,17 @@ public class TrainRoute {
 	}
 	
 	/**
+	 * Hängt die gegebene Liste von Halten an
+	 * @param stops
+	 */
+	public void addStops(List<Stop> stops){
+		for(Stop stop:stops){
+			linkStop(stop);
+			this.stops.add(stop);
+		}
+	}
+	
+	/**
 	 * 
 	 * @return Das Ende des Zuglaufs
 	 */
