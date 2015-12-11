@@ -1,9 +1,11 @@
-package fis.telegrams;
+package fis.telegramReceiver;
 
 import fis.ConfigurationException;
+import fis.telegrams.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -15,6 +17,7 @@ import java.net.SocketAddress;
 /**
  * Created by spiollinux on 07.11.15.
  */
+
 @Service
 public class TelegramReceiverController extends Thread implements ApplicationEventPublisherAware{
 
@@ -47,7 +50,6 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 		    //try to connect until there is a connection
 		    //Todo: reconnecting after connection loss
 		    while (this.getConnectionStatus() != ConnectionStatus.ONLINE) {
-			    System.out.println("foo");
 			    if(this.getConnectionStatus() == ConnectionStatus.OFFLINE) {
 				    try {
 					    connectToHost();
@@ -78,7 +80,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 
 		    }
 		    try {
-                while (getConnectionStatus() == ConnectionStatus.ONLINE && !Thread.currentThread().isInterrupted()) {
+                while (getConnectionStatus() != ConnectionStatus.OFFLINE && !Thread.currentThread().isInterrupted()) {
                     receiver.handleConnection(server.getInputStream(), server.getOutputStream());
                 }
 		    } catch (IOException e) {
@@ -107,7 +109,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
     }
 
 	private void register() throws IOException, TelegramParseException {
-		RegistrationTelegram regTelegram = new RegistrationTelegram(receiverConfig.getClientID());
+		SendableTelegram regTelegram = new RegistrationTelegram(receiverConfig.getClientID());
 		Telegram responseTelegram = receiver.sendTelegram(server.getInputStream(), server.getOutputStream(), regTelegram);
 
 		if(responseTelegram != null) {
@@ -159,6 +161,11 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
             throw(new IllegalArgumentException("connectionStatus mustn't be null"));
         this.connectionStatus = connectionStatus;
     }
+
+	@EventListener
+	public void handleConnectionStatusEvent(ConnectionStatusEvent event) {
+		ConnectionStatus status = event.getSource();
+	}
 
 	@Override
 	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {

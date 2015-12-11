@@ -1,12 +1,12 @@
 package fis.telegrams;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -24,13 +24,14 @@ import java.util.concurrent.TimeoutException;
 public class TelegramReceiver implements ApplicationEventPublisherAware {
 
     private List<byte[]> telegramQueue;
-	private int timeout;
+	private final TelegramReceiverConfig receiverConfig;
 	//needed for events
 	private ApplicationEventPublisher publisher;
 
-    public TelegramReceiver(int timeout) {
+	@Autowired
+    public TelegramReceiver(TelegramReceiverConfig config) {
         this.telegramQueue = new LinkedList<>();
-	    this.timeout = timeout;
+		this.receiverConfig = config;
     }
 
 
@@ -80,7 +81,7 @@ public class TelegramReceiver implements ApplicationEventPublisherAware {
 	    		Future<byte[]> response = parseConnection(in);
 		byte[] rawResponse = null;
 		try {
-			rawResponse = response.get(timeout, TimeUnit.MILLISECONDS);
+			rawResponse = response.get(receiverConfig.getTimeout(), TimeUnit.MILLISECONDS);
 		} catch (TimeoutException e) {
 			//Todo: raise login error
 		} catch (InterruptedException e) {

@@ -1,14 +1,17 @@
-package fis.telegrams;
+package fis.telegramReceiver;
 
 import fis.ConfigurationException;
+import fis.telegrams.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationEventPublisher;
 
 import java.io.*;
+import java.time.LocalTime;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 /**
@@ -21,7 +24,7 @@ public class TelegramReceiverControllerTest {
 	TelegramReceiverConfig mockedConfig ;
 	TelegramSocket mockedSocket;
 	ApplicationEventPublisher mockedPublisher;
-	byte[] buf = new byte[255];
+	byte[] buf = new byte[Telegram.getRawTelegramLength()];
 
 	@Before
 	public void setUp() throws Exception {
@@ -62,7 +65,7 @@ public class TelegramReceiverControllerTest {
 	@Test
 	public void testConnecting() throws InterruptedException, IOException, TelegramParseException {
 		//setting additional mocks
-		doReturn(new LabTimeTelegram()).when(mockedReceiver).sendTelegram(any(InputStream.class), any(OutputStream.class), any(RegistrationTelegram.class));
+		doReturn(new LabTimeTelegram(LocalTime.now())).when(mockedReceiver).sendTelegram(any(InputStream.class), any(OutputStream.class), any(RegistrationTelegram.class));
 		when(mockedSocket.isConnected()).thenReturn(true);
 		realConfig.setHostname("localhost");
 		realConfig.setPort(42);

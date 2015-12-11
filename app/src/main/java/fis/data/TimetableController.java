@@ -6,13 +6,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import fis.telegrams.Telegram;
+import fis.telegrams.TelegramParsedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import fis.FilterTime;
 import fis.FilterType;
 import fis.RailML2Data;
-import fis.telegramReceiver.TelegramReceiver;
+import fis.telegramReceiver.TelegramReceiverController;
 import java.util.function.Predicate;
 
 /**
@@ -65,7 +68,7 @@ public class TimetableController {
 	}
 	
 	private TimetableData data;
-	@Autowired private TelegramReceiver receiver;
+	@Autowired private TelegramReceiverController receiver;
 	
 	public TimetableController(){
 		try{
@@ -253,7 +256,12 @@ public class TimetableController {
 		}
 		return newList;	
 	}
-	
+
+	@EventListener
+	public void forwardTelegram(TelegramParsedEvent event) {
+		Telegram receivedTelegram = event.getSource();
+		//Todo: do things with the telegram
+	}
 		
 }
 
