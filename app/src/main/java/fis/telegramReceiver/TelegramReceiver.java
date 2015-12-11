@@ -1,9 +1,6 @@
 package fis.telegramReceiver;
 
-import fis.telegrams.SendableTelegram;
-import fis.telegrams.Telegram;
-import fis.telegrams.TelegramParseException;
-import fis.telegrams.TelegramParsedEvent;
+import fis.telegrams.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
@@ -48,7 +45,17 @@ public class TelegramReceiver implements ApplicationEventPublisherAware {
 			if (!telegramQueue.isEmpty()) {
 				try {
 					Telegram telegramResponse = Telegram.parse(telegramQueue.get(0));
-					publisher.publishEvent(new TelegramParsedEvent(telegramResponse));
+
+					if(telegramResponse.getClass() == TrainRouteEndTelegram.class) {
+						publisher.publishEvent(new ConnectionStatusEvent(ConnectionStatus.ONLINE));
+						telegramResponse = sendTelegram(in, out, new ClientStatusTelegram("FIS", (byte) 0x00));
+
+					}
+					/* if response to sendTelegram is a TrainRouteEndTelegram, this isn't handled.
+					But that should be ok as a ClientStatusTelegram needs to be sent only once */
+					if (telegramResponse.getClass() != TrainRouteEndTelegram.class) {
+						publisher.publishEvent(new TelegramParsedEvent(telegramResponse));
+					}
 				} catch (TelegramParseException e) {
 					//Todo: log parse error
 				}
