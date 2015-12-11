@@ -38,10 +38,10 @@ public class RailML2Data {
 		
 			LOGGER.info("Parsing "+path);
 			Railml railml=parser.parseRailML(path);
-			System.out.println("Parsed "+path);
+			LOGGER.info("Parsed "+path);
 			
 			Infrastructure infra=railml.getInfrastructure();
-			LOGGER.info("Got Infrastrucure");
+			LOGGER.debug("Got Infrastrucure");
 			for(EOcp ocp:infra.getOperationControlPoints().getOcp()){
 				TOcpOperationalType ocptype=ocp.getPropOperational().getOperationalType();
 				if(ocptype==TOcpOperationalType.STATION || ocptype==null){ //Entweder Bahnhof oder unbestimmt (da manche Halte unbestimmt sind!)
@@ -52,7 +52,7 @@ public class RailML2Data {
 			
 			
 			Timetable timetable=railml.getTimetable();
-			LOGGER.info("Got Timetable");
+			LOGGER.debug("Got Timetable");
 			for(ECategory cat:timetable.getCategories().getCategory()){
 				//Categories auslesen
 				
@@ -76,8 +76,8 @@ public class RailML2Data {
 			for(ETrainPart trainPart:timetable.getTrainParts().getTrainPart()){
 				List<Stop> stops=new ArrayList<Stop>();
 				
-				LOGGER.info("..");
-				LOGGER.info("Zuglauf "+trainPart.getId());
+				LOGGER.debug("..");
+				LOGGER.debug("Zuglauf "+trainPart.getId());
 				
 				for(EOcpTT ocptt:trainPart.getOcpsTT().getOcpTT()){
 					String ocpttID=((EOcp)ocptt.getOcpRef()).getId();
@@ -98,20 +98,20 @@ public class RailML2Data {
 								default: stopType=StopType.END;
 							}			
 					
-							LOGGER.info("StopType: "+stopType.toString());
+							LOGGER.debug("StopType: "+stopType.toString());
 					
 					
 						//TODO: Hier wird's etwas hässlich, unbedingt überprüfen, ob das funktioniert!
 						if(stopType==StopType.STOP || stopType==StopType.END){	
 							XMLGregorianCalendar calArrival=ocptt.getTimes().get(0).getArrival();		
 							arrival=LocalTime.of(calArrival.getHour(), calArrival.getMinute(), calArrival.getSecond());
-							LOGGER.info("Ankunft: "+arrival.toString());
+							LOGGER.debug("Ankunft: "+arrival.toString());
 						}
 					
 						if(stopType!=StopType.END){			
 							XMLGregorianCalendar calDeparture=ocptt.getTimes().get(0).getDeparture();		
 							departure=LocalTime.of(calDeparture.getHour(), calDeparture.getMinute(), calDeparture.getSecond());				
-							LOGGER.info("Abfahrt: "+departure.toString());
+							LOGGER.debug("Abfahrt: "+departure.toString());
 						}
 							
 					
@@ -121,16 +121,16 @@ public class RailML2Data {
 						if(ocptt.getTrackInfo()!=null){
 							//track=Byte.parseByte(ocptt.getTrackInfo()); 
 							track=ocptt.getTrackInfo();
-							LOGGER.info("Gleis: "+track);
+							LOGGER.debug("Gleis: "+track);
 						} else {
 							track="";
 							
-							LOGGER.info("Gleis: Keine Angabe [0]");}
+							LOGGER.debug("Gleis: Keine Angabe [0]");}
 					
 							Stop stop=new Stop(station, stopType, arrival, departure, track);
 					
 							if(stop.getStation()==null){
-								LOGGER.info("Station ist NULL!");
+								LOGGER.debug("Station ist NULL!");
 							}
 					
 							stops.add(stop);
@@ -145,7 +145,7 @@ public class RailML2Data {
 							data.getTrainCategoryById(((ECategory)trainPart.getCategoryRef()).getId()),stops));
 				}
 			} 
-			
+		LOGGER.info("Successfully loaded RailML!");
 		return data;
 	}
 }
