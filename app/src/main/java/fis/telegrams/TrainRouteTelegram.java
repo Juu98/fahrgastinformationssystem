@@ -28,7 +28,9 @@ public class TrainRouteTelegram extends Telegram {
 	public void appendRoute(TrainRoute route) throws NullPointerException {
 		if(route == null)
 			throw new NullPointerException();
-		this.route.getStops().addAll(route.getStops());
+		
+		//Aufpassen wegen der Datenkonsistenz -> TrainRoute.addStops benutzen!
+		this.route.addStops(route.getStops());
 	}
 	
 	/**
