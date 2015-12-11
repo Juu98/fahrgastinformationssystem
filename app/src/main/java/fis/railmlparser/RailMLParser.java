@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * Main RailML parser class. Maps RailML data to Java objects.
+ * Hauptklasse des RailML-Parsers. Erstellt Javaobjekte aus RailML-Daten.
  * 
  * @author Zdravko
  */
@@ -18,8 +18,10 @@ public class RailMLParser {
     private XMLConverter converter;
 
     /**
-     * Sole constructor, initializes beans and sets a custom
-     * ValidationEventHandler in order to ignore JAXB2 warnings.
+     * Einziger Konstruktor, initialisiert die Beans und setzt einen speziellen
+     * ValidationEventHandler, um JAXB2-Warnungen zu ignorieren.
+     * 
+     * @see CustomValidationEventHandler
      */
     public RailMLParser() {
 	appContext = new ClassPathXmlApplicationContext("applicationContext.xml");
@@ -28,19 +30,20 @@ public class RailMLParser {
     }
 
     /**
-     * Converts a RailML file into an object tree and returns a Railml root
-     * object which can be used to access all data in the generated tree
-     * structure.
+     * Konvertiert eine RailML-Datei in einen Objektbaum und gibt ein
+     * Railml-Wurzelobjekt, das zum Abrufen der Daten in der generierten
+     * Baumstruktur verwendet werden kann, zurück.
+     * 
      * 
      * @param railMLpath
-     *            Path of RailML file in the classpath.
+     *            Pfad der RailML-Datei im Klassenpfad.
      * 
-     * @return Railml root object.
+     * @return Railml-Wurzelobjekt
      * 
      * @throws IOException
-     *             If an input or output exception occurred.
+     *             Bei einer Ein- oder Ausgabeausnahme.
      * @throws JAXBException
-     *             If an internal JAXB Exception occurred.
+     *             Bei einer inneren JAXB-Ausnahme.
      */
     public Railml parseRailML(String railMLPath) throws IOException, JAXBException {
 	return (Railml) converter.convertFromXMLToObject(railMLPath);

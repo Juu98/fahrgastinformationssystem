@@ -10,7 +10,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 /**
- * Class used by RailMLParser to unmarshal XML data. Exists as a bean.
+ * Klasse, die von RailMLParser benutzt wird, um XML-Daten zu konvertieren.
+ * Existiert als Bean.
  * 
  * @author Zdravko
  */
@@ -20,7 +21,7 @@ public class XMLConverter {
 
     /**
      * 
-     * @return Current unmarshaller.
+     * @return Der aktuelle Unmarshaller.
      */
     public Jaxb2Marshaller getUnmarshaller() {
 	return unmarshaller;
@@ -29,7 +30,7 @@ public class XMLConverter {
     /**
      * 
      * @param unmarshaller
-     *            Unmarshaller to set.
+     *            Setzt Unmarshaller.
      */
     public void setUnmarshaller(Jaxb2Marshaller unmarshaller) {
 	this.unmarshaller = unmarshaller;
@@ -38,13 +39,13 @@ public class XMLConverter {
     /**
      * 
      * @param xmlfile
-     *            XML file to be unmarshalled.
-     * @return Root object of tree data structure.
+     *            XML-Datei, die konvertiert werden soll.
+     * @return Wurzelobjekt der Baumdatenstruktur.
      * @throws IOException
-     *             If an input or output exception occurred.
+     *             Bei einer Ein- oder Ausgabeausnahme.
      * 
      * @throws JAXBException
-     *             If an internal JAXB Exception occurred.
+     *             Bei einer inneren JAXB-Ausnahme.
      */
     public Object convertFromXMLToObject(String xmlfile) throws IOException, JAXBException {
 	InputStream is = null;

@@ -26,19 +26,19 @@ public class StationTest {
     	assertTrue("Es soll eine leere Liste zurückgegeben werden, wenn noch keine Stops zur Station hinzugefügt worden sind!",(new Station("AA","bbb")).getStops().size()==0);
     }
     
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_1(){
 		new Station(null,"blub");
 		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");
 	}
     
-    @Test(expected=NullPointerException.class)
+    @Test(expected=IllegalArgumentException.class)
    	public void testNullConstructor_2(){
    		new Station("AB",null);
    		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");
    	}
     
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testAddNullStop() {
     	station.addStop(null);
     	fail("addStop soll eine NullPointerException beim Hinzufügen eines null-Halts werfen!");

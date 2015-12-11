@@ -17,7 +17,7 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 	
-	@Autowired TimetableController timetable;
+	@Autowired private TimetableController timetable;
 	
 	@Bean
 	public Java8TimeDialect timeDialect(){

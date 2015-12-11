@@ -32,7 +32,7 @@ public class TimetableData {
 	 * @param trainRoute {@link TrainRoute} zum Hinzufügen
 	 */
 	public void addTrainRoute(TrainRoute trainRoute){
-		if(trainRoute==null) throw new NullPointerException("TrainRoute darf nicht null sein!");
+		if(trainRoute==null) throw new IllegalArgumentException("TrainRoute darf nicht null sein!");
 		trainRoutes.add(trainRoute);
 	}
 	
@@ -65,7 +65,7 @@ public class TimetableData {
 	 * @param category
 	 */
 	public void addTrainCategory(TrainCategory category){
-		if(category==null) throw new NullPointerException("Category darf nicht null sein!");
+		if(category==null) throw new IllegalArgumentException("Category darf nicht null sein!");
 		trainCategories.add(category);
 	}
 	
@@ -74,7 +74,7 @@ public class TimetableData {
 	 * @param station
 	 */
 	public void addStation(Station station){
-		if(station==null) throw new NullPointerException("Station darf nicht null sein!");
+		if(station==null) throw new IllegalArgumentException("Station darf nicht null sein!");
 		stations.add(station);
 	}
 	
@@ -86,11 +86,11 @@ public class TimetableData {
 		if(id==null) return null;
 		for(Station station:getStations()){
 			if(station.getId().equals(id)){
-				LOGGER.info("Bahnhof mit der ID "+id+": "+station.getName());
+				LOGGER.debug("Bahnhof mit der ID "+id+": "+station.getName());
 				return station;
 			}
 		}
-		LOGGER.info(id + " scheint kein Bahnhof zu sein!");
+		LOGGER.debug(id + " scheint kein Bahnhof zu sein!");
 		return null;
 	}
 	
@@ -105,7 +105,7 @@ public class TimetableData {
 				return cat;
 			}
 		}
-		LOGGER.info("TrainCategory mit der ID "+id+" nicht gefunden!");
+		LOGGER.debug("TrainCategory mit der ID "+id+" nicht gefunden!");
 		return null;
 	}
 
@@ -125,7 +125,7 @@ public class TimetableData {
 			}
 		}
 		
-		LOGGER.info("TrainRoute [" + id + "] nicht gefunden!");
+		LOGGER.debug("TrainRoute [" + id + "] nicht gefunden!");
 		return null;
 	}
 
