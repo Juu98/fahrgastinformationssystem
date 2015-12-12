@@ -6,8 +6,10 @@ import java.io.UnsupportedEncodingException;
  * Eine Klasse für das Clientstatustelegramm. 
  * @author spiollinux, kloppstock
  */
-public class ClientStatusTelegram implements SendableTelegram{
-	private byte[] rawTelegram;
+public class ClientStatusTelegram extends Telegram implements SendableTelegram{
+	private final byte[] rawTelegram;
+	private final String id;
+	private final byte status;
 
 	/**
 	 * Konstruktor für das Clientstatustelegramm. 
@@ -17,8 +19,12 @@ public class ClientStatusTelegram implements SendableTelegram{
 	 * @throws UnsupportedEncodingException 
 	 */
 	public ClientStatusTelegram(String ID, byte status) throws NullPointerException, UnsupportedEncodingException {
-		if(ID == null)
+		if(ID == null){
 			throw new NullPointerException();
+		}
+		this.id = ID;
+		this.status = status;
+		
 		this.rawTelegram = new byte[Telegram.rawTelegramLength];
 		int i = 0;
 		//Laut Spezifikation müssen die ersten 3 Telegrammbytes auf 0xFF stehen
@@ -49,5 +55,10 @@ public class ClientStatusTelegram implements SendableTelegram{
 	@Override
 	public byte[] getRawTelegram() {
 		return this.rawTelegram;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("ClientStatusTelegram: ID %s; Status %0#4x", this.id, this.status);
 	}
 }

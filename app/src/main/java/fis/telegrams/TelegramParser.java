@@ -79,7 +79,7 @@ public class TelegramParser {
 		// Startkennung
         for (int i = 0; i < T_STARTBCOUNT; i++) {
             if (rawResponse[i] != B_START) {
-                throw new TelegramParseException(String.format("Byte %d (%#02x) hat falsches Format, %#02x erwartet.", i, rawResponse[i], B_START));
+                throw new TelegramParseException(String.format("Byte %d (%0#4x) hat falsches Format, %0#4x erwartet.", i, rawResponse[i], B_START));
             }
         }
 		
@@ -101,7 +101,7 @@ public class TelegramParser {
 			case B_TC_STATION: return parseStationNameData(data);
 			
 			default:
-				throw new TelegramParseException(String.format("Unbekannte Kategorie: %#02x", rawResponse[T_CATPOS]));
+				throw new TelegramParseException(String.format("Unbekannte Kategorie: %0#4x", rawResponse[T_CATPOS]));
 		}
 	}
 	

@@ -40,4 +40,11 @@ public class TrainRouteTelegram extends Telegram {
 	public TrainRoute getTrainRoute(){
 		return this.route;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("TrainRouteTelegram: %s", this.route);
+	}
+	
+	
 }

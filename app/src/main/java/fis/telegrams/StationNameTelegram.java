@@ -5,7 +5,7 @@ package fis.telegrams;
  * @author spiollinux, kloppstock
  */
 public class StationNameTelegram extends Telegram{
-	private byte ID;
+	private byte id;
 	private String code;
 	private String name;
 	
@@ -19,7 +19,7 @@ public class StationNameTelegram extends Telegram{
 	public StationNameTelegram(byte ID, String code, String name) throws NullPointerException {
 		if(code == null || name == null)
 			throw new NullPointerException();
-		this.ID = ID;
+		this.id = ID;
 		this.code = code;
 		this.name = name;
 	}
@@ -28,8 +28,8 @@ public class StationNameTelegram extends Telegram{
 	 * Getter für ID. 
 	 * @return ID
 	 */
-	public byte getID(){
-		return this.ID;
+	public byte getId(){
+		return this.id;
 	}
 	
 	/**
@@ -46,5 +46,10 @@ public class StationNameTelegram extends Telegram{
 	 */
 	public String getName(){
 		return this.name;
+	}
+	
+	@Override
+	public String toString(){
+		return String.format("StationNameTelegram: ID %0#4x; [%s] %s", this.id, this.code, this.name);
 	}
 }

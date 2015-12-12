@@ -11,4 +11,6 @@ public abstract class Telegram {
 		return rawTelegramLength;
 	}
 
+	@Override
+	public abstract String toString();
 }

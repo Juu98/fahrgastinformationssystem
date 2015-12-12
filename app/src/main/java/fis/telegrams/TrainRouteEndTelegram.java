@@ -12,4 +12,9 @@ public class TrainRouteEndTelegram extends Telegram{
 	public TrainRouteEndTelegram(){
 		
 	}
+
+	@Override
+	public String toString() {
+		return "TrainRouteEndTelegram";
+	}
 }
