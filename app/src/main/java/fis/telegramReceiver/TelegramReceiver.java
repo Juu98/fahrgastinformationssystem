@@ -22,58 +22,15 @@ import java.util.concurrent.TimeoutException;
  * Created by spiollinux on 07.11.15.
  */
 @Service
-public class TelegramReceiver implements ApplicationEventPublisherAware {
+public class TelegramReceiver {
 
-    private List<byte[]> telegramQueue;
 	private final TelegramReceiverConfig receiverConfig;
 	//needed for events
-	private ApplicationEventPublisher publisher;
 
 	@Autowired
     public TelegramReceiver(TelegramReceiverConfig config) {
-        this.telegramQueue = new LinkedList<>();
 		this.receiverConfig = config;
     }
-
-
-	void handleConnection(InputStream in, OutputStream out) throws IOException {
-		Future<byte[]> currentTelegram = parseConnection(in);
-		while (!currentTelegram.isDone()) {
-			if(Thread.currentThread().isInterrupted())
-				return;
-			//Parse received telegrams while waiting for next
-			if (!telegramQueue.isEmpty()) {
-				try {
-					Telegram telegramResponse = Telegram.parse(telegramQueue.get(0));
-
-					if(telegramResponse.getClass() == TrainRouteEndTelegram.class) {
-						publisher.publishEvent(new ConnectionStatusEvent(ConnectionStatus.ONLINE));
-						telegramResponse = sendTelegram(in, out, new ClientStatusTelegram("FIS", (byte) 0x00));
-
-					}
-					/* if response to sendTelegram is a TrainRouteEndTelegram, this isn't handled.
-					But that should be ok as a ClientStatusTelegram needs to be sent only once */
-					if (telegramResponse.getClass() != TrainRouteEndTelegram.class) {
-						publisher.publishEvent(new TelegramParsedEvent(telegramResponse));
-					}
-				} catch (TelegramParseException e) {
-					//Todo: log parse error
-				}
-				telegramQueue.remove(0);
-			}
-			else
-				Thread.yield();
-		}
-		try {
-			telegramQueue.add(currentTelegram.get());
-		} catch (InterruptedException e) {
-			//Todo: handle
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			//Todo: handle
-			e.printStackTrace();
-		}
-	}
 
     @Async
     Future<byte[]> parseConnection(InputStream in) throws IOException {
@@ -87,25 +44,8 @@ public class TelegramReceiver implements ApplicationEventPublisherAware {
         return new AsyncResult<>(response);
     }
 
-    public Telegram sendTelegram(InputStream in, OutputStream out, SendableTelegram telegram) throws IOException, TelegramParseException {
+    public void sendTelegram(OutputStream out, SendableTelegram telegram) throws IOException {
 	    out.write(telegram.getRawTelegram());
-	    		Future<byte[]> response = parseConnection(in);
-		byte[] rawResponse = null;
-		try {
-			rawResponse = response.get(receiverConfig.getTimeout(), TimeUnit.MILLISECONDS);
-		} catch (TimeoutException e) {
-			//Todo: raise login error
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-		} catch (ExecutionException e) {
-			//Todo: handle
-		}
-	    return Telegram.parse(rawResponse);
-	    //Todo: handle parse error
     }
 
-	@Override
-	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-		this.publisher = applicationEventPublisher;
-	}
 }

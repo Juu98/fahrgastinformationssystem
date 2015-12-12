@@ -12,11 +12,13 @@ import static org.junit.Assert.fail;
 /**
  * Created by spiollinux on 06.12.15.
  */
-public class TelegramTest {
-
+public class TelegramParserTest {
 	byte[] validRawTelegram;
+	TelegramParser parser;
+
 	@Before
 	public void setUp() throws Exception {
+		parser = new TelegramParser();
 		validRawTelegram = new byte[Telegram.rawTelegramLength];
 		for(int i = 0; i < 3; ++i) {
 			validRawTelegram[i] = (byte) 255;
@@ -40,7 +42,7 @@ public class TelegramTest {
 		}
 
 		try {
-			Telegram.parse(invalidRawTelegram);
+			parser.parse(invalidRawTelegram);
 			fail("First 3 telegram bytes are invalid and should throw an exception");
 		} catch (TelegramParseException e) {
 			//test pass
@@ -60,7 +62,7 @@ public class TelegramTest {
 
 		LabTimeTelegram parsedTelegram = null;
 		try {
-			parsedTelegram = (LabTimeTelegram) Telegram.parse(validRawTelegram);
+			parsedTelegram = (LabTimeTelegram) parser.parse(validRawTelegram);
 		} catch (TelegramParseException e) {
 			fail("ParseException: " + e.getMessage());
 		}
