@@ -2,6 +2,7 @@ package fis.telegramReceiver;
 
 import fis.ConfigurationException;
 import fis.telegrams.*;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
@@ -24,6 +25,7 @@ import java.util.concurrent.Future;
 @Service
 public class TelegramReceiverController extends Thread implements ApplicationEventPublisherAware{
 
+	private static final Logger LOGGER = Logger.getLogger(TelegramReceiverController.class);
     private final TelegramReceiverConfig receiverConfig;
     private final TelegramReceiver receiver;
     private final Socket server;
@@ -61,20 +63,18 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 					connectToHost();
 				} catch (IOException e) {
 					this.setConnectionStatus(ConnectionStatus.OFFLINE);
-					//TODO: Log connection fail
+					LOGGER.error("connecting to server failed");
 				} catch (ConfigurationException e) {
 					this.setConnectionStatus(ConnectionStatus.OFFLINE);
-					//Todo: Log config error
+					LOGGER.error("configuration error:", e);
 				}
 			    if(server.isConnected()) {
 					try {
-						System.out.println("Vor register()");
 						register();
-						System.out.println("nach register()");
 						break;
 					}
 					catch (IOException e) {
-						//TODO: Log connection fail
+						LOGGER.error("error while sending RegistrationTelegram:", e);
 						this.setConnectionStatus(ConnectionStatus.OFFLINE);
 					}
 			    }
@@ -111,7 +111,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 							    }
 						    }
 						    catch (TelegramParseException e) {
-							    //Todo: Log parse exception
+							    LOGGER.error("error while parsing telegram:", e);
 						    }
 						    telegramRawQueue.remove(0);
 					    }
@@ -124,24 +124,22 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 		    }
 		    //error handling
 		    catch (IOException e) {
-			    //Todo: handle error
-			    e.printStackTrace();
+			    LOGGER.error("Socket error:", e);
 		    }
 		    catch (InterruptedException e) {
 			    this.interrupt();
 		    }
 		    catch (ExecutionException e) {
-			    e.printStackTrace();
+			    LOGGER.error("receiving telegram bytes failed, cause: " + e.getCause(), e);
 		    }
 		    finally {
 			    try {
 				    server.close();
-				    setConnectionStatus(ConnectionStatus.OFFLINE);
 			    }
 			    catch (IOException e) {
-				    //Todo: handle error
-				    e.printStackTrace();
+				    LOGGER.error("closing the Socket failed", e);
 			    }
+			    setConnectionStatus(ConnectionStatus.OFFLINE);
 		    }
 	    }
 	    //safely stopping the Thread
@@ -150,8 +148,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 			    server.close(); //should also cause the parseConnection threads to stop (SocketException)
 		    }
 		    catch (IOException e) {
-			    //Todo: handle exception
-			    e.printStackTrace();
+			    LOGGER.error("closing the Socket failed", e);
 		    }
 		    setConnectionStatus(ConnectionStatus.OFFLINE);
 	    }
@@ -161,7 +158,6 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 		SendableTelegram regTelegram = new RegistrationTelegram(receiverConfig.getClientID());
 		System.out.println("Sending registration telegram");
 		receiver.sendTelegram(server.getOutputStream(), regTelegram);
-		//Todo: Login error
 	}
 
 	public void connectToHost() throws IOException, ConfigurationException {
