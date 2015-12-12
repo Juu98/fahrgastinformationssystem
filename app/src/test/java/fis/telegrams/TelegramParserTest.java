@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.time.LocalTime;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -25,13 +24,13 @@ public class TelegramParserTest {
 		}
 	}
 
-	@Test
-	public void testFirstBytesValid() {
+	@Test(expected = TelegramParseException.class)
+	public void testStartBytesValid() throws TelegramParseException {
 		int r = (int) Math.floor(Math.random()*3);
 		//initialize invalid byte data
 		byte[] invalidRawTelegram = new byte[Telegram.rawTelegramLength];
 		for(int i = 0; i < 3; i++) {
-			//force at least one bit to be != 255, the others are set randomly
+			//force at least one byte to be != 255, the others are set randomly
 			if(i == r) {
 				do {
 					invalidRawTelegram[i] = (byte) (( (int) Math.ceil(Math.random()*255) & 0xFF));
@@ -41,32 +40,43 @@ public class TelegramParserTest {
 				invalidRawTelegram[i] = (byte) ( (int) Math.ceil(Math.random()*255));
 		}
 
-		try {
-			parser.parse(invalidRawTelegram);
-			fail("First 3 telegram bytes are invalid and should throw an exception");
-		} catch (TelegramParseException e) {
-			//test pass
-		}
+		parser.parse(invalidRawTelegram);
 	}
 
 	@Test
-	public void testLabTimeTelegramParse() {
-		//create test rawTelegram
+	public void testLabTimeTelegramParse() throws TelegramParseException {
+		// create test rawTelegram
 		validRawTelegram[4] = (byte) (241 & 0xFF);  //& 0xFF to emulate unsigned bytes with java's signed bytes
-		//Todo: add valid data here
+		// add valid data here
 		validRawTelegram[5] = (byte) (1 & 0xFF);
 		validRawTelegram[6] = (byte) (59 & 0xFF);
 		validRawTelegram[7] = (byte) (59 & 0xFF);
-		//Todo: set length
+		// set length
 		validRawTelegram[3] = (byte) (6 & 0xFF);
 
-		LabTimeTelegram parsedTelegram = null;
-		try {
-			parsedTelegram = (LabTimeTelegram) parser.parse(validRawTelegram);
-		} catch (TelegramParseException e) {
-			fail("ParseException: " + e.getMessage());
-		}
+		LabTimeTelegram parsedTelegram = (LabTimeTelegram) parser.parse(validRawTelegram);
+
 		LabTimeTelegram referenceTelegram = new LabTimeTelegram(LocalTime.of(1,59,59));
 		assertTrue("parsed LabTimeTelegram doesn't match the expected one",referenceTelegram.equals(parsedTelegram));
+	}
+	
+	@Test(expected = TelegramParseException.class)
+	public void testNullTelegram() throws TelegramParseException {
+		parser.parse(null);
+	}
+	
+	@Test(expected = TelegramParseException.class)
+	public void testEmptyTelegram() throws TelegramParseException {
+		parser.parse(new byte[0]);
+	}
+	
+	@Test(expected = TelegramParseException.class)
+	public void testShortTelegram() throws TelegramParseException {
+		parser.parse(new byte[] {(byte) 0xFF, (byte) 0xFF, (byte) 0xFF});
+	}
+	
+	@Test(expected = TelegramParseException.class)
+	public void testLongTelegram() throws TelegramParseException {
+		parser.parse(new byte[1337]);
 	}
 }
