@@ -1,10 +1,11 @@
 package fis.telegrams;
 
+import java.nio.charset.Charset;
+import java.time.DateTimeException;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 import java.util.Arrays;
-import org.springframework.util.Assert;
 
 /**
  * Verarbeitet die rohen Telegrammdaten.
@@ -40,6 +41,9 @@ public class TelegramParser {
 	private static final byte B_TC_TRNEND  = (byte) (236 & 0xFF);	// TODO duplicate category 0xEC
 	private static final byte B_TC_STATION = (byte) (238 & 0xFF);	// 0xEE
 	
+	// Codepage für String-Konvertierung
+	private static final Charset CHARSET = Charset.forName("ISO-8859-1");
+	
 	/**
 	 * Konvertiert eine Ganzzahl in ein vorzeichenloses Byte
 	 * @param i	die umzuwandelnde Ganzzahl
@@ -55,7 +59,7 @@ public class TelegramParser {
 	 * @return die ganze Zahl (0 &lt;= x &lt;= 255) mit dem übergeben als letztem Byte
 	 */
 	protected static int toInt(byte b){
-		return (int) (b & 0xFF);
+		return (int) b;
 	}
 	
 	/**
@@ -64,7 +68,7 @@ public class TelegramParser {
 	 * @return spezifische Instanz eines {@link Telegram}
 	 * @throws TelegramParseException wenn bei der Verarbeitung ein Fehler auftritt.
 	 */
-	public Telegram parse(byte[] rawResponse) throws TelegramParseException {
+	public <T extends Telegram> T parse(byte[] rawResponse) throws TelegramParseException {
 		// Telegrammlänge prüfen
 		if (rawResponse == null){
 			throw new TelegramParseException("Versuch 'null' zu parsen.");
@@ -95,10 +99,10 @@ public class TelegramParser {
 
 		// Telegramm-Kategorien
 		switch (rawResponse[T_CATPOS]) {
-			case B_TC_LABTIME: return parseLabTimeData(data);
-			case B_TC_TRAINRT: return parseTrainRouteData(data);
+			case B_TC_LABTIME: return (T) parseLabTimeData(data);
+			case B_TC_TRAINRT: return (T) parseTrainRouteData(data);
 			// TODO duplicate category!! case B_TC_TRNEND : return parseTrainRouteEndData(data);
-			case B_TC_STATION: return parseStationNameData(data);
+			case B_TC_STATION: return (T) parseStationNameData(data);
 			
 			default:
 				throw new TelegramParseException(String.format("Unbekannte Kategorie: %0#4x", rawResponse[T_CATPOS]));
@@ -119,20 +123,38 @@ public class TelegramParser {
 		}
 		
 		// Werte auslesen
-		int hour   = toInt(rawData[0]);
-		int minute = toInt(rawData[1]);
-		int second = toInt(rawData[2]);
+		LocalTime t;
+		try {
+			t = LocalTime.of(toInt(rawData[0]), toInt(rawData[1]), toInt(rawData[2]));
+		} catch (DateTimeException e){
+			throw new TelegramParseException("Fehler beim Verarbeiten der Zeitangaben: "+e);
+		}
 		
-		return new LabTimeTelegram(LocalTime.of(hour, minute, second));
+		return new LabTimeTelegram(t);
 	}
 	
-	private StationNameTelegram parseStationNameData(byte[] data){
-		throw new UnsupportedOperationException();
-	}
 	private TrainRouteTelegram parseTrainRouteData(byte[] data){
 		throw new UnsupportedOperationException();
 	}
 	private TrainRouteEndTelegram parseTrainRouteEndData(byte[] data){
 		throw new UnsupportedOperationException();
+	}
+	
+	private StationNameTelegram parseStationNameData(byte[] rawData) throws TelegramParseException{
+		final int MAX_CODE_LENGTH = 5;
+		final int MIN_LENGTH = MAX_CODE_LENGTH + 2;
+		
+		if(rawData.length < MIN_LENGTH) {
+			throw new TelegramParseException(String.format("Bytearray für BS-Bezeichnungstelegramm ist kürzer (%d) als erwartet (%d)", rawData.length, MIN_LENGTH));
+		}
+		
+		final int codeLength = toInt(rawData[1]);
+		if (codeLength > MAX_CODE_LENGTH){
+			throw new TelegramParseException(String.format("Abkürzung länger (%d) als erlaubt (%d).", codeLength, MAX_CODE_LENGTH));
+		}
+		final String code = new String(Arrays.copyOfRange(rawData, 2, codeLength+2), CHARSET);
+		final String name = new String(Arrays.copyOfRange(rawData, MIN_LENGTH, rawData.length), CHARSET);
+		
+		return new StationNameTelegram(rawData[0], code, name);
 	}
 }

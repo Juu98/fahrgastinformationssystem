@@ -52,4 +52,16 @@ public class StationNameTelegram extends Telegram{
 	public String toString(){
 		return String.format("StationNameTelegram: ID %0#4x; [%s] %s", this.id, this.code, this.name);
 	}
+	
+	@Override
+	public boolean equals(Object other){
+		if (!other.getClass().equals(this.getClass())){
+			return super.equals(other);
+		}
+		StationNameTelegram o = (StationNameTelegram) other;
+		return
+				this.id == o.getId() &&
+				this.code.equals(o.getCode()) &&
+				this.name.equals(o.getName());
+	}
 }
