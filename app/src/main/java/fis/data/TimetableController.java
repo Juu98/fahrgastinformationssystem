@@ -1,12 +1,20 @@
 package fis.data;
 
 
+import fis.FilterTime;
+import fis.FilterType;
+import fis.RailML2Data;
+import fis.telegramReceiver.TelegramReceiverController;
 import fis.telegrams.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 /**
@@ -207,6 +215,7 @@ public class TimetableController {
 	}
 	
 	
+	
 			
 	public List<TrainRoute> filter(Iterable<TrainRoute> listToFilter, Station station, LocalTime from, LocalTime to, FilterType type,FilterTime filterTime){
 		/* 
@@ -257,6 +266,24 @@ public class TimetableController {
 		return newList;	
 	}
 
+	
+	public void updateTrainRoute(TrainRoute newRoute){
+		//TODO: Testen!
+		if(newRoute==null){
+			throw new IllegalArgumentException("newRoute darf nicht null sein!");
+		}
+		
+		for(TrainRoute route:data.getTrainRoutes()){
+			if(route.getId()==newRoute.getId()){
+				route.removeStops();
+				route.addStops(newRoute.getStops());
+				route.setTrainCategory(newRoute.getTrainCategory());
+				route.setTrainNumber(newRoute.getTrainNumber());
+			}
+		}
+	}
+	
+	
 	@EventListener
 	public void forwardTelegram(TelegramParsedEvent event) {
 		Telegram telegram = event.getSource();
