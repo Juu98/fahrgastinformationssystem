@@ -1,20 +1,12 @@
 package fis.data;
 
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import fis.telegrams.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import fis.FilterTime;
-import fis.FilterType;
-import fis.RailML2Data;
-import fis.telegramReceiver.TelegramReceiverController;
+
 import java.util.function.Predicate;
 
 /**

@@ -28,7 +28,17 @@ public class LabTimeTelegram extends Telegram {
 		return this.time;
 	}
 
-	public boolean equals(LabTimeTelegram telegram) {
-		return this.getTime().equals(telegram.getTime());
+	public boolean equals(Object other) {
+		if (!other.getClass().equals(this.getClass())){
+			return super.equals(other);
+		}
+		
+		LabTimeTelegram o = (LabTimeTelegram) other;
+		return this.time.equals(o.getTime());
+	}
+	
+	@Override
+	public String toString(){
+		return "Laborzeittelegramm: "+ this.time.toString();
 	}
 }

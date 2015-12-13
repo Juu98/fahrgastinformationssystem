@@ -5,13 +5,15 @@ package fis.telegrams;
  * @author spiollinux, kloppstock
  */
 public class RegistrationTelegram extends Telegram implements SendableTelegram{
-	private byte[] rawTelegram;
+	private final byte[] rawTelegram;
+	private final byte id;
 
 	/**
 	 * Konstruktor für die Anmeldetelegramme. 
 	 * @param id
 	 */
 	public RegistrationTelegram(byte id) {
+		this.id = id;
 		this.rawTelegram = new byte[Telegram.rawTelegramLength];
 		int i = 0;
 		//Laut Spezifikation müssen die ersten 3 Telegrammbytes auf 0xFF stehen
@@ -34,7 +36,13 @@ public class RegistrationTelegram extends Telegram implements SendableTelegram{
 	 * Getter für das im Konstruktor generierte "Rohtelegramm". 
 	 * @return rawTelegram
 	 */
+	@Override
 	public byte[] getRawTelegram() {
 		return this.rawTelegram;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("RegistrationTelegram: ID %02x", this.id);
 	}
 }
