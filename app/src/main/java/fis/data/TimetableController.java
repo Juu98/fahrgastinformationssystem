@@ -6,8 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import fis.telegrams.Telegram;
-import fis.telegrams.TelegramParsedEvent;
+import fis.telegrams.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -68,6 +67,7 @@ public class TimetableController {
 	}
 	
 	private TimetableData data;
+	private LocalTime time;
 	@Autowired private TelegramReceiverController receiver;
 	
 	public TimetableController(){
@@ -82,7 +82,15 @@ public class TimetableController {
 	 * @return Aktuelle Laborzeit (falls verfügbar)
 	 */
 	public LocalTime getTime(){
-		return LocalTime.now();
+		return time;
+	}
+	
+	/**
+	 * Setzen der aktuellen Laborzeit
+	 * @param time
+	 */
+	public void setTime(LocalTime time){
+		this.time=time;
 	}
 	
 	/**
@@ -259,8 +267,16 @@ public class TimetableController {
 
 	@EventListener
 	public void forwardTelegram(TelegramParsedEvent event) {
-		Telegram receivedTelegram = event.getSource();
-		//Todo: do things with the telegram
+		Telegram telegram = event.getSource();
+		
+		if(telegram instanceof LabTimeTelegram){
+			setTime(((LabTimeTelegram) telegram).getTime());
+		}
+		
+		if(telegram instanceof TrainRouteTelegram){
+			
+		}
+		
 	}
 		
 }
