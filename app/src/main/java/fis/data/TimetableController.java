@@ -293,6 +293,15 @@ public class TimetableController {
 		}
 		
 		if(telegram instanceof TrainRouteTelegram){
+			updateTrainRoute(((TrainRouteTelegram)telegram).getTrainRoute());
+		}
+		
+		if(telegram instanceof StationNameTelegram){
+			String id=(((StationNameTelegram)telegram).getId());
+			String shortName=((StationNameTelegram)telegram).getCode();
+			String longName=((StationNameTelegram)telegram).getName();
+		
+			Station station=new Station(id,shortName);
 			
 		}
 		

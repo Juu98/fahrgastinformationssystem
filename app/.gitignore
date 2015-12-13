@@ -4,3 +4,4 @@
 # Eclipse/STS files
 target/
 *~
+/.apt_generated/
