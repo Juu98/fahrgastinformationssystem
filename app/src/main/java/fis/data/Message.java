@@ -8,6 +8,7 @@ import java.io.Serializable;
  *
  */
 public class Message implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private int index;
 	private String message;
 	
@@ -48,6 +49,6 @@ public class Message implements Serializable{
 	
 	@Override
 	public String toString(){
-		return this.getIndex() + ": " + this.getMessage();
+		return this.getIndex() + ": " + ((this.getMessage() == null) ? "" : this.getMessage());
 	}
 }
