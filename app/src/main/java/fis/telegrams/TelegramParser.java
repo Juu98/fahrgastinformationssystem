@@ -3,6 +3,8 @@ package fis.telegrams;
 import java.nio.charset.Charset;
 import java.time.DateTimeException;
 import java.time.Duration;
+
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
@@ -23,6 +25,7 @@ import java.util.List;
  */
 @Component
 public class TelegramParser {
+	private static final Logger LOGGER = Logger.getLogger(TelegramParser.class);
 	/** Konstanten der Telegrammspezifikation.
 	 * T ... Telegramm
 	 * B ... Byte
@@ -195,8 +198,10 @@ public class TelegramParser {
 		} catch (DateTimeException e){
 			throw new TelegramParseException("Fehler beim Verarbeiten der Zeitangaben: "+e);
 		}
-		
-		return new LabTimeTelegram(t);
+
+		LabTimeTelegram returnTele = new LabTimeTelegram(t);
+		LOGGER.debug("Parsed " + returnTele);
+		return returnTele;
 	}
 	
 	/**
@@ -310,7 +315,8 @@ public class TelegramParser {
 			
 			stops.add(new TrainRouteTelegram.StopData(station, sArrival, sDeparture, aArrival, aDeparture, sTrack, aTrack, dispoId, messageId));
 		}
-		
+
+		LOGGER.debug("Parsed " + telegram);
 		return telegram;
 	}
 	
@@ -344,6 +350,8 @@ public class TelegramParser {
 		final String code = new String(Arrays.copyOfRange(rawData, 2, codeLength+2), CHARSET);
 		final String name = new String(Arrays.copyOfRange(rawData, MIN_LENGTH, rawData.length), CHARSET);
 		
-		return new StationNameTelegram(rawData[0], code, name);
+		StationNameTelegram returnTele = new StationNameTelegram(rawData[0], code, name);
+		LOGGER.debug("Parsed " + returnTele);
+		return returnTele;
 	}
 }
