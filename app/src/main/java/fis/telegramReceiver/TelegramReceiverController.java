@@ -62,12 +62,16 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 		    while (this.getConnectionStatus() == ConnectionStatus.OFFLINE) {
 				try {
 					connectToHost();
-				} catch (IOException e) {
+				}
+				catch (ConfigurationException e) {
 					this.setConnectionStatus(ConnectionStatus.OFFLINE);
-					LOGGER.error("connecting to server failed");
-				} catch (ConfigurationException e) {
+					LOGGER.error("configuration error: " + e.getMessage());
+					LOGGER.debug("",e);
+				}
+				catch (IOException e) {
 					this.setConnectionStatus(ConnectionStatus.OFFLINE);
-					LOGGER.error("configuration error:", e);
+					LOGGER.error("connecting to server failed: " + e.getMessage());
+					LOGGER.debug("",e);
 				}
 			    if(server.isConnected()) {
 					try {
@@ -75,7 +79,8 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 						break;
 					}
 					catch (IOException e) {
-						LOGGER.error("error while sending RegistrationTelegram: ", e);
+						LOGGER.error("error while sending RegistrationTelegram: " + e.getMessage());
+						LOGGER.debug("",e);
 						this.setConnectionStatus(ConnectionStatus.OFFLINE);
 					}
 			    }
@@ -108,7 +113,8 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 							    }
 						    }
 						    catch (TelegramParseException e) {
-							    LOGGER.error("error while parsing telegram:", e);
+							    LOGGER.error("error while parsing telegram: " + e.getMessage());
+							    LOGGER.debug("", e);
 						    }
 						    telegramRawQueue.remove(0);
 					    }
@@ -121,20 +127,23 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 		    }
 		    //error handling
 		    catch (IOException e) {
-			    LOGGER.error("Socket error:", e);
+			    LOGGER.error("Socket error: " + e.getMessage());
+			    LOGGER.debug("", e);
 		    }
 		    catch (InterruptedException e) {
 			    this.interrupt();
 		    }
 		    catch (ExecutionException e) {
-			    LOGGER.error("receiving telegram bytes failed, cause: " + e.getCause(), e);
+			    LOGGER.error("receiving telegram bytes failed, cause: " + e.getCause());
+			    LOGGER.debug("", e);
 		    }
 		    finally {
 			    try {
 				    server.close();
 			    }
 			    catch (IOException e) {
-				    LOGGER.error("closing the Socket failed", e);
+				    LOGGER.error("closing the Socket failed: " + e.getMessage());
+				    LOGGER.debug("", e);
 			    }
 			    setConnectionStatus(ConnectionStatus.OFFLINE);
 		    }
@@ -145,7 +154,8 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 			    server.close(); //should also cause the parseConnection threads to stop (SocketException)
 		    }
 		    catch (IOException e) {
-			    LOGGER.error("closing the Socket failed", e);
+			    LOGGER.error("closing the Socket failed: " + e.getMessage());
+			    LOGGER.debug("", e);
 		    }
 		    setConnectionStatus(ConnectionStatus.OFFLINE);
 	    }
