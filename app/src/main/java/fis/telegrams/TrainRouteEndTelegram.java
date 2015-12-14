@@ -20,6 +20,9 @@ public class TrainRouteEndTelegram extends Telegram{
 
 	@Override
 	public boolean equals(Object other) {
+		if (other == null){
+			return false;
+		}
 		// only check if it's another TrainRouteEndTelegram
 		return this.getClass().equals(other.getClass());
 	}

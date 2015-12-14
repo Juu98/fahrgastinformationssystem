@@ -54,7 +54,22 @@ public class TrainRouteTelegram extends Telegram {
 		public String toString() {
 			return "TrainRouteData{" + "trainNumber=" + trainNumber + ", trainCategoryShort=" + trainCategoryShort + ", messageId=" + messageId + ", stopDataList=" + stopDataList + '}';
 		}
-		
+
+		public String getTrainNumber() {
+			return trainNumber;
+		}
+
+		public String getTrainCategoryShort() {
+			return trainCategoryShort;
+		}
+
+		public int getMessageId() {
+			return messageId;
+		}
+
+		public List<StopData> getStopDataList() {
+			return stopDataList;
+		}
 	}
 	
 	public static class StopData {
@@ -125,49 +140,55 @@ public class TrainRouteTelegram extends Telegram {
 		public String toString() {
 			return "StopData{" + "stationId=" + stationId + ", scheduledArrival=" + scheduledArrival + ", scheduledDeparture=" + scheduledDeparture + ", actualArrival=" + actualArrival + ", actualDeparture=" + actualDeparture + ", scheduledTrack=" + scheduledTrack + ", actualTrack=" + actualTrack + ", dispoType=" + dispoType + ", messageId=" + messageId + '}';
 		}
-		
+
+		public int getStationId() {
+			return stationId;
+		}
+
+		public LocalTime getScheduledArrival() {
+			return scheduledArrival;
+		}
+
+		public LocalTime getScheduledDeparture() {
+			return scheduledDeparture;
+		}
+
+		public LocalTime getActualArrival() {
+			return actualArrival;
+		}
+
+		public LocalTime getActualDeparture() {
+			return actualDeparture;
+		}
+
+		public int getScheduledTrack() {
+			return scheduledTrack;
+		}
+
+		public int getActualTrack() {
+			return actualTrack;
+		}
+
+		public int getDispoType() {
+			return dispoType;
+		}
+
+		public int getMessageId() {
+			return messageId;
+		}
 	}
 	
-	private TrainRoute route;
 	private TrainRouteData trainRouteData;
 	
 	/**
 	 * Konstruktor für Zuglauftelegramme.
-	 * @param route
-	 * @throws NullPointerException
+	 * @param trainRouteData
 	 */
-	public TrainRouteTelegram(TrainRoute route) throws NullPointerException {
-		if(route == null)
-			throw new NullPointerException();
-		this.route = route;
-	}
-	
 	public TrainRouteTelegram(TrainRouteData trainRouteData){
 		if (trainRouteData == null){
-			throw new IllegalArgumentException("versuch ein TrainRouteTelegramm ohne Daten anzulegen!");
+			throw new IllegalArgumentException("Versuch ein TrainRouteTelegramm ohne Daten anzulegen!");
 		}
 		this.trainRouteData = trainRouteData;
-	}
-	
-	/**
-	 * Funktion zum Anhängen eines Zuglaufes an den in der Klasse vorhandenen. 
-	 * @param route
-	 * @throws NullPointerException
-	 */
-	public void appendRoute(TrainRoute route) throws NullPointerException {
-		if(route == null)
-			throw new NullPointerException();
-		
-		//Aufpassen wegen der Datenkonsistenz -> TrainRoute.addStops benutzen!
-		this.route.addStops(route.getStops());
-	}
-	
-	/**
-	 * Getter für route. 
-	 * @return route
-	 */
-	public TrainRoute getTrainRoute(){
-		return this.route;
 	}
 	
 	public TrainRouteData getData(){
@@ -176,20 +197,19 @@ public class TrainRouteTelegram extends Telegram {
 
 	@Override
 	public String toString() {
-		if (this.route == null){
-			return String.format("TrainRouteTelegram [DATA]: %s", this.trainRouteData);
-		}
-		return String.format("TrainRouteTelegram [ROUTE]: %s", this.route);
+		return String.format("TrainRouteTelegram: %s", this.trainRouteData);
 	}
 
 	@Override
 	public boolean equals(Object other) {
+		if (other == null){
+			return false;
+		}
 		if (!other.getClass().equals(this.getClass())){
 			return false;
 		}
 		TrainRouteTelegram o = (TrainRouteTelegram) other;
 		
-		if (this.route == null) return this.trainRouteData.equals(o.getData());		
-		return this.route.equals(o.getTrainRoute());
+		return this.trainRouteData.equals(o.getData());		
 	}
 }

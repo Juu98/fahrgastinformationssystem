@@ -29,6 +29,9 @@ public class LabTimeTelegram extends Telegram {
 	}
 
 	public boolean equals(Object other) {
+		if (other == null){
+			return false;
+		}
 		if (!other.getClass().equals(this.getClass())){
 			return false;
 		}
