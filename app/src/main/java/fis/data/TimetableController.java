@@ -267,15 +267,21 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 		return newList;	
 	}
 
-	
+	/**
+	 * Aktualisiert eine bereits existierende TrainRoute oder fügt eine neue hinzu, je nachdem,
+	 * ob bereits eine TrainRoute mit der ID der übergebenen TrainRoute in der
+	 * Datenstruktur existiert
+	 * @param newRoute
+	 */
 	public void updateTrainRoute(TrainRoute newRoute){
-		//TODO: Testen!
+		boolean alreadyExists=false;
 		if(newRoute==null){
 			throw new IllegalArgumentException("newRoute darf nicht null sein!");
 		}
 		
 		for(TrainRoute route:data.getTrainRoutes()){
 			if(route.getId().equals(newRoute.getId())){
+				alreadyExists=true;
 				route.removeStops();
 				route.addStops(newRoute.getStops());
 				route.setTrainCategory(newRoute.getTrainCategory());
@@ -283,9 +289,17 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 				return;
 			}
 		}
+		if(alreadyExists==false){
+			//neue TrainRoute hinzufügen
+			this.data.addTrainRoute(newRoute);
+		}
 	}
 	
-	
+	/**
+	 * Verarbeitet einkommende Telegram-Objekte und entscheidet über das
+	 * spezifische Vorgehen
+	 * @param event
+	 */
 	@EventListener
 	public void forwardTelegram(TelegramParsedEvent event) {
 		Telegram telegram = event.getSource();

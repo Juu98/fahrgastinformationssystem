@@ -5,12 +5,8 @@ import static org.junit.Assert.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.ApplicationEventPublisherAware;
-
 import fis.telegrams.LabTimeTelegram;
 import fis.telegrams.TelegramParsedEvent;
 import fis.telegrams.TrainRouteTelegram;
@@ -93,7 +89,7 @@ public class TimetableControllerTest{
 	}
 	
 	@Test
-	public void testUpdateTrainRoute(){
+	public void testUpdateTrainRoute_alreadyExists(){
 		String oldId=route1.getId();
 		
 		timetable.updateTrainRoute(route1_new);
@@ -123,6 +119,17 @@ public class TimetableControllerTest{
 		if(timetable.getStopsByStation(stop3_new.getStation()).contains(stop3)){
 			fail("Die entsprechende Station sollte nicht mehr mit dem alten Stop verlinkt sein, wenn dieser im neuen Zuglauf nicht mehr existiert!");
 		}
+		
+	}
+	
+	@Test
+	public void testUpdateTrainRoute_new(){
+		TrainRoute routeX=new TrainRoute("23452345", 555, cat1, route1_new.getStops());
+		
+		timetable.updateTrainRoute(routeX);
+		assertTrue("Eine noch nicht in der Datenstruktur existierende TrainRoute soll hinzugefügt werden!",
+				timetable.getTrainRoutes().contains(routeX));
+		
 		
 	}
 	
