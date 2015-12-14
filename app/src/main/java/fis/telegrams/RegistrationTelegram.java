@@ -1,5 +1,7 @@
 package fis.telegrams;
 
+import java.util.Arrays;
+
 /**
  * Eine Klasse für die Anmeldetelegramme. 
  * @author spiollinux, kloppstock
@@ -44,5 +46,14 @@ public class RegistrationTelegram extends Telegram implements SendableTelegram{
 	@Override
 	public String toString() {
 		return String.format("RegistrationTelegram: ID %02x", this.id);
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (!other.getClass().equals(this.getClass())){
+			return false;
+		}
+		RegistrationTelegram o = (RegistrationTelegram) other;
+		return Arrays.equals(this.rawTelegram, o.getRawTelegram());
 	}
 }

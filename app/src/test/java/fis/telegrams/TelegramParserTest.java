@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Assert;
 
 
@@ -24,7 +26,7 @@ public class TelegramParserTest {
 		}
 	}
 	
-	private byte[] fromIntArr(int[] arr){
+	public static byte[] fromIntArr(int[] arr){
 		byte[] ret = new byte[arr.length];
 		for (int i = 0; i<arr.length; i++){
 			ret[i] = (byte) (arr[i] & 0xFF);
@@ -32,7 +34,7 @@ public class TelegramParserTest {
 		return ret;
 	}
 	
-	private byte[] fromString(String s){
+	public static byte[] fromString(String s){
 		if (s.startsWith("0x")){
 			s = s.substring(2);
 		}
@@ -48,17 +50,17 @@ public class TelegramParserTest {
 		
 		return ret;
 	}
-	private byte[] fromString(String... arr){
+	public static byte[] fromString(String... arr){
 		return fromString(String.join("", arr));
-	}
+	}	
 	
-	private String toByteString(byte b){
+	public static String toByteString(byte b){
 		return String.format("%02X", b);
 	}
-	private String toByteString(byte[] arr){
+	public static String toByteString(byte[] arr){
 		return toByteString(arr, 0);
 	}
-	private String toByteString(byte[] arr, int len){
+	public static String toByteString(byte[] arr, int len){
 		String s = "";
 		for (byte b : arr){
 			s += toByteString(b) + " ";
@@ -71,7 +73,6 @@ public class TelegramParserTest {
 		
 		return s.trim();
 	}
-	
 	
 	/* GENERELLE STRUKTUR */
 
@@ -140,6 +141,7 @@ public class TelegramParserTest {
 	}
 	
 	/* BS-BEZEICHNUNGSTELEGRAMM */
+	
 	@Test
 	public void testStationNameTelegram() throws UnsupportedEncodingException, TelegramParseException{
 		String c = "ENT";
@@ -161,7 +163,86 @@ public class TelegramParserTest {
 		StationNameTelegram telegram = (StationNameTelegram) parser.parse(validRawTelegram);
 		StationNameTelegram referenceTelegram = new StationNameTelegram(id, c, n);
 		
-		// assertEquals fails for reasons
 		Assert.assertEquals("BS-Bezeichnungstelegramme stimmen nicht überein", referenceTelegram, telegram);
 	}
+	
+	// TODO validation tests
+	
+	/* ZEIT-KONVERTIERUNG */
+	
+	@Test
+	public void testFromTenthOfMinute() throws TelegramParseException{
+		LocalTime ref = LocalTime.of(13,37,42);
+		int secs = (13*60 + 37)*60 + 42;
+		// zum Glück ist 42 durch 6 teilbar...
+		int tenth = secs / 6;
+		Assert.assertEquals("Zeiten stimmen nicht überein.", ref, TelegramParser.fromTenthOfMinute(tenth));
+	}
+	
+	@Test
+	public void testTimeDifferencePositive() throws TelegramParseException{
+		LocalTime ref = LocalTime.of(13,37,42);
+		int secs = 120*60;
+		int tenth = secs / 6;
+		Assert.assertEquals("Zeiten stimmen nicht überein.", ref.plusSeconds(secs), TelegramParser.fromTenthOfMinute(tenth, ref));
+	}
+	
+	@Test
+	public void testTimeDifferenceNegative() throws TelegramParseException{
+		LocalTime ref = LocalTime.of(13,37,42);
+		int secs = 120*60;
+		int tenth = -secs / 6;
+		Assert.assertEquals("Zeiten stimmen nicht überein.", ref.minusSeconds(secs), TelegramParser.fromTenthOfMinute(tenth, ref));
+	}
+	
+	/* ZUGLAUFTELEGRAMM */
+	
+	@Test
+	public void testTrainRouteTelegram() throws TelegramParseException{
+		List<TrainRouteTelegram.StopData> stops = new ArrayList<>(3);
+		// #01 12:00 12:08 +0min +0min 7 - - -
+		// 12*60*10 = 7200 = 0x1C20 Big Endian
+		String stop1 = "01 1C 20 1C 70 00 00 07 00 00 00";
+		stops.add(new TrainRouteTelegram.StopData(
+				1, LocalTime.of(12, 0), LocalTime.of(12, 8), LocalTime.of(12, 0), LocalTime.of(12, 8),
+				7, 0, 0, 0)
+		);
+		// #13 12:34 12:40 +1min -3min 1 3 1 1
+		// (12*60+34)*10 = 7540 = 0x1D74
+		String stop2 = "0D 1D 74 1D B0 0A E2 01 03 01 01";
+		stops.add(new TrainRouteTelegram.StopData(
+				13, LocalTime.of(12, 34), LocalTime.of(12, 40), LocalTime.of(12, 35), LocalTime.of(12, 37),
+				1, 3, 1, 1)
+		);
+		/*// #42 13:37 --   +10min --   10 - - -
+		// (13*60+37)*10 = 8170 = 0x1FEA
+		String stop3 = "01 1F EA 00 00 64 00 0A 00 00 00";
+		stops.add(new TrainRouteTelegram.StopData(
+				42, LocalTime.of(13, 37), null, LocalTime.of(13, 47), null,
+				10, 0, 0, 0)
+		);*/
+		
+		byte[] testData = fromString(
+			"00 04",
+			toByteString("1234".getBytes(TelegramParser.CHARSET), 6),
+			"00 DE AD BE EF",
+			"03",
+			toByteString("ICE".getBytes(TelegramParser.CHARSET), 6),
+			"2A 00 C0 FF EE",
+			"00 02",
+			stop1, stop2//, stop3
+		);
+		validRawTelegram = fromString(
+			"FF FF FF",
+			toByteString((byte) testData.length),
+			"EC",
+			toByteString(testData)
+		);
+		
+		TrainRouteTelegram expected = new TrainRouteTelegram(
+			new TrainRouteTelegram.TrainRouteData("1234", "ICE", 0,	stops)
+		);
+		
+		Assert.assertEquals("Telegramme stimmen nicht überein.", expected, parser.parse(validRawTelegram));
+	}		
 }

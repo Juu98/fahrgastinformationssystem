@@ -17,4 +17,10 @@ public class TrainRouteEndTelegram extends Telegram{
 	public String toString() {
 		return "TrainRouteEndTelegram";
 	}
+
+	@Override
+	public boolean equals(Object other) {
+		// only check if it's another TrainRouteEndTelegram
+		return this.getClass().equals(other.getClass());
+	}
 }

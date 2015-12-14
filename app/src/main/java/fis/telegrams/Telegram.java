@@ -13,4 +13,7 @@ public abstract class Telegram {
 
 	@Override
 	public abstract String toString();
+	
+	@Override
+	public abstract boolean equals(Object other);
 }
