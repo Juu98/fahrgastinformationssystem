@@ -35,10 +35,13 @@ public class CSVMessageLoader {
 		CSVReader reader = new CSVReader(new FileReader(path));
 		ColumnPositionMappingStrategy<Message> strategy = new ColumnPositionMappingStrategy<Message>();
 		
-		//TODO: rausfinden, was hier passiert
+		//Erstellen einer Tabelle aus Messages mittels der ColumnPisitionMappingStrategy
 		strategy.setType(Message.class);
-		String[] columns = new String[]{"Index", "Message"};
+		//Mappen der CSV Variablen zu den Variablen in der Message-Klasse
+		String[] columns = new String[]{"index", "message"};
 		strategy.setColumnMapping(columns);
+		//Einlesen der Variablen in die Erstellte Tabelle und Zusammenfassen der einzelnen Zeilen zu Message-Objekten
+		//Anschließend wird eine Liste dieser Elemente erstellt und zurückgegeben. 
 		List<Message> list = csv.parse(strategy, reader);
 		
 		//Konvertieren der Liste in eine HashMap für schnelleren Zugriff auf die Indizes.
