@@ -7,6 +7,7 @@ import fis.RailML2Data;
 import fis.telegramReceiver.TelegramReceiverController;
 import fis.telegrams.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +25,7 @@ import java.util.function.Predicate;
  * @author Luux
  */
 @Component
-public class TimetableController {
+public class TimetableController implements ApplicationListener<TelegramParsedEvent> {
 	/**
 	 * Predicate zum Filtern der {@link TrainRoute}s nach ihrer
 	 * {@link TrainCategory}.
@@ -274,11 +275,12 @@ public class TimetableController {
 		}
 		
 		for(TrainRoute route:data.getTrainRoutes()){
-			if(route.getId()==newRoute.getId()){
+			if(route.getId().equals(newRoute.getId())){
 				route.removeStops();
 				route.addStops(newRoute.getStops());
 				route.setTrainCategory(newRoute.getTrainCategory());
 				route.setTrainNumber(newRoute.getTrainNumber());
+				return;
 			}
 		}
 	}
@@ -287,8 +289,9 @@ public class TimetableController {
 	@EventListener
 	public void forwardTelegram(TelegramParsedEvent event) {
 		Telegram telegram = event.getSource();
-		
-		if(telegram instanceof LabTimeTelegram){
+	
+		if(event.getSource()==null) throw new IllegalArgumentException();
+		if(telegram.getClass() == LabTimeTelegram.class){
 			setTime(((LabTimeTelegram) telegram).getTime());
 		}
 		
@@ -304,6 +307,12 @@ public class TimetableController {
 			Station station=new Station(id,longName,shortName);
 			data.addStation(station);
 		}
+		
+	}
+
+	@Override
+	public void onApplicationEvent(TelegramParsedEvent arg0) {
+		// TODO Auto-generated method stub
 		
 	}
 		

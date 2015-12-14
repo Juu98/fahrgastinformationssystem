@@ -16,7 +16,7 @@ public class StationTest {
     @Before
     public void setUp() throws Exception {
 	this.station = new Station("TS", "Test Station");
-	this.stop1 = new Stop(station, StopType.STOP, LocalTime.of(13, 37), LocalTime.of(16, 20), "1");
+	this.stop1 = new Stop(station, StopType.STOP, LocalTime.of(13, 37), LocalTime.of(16, 20), "1",0);
     }
 
     @Test
@@ -59,7 +59,7 @@ public class StationTest {
 	assertTrue("Das Entfernen eines null-Halts darf die Liste nicht verändern!",
 		oldStops.equals(station.getStops()));
 
-	Stop stop2 = new Stop(station, StopType.STOP, LocalTime.of(12, 00), LocalTime.of(12, 05), "2");
+	Stop stop2 = new Stop(station, StopType.STOP, LocalTime.of(12, 00), LocalTime.of(12, 05), "2",0);
 	station.removeStop(stop2);
 	assertTrue("Das Entfernen eines in der Liste nicht enthaltenen Halts darf die Liste nicht verändern!",
 		oldStops.equals(station.getStops()));

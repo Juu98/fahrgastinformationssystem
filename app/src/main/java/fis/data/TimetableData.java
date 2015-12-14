@@ -90,7 +90,7 @@ public class TimetableData {
 				return station;
 			}
 		}
-		LOGGER.debug(id + " scheint kein Bahnhof zu sein!");
+		//LOGGER.debug(id + " scheint kein Bahnhof zu sein!");
 		return null;
 	}
 	

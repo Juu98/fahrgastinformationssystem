@@ -127,7 +127,7 @@ public class RailML2Data {
 							
 							LOGGER.debug("Gleis: Keine Angabe [0]");}
 					
-							Stop stop=new Stop(station, stopType, arrival, departure, track);
+							Stop stop=new Stop(station, stopType, arrival, departure, track,0);
 					
 							if(stop.getStation()==null){
 								LOGGER.debug("Station ist NULL!");

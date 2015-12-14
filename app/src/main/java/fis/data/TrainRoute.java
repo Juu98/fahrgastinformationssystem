@@ -55,8 +55,8 @@ public class TrainRoute {
 	 * Entfernt alle Stops 
 	 */
 	public void removeStops(){
-		for(Stop stop:stops){
-			stop.deleteStop();
+		while(stops.size()>0){
+			stops.get(0).deleteStop();
 		}
 	}
 	
@@ -101,11 +101,12 @@ public class TrainRoute {
 	 * Hängt die gegebene Liste von Halten an
 	 * @param stops
 	 */
-	public void addStops(List<Stop> stops){
-		for(Stop stop:stops){
+	public void addStops(List<Stop> stops2add){
+		for(Stop stop:stops2add){
 			linkStop(stop);
-			this.stops.add(stop);
 		}
+		
+		this.stops.addAll(stops2add);
 	}
 	
 	/**
