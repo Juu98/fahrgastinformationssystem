@@ -22,7 +22,8 @@ public class StationTest {
     @Test
     public void testGetter(){
     	assertEquals("ID stimmt nicht!","TS",station.getId());
-    	assertEquals("Name stimmt nicht!","Test Station",station.getName());
+    	assertEquals("LongName stimmt nicht!","Test Station",station.getLongName());
+    	assertEquals("ShortName stimmt nicht!","Test Station",station.getShortName());
     	assertTrue("Es soll eine leere Liste zurückgegeben werden, wenn noch keine Stops zur Station hinzugefügt worden sind!",(new Station("AA","bbb")).getStops().size()==0);
     }
     

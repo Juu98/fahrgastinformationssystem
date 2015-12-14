@@ -26,7 +26,7 @@
 								<th:block th:each="nStop, stpStat : ${train.stops}">
 									<span th:if="${stpStat.index} &gt; ${train.stops.indexOf(stop)}"
 										  th:class="${stpStat.last}? 'station-end'">
-										<a th:href="|/dep/${nStop.station.id}|" th:text="${nStop.station.name}" th:title="#{fis.traintable.deptitle}">Hogwarts</a>
+										<a th:href="|/dep/${nStop.station.id}|" th:text="${nStop.station.longName}" th:title="#{fis.traintable.deptitle}">Hogwarts</a>
 										<th:block th:text="|${#temporals.format(nStop.ScheduledArrival, 'HH:mm')}|">13:37</th:block>
 									</span>
 									<th:block th:if="${stpStat.index} &gt; ${train.stops.indexOf(stop)}"
@@ -37,7 +37,7 @@
 								<th:block th:each="nStop, stpStat : ${train.stops}">
 									<span th:if="${stpStat.index} &lt; ${train.stops.indexOf(stop)}"
 										  th:class="${stpStat.first}? 'station-begin'">
-										<a th:href="|/arr/${nStop.station.id}|" th:text="${nStop.station.name}" th:title="#{fis.traintable.arrtitle}">Hogwarts</a>
+										<a th:href="|/arr/${nStop.station.id}|" th:text="${nStop.station.longName}" th:title="#{fis.traintable.arrtitle}">Hogwarts</a>
 										<th:block th:text="|${#temporals.format(nStop.ScheduledDeparture, 'HH:mm')}|">13:37</th:block>
 									</span>
 									<span th:if="${stpStat.index} &lt; ${train.stops.indexOf(stop) -1}">&ndash;</span>

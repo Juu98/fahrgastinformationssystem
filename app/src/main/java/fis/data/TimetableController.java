@@ -67,7 +67,7 @@ public class TimetableController {
 	}
 	
 	private TimetableData data;
-	private LocalTime time;
+	private LocalTime time=LocalTime.MIDNIGHT;
 	@Autowired private TelegramReceiverController receiver;
 	
 	public TimetableController(){
@@ -297,12 +297,12 @@ public class TimetableController {
 		}
 		
 		if(telegram instanceof StationNameTelegram){
-			String id=(((StationNameTelegram)telegram).getId());
+			String id=Byte.toString((((StationNameTelegram)telegram).getId()));
 			String shortName=((StationNameTelegram)telegram).getCode();
 			String longName=((StationNameTelegram)telegram).getName();
 		
-			Station station=new Station(id,shortName);
-			
+			Station station=new Station(id,longName,shortName);
+			data.addStation(station);
 		}
 		
 	}
