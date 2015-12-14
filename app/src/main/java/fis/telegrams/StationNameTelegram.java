@@ -56,7 +56,7 @@ public class StationNameTelegram extends Telegram{
 	@Override
 	public boolean equals(Object other){
 		if (!other.getClass().equals(this.getClass())){
-			return super.equals(other);
+			return false;
 		}
 		StationNameTelegram o = (StationNameTelegram) other;
 		return

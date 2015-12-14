@@ -90,16 +90,12 @@ public class TelegramReceiverControllerTest {
 		//mocking publisher
 		realReceiverController.setApplicationEventPublisher(mockedPublisher);
 		realReceiverController.start();
-		System.err.println("sleeping");
 		Thread.sleep(2000);
 		assertEquals("TelegramReceiver nicht verbunden",ConnectionStatus.ONLINE, realReceiverController.getConnectionStatus());
-		System.err.println("interrupting");
 		realReceiverController.interrupt();
-		System.err.println("interrupted");
 		while(realReceiverController.isAlive()) {
 			Thread.sleep(5);
 		}
-		System.err.println("Vor verify");
 		verify(realReceiverController).connectToHost();
 		verify(mockedSocket).connect(any(), anyInt());
 		verify(mockedReceiver, times(2)).sendTelegram(any(),any());

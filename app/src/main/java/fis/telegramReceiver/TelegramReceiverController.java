@@ -56,6 +56,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 
     @Override
     public void run() {
+	    LOGGER.info("TelegramReceiver started");
 	    while(!currentThread().isInterrupted()) {
 		    //try to connect until there is a connection
 		    while (this.getConnectionStatus() == ConnectionStatus.OFFLINE) {
@@ -74,7 +75,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 						break;
 					}
 					catch (IOException e) {
-						LOGGER.error("error while sending RegistrationTelegram:", e);
+						LOGGER.error("error while sending RegistrationTelegram: ", e);
 						this.setConnectionStatus(ConnectionStatus.OFFLINE);
 					}
 			    }
@@ -89,24 +90,20 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 		    //create list for temporary storage of rawTelegram byte[]
 		    this.telegramRawQueue = new LinkedList<>();
 		    // handling the connected state
-		    System.err.println("handling");
 		    try {
 			    while (getConnectionStatus() != ConnectionStatus.OFFLINE && !Thread.currentThread().isInterrupted()) {
 				    Future<byte[]> currentTelegram = receiver.parseConnection(server.getInputStream());
 				    do {
 					    if (!telegramRawQueue.isEmpty()) {
-						    System.err.println("not empty");
 						    try {
-							    System.err.println("parsing");
 							    Telegram telegramResponse = parser.parse(telegramRawQueue.get(0));
-							    System.err.println(telegramResponse);
 
 							    if (getConnectionStatus() == ConnectionStatus.CONNECTING
 									    && telegramResponse.getClass() == TrainRouteEndTelegram.class) {
 								    setConnectionStatus(ConnectionStatus.ONLINE);
-								    System.out.println("Sending ClientStatus telegram");
 								    receiver.sendTelegram(server.getOutputStream(), new ClientStatusTelegram("FIS", (byte) 0x00));
-							    } else {
+							    }
+							    if (telegramResponse.getClass() != TrainRouteEndTelegram.class){
 								    publisher.publishEvent(new TelegramParsedEvent(telegramResponse));
 							    }
 						    }
@@ -156,7 +153,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 
 	private void register() throws IOException {
 		SendableTelegram regTelegram = new RegistrationTelegram(receiverConfig.getClientID());
-		System.out.println("Sending registration telegram");
+		LOGGER.info("Registering to the telegram server");
 		receiver.sendTelegram(server.getOutputStream(), regTelegram);
 	}
 
@@ -166,6 +163,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 		    SocketAddress hostAddress = new InetSocketAddress(receiverConfig.getHostname(), receiverConfig.getPort());
 		    try {
 			    server.connect(hostAddress, receiverConfig.getTimeout());
+			    LOGGER.info("Connected to " + receiverConfig.getHostname() + ":" + receiverConfig.getPort());
 		    }
 		    catch (IllegalArgumentException e) {
 			    throw(new ConfigurationException("Telegramserver: configuration of timeout not valid"));

@@ -49,7 +49,7 @@ public class TrainRouteTelegramTest {
 	public void NullConstructorTest(){
 		boolean exceptionCatched = false;
 		try{
-			this.telegram = new TrainRouteTelegram(null);
+			this.telegram = new TrainRouteTelegram((TrainRoute)null);
 		} catch(NullPointerException e) {
 			exceptionCatched = true;
 		}

@@ -30,7 +30,7 @@ public class LabTimeTelegram extends Telegram {
 
 	public boolean equals(Object other) {
 		if (!other.getClass().equals(this.getClass())){
-			return super.equals(other);
+			return false;
 		}
 		
 		LabTimeTelegram o = (LabTimeTelegram) other;

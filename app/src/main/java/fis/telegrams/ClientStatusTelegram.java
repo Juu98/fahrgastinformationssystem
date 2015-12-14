@@ -1,6 +1,7 @@
 package fis.telegrams;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 
 /**
  * Eine Klasse für das Clientstatustelegramm. 
@@ -56,9 +57,18 @@ public class ClientStatusTelegram extends Telegram implements SendableTelegram{
 	public byte[] getRawTelegram() {
 		return this.rawTelegram;
 	}
-
+	
 	@Override
 	public String toString() {
 		return String.format("ClientStatusTelegram: ID %s; Status %0#4x", this.id, this.status);
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (!other.getClass().equals(this.getClass())){
+			return false;
+		}
+		ClientStatusTelegram o = (ClientStatusTelegram) other;
+		return Arrays.equals(this.rawTelegram, o.getRawTelegram());
 	}
 }
