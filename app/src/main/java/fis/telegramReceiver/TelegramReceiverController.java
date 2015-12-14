@@ -89,22 +89,17 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 		    //create list for temporary storage of rawTelegram byte[]
 		    this.telegramRawQueue = new LinkedList<>();
 		    // handling the connected state
-		    System.err.println("handling");
 		    try {
 			    while (getConnectionStatus() != ConnectionStatus.OFFLINE && !Thread.currentThread().isInterrupted()) {
 				    Future<byte[]> currentTelegram = receiver.parseConnection(server.getInputStream());
 				    do {
 					    if (!telegramRawQueue.isEmpty()) {
-						    System.err.println("not empty");
 						    try {
-							    System.err.println("parsing");
 							    Telegram telegramResponse = parser.parse(telegramRawQueue.get(0));
-							    System.err.println(telegramResponse);
 
 							    if (getConnectionStatus() == ConnectionStatus.CONNECTING
 									    && telegramResponse.getClass() == TrainRouteEndTelegram.class) {
 								    setConnectionStatus(ConnectionStatus.ONLINE);
-								    System.out.println("Sending ClientStatus telegram");
 								    receiver.sendTelegram(server.getOutputStream(), new ClientStatusTelegram("FIS", (byte) 0x00));
 							    } else {
 								    publisher.publishEvent(new TelegramParsedEvent(telegramResponse));
@@ -156,7 +151,6 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 
 	private void register() throws IOException {
 		SendableTelegram regTelegram = new RegistrationTelegram(receiverConfig.getClientID());
-		System.out.println("Sending registration telegram");
 		receiver.sendTelegram(server.getOutputStream(), regTelegram);
 	}
 
