@@ -6,6 +6,9 @@ import fis.FilterType;
 import fis.RailML2Data;
 import fis.telegramReceiver.TelegramReceiverController;
 import fis.telegrams.*;
+import fis.telegrams.TrainRouteTelegram.StopData;
+import fis.telegrams.TrainRouteTelegram.TrainRouteData;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.EventListener;
@@ -310,7 +313,7 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 		}
 		
 		if(telegram instanceof TrainRouteTelegram){
-			updateTrainRoute(((TrainRouteTelegram)telegram).getTrainRoute());
+			updateTrainRoute(createTrainRouteFromTelegram((TrainRouteTelegram)telegram));
 		}
 		
 		if(telegram instanceof StationNameTelegram){
@@ -324,6 +327,42 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 		
 	}
 
+	
+	public TrainRoute createTrainRouteFromTelegram(TrainRouteTelegram tel){
+		//TODO: TESTEN!
+		TrainRouteData routeData=tel.getData();
+		String trainNr=routeData.getTrainNumber();
+		int messageId=routeData.getMessageId();
+		List<Stop> routeStops=new ArrayList<Stop>();
+		
+		for(StopData stopData:routeData.getStopDataList()){
+			StopType type=StopType.STOP;
+			if(routeData.getStopDataList().indexOf(stopData)==0){
+				type=StopType.BEGIN;
+			}
+			else if(routeData.getStopDataList().indexOf(stopData)==routeData.getStopDataList().size()-1){
+				type=StopType.END;
+			}
+			Stop stop=new Stop(data.getStationById(""+stopData.getStationId()),type, stopData.getScheduledArrival(), stopData.getScheduledDeparture(), ""+stopData.getScheduledTrack(), stopData.getMessageId());
+			stop.updateArrival(stopData.getActualArrival());
+			stop.updateDeparture(stop.getActualDeparture());
+			stop.updateTrack(""+stopData.getActualTrack());
+		}
+		
+		TrainCategory cat;
+		if(data.getTrainCategoryById(routeData.getTrainCategoryShort())==null){
+			cat=new TrainCategory(routeData.getTrainCategoryShort(),routeData.getTrainCategoryShort(),
+					routeData.getTrainCategoryShort(),routeData.getTrainCategoryShort());
+			data.addTrainCategory(cat);
+		} else {
+			cat=data.getTrainCategoryById(routeData.getTrainCategoryShort());
+		}
+		
+		TrainRoute route=new TrainRoute(""+routeData.getTrainNumber(),Integer.parseInt(routeData.getTrainNumber()),cat,routeStops);
+		
+		return route;
+	}
+	
 	@Override
 	public void onApplicationEvent(TelegramParsedEvent arg0) {
 		// TODO Auto-generated method stub
