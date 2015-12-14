@@ -1,6 +1,5 @@
 package fis.telegrams;
 
-import fis.data.StopType;
 import fis.data.Station;
 import fis.data.Stop;
 import fis.data.StopType;
@@ -8,8 +7,8 @@ import fis.data.TrainCategory;
 import fis.data.TrainRoute;
 
 import java.time.LocalTime;
-import java.util.*;
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,39 +44,8 @@ public class TrainRouteTelegramTest {
 		this.route2 = new TrainRoute("ID_2", 9001, category, stops2);
 	}
 	
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void NullConstructorTest(){
-		boolean exceptionCatched = false;
-		try{
-			this.telegram = new TrainRouteTelegram((TrainRoute)null);
-		} catch(NullPointerException e) {
-			exceptionCatched = true;
-		}
-		assertTrue("The constructor should throw a NullPointerException if given a null parameter!", exceptionCatched);
-	}
-	
-	@Test
-	public void appendRouteNullTest(){
-		boolean exceptionCatched = false;
-		this.telegram = new TrainRouteTelegram(this.route1);
-		try{
-			telegram.appendRoute(null);
-		} catch(NullPointerException e) {
-			exceptionCatched = true;
-		}
-		assertTrue("appedRoute() should throw a NullPointerException if given a null parameter!", exceptionCatched);
-	}
-	
-	@Test
-	public void appendRouteTest(){
-		this.telegram = new TrainRouteTelegram(this.route1);
-		this.telegram.appendRoute(this.route2);
-		assertEquals("The appendRoute()-Method didn't return the expected value!", this.stops3, this.telegram.getTrainRoute().getStops());
-	}
-	
-	@Test
-	public void GetTrainRouteAndConstructorTest(){
-		this.telegram = new TrainRouteTelegram(this.route1);
-		assertEquals("The getTrainRoute()-Method didn't return the expected value!", this.route1, this.telegram.getTrainRoute());
+		this.telegram = new TrainRouteTelegram(null);
 	}
 }
