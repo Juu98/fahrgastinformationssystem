@@ -47,6 +47,7 @@ public class RegistrationTelegram extends Telegram implements SendableTelegram{
 
 	@Override
 	public String toString() {
+		//Todo: debug output entfenen, sobald alles funktioniert
 		String ret = "";
 		int l = TelegramParser.toUInt(this.rawTelegram[3]);
 		for (int i = 0; i <= l + 3; i++) {
