@@ -31,6 +31,10 @@ public class RailML2Data {
 	private static final Logger LOGGER = Logger.getLogger(RailML2Data.class);
 	
 	public static TimetableData loadML(String path) throws IOException, JAXBException{
+		int countStations=0;
+		int countTrainCategories=0;
+		int countTrainRoutes=0;
+		int countStops=0;
 		
 		TimetableData data=new TimetableData();
 		
@@ -46,6 +50,7 @@ public class RailML2Data {
 				TOcpOperationalType ocptype=ocp.getPropOperational().getOperationalType();
 				if(ocptype==TOcpOperationalType.STATION || ocptype==null){ //Entweder Bahnhof oder unbestimmt (da manche Halte unbestimmt sind!)
 					data.addStation(new Station(ocp.getId(),ocp.getName()));
+					countStations+=1;
 				}
 			}
 			
@@ -71,6 +76,7 @@ public class RailML2Data {
 				if(catDesc==null) catDesc="";
 				
 				data.addTrainCategory(new TrainCategory(catId,catName,catDesc,trainUsage));
+				countTrainCategories+=1;
 			}
 			
 			for(ETrainPart trainPart:timetable.getTrainParts().getTrainPart()){
@@ -134,6 +140,7 @@ public class RailML2Data {
 							}
 					
 							stops.add(stop);
+							countStops+=1;
 					}
 				}
 				
@@ -143,9 +150,15 @@ public class RailML2Data {
 				if(stops.size()>0){
 					data.addTrainRoute(new TrainRoute(trainPart.getId(),trainNumber,
 							data.getTrainCategoryById(((ECategory)trainPart.getCategoryRef()).getId()),stops));
+					countTrainRoutes+=1;
 				}
 			} 
-		LOGGER.info("Successfully loaded RailML!");
+		LOGGER.info("Successfully loaded RailML! " 
+			+ countTrainCategories + "TrainCategories, "
+			+ countStations +" Stations, "
+			+ countTrainRoutes + "TrainRoutes, "
+			+ countStops + "Stops."
+			);
 		return data;
 	}
 }
