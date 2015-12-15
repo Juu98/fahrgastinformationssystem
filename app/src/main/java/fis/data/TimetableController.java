@@ -110,14 +110,6 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 	public TimetableData getData(){
 		return data;
 	}
-	
-	/**
-	 * Empfängt ein Telegram und führt Updates der Datenstruktur durch oder aktualisiert die Laborzeit (je nach Telegram)
-	 * @param telegram Telegram to 
-	 */
-	public void receiveTelegram(){
-		
-	}
 		
 	/**
 	 * @return Stringrepräsentation des aktuellen ConnectionStates
@@ -365,7 +357,7 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 			cat=data.getTrainCategoryById(routeData.getTrainCategoryShort());
 		}
 		
-		TrainRoute route=new TrainRoute(""+routeData.getTrainNumber(),Integer.parseInt(routeData.getTrainNumber()),cat,routeStops);
+		TrainRoute route=new TrainRoute(""+trainNr,Integer.parseInt(trainNr),cat,routeStops);
 		
 		return route;
 	}
