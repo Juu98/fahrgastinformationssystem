@@ -10,6 +10,7 @@ import org.junit.Test;
 import fis.telegrams.LabTimeTelegram;
 import fis.telegrams.TelegramParsedEvent;
 import fis.telegrams.TrainRouteTelegram;
+import fis.telegrams.TrainRouteTelegram.StopData;
 
 public class TimetableControllerTest{
 	TimetableController timetable;
@@ -139,6 +140,41 @@ public class TimetableControllerTest{
 		timetable.forwardTelegram(new TelegramParsedEvent(new LabTimeTelegram(time)));
 		
 		assertEquals("Forwarden des Laborzeit-Telegrams funktioniert nicht!",time,timetable.getTime());
+		
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testCreateTrainRouteFromTelegram_null(){
+		timetable.createTrainRouteFromTelegram(null);
+		fail("createTrainRouteFromTelegram darf nicht mit NullTelegram funktionieren!");
+	}
+	
+	@Test
+	public void testCreateTrainRouteFromTelegram(){
+		String trnNum="5";
+		String trnCat="catX";
+		int messageID=5;
+		List<TrainRouteTelegram.StopData> stops = new ArrayList<>();
+		
+		StopData data1=new TrainRouteTelegram.StopData(1, null, LocalTime.of(1, 0), null, LocalTime.of(1, 2), 1, 3, 42, 3);
+		StopData data2=new TrainRouteTelegram.StopData(2, LocalTime.of(0, 1), LocalTime.of(1, 0), LocalTime.of(0, 2), LocalTime.of(1, 2), 1, 3, 42, 3);
+		StopData data3=new TrainRouteTelegram.StopData(3, LocalTime.of(3, 5), null, LocalTime.of(3, 10), null, 10, 11, 0, 0);
+		stops.add(data1);
+		stops.add(data2);
+		stops.add(data3);
+		
+		
+		TrainRouteTelegram telegram = new TrainRouteTelegram(
+			new TrainRouteTelegram.TrainRouteData(trnNum, trnCat, messageID, stops)
+		);
+		
+		TrainRoute route=timetable.createTrainRouteFromTelegram(telegram);
+		
+		assertEquals("TrainRouteID stimmt nicht!",trnNum,route.getId());
+		assertEquals("TrainCategory stimmt nicht!", trnCat,route.getTrainCategory().getId());
+		
+		Stop stop1=route.getStops().get(0);
+		assertEquals("Station von Stop 1 stimmt nicht!",s1,stop1.getStation());
 		
 	}
 }

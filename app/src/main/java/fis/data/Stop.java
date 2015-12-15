@@ -99,7 +99,7 @@ public class Stop {
 	 * @param actualArrival Die neue tatsächliche Ankunftszeit.
 	 */
 	public void updateArrival(LocalTime actualArrival){
-		if(actualArrival==null) throw new IllegalArgumentException("actualArrival darf nicht null sein");
+		//if(actualArrival==null) throw new IllegalArgumentException("actualArrival darf nicht null sein");
 		this.actualArrival=actualArrival;
 	}
 	
@@ -108,7 +108,7 @@ public class Stop {
 	 * @param actualDeparture Die neue tatsächliche Abfahrtszeit
 	 */
 	public void updateDeparture(LocalTime actualDeparture){
-		if(actualDeparture==null) throw new IllegalArgumentException("actualDeparture darf nicht null sein");
+		//if(actualDeparture==null) throw new IllegalArgumentException("actualDeparture darf nicht null sein");
 		this.actualDeparture=actualDeparture;
 	}
 	
