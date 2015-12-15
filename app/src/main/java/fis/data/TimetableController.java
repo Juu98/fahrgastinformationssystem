@@ -78,7 +78,8 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 	
 	public TimetableController(){
 		try{
-			data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");	
+			//data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");
+			data=new TimetableData();
 		}catch(Exception ex){
 			System.out.println(ex.toString());
 		}
