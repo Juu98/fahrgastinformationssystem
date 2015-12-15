@@ -20,7 +20,10 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 /**
- * Created by spiollinux on 07.11.15.
+ * empfängt TCP Telegramme mit Zugdaten.
+ * Steuert Kontrollfluss: Verbindungsaufbau, Registrierung und eventuelles Senden von Statustelegrammen, stößt das Parsen
+ * der byte-Arrays zu Telegrammen an, sendet Telegrammevents.
+ * @author spiollinux
  */
 
 @Service
@@ -36,6 +39,14 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 	//needed for events
 	private ApplicationEventPublisher publisher;
 
+	/**
+	 * setzt alle nötigen Kollaborateure der Klasse, initialisiert Objekt
+	 * normalerweise durch Spring @Autowired
+	 * @param config: eine TelegramReceiverConfig mit Verbindungsdaten und timeouts
+	 * @param server: ein Socket zur Verbindung mit dem Server
+	 * @param receiver: ein TelegramReceiver
+	 * @param parser: ein TelegramParser
+	 */
 	@Autowired
 	public TelegramReceiverController(TelegramReceiverConfig config, Socket server, TelegramReceiver receiver, TelegramParser parser) {
 		Assert.notNull(config,"TelegramReceiverConfig mustn't be null");
@@ -49,12 +60,21 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 		this.connectionStatus = ConnectionStatus.OFFLINE;
 	}
 
+	/**
+	 * entspricht Thread.start, setzt zusätzlich den Thread als daemon (kann also jederzeit abgeschossen werden)
+	 */
 	@Override
 	public void start() {
 		setDaemon(true);
 		super.start();
 	}
 
+	/**
+	 * Eventloop des TelegramReceiverControllers. Schleife, solange der Thread nicht interrupted ist.
+	 * Versucht bei nicht bestehender Verbindung immer, Verbindung herzustellen und sich zu registrieren.
+	 * Bei ConnectionStatus.ONLINE: Steuerung des Datenflusses der Telegramm-byte[] vom Socket zum Parser,
+	 * Senden der Telegrammevents
+	 */
 	@Override
 	public void run() {
 		LOGGER.info("TelegramReceiver started");
@@ -158,6 +178,10 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 		}
 	}
 
+	/**
+	 * sendet ein Anmeldetelegramm an den Telegrammserver
+	 * @throws IOException
+	 */
 	private void register() throws IOException {
 		SendableTelegram regTelegram = new RegistrationTelegram(receiverConfig.getClientID());
 		LOGGER.info("Registering to the telegram server");
@@ -165,6 +189,11 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 		receiver.sendTelegram(server.getOutputStream(), regTelegram);
 	}
 
+	/**
+	 * verbindet den Socket server mit dem Telegrammserver unter Verwendung der Daten der Konfigurationsdatei
+	 * @throws IOException
+	 * @throws ConfigurationException bei ungültiger Verbindungskonfiguration
+	 */
 	public void connectToHost() throws IOException, ConfigurationException {
 		setConnectionStatus(ConnectionStatus.CONNECTING);
 		try {
@@ -181,9 +210,9 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 	}
 
 	/**
-	 * returns the ConnectionStatus of the parser
-	 * thread-safety: should be "safe enough" as the worst thing that can happen is connectionStatus being set to null
-	 * after check for null. But connectionStatus is never set to null -> no locking necessary.
+	 * gibt den ConnectionStatus dieses TelegramReceiverControllers
+	 * thread-safety: sollte "safe enough" sein, es könnte höchstens passieren, dass der connectionStatus nach dem check
+	 * auf null gesetzt wird. Der connectionStatus wird allerdings nie auf null gesetzt -> kein Locking notwendig.
 	 * @return ConnectionStatus
 	 * @throws NullPointerException
 	 */
@@ -194,8 +223,8 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 	}
 
 	/**
-	 * sets the connectionStatus of the parser.
-	 * thread-safety: yes, writes are synchronized
+	 * setzt den connectionStatus dieses TelegramReceiverControllers
+	 * thread-safety: ja, Schreiboperationen werden synchronisiert
 	 * @param connectionStatus
 	 */
 	public synchronized void setConnectionStatus(ConnectionStatus connectionStatus) {
@@ -204,6 +233,10 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 		this.connectionStatus = connectionStatus;
 	}
 
+	/**
+	 * notwendig für @link{ApplicationEventPublisherAware}. Wird üblicherweise automatisch von Spring aufgerufen
+	 * @param applicationEventPublisher
+	 */
 	@Override
 	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
 		this.publisher = applicationEventPublisher;
