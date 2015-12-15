@@ -60,11 +60,13 @@ public class StopTest {
 		assertEquals("Aktualisierung der Ankunftszeit funktioniert nicht.",stop1.getActualArrival(),t);
 	}
 	
+	/*
 	@Test(expected=IllegalArgumentException.class)
 	public void testUpdateActualArrival_null(){	
 		stop1.updateArrival(null);
 		fail("Update mit null darf nicht möglich sein!");
 	}
+	*/
 	
 	@Test
 	public void testUpdateActualDeparture(){
@@ -74,11 +76,11 @@ public class StopTest {
 		assertEquals("Aktualisierung der Ankunftszeit funktioniert nicht.",stop1.getActualDeparture(),t);
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
+	/*@Test(expected=IllegalArgumentException.class)
 	public void testUpdateActualDeparture_null(){	
 		stop1.updateDeparture(null);
 		fail("Update mit null darf nicht möglich sein!");
-	}
+	}*/
 	
 	@Test
 	public void testUpdateTrack(){

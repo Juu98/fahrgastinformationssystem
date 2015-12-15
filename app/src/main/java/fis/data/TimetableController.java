@@ -329,6 +329,9 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 	
 	public TrainRoute createTrainRouteFromTelegram(TrainRouteTelegram tel){
 		//TODO: TESTEN!
+		if(tel==null){
+			throw new IllegalArgumentException("Das Telegram darf nicht null sein!");
+		}
 		TrainRouteData routeData=tel.getData();
 		String trainNr=routeData.getTrainNumber();
 		int messageId=routeData.getMessageId();
@@ -346,6 +349,7 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 			stop.updateArrival(stopData.getActualArrival());
 			stop.updateDeparture(stop.getActualDeparture());
 			stop.updateTrack(""+stopData.getActualTrack());
+			routeStops.add(stop);
 		}
 		
 		TrainCategory cat;
