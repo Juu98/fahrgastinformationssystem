@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -97,7 +98,14 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 					do {
 						if (!telegramRawQueue.isEmpty()) {
 							try {
-								Telegram telegramResponse = parser.parse(telegramRawQueue.get(0));
+								byte[] currentRawTele = telegramRawQueue.get(0);
+								// ignore nullbyte telegrams
+								if (Arrays.equals(currentRawTele, new byte[255])) {
+									telegramRawQueue.remove(0);
+									continue;
+								}
+
+								Telegram telegramResponse = parser.parse(currentRawTele);
 
 								if (getConnectionStatus() == ConnectionStatus.CONNECTING
 										&& telegramResponse.getClass() == TrainRouteEndTelegram.class) {
@@ -153,6 +161,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 	private void register() throws IOException {
 		SendableTelegram regTelegram = new RegistrationTelegram(receiverConfig.getClientID());
 		LOGGER.info("Registering to the telegram server");
+		LOGGER.debug(regTelegram);
 		receiver.sendTelegram(server.getOutputStream(), regTelegram);
 	}
 
