@@ -153,11 +153,11 @@ public class RailML2Data {
 					countTrainRoutes+=1;
 				}
 			} 
-		LOGGER.info("Successfully loaded RailML! " 
-			+ countTrainCategories + "TrainCategories, "
+		LOGGER.info("Successfully loaded RailML!" 
+			+ countTrainCategories + " TrainCategories, "
 			+ countStations +" Stations, "
-			+ countTrainRoutes + "TrainRoutes, "
-			+ countStops + "Stops."
+			+ countTrainRoutes + " TrainRoutes, "
+			+ countStops + " Stops."
 			);
 		return data;
 	}
