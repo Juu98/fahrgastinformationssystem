@@ -18,6 +18,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -72,11 +73,17 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 	
 	private TimetableData data;
 	private LocalTime time=LocalTime.MIDNIGHT;
+	private Map<Integer, Message> messages;
 	@Autowired private TelegramReceiverController receiver;
 	
 	public TimetableController(){
 		try{
 			data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");	
+		}catch(Exception ex){
+			System.out.println(ex.toString());
+		}
+		try{
+			this.messages = CSVMessageLoader.loadCSV("./messages.csv");
 		}catch(Exception ex){
 			System.out.println(ex.toString());
 		}
