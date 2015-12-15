@@ -1,6 +1,5 @@
 package fis.web;
 
-import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -19,8 +18,8 @@ public interface FilterForm {
 	public String getDestination();
 	
 	// Zeitfenster
-	public LocalTime getStart();
-	public LocalTime getEnd();
+	public String getStart();
+	public String getEnd();
 	
 	// Buttonaktionen
 	public String getSubmit();

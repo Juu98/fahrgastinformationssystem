@@ -24,7 +24,7 @@ public class StopTest {
 		s1=new Station("1","s1");
 		s2=new Station("2","s2");
 		s3=new Station("3","s3");
-		stop1=new Stop(s1,StopType.STOP,time1,time2,track1);
+		stop1=new Stop(s1,StopType.STOP,time1,time2,track1,0);
 	}
 	@Test
 	public void testGetter(){
@@ -37,18 +37,18 @@ public class StopTest {
 		assertEquals("Tatsächlicher Gleis muss hier gleich dem geplanten Gleis sein!",stop1.getScheduledTrack(),stop1.getActualTrack());
 		assertEquals("StopType stimmt nicht!", stop1.getStopType(),StopType.STOP);
 		
-		assertEquals("Message sollte noch ein leerer String sein!", stop1.getMessage(),"");
+		assertEquals("Message sollte noch ein leerer String sein!", stop1.getMessageId(),0);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_1(){
-		new Stop(null,StopType.STOP,time1,time2,track1);
+		new Stop(null,StopType.STOP,time1,time2,track1,0);
 		fail("Konstruktor soll bei Argumenten, die nicht null sein dürfen, entsprechende Exception werfen!");
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_2(){
-		new Stop(s1,null,time1,time2,track1);
+		new Stop(s1,null,time1,time2,track1,0);
 		fail("Konstruktor soll bei Argumenten, die nicht null sein dürfen, entsprechende Exception werfen!");
 	}
 	
@@ -107,21 +107,8 @@ public class StopTest {
 	
 	@Test
 	public void testUpdateMessage(){
-		String message="42";
+		int message=42;
 		stop1.updateMessage(message);
-		assertEquals("Aktualisierung der Nachricht funktioniert nicht",stop1.getMessage(),message);
+		assertEquals("Aktualisierung der Nachricht funktioniert nicht",stop1.getMessageId(),message);
 	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testUpdateMessage_null(){	
-		stop1.updateMessage(null);
-		fail("Update mit null darf nicht möglich sein!");
-	}
-	
-	
-	
-	
-	
-	
-	
 }

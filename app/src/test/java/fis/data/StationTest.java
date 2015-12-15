@@ -1,13 +1,13 @@
 package fis.data;
 
-import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class StationTest {
     private Station station;
@@ -16,13 +16,14 @@ public class StationTest {
     @Before
     public void setUp() throws Exception {
 	this.station = new Station("TS", "Test Station");
-	this.stop1 = new Stop(station, StopType.STOP, LocalTime.of(13, 37), LocalTime.of(16, 20), "1");
+	this.stop1 = new Stop(station, StopType.STOP, LocalTime.of(13, 37), LocalTime.of(16, 20), "1",0);
     }
 
     @Test
     public void testGetter(){
     	assertEquals("ID stimmt nicht!","TS",station.getId());
-    	assertEquals("Name stimmt nicht!","Test Station",station.getName());
+    	assertEquals("LongName stimmt nicht!","Test Station",station.getLongName());
+    	assertEquals("ShortName stimmt nicht!","Test Station",station.getShortName());
     	assertTrue("Es soll eine leere Liste zurückgegeben werden, wenn noch keine Stops zur Station hinzugefügt worden sind!",(new Station("AA","bbb")).getStops().size()==0);
     }
     
@@ -58,7 +59,7 @@ public class StationTest {
 	assertTrue("Das Entfernen eines null-Halts darf die Liste nicht verändern!",
 		oldStops.equals(station.getStops()));
 
-	Stop stop2 = new Stop(station, StopType.STOP, LocalTime.of(12, 00), LocalTime.of(12, 05), "2");
+	Stop stop2 = new Stop(station, StopType.STOP, LocalTime.of(12, 00), LocalTime.of(12, 05), "2",0);
 	station.removeStop(stop2);
 	assertTrue("Das Entfernen eines in der Liste nicht enthaltenen Halts darf die Liste nicht verändern!",
 		oldStops.equals(station.getStops()));

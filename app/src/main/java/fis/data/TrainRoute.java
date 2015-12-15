@@ -52,10 +52,35 @@ public class TrainRoute {
 	}
 	
 	/**
+	 * Entfernt alle Stops 
+	 */
+	public void removeStops(){
+		while(stops.size()>0){
+			stops.get(0).deleteStop();
+		}
+	}
+	
+	/**
+	 * Aktualisiert die Zugnummer
+	 * @param newNr
+	 */
+	public void setTrainNumber(int newNr){
+		this.trainNumber=newNr;
+	}
+	
+	/**
 	 * @return Zugnummer
 	 */
 	public int getTrainNumber(){
 		return trainNumber;
+	}
+	
+	public void setTrainCategory(TrainCategory newCat){
+		if(newCat==null){
+			throw new IllegalArgumentException("newCat darf nicht null sein!");
+		}
+		
+		this.trainCategory=newCat;
 	}
 	
 	/**
@@ -70,6 +95,18 @@ public class TrainRoute {
 	 */
 	public List<Stop> getStops(){
 		return stops;
+	}
+	
+	/**
+	 * Hängt die gegebene Liste von Halten an
+	 * @param stops
+	 */
+	public void addStops(List<Stop> stops2add){
+		for(Stop stop:stops2add){
+			linkStop(stop);
+		}
+		
+		this.stops.addAll(stops2add);
 	}
 	
 	/**

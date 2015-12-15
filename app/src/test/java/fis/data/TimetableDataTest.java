@@ -28,9 +28,9 @@ public class TimetableDataTest {
 		s2=new Station("2","s2");
 		s3=new Station("3","s3");
 		
-		stop1=new Stop(s1,StopType.BEGIN,null,LocalTime.of(0, 1),"1");
-		stop2=new Stop(s2,StopType.STOP,LocalTime.of(0, 2),LocalTime.of(0, 3),"2");
-		stop3=new Stop(s3,StopType.END,LocalTime.of(0, 4),null,"3");
+		stop1=new Stop(s1,StopType.BEGIN,null,LocalTime.of(0, 1),"1",0);
+		stop2=new Stop(s2,StopType.STOP,LocalTime.of(0, 2),LocalTime.of(0, 3),"2",0);
+		stop3=new Stop(s3,StopType.END,LocalTime.of(0, 4),null,"3",0);
 		
 		List<Stop> stops1=new ArrayList<Stop>();
 		stops1.add(stop1);
@@ -40,8 +40,8 @@ public class TimetableDataTest {
 		route1=new TrainRoute("1",1,cat1,stops1);
 		
 		List<Stop> stops2=new ArrayList<Stop>();
-		stop4=new Stop(s2,StopType.BEGIN,null,LocalTime.of(3,1),"4");
-		stop5=new Stop(s1,StopType.END,LocalTime.of(3, 1),null,"5");
+		stop4=new Stop(s2,StopType.BEGIN,null,LocalTime.of(3,1),"4",0);
+		stop5=new Stop(s1,StopType.END,LocalTime.of(3, 1),null,"5",0);
 		stops2.add(stop4);
 		stops2.add(stop5);
 		
@@ -88,8 +88,8 @@ public class TimetableDataTest {
 		TrainRoute route3;
 		TrainCategory cat2=new TrainCategory("2","cat2","cat2_desc","cat2_usage");
 		List<Stop> stops3=new ArrayList<Stop>();
-		Stop stop6=new Stop(s2,StopType.BEGIN,null,LocalTime.of(3,1),"4");
-		Stop stop7=new Stop(s1,StopType.END,LocalTime.of(3, 1),null,"5");
+		Stop stop6=new Stop(s2,StopType.BEGIN,null,LocalTime.of(3,1),"4",0);
+		Stop stop7=new Stop(s1,StopType.END,LocalTime.of(3, 1),null,"5",0);
 		stops3.add(stop4);
 		stops3.add(stop5);
 		

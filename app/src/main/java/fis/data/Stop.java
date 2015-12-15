@@ -16,7 +16,7 @@ public class Stop {
 	
 	private String scheduledTrack;
 	private String actualTrack;
-	private String message; //Hier bin ich noch unsicher, was dort genau rein soll
+	private int messageId; //Hier bin ich noch unsicher, was dort genau rein soll
 	private StopType stopType;
 	private TrainRoute trainRoute;
 
@@ -28,7 +28,7 @@ public class Stop {
 	 * @param scheduledDeparture Geplante Abfahrtszeit des Zuges.
 	 * @param scheduledTrack Geplanter Gleis, an dem der Zug halten soll
 	 */
-	public Stop(Station station,StopType stopType,LocalTime scheduledArrival, LocalTime scheduledDeparture, String scheduledTrack){
+	public Stop(Station station,StopType stopType,LocalTime scheduledArrival, LocalTime scheduledDeparture, String scheduledTrack, int messageId){
 		if(station==null || stopType==null) throw new IllegalArgumentException();
 		this.station=station;
 		this.stopType=stopType;
@@ -40,7 +40,7 @@ public class Stop {
 		this.actualDeparture=scheduledDeparture;
 		this.actualTrack=scheduledTrack;
 		
-		this.message="";
+		this.messageId=messageId;
 		
 		station.addStop(this);	
 	}
@@ -124,18 +124,17 @@ public class Stop {
 	
 	/**
 	 * Aktualisiert die aktuelle Meldung
-	 * @param message
+	 * @param messageId
 	 */
-	public void updateMessage(String message){
-		if(message==null) throw new IllegalArgumentException("message darf nicht null sein");
-		this.message=message;
+	public void updateMessage(int messageId){
+		this.messageId=messageId;
 	}
 	
 	/**
-	 * @return Die aktuelle "besondere Nachricht"/Information des Haltes
+	 * @return Die Id der Message
 	 */
-	public String getMessage(){
-		return message;
+	public int getMessageId(){
+		return messageId;
 	}
 	
 	

@@ -1,6 +1,7 @@
 package fis;
 
 import fis.telegrams.TelegramReceiver;
+import fis.telegrams.TelegramReceiverController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class Application {
 
     @Autowired
-    TelegramReceiver parser;
+    TelegramReceiverController parser;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

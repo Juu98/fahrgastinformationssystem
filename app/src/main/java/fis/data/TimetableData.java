@@ -86,11 +86,11 @@ public class TimetableData {
 		if(id==null) return null;
 		for(Station station:getStations()){
 			if(station.getId().equals(id)){
-				LOGGER.info("Bahnhof mit der ID "+id+": "+station.getName());
+				LOGGER.debug("Bahnhof mit der ID "+id+": "+station.getLongName());
 				return station;
 			}
 		}
-		LOGGER.info(id + " scheint kein Bahnhof zu sein!");
+		//LOGGER.debug(id + " scheint kein Bahnhof zu sein!");
 		return null;
 	}
 	
@@ -105,7 +105,7 @@ public class TimetableData {
 				return cat;
 			}
 		}
-		LOGGER.info("TrainCategory mit der ID "+id+" nicht gefunden!");
+		LOGGER.debug("TrainCategory mit der ID "+id+" nicht gefunden!");
 		return null;
 	}
 
@@ -125,7 +125,7 @@ public class TimetableData {
 			}
 		}
 		
-		LOGGER.info("TrainRoute [" + id + "] nicht gefunden!");
+		LOGGER.debug("TrainRoute [" + id + "] nicht gefunden!");
 		return null;
 	}
 

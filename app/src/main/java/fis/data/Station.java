@@ -10,7 +10,9 @@ import java.util.List;
  *
  */
 public class Station {
-    private String name;
+	
+    private String longName;
+    private String shortName;
     private String id;
     private List<Stop> stops;
 
@@ -21,11 +23,21 @@ public class Station {
      * @param name
      *            Name des Bahnhofs
      */
-    public Station(String id, String name) {
-    	if(id==null || name==null) throw new IllegalArgumentException();
-    	this.name = name;
+    public Station(String id, String longName, String shortName) {
+    	if(id==null || shortName==null || longName==null) throw new IllegalArgumentException();
+    	this.longName = longName;
+    	this.shortName = shortName;
     	this.id = id;
     	this.stops = new LinkedList<Stop>();
+    }
+    
+    /**
+     * Einfacher Konstruktor für Station. LongName und ShortName sind hier identisch.
+     * @param id
+     * @param name
+     */
+    public Station(String id, String name){
+    	this(id,name,name);
     }
 
     /**
@@ -42,10 +54,18 @@ public class Station {
 
     /**
      * 
-     * @return Name des Bahnhofs
+     * @return (Langer) Name des Bahnhofs
      */
-    public String getName() {
-    	return name;
+    public String getLongName() {
+    	return this.longName;
+    }
+    
+    /**
+     * 
+     * @return Kurzname des Bahnhofs
+     */
+    public String getShortName(){
+    	return this.shortName;
     }
 
     /**
@@ -53,7 +73,7 @@ public class Station {
      * @return ID des Bahnhofs
      */
     public String getId() {
-    	return id;
+    	return this.id;
     }
 
     /**
@@ -62,7 +82,7 @@ public class Station {
      *         auf null überprüft wird.
      */
     public List<Stop> getStops() {
-    	return stops;
+    	return this.stops;
     }
 
     /**
@@ -90,6 +110,6 @@ public class Station {
 
     @Override
     public String toString() {
-    	return String.format("[%s] %s", id, name);
+    	return String.format("[%s] %s", id, longName);
     }
 }

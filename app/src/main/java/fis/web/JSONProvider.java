@@ -24,7 +24,7 @@ public class JSONProvider {
 		}
 		public StationView(Station s){
 			this.id = s.getId();
-			this.name = s.getName();
+			this.name = s.getLongName();
 		}
 
 		public String getId() {

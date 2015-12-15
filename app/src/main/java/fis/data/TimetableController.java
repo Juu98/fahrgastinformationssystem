@@ -1,28 +1,35 @@
 package fis.data;
 
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import fis.FilterTime;
 import fis.FilterType;
 import fis.RailML2Data;
-import fis.telegramReceiver.TelegramReceiver;
+import fis.telegramReceiver.TelegramReceiverController;
+import fis.telegrams.*;
+import fis.telegrams.TrainRouteTelegram.StopData;
+import fis.telegrams.TrainRouteTelegram.TrainRouteData;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
+
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 
 /**
- * Controller für {@link TimetableData}
+ * Controller für {@link TimetableData}.
  * Beinhaltet Weiterreichen von einkommenden Telegrammen und Aktionen, die vom ConnectionState abhängen 
  * (z.B. Entscheidung, dass RailML-Fahrplan geladen werden soll)
  * @author Luux
  */
 @Component
-public class TimetableController {
+public class TimetableController implements ApplicationListener<TelegramParsedEvent> {
 	/**
 	 * Predicate zum Filtern der {@link TrainRoute}s nach ihrer
 	 * {@link TrainCategory}.
@@ -65,11 +72,18 @@ public class TimetableController {
 	}
 	
 	private TimetableData data;
-	@Autowired private TelegramReceiver receiver;
+	private LocalTime time=LocalTime.MIDNIGHT;
+	private Map<Integer, Message> messages;
+	@Autowired private TelegramReceiverController receiver;
 	
 	public TimetableController(){
 		try{
 			data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");	
+		}catch(Exception ex){
+			System.out.println(ex.toString());
+		}
+		try{
+			this.messages = CSVMessageLoader.loadCSV("./messages.csv");
 		}catch(Exception ex){
 			System.out.println(ex.toString());
 		}
@@ -79,7 +93,15 @@ public class TimetableController {
 	 * @return Aktuelle Laborzeit (falls verfügbar)
 	 */
 	public LocalTime getTime(){
-		return LocalTime.now();
+		return time;
+	}
+	
+	/**
+	 * Setzen der aktuellen Laborzeit
+	 * @param time
+	 */
+	public void setTime(LocalTime time){
+		this.time=time;
 	}
 	
 	/**
@@ -104,6 +126,7 @@ public class TimetableController {
 		switch(receiver.getConnectionStatus()){
 			case OFFLINE:return "Offline";
 			case ONLINE:return "Online";
+
 			default:return "Connecting";
 		}
 	}
@@ -203,8 +226,9 @@ public class TimetableController {
 	}
 	
 	
+	
 			
-	public List<Stop> filter(List<TrainRoute> listToFilter, Station station, LocalTime from, LocalTime to, FilterType type,FilterTime filterTime){
+	public List<TrainRoute> filter(Iterable<TrainRoute> listToFilter, Station station, LocalTime from, LocalTime to, FilterType type,FilterTime filterTime){
 		/* 
 		 * Filtert die gegebene Liste nach der Ankunfts-/Abfahrtszeit in der Zeit von [from] bis [to] am angegebenen Bahnhof
 		 * und gibt alle entsprechenden "Stop"-Objekte, die mit diesem Bahnhof assoziiert sind, zurück
@@ -214,37 +238,36 @@ public class TimetableController {
 			return new ArrayList<>();
 		}
 		
-		List<Stop> newList=new ArrayList<>();
-		for(TrainRoute route:listToFilter){
-			for(Stop stop:route.getStops()){
-				if(stop.getStation()==station){
+		List<TrainRoute> newList=new ArrayList<>();
+		for(TrainRoute route : listToFilter){
+			for(Stop stop : route.getStops()){
+				if(stop.getStation() == station){
 					LocalTime stopTime;
 				
 					switch(filterTime){
-					case SCHEDULED:
-						//Es soll nach Scheduled gefiltert werden
-						if(type==FilterType.ARRIVAL){
-							stopTime=stop.getScheduledArrival();
-						} else {
-							stopTime=stop.getScheduledDeparture();
-						}
-						break;
-				
-					default:
-						//Es soll nach Actual gefiltert werden
-						if(type==FilterType.ARRIVAL){
-							stopTime=stop.getActualArrival();
-						} else {
-							stopTime=stop.getActualDeparture();
-						}
-						break;
+						case SCHEDULED:
+							//Es soll nach Scheduled gefiltert werden
+							if(type==FilterType.ARRIVAL){
+								stopTime=stop.getScheduledArrival();
+							} else {
+								stopTime=stop.getScheduledDeparture();
+							}
+							break;
+
+						default:
+							//Es soll nach Actual gefiltert werden
+							if(type==FilterType.ARRIVAL){
+								stopTime=stop.getActualArrival();
+							} else {
+								stopTime=stop.getActualDeparture();
+							}
 					}
 				
 					//hier passiert der eigentliche Vergleich
 					//Die equals sind laut Test ebenfalls notwendig!
 					if(stopTime!=null && from!=null && to!=null){
 						if((stopTime.isAfter(from) || stopTime.equals(from)) && (stopTime.isBefore(to) || stopTime.equals(to))){
-							newList.add(stop);
+							newList.add(route);
 						}
 					}
 				}
@@ -253,12 +276,105 @@ public class TimetableController {
 		}
 		return newList;	
 	}
-	
+
+	/**
+	 * Aktualisiert eine bereits existierende TrainRoute oder fügt eine neue hinzu, je nachdem,
+	 * ob bereits eine TrainRoute mit der ID der übergebenen TrainRoute in der
+	 * Datenstruktur existiert
+	 * @param newRoute
+	 */
+	public void updateTrainRoute(TrainRoute newRoute){
+		boolean alreadyExists=false;
+		if(newRoute==null){
+			throw new IllegalArgumentException("newRoute darf nicht null sein!");
+		}
 		
-}
+		for(TrainRoute route:data.getTrainRoutes()){
+			if(route.getId().equals(newRoute.getId())){
+				alreadyExists=true;
+				route.removeStops();
+				route.addStops(newRoute.getStops());
+				route.setTrainCategory(newRoute.getTrainCategory());
+				route.setTrainNumber(newRoute.getTrainNumber());
+				return;
+			}
+		}
+		if(alreadyExists==false){
+			//neue TrainRoute hinzufügen
+			this.data.addTrainRoute(newRoute);
+		}
+	}
 	
+	/**
+	 * Verarbeitet einkommende Telegram-Objekte und entscheidet über das
+	 * spezifische Vorgehen
+	 * @param event
+	 */
+	@EventListener
+	public void forwardTelegram(TelegramParsedEvent event) {
+		Telegram telegram = event.getSource();
+	
+		if(event.getSource()==null) throw new IllegalArgumentException();
+		if(telegram.getClass() == LabTimeTelegram.class){
+			setTime(((LabTimeTelegram) telegram).getTime());
+		}
+		
+		if(telegram instanceof TrainRouteTelegram){
+			updateTrainRoute(createTrainRouteFromTelegram((TrainRouteTelegram)telegram));
+		}
+		
+		if(telegram instanceof StationNameTelegram){
+			String id=Byte.toString((((StationNameTelegram)telegram).getId()));
+			String shortName=((StationNameTelegram)telegram).getCode();
+			String longName=((StationNameTelegram)telegram).getName();
+		
+			Station station=new Station(id,longName,shortName);
+			data.addStation(station);
+		}
+		
+	}
 
 	
+	public TrainRoute createTrainRouteFromTelegram(TrainRouteTelegram tel){
+		//TODO: TESTEN!
+		TrainRouteData routeData=tel.getData();
+		String trainNr=routeData.getTrainNumber();
+		int messageId=routeData.getMessageId();
+		List<Stop> routeStops=new ArrayList<Stop>();
+		
+		for(StopData stopData:routeData.getStopDataList()){
+			StopType type=StopType.STOP;
+			if(routeData.getStopDataList().indexOf(stopData)==0){
+				type=StopType.BEGIN;
+			}
+			else if(routeData.getStopDataList().indexOf(stopData)==routeData.getStopDataList().size()-1){
+				type=StopType.END;
+			}
+			Stop stop=new Stop(data.getStationById(""+stopData.getStationId()),type, stopData.getScheduledArrival(), stopData.getScheduledDeparture(), ""+stopData.getScheduledTrack(), stopData.getMessageId());
+			stop.updateArrival(stopData.getActualArrival());
+			stop.updateDeparture(stop.getActualDeparture());
+			stop.updateTrack(""+stopData.getActualTrack());
+		}
+		
+		TrainCategory cat;
+		if(data.getTrainCategoryById(routeData.getTrainCategoryShort())==null){
+			cat=new TrainCategory(routeData.getTrainCategoryShort(),routeData.getTrainCategoryShort(),
+					routeData.getTrainCategoryShort(),routeData.getTrainCategoryShort());
+			data.addTrainCategory(cat);
+		} else {
+			cat=data.getTrainCategoryById(routeData.getTrainCategoryShort());
+		}
+		
+		TrainRoute route=new TrainRoute(""+routeData.getTrainNumber(),Integer.parseInt(routeData.getTrainNumber()),cat,routeStops);
+		
+		return route;
+	}
 	
-	
+	@Override
+	public void onApplicationEvent(TelegramParsedEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+		
+}
 

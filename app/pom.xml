@@ -44,6 +44,12 @@
 			<artifactId>hsqldb</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>net.sf.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>2.3</version>
+		</dependency>
+
 		<!-- Devtools -->
 
 		<dependency>
@@ -76,7 +82,7 @@
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
-			<version>3.2.0</version>
+			<version>3.3.6</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.webjars</groupId>
@@ -96,6 +102,11 @@
 			<artifactId>thymeleaf-extras-java8time</artifactId>
 			<version>2.1.0.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -104,6 +115,20 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			
+			<!-- POM information accessible at runtime -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>                   
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+					</archive>
+				</configuration>
 			</plugin>
 
 			<plugin>
