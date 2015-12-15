@@ -86,7 +86,7 @@ public class TimetableData {
 		if(id==null) return null;
 		for(Station station:getStations()){
 			if(station.getId().equals(id)){
-				LOGGER.debug("Bahnhof mit der ID "+id+": "+station.getLongName());
+				//LOGGER.debug("Bahnhof mit der ID "+id+": "+station.getLongName());
 				return station;
 			}
 		}
