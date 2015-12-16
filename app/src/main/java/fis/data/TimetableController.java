@@ -348,7 +348,7 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 			}
 			Stop stop=new Stop(data.getStationById(""+stopData.getStationId()),type, stopData.getScheduledArrival(), stopData.getScheduledDeparture(), ""+stopData.getScheduledTrack(), stopData.getMessageId());
 			stop.updateArrival(stopData.getActualArrival());
-			stop.updateDeparture(stop.getActualDeparture());
+			stop.updateDeparture(stopData.getActualDeparture());
 			stop.updateTrack(""+stopData.getActualTrack());
 			routeStops.add(stop);
 		}
