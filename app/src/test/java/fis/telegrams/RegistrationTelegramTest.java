@@ -1,5 +1,6 @@
 package fis.telegrams;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
@@ -10,7 +11,6 @@ public class RegistrationTelegramTest {
 	private byte tEBL;
 	private byte ZugStatus;
 	private byte[] rawReferenceTelegram;
-
 	@Before
 	public void setup(){
 		this.clientID = (byte) 41;
