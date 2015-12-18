@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
  * Created by spiollinux on 08.11.15.
  */
 @Component
+@PropertySource(value = "file:./config.properties", ignoreResourceNotFound = true)
 @ConfigurationProperties(prefix = "telegramserver")
 public class TelegramReceiverConfig {
     private String hostname;
