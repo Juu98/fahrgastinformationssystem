@@ -6,6 +6,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
+import org.springframework.context.Lifecycle;
+import org.springframework.context.SmartLifecycle;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -24,7 +26,7 @@ import java.util.concurrent.Future;
  */
 
 @Service
-public class TelegramReceiverController extends Thread implements ApplicationEventPublisherAware{
+public class TelegramReceiverController extends Thread implements ApplicationEventPublisherAware, SmartLifecycle {
 
 	private static final Logger LOGGER = Logger.getLogger(TelegramReceiverController.class);
 	private final TelegramReceiverConfig receiverConfig;
@@ -33,6 +35,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 	private final TelegramParser parser;
 	private List<byte[]> telegramRawQueue;
 	private ConnectionStatus connectionStatus;
+	private boolean running;
 	//needed for events
 	private ApplicationEventPublisher publisher;
 
@@ -56,7 +59,13 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 	}
 
 	@Override
+	public boolean isRunning() {
+		return this.running;
+	}
+
+	@Override
 	public void run() {
+		this.running = true;
 		LOGGER.info("TelegramReceiver started");
 		while(!currentThread().isInterrupted()) {
 			//try to connect until there is a connection
@@ -92,13 +101,16 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 			//create list for temporary storage of rawTelegram byte[]
 			this.telegramRawQueue = new LinkedList<>();
 			// handling the connected state
+			LOGGER.debug("handling, " + getConnectionStatus());
 			try {
 				while (getConnectionStatus() != ConnectionStatus.OFFLINE && !Thread.currentThread().isInterrupted()) {
+					LOGGER.debug("Creating Future");
 					Future<byte[]> currentTelegram = receiver.parseConnection(server.getInputStream());
+					LOGGER.debug("Future created");
 					do {
 						if (!telegramRawQueue.isEmpty()) {
 							byte[] currentRawTele = telegramRawQueue.get(0);
-							LOGGER.debug(currentRawTele);
+							LOGGER.debug(Arrays.toString(currentRawTele));
 							// ignore nullbyte telegrams
 							if (Arrays.equals(currentRawTele, new byte[255])) {
 								telegramRawQueue.remove(0);
@@ -158,6 +170,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 			}
 			setConnectionStatus(ConnectionStatus.OFFLINE);
 		}
+		this.running = false;
 	}
 
 	private void register() throws IOException {
@@ -209,5 +222,20 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 	@Override
 	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
 		this.publisher = applicationEventPublisher;
+	}
+
+	@Override
+	public boolean isAutoStartup() {
+		return true;
+	}
+
+	@Override
+	public void stop(Runnable callback) {
+		this.interrupt();
+	}
+
+	@Override
+	public int getPhase() {
+		return Integer.MAX_VALUE;
 	}
 }
