@@ -97,15 +97,17 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 					Future<byte[]> currentTelegram = receiver.parseConnection(server.getInputStream());
 					do {
 						if (!telegramRawQueue.isEmpty()) {
-							try {
-								byte[] currentRawTele = telegramRawQueue.get(0);
-								// ignore nullbyte telegrams
-								if (Arrays.equals(currentRawTele, new byte[255])) {
-									telegramRawQueue.remove(0);
-									continue;
-								}
+							byte[] currentRawTele = telegramRawQueue.get(0);
+							LOGGER.debug(currentRawTele);
+							// ignore nullbyte telegrams
+							if (Arrays.equals(currentRawTele, new byte[255])) {
+								telegramRawQueue.remove(0);
+								continue;
+							}
 
+							try {
 								Telegram telegramResponse = parser.parse(currentRawTele);
+								LOGGER.debug("Parsed " + telegramResponse);
 
 								if (getConnectionStatus() == ConnectionStatus.CONNECTING
 										&& telegramResponse.getClass() == TrainRouteEndTelegram.class) {
