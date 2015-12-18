@@ -363,6 +363,8 @@ public class TelegramParser {
 		final String code = new String(Arrays.copyOfRange(rawData, 2, codeLength+2), CHARSET);
 		final String name = new String(Arrays.copyOfRange(rawData, codeLength+2, rawData.length), CHARSET);
 		
+		// TODO coords
+		
 		StationNameTelegram returnTele = new StationNameTelegram(rawData[0], code, name);
 		LOGGER.debug("Parsed " + returnTele);
 		return returnTele;
