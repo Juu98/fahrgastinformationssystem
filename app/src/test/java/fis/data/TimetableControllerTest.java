@@ -10,6 +10,7 @@ import org.junit.Test;
 import fis.telegrams.LabTimeTelegram;
 import fis.telegrams.TelegramParsedEvent;
 import fis.telegrams.TrainRouteTelegram;
+import fis.telegrams.TrainRouteTelegram.StopData;
 
 public class TimetableControllerTest{
 	TimetableController timetable;
@@ -140,5 +141,94 @@ public class TimetableControllerTest{
 		
 		assertEquals("Forwarden des Laborzeit-Telegrams funktioniert nicht!",time,timetable.getTime());
 		
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testCreateTrainRouteFromTelegram_null(){
+		timetable.createTrainRouteFromTelegram(null);
+		fail("createTrainRouteFromTelegram darf nicht mit NullTelegram funktionieren!");
+	}
+	
+	@Test
+	public void testCreateTrainRouteFromTelegram(){
+		//TODO: Test dispoType
+		String trnNum="5";
+		String trnCat="catX";
+		int messageID=5;
+		
+		int scheduledTrack1=1;
+		int actualTrack1=3;
+		int dispoType1=42;
+		int messageId1=3;
+		int scheduledTrack2=1;
+		int actualTrack2=3;
+		int dispoType2=42;
+		int messageId2=5;
+		int scheduledTrack3=10;
+		int actualTrack3=11;
+		int dispoType3=0;
+		int messageId3=0;
+		
+		
+		List<TrainRouteTelegram.StopData> stops = new ArrayList<>();
+		
+		StopData data1=new TrainRouteTelegram.StopData(1, null, LocalTime.of(1, 0), null, LocalTime.of(1, 2), scheduledTrack1, actualTrack1, dispoType1, messageId1);
+		StopData data2=new TrainRouteTelegram.StopData(2, LocalTime.of(0, 1), LocalTime.of(1, 0), LocalTime.of(0, 2), LocalTime.of(1, 5), scheduledTrack2, actualTrack2, dispoType2, messageId2);
+		StopData data3=new TrainRouteTelegram.StopData(3, LocalTime.of(3, 5), null, LocalTime.of(3, 10), null, scheduledTrack3, actualTrack3, dispoType3, messageId3);
+		
+		stops.add(data1);
+		stops.add(data2);
+		stops.add(data3);
+		
+		
+		TrainRouteTelegram telegram = new TrainRouteTelegram(
+			new TrainRouteTelegram.TrainRouteData(trnNum, trnCat, messageID, stops)
+		);
+		
+		TrainRoute route=timetable.createTrainRouteFromTelegram(telegram);
+		
+		assertEquals("TrainRouteID stimmt nicht!",trnNum,route.getId());
+		assertEquals("TrainCategory stimmt nicht!", trnCat,route.getTrainCategory().getId());
+		assertEquals("Die Anzahl der Stops stimmt nicht",3,route.getStops().size());
+	
+		
+		Stop stop1=route.getStops().get(0);
+		assertEquals("Station des ersten Stops stimmt nicht!",s1,stop1.getStation());
+		assertEquals("ID der Message des ersten Stops stimmt nicht!",messageId1,stop1.getMessageId());
+		assertEquals("StopType des ersten Stops muss BEGIN sein",StopType.BEGIN,stop1.getStopType());
+		assertEquals("Der erste Stop muss der TrainRoute zugeordnet sein!",route,stop1.getTrainRoute());
+		assertEquals("Die geplante Ankunftszeit des ersten Stops soll null sein",null,stop1.getScheduledArrival());
+		assertEquals("Die tatsächliche Ankunftszeit des ersten Stops soll null sein",null,stop1.getActualArrival());
+		assertEquals("Die geplante Abfahrtszeit des ersten Stops stimmt nicht!",LocalTime.of(1,0),stop1.getScheduledDeparture());
+		assertEquals("Die tatsächliche Abfahrtszeit des ersten Stops stimmt nicht!",LocalTime.of(1, 2),stop1.getActualDeparture());
+		assertEquals("Der geplante Gleis des ersten Stops stimmt nicht!",String.valueOf(scheduledTrack1),stop1.getScheduledTrack());
+		assertEquals("Der tatsächliche Gleis des ersten Stops stimmt nicht!", String.valueOf(actualTrack1),stop1.getActualTrack());
+		assertTrue("Der richtige Bahnhof sollte mit dem ersten Stop verlinkt sein!",s1.getStops().contains(stop1));
+		
+		Stop stop2=route.getStops().get(1);
+		assertEquals("Station des zweiten Stops stimmt nicht!",s2,stop2.getStation());
+		assertEquals("ID der Message des zweiten Stops stimmt nicht!",messageId2,stop2.getMessageId());
+		assertEquals("StopType des zweiten Stops muss BEGIN sein",StopType.STOP,stop2.getStopType());
+		assertEquals("Der zweite Stop muss der TrainRoute zugeordnet sein!",route,stop2.getTrainRoute());
+		assertEquals("Die geplante Ankunftszeit des zweiten Stops stimmt nicht",LocalTime.of(0, 1),stop2.getScheduledArrival());
+		assertEquals("Die tatsächliche Ankunftszeit des zweiten Stops stimmt nicht",LocalTime.of(0, 2),stop2.getActualArrival());
+		assertEquals("Die geplante Abfahrtszeit des zweiten Stops stimmt nicht!",LocalTime.of(1,0),stop2.getScheduledDeparture());
+		assertEquals("Die tatsächliche Abfahrtszeit des zweiten Stops stimmt nicht!",LocalTime.of(1, 5),stop2.getActualDeparture());
+		assertEquals("Der geplante Gleis des zweiten Stops stimmt nicht!",String.valueOf(scheduledTrack2),stop2.getScheduledTrack());
+		assertEquals("Der tatsächliche Gleis des zweiten Stops stimmt nicht!", String.valueOf(actualTrack2),stop2.getActualTrack());
+		assertTrue("Der richtige Bahnhof sollte mit dem zweiten Stop verlinkt sein!",s2.getStops().contains(stop2));
+		
+		Stop stop3=route.getStops().get(2);
+		assertEquals("Station des dritten Stops stimmt nicht!",s3,stop3.getStation());
+		assertEquals("ID der Message des dritten Stops stimmt nicht!",messageId3,stop3.getMessageId());
+		assertEquals("StopType des dritten Stops muss END sein",StopType.END,stop3.getStopType());
+		assertEquals("Der dritte Stop muss der TrainRoute zugeordnet sein!",route,stop3.getTrainRoute());
+		assertEquals("Die geplante Ankunftszeit des dritten Stops stimmt nicht",LocalTime.of(3, 5),stop3.getScheduledArrival());
+		assertEquals("Die tatsächliche Ankunftszeit des dritten Stops stimmt nicht",LocalTime.of(3, 10),stop3.getActualArrival());
+		assertEquals("Die geplante Abfahrtszeit des dritten Stops soll null sein",null,stop3.getScheduledDeparture());
+		assertEquals("Die tatsächliche Abfahrtszeit des dritten Stops soll null sein",null,stop3.getActualDeparture());
+		assertEquals("Der geplante Gleis des dritten Stops stimmt nicht!",String.valueOf(scheduledTrack3),stop3.getScheduledTrack());
+		assertEquals("Der tatsächliche Gleis des dritten Stops stimmt nicht!", String.valueOf(actualTrack3),stop3.getActualTrack());
+		assertTrue("Der richtige Bahnhof sollte mit dem dritten Stop verlinkt sein!",s3.getStops().contains(stop3));
 	}
 }

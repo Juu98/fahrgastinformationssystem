@@ -126,7 +126,7 @@ public class TelegramParserTest {
 		validRawTelegram[6] = (byte) (59 & 0xFF);
 		validRawTelegram[7] = (byte) (59 & 0xFF);
 		// set length
-		validRawTelegram[3] = (byte) (6 & 0xFF);
+		validRawTelegram[3] = (byte) (4 & 0xFF);
 
 		LabTimeTelegram parsedTelegram = (LabTimeTelegram) parser.parse(validRawTelegram);
 
@@ -136,7 +136,7 @@ public class TelegramParserTest {
 	
 	@Test(expected = TelegramParseException.class)
 	public void testLabTimeTelegramValid() throws TelegramParseException {
-		byte[] invalidRawTelegram = fromString("FF FF FF  03  F1  19 FF FE");
+		byte[] invalidRawTelegram = fromString("FF FF FF  04  F1  19 FF FE");
 		parser.parse(invalidRawTelegram);
 	}
 	
@@ -153,11 +153,11 @@ public class TelegramParserTest {
 		
 		validRawTelegram = fromString(
 				"FF FF FF",
-				toByteString((byte) ((name.length + 7) & 0xFF)),
+				toByteString((byte) ((name.length + code.length + 3) & 0xFF)),
 				"EE",
 				toByteString(id),
 				toByteString((byte) (code.length & 0xFF)),
-				toByteString(code, 5),
+				toByteString(code),
 				toByteString(name)
 		);
 		StationNameTelegram telegram = (StationNameTelegram) parser.parse(validRawTelegram);
@@ -202,14 +202,14 @@ public class TelegramParserTest {
 		List<TrainRouteTelegram.StopData> stops = new ArrayList<>(3);
 		// #01 12:00 12:08 +0min +0min 7 - - -
 		// 12*60*10 = 7200 = 0x1C20 Big Endian
-		String stop1 = "01 1C 20 1C 70 00 00 07 00 00 00";
+		String stop1 = "01 1C 20 1C 70 00 00 00 00 07 00 00 00";
 		stops.add(new TrainRouteTelegram.StopData(
 				1, LocalTime.of(12, 0), LocalTime.of(12, 8), LocalTime.of(12, 0), LocalTime.of(12, 8),
 				7, 0, 0, 0)
 		);
 		// #13 12:34 12:40 +1min -3min 1 3 1 1
 		// (12*60+34)*10 = 7540 = 0x1D74
-		String stop2 = "0D 1D 74 1D B0 0A E2 01 03 01 01";
+		String stop2 = "0D 1D 74 1D B0 00 0A FF E2 01 03 01 01";
 		stops.add(new TrainRouteTelegram.StopData(
 				13, LocalTime.of(12, 34), LocalTime.of(12, 40), LocalTime.of(12, 35), LocalTime.of(12, 37),
 				1, 3, 1, 1)
@@ -234,7 +234,7 @@ public class TelegramParserTest {
 		);
 		validRawTelegram = fromString(
 			"FF FF FF",
-			toByteString((byte) testData.length),
+			toByteString((byte) (testData.length + 1)),
 			"EC",
 			toByteString(testData)
 		);

@@ -69,10 +69,13 @@ public class TelegramReceiverControllerTest {
 	@Test
 	public void testConnecting() throws InterruptedException, IOException, TelegramParseException, ConfigurationException, ExecutionException {
 		//setting additional mocks
+		byte[] dummy = new byte[255];
+		//dummy raw telegram != null, content not important because TelegramParser.parse is mocked
+		dummy[0] = (byte) 0xFF;
 		TrainRouteTelegram.TrainRouteData mockedTrainRouteData = mock(TrainRouteTelegram.TrainRouteData.class);
 		AsyncResult<byte[]> mockedResult = mock(AsyncResult.class);
 		when(mockedResult.isDone()).thenReturn(false, true, true, true, true, false);
-		when(mockedResult.get()).thenReturn(new byte[255]);
+		when(mockedResult.get()).thenReturn(dummy);
 		when(mockedParser.parse(any())).thenReturn(new LabTimeTelegram(LocalTime.now()),
 				new StationNameTelegram((byte) 0x01, "FOO", "foobar"),
 				new TrainRouteTelegram(mockedTrainRouteData),

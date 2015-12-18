@@ -78,7 +78,8 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 	
 	public TimetableController(){
 		try{
-			data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");	
+			//data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");
+			data=new TimetableData();
 		}catch(Exception ex){
 			System.out.println(ex.toString());
 		}
@@ -109,14 +110,6 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 	 */
 	public TimetableData getData(){
 		return data;
-	}
-	
-	/**
-	 * Empfängt ein Telegram und führt Updates der Datenstruktur durch oder aktualisiert die Laborzeit (je nach Telegram)
-	 * @param telegram Telegram to 
-	 */
-	public void receiveTelegram(){
-		
 	}
 		
 	/**
@@ -337,6 +330,9 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 	
 	public TrainRoute createTrainRouteFromTelegram(TrainRouteTelegram tel){
 		//TODO: TESTEN!
+		if(tel==null){
+			throw new IllegalArgumentException("Das Telegram darf nicht null sein!");
+		}
 		TrainRouteData routeData=tel.getData();
 		String trainNr=routeData.getTrainNumber();
 		int messageId=routeData.getMessageId();
@@ -352,8 +348,9 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 			}
 			Stop stop=new Stop(data.getStationById(""+stopData.getStationId()),type, stopData.getScheduledArrival(), stopData.getScheduledDeparture(), ""+stopData.getScheduledTrack(), stopData.getMessageId());
 			stop.updateArrival(stopData.getActualArrival());
-			stop.updateDeparture(stop.getActualDeparture());
+			stop.updateDeparture(stopData.getActualDeparture());
 			stop.updateTrack(""+stopData.getActualTrack());
+			routeStops.add(stop);
 		}
 		
 		TrainCategory cat;
@@ -365,7 +362,7 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 			cat=data.getTrainCategoryById(routeData.getTrainCategoryShort());
 		}
 		
-		TrainRoute route=new TrainRoute(""+routeData.getTrainNumber(),Integer.parseInt(routeData.getTrainNumber()),cat,routeStops);
+		TrainRoute route=new TrainRoute(""+trainNr,Integer.parseInt(trainNr),cat,routeStops);
 		
 		return route;
 	}

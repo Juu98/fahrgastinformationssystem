@@ -29,9 +29,11 @@ public class RegistrationTelegram extends Telegram implements SendableTelegram{
 		//Das 6. Byte enthällt schließlich die ID. 
 		this.rawTelegram[i++] = id;
 		//Die nächsten beiden Bytes enthalten den Laboruhrzeitfaktor und das Stopp/Start Signal und werden beide auf Standardwerte (siehe Spezifikation) gesetzt.
-		this.rawTelegram[i++] = this.rawTelegram[i] = (byte) 1;
+		this.rawTelegram[i++] = (byte) 1;
+		this.rawTelegram[i] = (byte) 1;
+		System.err.println(i);
 		//Da nur die Kennung und die ID gesendet wird, ist der genutzte Bereich 2 Byte lang. 
-		this.rawTelegram[3] = (byte) (i-4);
+		this.rawTelegram[3] = (byte) (i-3);
 	}
 
 	/**
@@ -45,7 +47,14 @@ public class RegistrationTelegram extends Telegram implements SendableTelegram{
 
 	@Override
 	public String toString() {
-		return String.format("RegistrationTelegram: ID %02x", this.id);
+		//Todo: debug output entfenen, sobald alles funktioniert
+		String ret = "";
+		int l = TelegramParser.toUInt(this.rawTelegram[3]);
+		for (int i = 0; i <= l + 3; i++) {
+			ret += "" + i + ": " + TelegramParser.toUInt(rawTelegram[i]) + "\n";
+		}
+		return ret;
+		//return String.format("RegistrationTelegram: ID %02x", this.id);
 	}
 
 	@Override

@@ -17,7 +17,7 @@ import java.util.List;
  * 
  * <p> Telegramme sind nach folgender Struktur aufgebaut:
  *	 0 - 2: {@literal FF FF FF} Startkennung,
- *		 3: {@literal XX} Länge der Nutzdaten
+ *		 3: {@literal XX} Länge der Nutzdaten inklusive Kennung
  *		 4: {@literal TT} Kennung des Telegrammtyps
  * 5- XX+5: Nutzdaten (immer 251 B lang, vermutlihc mit {@literal 00} aufgefüllt.
  * 
@@ -34,9 +34,9 @@ public class TelegramParser {
 	// Telegrammspezifikation
 	private static final int T_MAXLENGTH   = Telegram.rawTelegramLength;
 	private static final int T_STARTBCOUNT = 3;
-	private static final int T_DATALENPOS  = 3;
-	private static final int T_CATPOS	   = 4;
-	private static final int T_DATAPOS	   = 2+T_STARTBCOUNT;
+	private static final int T_DATALENPOS  = T_STARTBCOUNT;
+	private static final int T_CATPOS	   = T_STARTBCOUNT+1;
+	private static final int T_DATAPOS	   = T_STARTBCOUNT+2;
 
 	// Startkennung (Bytes 0-T_STARTBCOUNT im Telegramm)
 	private static final byte B_START	   = (byte) (255 & 0xFF);	// 0xFF
@@ -44,7 +44,7 @@ public class TelegramParser {
 	// Telegrammkategorie-Konstanten (Byte 1 im Telegramm)
 	private static final byte B_TC_LABTIME = (byte) (241 & 0xFF);	// 0xF1
 	private static final byte B_TC_TRAINRT = (byte) (236 & 0xFF);	// 0xEC
-	private static final byte B_TC_TRNEND  = (byte) (236 & 0xFF);	// TODO duplicate category 0xEC
+	private static final byte B_TC_TRENDMK = (byte) (255 & 0xFF);	// 0xFF
 	private static final byte B_TC_STATION = (byte) (238 & 0xFF);	// 0xEE
 	
 	// Codepage für String-Konvertierung
@@ -68,8 +68,20 @@ public class TelegramParser {
 	 * @param b das Byte
 	 * @return die ganze Zahl (-128 &lt; x &lt; 127)
 	 */
-	public int toInt(byte b){
+	public static int toInt(byte b){
 		return (int) b;
+	}
+	
+	/**
+	 * Konvertiert ein Word in eine vorzeichenbehaftete Ganzzahl.
+	 * @param b0	erstes Byte
+	 * @param b1	zweites Byte
+	 * @param littleEndian	Bytereihenfolge
+	 * @return die ganze Zahl
+	 */
+	public static int toInt(byte b0, byte b1, boolean littleEndian){
+		if (littleEndian) return (toInt(b1) << 8) | toInt(b0);
+		return (toInt(b0) << 8) | b1;
 	}
 	
 	/**
@@ -151,7 +163,8 @@ public class TelegramParser {
         }
 		
 		// Nutzdaten extrahieren
-        int dataLength = toUInt(rawResponse[T_DATALENPOS]);
+		// -1 B für die Telegrammkennung
+        int dataLength = toUInt(rawResponse[T_DATALENPOS]) - 1;
 		if (rawResponse.length < T_DATAPOS+dataLength){
 			throw new TelegramParseException(String.format("Bytearray ist kürzer (%d) als angegeben (%d).", rawResponse.length, T_DATAPOS+dataLength));
 		}
@@ -163,8 +176,13 @@ public class TelegramParser {
 		// Telegramm-Kategorien
 		switch (rawResponse[T_CATPOS]) {
 			case B_TC_LABTIME: return parseLabTimeData(data);
-			case B_TC_TRAINRT: return parseTrainRouteData(data);
-			// TODO duplicate category!! case B_TC_TRNEND : return parseTrainRouteEndData(data);
+			case B_TC_TRAINRT:
+				// Zuglaufende
+				if (data[0] == B_TC_TRENDMK) {
+					return parseTrainRouteEndData(data);
+				}
+				return parseTrainRouteData(data);
+			
 			case B_TC_STATION: return parseStationNameData(data);
 			
 			default:
@@ -240,16 +258,16 @@ public class TelegramParser {
 		final int STOP_COUNT_MAX	= 10;
 		
 		/* einzelner Halt */
-		final int STPDAT_MIN_LEN	= 11;
+		final int STPDAT_MIN_LEN	= 13;
 		final int STPDAT_STN_POS	= 0;	// Bahnhofs-ID
 		final int STPDAT_ARR_POS	= 1;	// Ankunft [2B]
 		final int STPDAT_DEP_POS	= 3;	// Abfahrt [2B]
-		final int STPDAT_ADL_POS	= 5;	// Änderung zur Ankunftszeit
-		final int STPDAT_DDL_POS	= 6;	// Änderung zur Abfahrtszeit
-		final int STPDAT_TRK_POS	= 7;	// Gleis geplant TODO: UInt?
-		final int STPDAT_NTR_POS	= 8;	// neues Gleis
-		final int STPDAT_DPT_POS	= 9;	// DispoTyp TODO: ?
-		final int STPDAT_MSG_POS	= 10;	// Meldungs-Index
+		final int STPDAT_ADL_POS	= 5;	// Änderung zur Ankunftszeit [2B]
+		final int STPDAT_DDL_POS	= 7;	// Änderung zur Abfahrtszeit [2B]
+		final int STPDAT_TRK_POS	= 9;	// Gleis geplant TODO: UInt?
+		final int STPDAT_NTR_POS	= 10;	// neues Gleis
+		final int STPDAT_DPT_POS	= 11;	// DispoTyp TODO: ?
+		final int STPDAT_MSG_POS	= 12;	// Meldungs-Index
 		
 		// Telegrammlänge
 		if (rawData.length < HEADER_MIN_LEN){
@@ -302,11 +320,10 @@ public class TelegramParser {
 			
 			int station = toUInt(stopData[STPDAT_STN_POS]);
 			
-			int arr = toUInt(stopData[STPDAT_ARR_POS], stopData[STPDAT_ARR_POS+1], LITTLE_ENDIAN);
-			LocalTime sArrival = fromTenthOfMinute(arr);
+			LocalTime sArrival = fromTenthOfMinute(toUInt(stopData[STPDAT_ARR_POS], stopData[STPDAT_ARR_POS+1], LITTLE_ENDIAN));
 			LocalTime sDeparture = fromTenthOfMinute(toUInt(stopData[STPDAT_DEP_POS], stopData[STPDAT_DEP_POS+1], LITTLE_ENDIAN));
-			LocalTime aArrival = fromTenthOfMinute(toInt(stopData[STPDAT_ADL_POS]), sArrival);
-			LocalTime aDeparture = fromTenthOfMinute(toInt(stopData[STPDAT_DDL_POS]), sDeparture);
+			LocalTime aArrival = fromTenthOfMinute(toInt(stopData[STPDAT_ADL_POS], stopData[STPDAT_ADL_POS+1], LITTLE_ENDIAN), sArrival);
+			LocalTime aDeparture = fromTenthOfMinute(toInt(stopData[STPDAT_DDL_POS], stopData[STPDAT_DDL_POS+1], LITTLE_ENDIAN), sDeparture);
 			
 			int sTrack = toUInt(stopData[STPDAT_TRK_POS]);
 			int aTrack = toUInt(stopData[STPDAT_NTR_POS]);
@@ -328,7 +345,7 @@ public class TelegramParser {
 	 * Verarbeitet ein Betriebsstellen-Bezeichnungstelegramm.
 	 * 
 	 * <p> Die Daten liegen in folgender Form vor:
-	 * ID[Byte], [Länge der Abkürzung[Byte], Abkürzung[5 Bytes cp1252]
+	 * ID[Byte], YY = Länge der Abkürzung[Byte], Abkürzung[YY Bytes cp1252]
 	 * Bezeichnung[Byte[] cp1252]
 	 * 
 	 * @param rawData
@@ -336,19 +353,17 @@ public class TelegramParser {
 	 * @throws TelegramParseException 
 	 */
 	private StationNameTelegram parseStationNameData(byte[] rawData) throws TelegramParseException{
-		final int MAX_CODE_LENGTH = 5;
-		final int MIN_LENGTH = MAX_CODE_LENGTH + 2;
+		final int MIN_LENGTH = 4;
 		
 		if(rawData.length < MIN_LENGTH) {
 			throw new TelegramParseException(String.format("Bytearray für BS-Bezeichnungstelegramm ist kürzer (%d) als erwartet (%d)", rawData.length, MIN_LENGTH));
 		}
 		
 		final int codeLength = toUInt(rawData[1]);
-		if (codeLength > MAX_CODE_LENGTH){
-			throw new TelegramParseException(String.format("Abkürzung länger (%d) als erlaubt (%d).", codeLength, MAX_CODE_LENGTH));
-		}
 		final String code = new String(Arrays.copyOfRange(rawData, 2, codeLength+2), CHARSET);
-		final String name = new String(Arrays.copyOfRange(rawData, MIN_LENGTH, rawData.length), CHARSET);
+		final String name = new String(Arrays.copyOfRange(rawData, codeLength+2, rawData.length), CHARSET);
+		
+		// TODO coords
 		
 		StationNameTelegram returnTele = new StationNameTelegram(rawData[0], code, name);
 		LOGGER.debug("Parsed " + returnTele);
