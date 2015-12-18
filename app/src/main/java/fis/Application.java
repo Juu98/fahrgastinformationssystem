@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import fis.data.TimetableController;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 
 import javax.annotation.PostConstruct;
@@ -16,6 +17,7 @@ import javax.annotation.PostConstruct;
  * Created by spiollinux on 05.11.15.
  */
 @SpringBootApplication
+@EnableAsync
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -31,6 +33,6 @@ public class Application {
 
 	@PostConstruct
 	private void initialize() {
-		receiverController.start();
+		//receiverController.start();
 	}
 }
