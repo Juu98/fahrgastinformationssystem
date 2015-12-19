@@ -16,7 +16,7 @@ public class RegistrationTelegram extends Telegram implements SendableTelegram{
 	 */
 	public RegistrationTelegram(byte id) {
 		this.id = id;
-		this.rawTelegram = new byte[Telegram.rawTelegramLength];
+		this.rawTelegram = new byte[Telegram.rawTelegramMaxLength];
 		int i = 0;
 		//Laut Spezifikation müssen die ersten 3 Telegrammbytes auf 0xFF stehen
 		for(; i < 3; i++)

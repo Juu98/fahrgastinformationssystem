@@ -20,7 +20,7 @@ public class TelegramParserTest {
 	@Before
 	public void setUp() throws Exception {
 		parser = new TelegramParser();
-		validRawTelegram = new byte[Telegram.rawTelegramLength];
+		validRawTelegram = new byte[Telegram.rawTelegramMaxLength];
 		for(int i = 0; i < 3; ++i) {
 			validRawTelegram[i] = (byte) 255;
 		}
@@ -80,7 +80,7 @@ public class TelegramParserTest {
 	public void testStartBytesValid() throws TelegramParseException {
 		int r = (int) Math.floor(Math.random()*3);
 		//initialize invalid byte data
-		byte[] invalidRawTelegram = new byte[Telegram.rawTelegramLength];
+		byte[] invalidRawTelegram = new byte[Telegram.rawTelegramMaxLength];
 		for(int i = 0; i < 3; i++) {
 			//force at least one byte to be != 255, the others are set randomly
 			if(i == r) {

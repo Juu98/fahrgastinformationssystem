@@ -1,7 +1,6 @@
 package fis.telegramReceiver;
 
 import fis.ConfigurationException;
-import fis.data.TrainRoute;
 import fis.telegrams.*;
 import org.junit.After;
 import org.junit.Before;
@@ -28,7 +27,7 @@ public class TelegramReceiverControllerTest {
 	TelegramSocket mockedSocket;
 	TelegramParser mockedParser;
 	ApplicationEventPublisher mockedPublisher;
-	byte[] buf = new byte[Telegram.getRawTelegramLength()];
+	byte[] buf = new byte[Telegram.getRawTelegramMaxLength()];
 
 	@Before
 	public void setUp() throws Exception {

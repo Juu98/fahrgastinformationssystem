@@ -32,7 +32,7 @@ public class TelegramParser {
 	 * TC ... Telegrammtyp
 	 */
 	// Telegrammspezifikation
-	private static final int T_MAXLENGTH   = Telegram.rawTelegramLength;
+	private static final int T_MAXLENGTH   = Telegram.rawTelegramMaxLength;
 	private static final int T_STARTBCOUNT = 3;
 	private static final int T_DATALENPOS  = T_STARTBCOUNT;
 	private static final int T_CATPOS	   = T_STARTBCOUNT+1;

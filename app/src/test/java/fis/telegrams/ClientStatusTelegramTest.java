@@ -20,7 +20,7 @@ public class ClientStatusTelegramTest {
 		this.ID ="FIS";
 		this.status = (byte) 0;
 		//construct a rawTelegram
-		this.rawReferenceTelegram = new byte[Telegram.rawTelegramLength];
+		this.rawReferenceTelegram = new byte[Telegram.rawTelegramMaxLength];
 		byte[] rawID = this.ID.getBytes("windows-1252");
 		int i = 0;
 		for(; i < 3; ++i) {
