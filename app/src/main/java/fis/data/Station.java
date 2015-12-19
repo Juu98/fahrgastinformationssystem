@@ -109,23 +109,6 @@ public class Station {
     }
     
     /**
-     * Überprüft ob an der Station ein bestimmter Zuglauf hält.
-     * @param route
-     * @return {@literal true}, wenn der Zug an der Station hält; sonst {@literal false}
-     * @throws IllegalArgumentException
-     */
-    public boolean hasTrainRoute(TrainRoute route) throws IllegalArgumentException{
-    	if(route == null)
-    		throw new IllegalArgumentException();
-    	for(Stop stop : this.getStops()){
-			if (stop.getTrainRoute().equals(route) && (stop.getStopType().equals(StopType.BEGIN)
-					|| stop.getStopType().equals(StopType.END) || stop.getStopType().equals(StopType.STOP)))
-				return true;
-    	}
-    	return false;
-    }
-    
-    /**
 	 * Funktion zum bestimmen des Stops einer Station in einem Zuglauf. 
 	 * @param station
 	 * @return die gefundene Station; sonst {@literal null}
