@@ -9,8 +9,8 @@ logging.level.root = INFO
 logging.level.fis  = INFO
 
 # Konfiguration für den Telegrammempfänger (TelegramReceiverConfig)
-telegramserver.hostname = 192.168.2.23
-telegramserver.port = 8080
-telegramserver.clientID = 41
+telegramserver.hostname = 10.2.0.101
+telegramserver.port = 9910
+telegramserver.clientID = 42
 telegramserver.timeout = 1000
 telegramserver.timeTillReconnect = 5000
