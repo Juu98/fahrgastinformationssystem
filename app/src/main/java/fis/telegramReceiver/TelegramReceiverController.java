@@ -1,12 +1,11 @@
 package fis.telegramReceiver;
 
-import fis.ConfigurationException;
+import fis.common.ConfigurationException;
 import fis.telegrams.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
-import org.springframework.context.Lifecycle;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;

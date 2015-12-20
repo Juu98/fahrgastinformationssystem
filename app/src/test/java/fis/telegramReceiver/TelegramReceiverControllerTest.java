@@ -1,6 +1,6 @@
 package fis.telegramReceiver;
 
-import fis.ConfigurationException;
+import fis.common.ConfigurationException;
 import fis.telegrams.*;
 import org.junit.After;
 import org.junit.Before;
