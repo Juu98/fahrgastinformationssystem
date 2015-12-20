@@ -2,6 +2,10 @@
 
 server.port = 8080
 
+
+# wie lange soll auf den Telegrammserver gewartet werden, bevor XML geparst wird?
+fis.telegramserverTimeout = 10000
+
 # Logging
 # Loggingeinstellungen für das Gesamtsystem (inklusive Spring Framework)
 logging.level.root = INFO

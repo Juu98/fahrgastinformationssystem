@@ -208,7 +208,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 	}
 
 	/**
-	 * sets the connectionStatus of the parser.
+	 * sets the connectionStatus of the parser. Also publishes a ConnectionStatusEvent.
 	 * thread-safety: yes, writes are synchronized
 	 * @param connectionStatus
 	 */
@@ -216,6 +216,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 		if (connectionStatus == null)
 			throw(new IllegalArgumentException("connectionStatus mustn't be null"));
 		this.connectionStatus = connectionStatus;
+		publisher.publishEvent(new ConnectionStatusEvent(connectionStatus));
 	}
 
 	@Override
