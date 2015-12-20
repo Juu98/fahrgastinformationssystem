@@ -232,10 +232,19 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 	@Override
 	public void stop(Runnable callback) {
 		this.interrupt();
+		while (this.isRunning()) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				this.interrupt();
+			}
+		}
+		callback.run();
 	}
 
 	@Override
 	public int getPhase() {
-		return Integer.MAX_VALUE;
+		return 5;
 	}
+
 }
