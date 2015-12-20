@@ -5,6 +5,7 @@ import fis.telegrams.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.AsyncResult;
 
@@ -48,12 +49,13 @@ public class TelegramReceiverControllerTest {
 		doReturn(in).when(mockedSocket).getInputStream();
 
 		doNothing().when(mockedSocket).connect(any(),anyInt());
-		doNothing().when(mockedPublisher).publishEvent(any(TelegramParsedEvent.class));
+		doNothing().when(mockedPublisher).publishEvent(any(ApplicationEvent.class));
 
 	}
 
 	@Test
 	public void testConfigNotNull() {
+		realReceiverController.setApplicationEventPublisher(mockedPublisher);
 		try {
 			realReceiverController.connectToHost();
 			fail("telegramserver Konfiguration muss gültige Werte haben");
