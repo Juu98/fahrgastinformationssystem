@@ -6,7 +6,7 @@ import java.util.*;
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 import au.com.bytecode.opencsv.bean.CsvToBean;
-import fis.ConfigurationException;
+import fis.common.ConfigurationException;
 
 /**
  * Eine Ladeklasse für Meldungstexte. 

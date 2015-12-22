@@ -201,12 +201,12 @@ public class FisController {
 
 		// alle Zugläufe mit diesem Bahnhof zum Model hinzufügen
 		// sofern sie im Zeitrahmen liegen
-		model.addAttribute("trains", this.timetable.filter(
-				this.timetable.getTrainRoutesByStation(currentStation,FilterType.DEPARTURE),
-				currentStation,
-				start, end,
-				FilterType.DEPARTURE, FilterTime.SCHEDULED
-		));
+		model.addAttribute("trains", this.filter(currentStation, FilterType.DEPARTURE, start, end, FilterTime.SCHEDULED));
+//				this.timetable.getTrainRoutesByStation(currentStation,FilterType.DEPARTURE),
+//				currentStation,
+//				start, end,
+//				FilterType.DEPARTURE, FilterTime.SCHEDULED
+//		));
 		model.addAttribute("form", form);
 		
 		// alle Bahnhöfe für die Liste zum Model hinzufügen
@@ -329,12 +329,12 @@ public class FisController {
 
 		// Alle Zugläufe mit diesem Bahnhof zum Model hinzufügen
 		// sofern sie im Zeitrahmen liegen
-		model.addAttribute("trains", this.timetable.filter(
-				this.timetable.getTrainRoutesByStation(currentStation,FilterType.ARRIVAL),
-				currentStation,
-				start, end,
-				FilterType.ARRIVAL, FilterTime.SCHEDULED
-		));
+		model.addAttribute("trains", this.filter(currentStation, FilterType.ARRIVAL, start, end, FilterTime.SCHEDULED));
+//				this.timetable.getTrainRoutesByStation(currentStation,FilterType.ARRIVAL),
+//				currentStation,
+//				start, end,
+//				FilterType.ARRIVAL, FilterTime.SCHEDULED
+//		));
 		model.addAttribute("form", form);
 		
 		// alle Bahnhöfe für die Liste zum Model hinzufügen
@@ -461,5 +461,47 @@ public class FisController {
 	@RequestMapping("trainCategories.json")
 	public @ResponseBody List<TrainCategory> getTrainCategories(){
 		return this.timetable.getTrainCategories();
+	}
+	
+	public List<TrainRoute> filter(Station station, FilterType type, LocalTime from, LocalTime to, FilterTime filterTime) throws IllegalArgumentException{
+		if(type == null || from == null || to == null || filterTime == null)
+			throw new IllegalArgumentException();
+		
+		if(station==null){
+			return new ArrayList<TrainRoute>();
+		}
+		
+		Iterable<TrainRoute> routes = this.timetable.getTrainRoutesByStation(station, type);
+		List<TrainRoute> filtered = new ArrayList<TrainRoute>();
+		for(TrainRoute route : routes){
+			if(type.equals(FilterType.ARRIVAL)){
+				if(filterTime == FilterTime.ACTUAL){
+					if(route.getStopAtStation(station).getActualArrival().isAfter(from) && route.getStopAtStation(station).getActualArrival().isBefore(to)){
+						filtered.add(route);
+					}
+				}
+				else {
+					if(route.getStopAtStation(station).getScheduledArrival().isAfter(from) && route.getStopAtStation(station).getScheduledArrival().isBefore(to)){
+						filtered.add(route);
+					}
+				}
+			}
+			else if(type.equals(FilterType.DEPARTURE)){
+				if(filterTime == FilterTime.ACTUAL){
+					if(route.getStopAtStation(station).getActualDeparture().isAfter(from) && route.getStopAtStation(station).getActualDeparture().isBefore(to)){
+						filtered.add(route);
+					}
+				}
+				else {
+					if(route.getStopAtStation(station).getScheduledDeparture().isAfter(from) && route.getStopAtStation(station).getScheduledDeparture().isBefore(to)){
+						filtered.add(route);
+					}
+				}
+			}
+			else{
+				throw new UnsupportedOperationException("FilterType.ANY is not allowed!");
+			}
+		}
+		return filtered;
 	}
 }
