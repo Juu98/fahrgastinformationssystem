@@ -317,7 +317,7 @@ public class TimetableController{
 			try {
 				//Laden des Offline-Fahrplans
 				LOGGER.info("Offline. Laden des RailML-Fahrplans.");
-				data=RailML2Data.loadML("EBL-Regelfahrplan.xml");
+				data=RailML2Data.loadML("EBL-Regefahrplan.xml");
 			} catch (IOException e) {
 				LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
 				e.printStackTrace();
