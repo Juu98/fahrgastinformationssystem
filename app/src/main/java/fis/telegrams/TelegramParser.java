@@ -320,6 +320,11 @@ public class TelegramParser {
 			
 			// Zeiten
 			LocalTime sArrival, sDeparture;
+			
+			//TODO temporärer Fix für die Fehlermeldung, die das Bauen verhindert. Bitte überprüfen!
+			sArrival=LocalTime.of(0, 0);
+			sDeparture=LocalTime.of(0, 0);
+			
 			int arrTenth = toUInt(stopData[STPDAT_ARR_POS], stopData[STPDAT_ARR_POS+1], LITTLE_ENDIAN);
 			if (arrTenth != STPDAT_NUL_VAL && arrTenth != STPDAT_PAS_VAL){
 				sArrival = fromTenthOfMinute(arrTenth);
