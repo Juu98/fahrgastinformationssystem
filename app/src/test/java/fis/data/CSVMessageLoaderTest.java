@@ -9,7 +9,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import fis.ConfigurationException;
+import fis.common.ConfigurationException;
 
 public class CSVMessageLoaderTest {
 	private Map<Integer, Message> messages;

@@ -8,11 +8,13 @@ import fis.telegrams.*;
 import fis.telegrams.TrainRouteTelegram.StopData;
 import fis.telegrams.TrainRouteTelegram.TrainRouteData;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
+
+import javax.xml.bind.JAXBException;
 
 /**
  * Controller für {@link TimetableData}. Beinhaltet Weiterreichen von
@@ -29,7 +33,9 @@ import java.util.function.Predicate;
  * @author Luux
  */
 @Component
-public class TimetableController implements ApplicationListener<TelegramParsedEvent> {
+public class TimetableController{
+	private static final Logger LOGGER = Logger.getLogger(RailML2Data.class);
+	
 	/**
 	 * Predicate zum Filtern der {@link TrainRoute}s nach ihrer
 	 * {@link TrainCategory}.
@@ -97,6 +103,8 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 		}
 	}
 
+	
+	
 	/**
 	 * @return Aktuelle Laborzeit (falls verfügbar)
 	 */
@@ -291,10 +299,46 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 		}
 
 	}
+	
+	/**
+	 * Ist beim Wechsel Offline-Fahrplan <--> Telegramme dafür zuständig,
+	 * dass sich die Daten nicht vermischen, sondern vorher bereinigt
+	 * werden
+	 * @param event Das geworfene TimetableEvent
+	 */
+	@EventListener
+	public void receiveEvent(TimetableEvent event){
+		switch(event.getType()){
+		case cleanup:
+			//Löschen der bisherigen Datenstruktur
+			data=new TimetableData();
+		case parseRailML:
+			//TODO: Config beachten -> entsprechenden Pfad laden!
+			try {
+				//Laden des Offline-Fahrplans
+				LOGGER.info("Offline. Laden des RailML-Fahrplans.");
+				data=RailML2Data.loadML("EBL-Regelfahrplan.xml");
+			} catch (IOException e) {
+				LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
+				e.printStackTrace();
+			} catch (JAXBException e) {
+				LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
+				e.printStackTrace();
+			}
+		default:
+			break;
+		}
+	}
 
-	public TrainRoute createTrainRouteFromTelegram(TrainRouteTelegram tel) {
-		// TODO: TESTEN!
-		if (tel == null) {
+	
+	/**
+	 * Erzeugt ein "richtiges" {@link TrainRoute}-Objekt aus dem rohen
+	 * TrainRouteData-Objekt des empfangenen {@link TrainRouteTelegram}s
+	 * @param tel
+	 * @return
+	 */
+	public TrainRoute createTrainRouteFromTelegram(TrainRouteTelegram tel){
+		if(tel==null){
 			throw new IllegalArgumentException("Das Telegram darf nicht null sein!");
 		}
 		TrainRouteData routeData = tel.getData();
@@ -330,12 +374,6 @@ public class TimetableController implements ApplicationListener<TelegramParsedEv
 		TrainRoute route = new TrainRoute("" + trainNr, Integer.parseInt(trainNr), cat, routeStops);
 
 		return route;
-	}
-
-	@Override
-	public void onApplicationEvent(TelegramParsedEvent arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
