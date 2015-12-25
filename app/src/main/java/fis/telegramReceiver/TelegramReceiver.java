@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,19 +16,30 @@ import java.io.OutputStream;
 import java.util.concurrent.Future;
 
 /**
- * Created by spiollinux on 07.11.15.
+ * Verantwortlich für Verarbeitung der Input- und Outputstreams zum/vom Telegrammserver
+ * Senden und Empfangen der Telegrmmrohdaten
  */
-@Service
+@Component
 public class TelegramReceiver {
 	private final static Logger LOGGER = Logger.getLogger(TelegramReceiver.class);
 	private final TelegramReceiverConfig receiverConfig;
-	//needed for events
 
+	/**
+	 * Konstruktor, benötigt eine receiverConfig
+	 * @param config
+	 */
 	@Autowired
     public TelegramReceiver(TelegramReceiverConfig config) {
 		this.receiverConfig = config;
     }
 
+	/**
+	 * Asnchroner Empfang von Telegrammrohdaten aus dem InputStream in
+	 * @param in (Inputstream)
+	 * @return response
+	 *         in ein AsyncResult<byte[]> verpackte Telegrammrohdaten
+	 * @throws IOException
+	 */
     @Async
     Future<byte[]> parseConnection(InputStream in) throws IOException {
         byte[] response = new byte[Telegram.getRawTelegramMaxLength()];
@@ -53,6 +65,13 @@ public class TelegramReceiver {
 	    return new AsyncResult<>(response);
     }
 
+	/**
+	 * verschickt ein SendableTelegram in Rohdatenform an den Telegrammserver
+	 * @param out
+	 * @param telegram
+	 *        ein SendableTelegramm
+	 * @throws IOException
+	 */
     public void sendTelegram(OutputStream out, SendableTelegram telegram) throws IOException {
 	    out.write(telegram.getRawTelegram());
     }

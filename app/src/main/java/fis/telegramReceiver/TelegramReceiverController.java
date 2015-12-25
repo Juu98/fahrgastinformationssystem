@@ -37,7 +37,6 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 	private final TelegramParser parser;
 	private List<byte[]> telegramRawQueue;
 	private ConnectionStatus connectionStatus;
-	private boolean running;
 	//needed for events
 	private ApplicationEventPublisher publisher;
 
@@ -64,6 +63,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 
 	/**
 	 * entspricht Thread.start, setzt zusätzlich den Thread als daemon (kann also jederzeit abgeschossen werden)
+	 * wird wegen {@link SmartLifecycle automatisch beim Start der SpringApplication aufgerufen}
 	 */
 	@Override
 	public void start() {
@@ -72,19 +72,24 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 	}
 
 	/**
+	 * Teil von {@link SmartLifecycle}
+	 * Gibt zurück, ob der Thread noch läuft
+	 * @return
+	 */
+	@Override
+	public boolean isRunning() {
+		return this.isAlive();
+	}
+
+
+	/**
 	 * Eventloop des TelegramReceiverControllers. Schleife, solange der Thread nicht interrupted ist.
 	 * Versucht bei nicht bestehender Verbindung immer, Verbindung herzustellen und sich zu registrieren.
 	 * Bei ConnectionStatus.ONLINE: Steuerung des Datenflusses der Telegramm-byte[] vom Socket zum Parser,
 	 * Senden der Telegrammevents
 	 */
 	@Override
-	public boolean isRunning() {
-		return this.running;
-	}
-
-	@Override
 	public void run() {
-		this.running = true;
 		LOGGER.info("TelegramReceiver started");
 		while(!currentThread().isInterrupted()) {
 			//try to connect until there is a connection
@@ -189,7 +194,6 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 			}
 			setConnectionStatus(ConnectionStatus.OFFLINE);
 		}
-		this.running = false;
 	}
 
 	/**
@@ -257,11 +261,20 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 		this.publisher = applicationEventPublisher;
 	}
 
+	/**
+	 * sorgt für automatischen Start des TelegramReceivers
+	 * Teil von {@link SmartLifecycle}
+	 * @return automatisch gestartet?
+	 */
 	@Override
 	public boolean isAutoStartup() {
 		return true;
 	}
 
+	/**
+	 * Methode, mit der ein {@link SmartLifecycle} von Spring gestoppt wird
+	 * @param callback
+	 */
 	@Override
 	public void stop(Runnable callback) {
 		this.interrupt();
@@ -275,6 +288,10 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 		callback.run();
 	}
 
+	/**
+	 * bestimmt, wann die Komponente gestartet wird: Je höher die Zahl, desto später. Stoppen in umgekehrter Reihenfolge
+	 * @return Nummer der Startphase
+	 */
 	@Override
 	public int getPhase() {
 		return 5;
