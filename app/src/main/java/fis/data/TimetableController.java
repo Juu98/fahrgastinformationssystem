@@ -90,9 +90,9 @@ public class TimetableController{
 
 	public TimetableController() {
 		try {
-			//TODO: um untere Zeile kümmern
-			data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");
-//			data = new TimetableData();
+			//TODO: Laden in receiveEvent() lauffähig bekommen
+			data=RailML2Data.loadML("EBL Regelfahrplan.xml");
+			//data = new TimetableData();
 		} catch (Exception ex) {
 			System.out.println(ex.toString());
 		}
@@ -312,12 +312,13 @@ public class TimetableController{
 		case cleanup:
 			//Löschen der bisherigen Datenstruktur
 			data=new TimetableData();
+			break;
 		case parseRailML:
 			//TODO: Config beachten -> entsprechenden Pfad laden!
 			try {
 				//Laden des Offline-Fahrplans
 				LOGGER.info("Offline. Laden des RailML-Fahrplans.");
-				data=RailML2Data.loadML("EBL-Regelfahrplan.xml");
+				data=RailML2Data.loadML("EBL Regelfahrplan.xml");
 			} catch (IOException e) {
 				LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
 				e.printStackTrace();
@@ -325,6 +326,7 @@ public class TimetableController{
 				LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
 				e.printStackTrace();
 			}
+			break;
 		default:
 			break;
 		}
