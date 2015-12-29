@@ -32,7 +32,12 @@
 					</li>
 					<li th:class="${active == 'trn'}? 'active'">
 						<a href="/trn"
-						   th:text="#{fis.nav.trn}">Zugnummer</a></li>
+						   th:text="#{fis.nav.trn}">Zugnummer</a>
+					</li>
+					<li th:class="${active == 'graph'}? 'active'">
+						<a href="/graph"
+						   th:text="#{fis.nav.graph}">Liniennetz</a>
+					</li>
 				</ul>
 			</div>
 		</th:block>
