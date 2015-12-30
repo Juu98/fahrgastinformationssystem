@@ -378,6 +378,20 @@ public class FisController {
 		return "redirect:/trn/";
 	}
 	
+	
+	@RequestMapping("/graph")
+	public String graphRedir(){
+		return "redirect:/graph/";
+	}
+	
+	@RequestMapping("/graph/")
+		public String graph(Model model){
+			model.addAttribute("stations",timetable.getStations());
+			//model.addAttribute("currentStation",currentStation);
+			model.addAttribute("trainRoutes", timetable.getTrainRoutes());
+			return "graph";
+		}
+	
 	/**
 	 * Verarbeitungsmethode der Zuglaufanzeige.
 	 * 
@@ -450,6 +464,11 @@ public class FisController {
 		return new JSONProvider().getTrainRoutes(this.timetable.getData().getTrainRoutes());
 	}
 	
+	@RequestMapping("fullTrainRoutes.json")
+	public @ResponseBody List<JSONProvider.FullTrainRouteView> getFullTrainRoutes(){
+		return new JSONProvider().getFullTrainRoutes(this.timetable.getData().getTrainRoutes());
+	}
+	
 	/**
 	 * Liefert eine JSON-Liste mit allen {@link TrainCategory} Einträgen 
 	 * des aktuellen Fahrplans.
@@ -504,4 +523,8 @@ public class FisController {
 		}
 		return filtered;
 	}
+	
+	
+	
+
 }

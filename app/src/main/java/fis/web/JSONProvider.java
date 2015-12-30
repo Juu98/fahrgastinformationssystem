@@ -6,6 +6,7 @@
 package fis.web;
 
 import fis.data.Station;
+import  fis.data.Stop;
 import fis.data.TrainRoute;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +19,20 @@ public class JSONProvider {
 	public class StationView {
 		private String id;
 		private String name;
-		public StationView(String id, String name){
+		private int x;
+		private int y;
+		
+		public StationView(String id, String name, int x, int y){
 			this.id = id;
 			this.name = name;
+			this.x = x;
+			this.y = y;
 		}
 		public StationView(Station s){
 			this.id = s.getId();
 			this.name = s.getLongName();
+			this.x = s.getPosX();
+			this.y = s.getPosY();
 		}
 
 		public String getId() {
@@ -33,6 +41,14 @@ public class JSONProvider {
 
 		public String getName() {
 			return name;
+		}
+		
+		public int getX(){
+			return x;
+		}
+		
+		public int getY(){
+			return y;
 		}
 		
 	}
@@ -92,4 +108,50 @@ public class JSONProvider {
 		
 		return ret;
 	}
+	
+	
+	
+	//
+	
+	public class FullTrainRouteView {
+		private String id;
+		private String name;
+		private List<StationView> stops=new ArrayList<StationView>();
+		public FullTrainRouteView(String id, List<StationView> stops, String name){
+			this.id = id;
+			this.name = name;
+			this.stops=stops;
+		}
+		public FullTrainRouteView(TrainRoute tr){
+			this.id = tr.getId();
+			this.name = tr.toString();
+			for(Stop stop:tr.getStops()){
+				stops.add(new StationView(stop.getStation()));
+			}
+		}
+
+		public String getId() {
+			return id;
+		}
+		
+		public String getName() {
+			return name;
+		}
+
+		public List<StationView> getStops() {
+			return stops;
+		}
+		
+	}
+	
+	public List<FullTrainRouteView> getFullTrainRoutes(List<TrainRoute> input){
+		List<FullTrainRouteView> ret = new ArrayList<>();
+		for (TrainRoute tr : input){
+			FullTrainRouteView trv = new FullTrainRouteView(tr);
+			ret.add(trv);
+		}
+		
+		return ret;
+	}
+	
 }

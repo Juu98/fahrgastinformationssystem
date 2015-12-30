@@ -36,6 +36,7 @@ import javax.xml.bind.JAXBException;
 public class TimetableController{
 	private static final Logger LOGGER = Logger.getLogger(RailML2Data.class);
 	
+	
 	/**
 	 * Predicate zum Filtern der {@link TrainRoute}s nach ihrer
 	 * {@link TrainCategory}.
@@ -82,17 +83,94 @@ public class TimetableController{
 		}
 	}
 
+	
+	
 	private TimetableData data;
 	private LocalTime time = LocalTime.MIDNIGHT;
 	private Map<Integer, Message> messages;
 	@Autowired
 	private TelegramReceiverController receiver;
+	
+	
+	
+	//TODO: REMOVE (just4Testing)
+		Station s1,s2,s3,s4;
+		Stop stop1,stop2,stop3,stop4,stop5, stop1_new, stop2_new, stop3_new;
+		TrainRoute route1,route2, route1_new;
+		TrainCategory cat1;
+	
+	/**
+	 * Nur zum Testen des Graphen
+	 */
+	public void setUpGraphTest(){
+		data=new TimetableData();
+		cat1=new TrainCategory("1","cat1","cat1_desc","cat1_usage");
+		
+		s1=new Station("1","s1");
+		s1.setPosX(20);
+		s1.setPosY(30);
+		s2=new Station("2","s2");
+		s2.setPosX(100);
+		s2.setPosY(100);
+		s3=new Station("3","s3");
+		s3.setPosX(100);
+		s3.setPosY(200);
+		s4=new Station("4","s4");
+		s4.setPosX(400);
+		s4.setPosY(400);
+		
+		stop1=new Stop(s1,StopType.BEGIN,null,LocalTime.of(0, 1),"1",0);
+		stop2=new Stop(s2,StopType.STOP,LocalTime.of(0, 2),LocalTime.of(0, 3),"2",0);
+		stop3=new Stop(s3,StopType.END,LocalTime.of(0, 4),null,"3",0);
+		
+		List<Stop> stops1=new ArrayList<Stop>();
+		stops1.add(stop1);
+		stops1.add(stop2);
+		stops1.add(stop3);
+		
+		route1=new TrainRoute("1",1,cat1,stops1);
+		
+		List<Stop> stops2=new ArrayList<Stop>();
+		stop4=new Stop(s2,StopType.BEGIN,null,LocalTime.of(3,1),"4",0);
+		stop5=new Stop(s4,StopType.END,LocalTime.of(3, 1),null,"5",0);
+		stops2.add(stop4);
+		stops2.add(stop5);
+		
+		route2=new TrainRoute("2",2,cat1,stops2);
+		
+		data.addTrainCategory(cat1);
+		data.addStation(s1);
+		data.addStation(s2);
+		data.addStation(s3);
+		data.addStation(s4);
+		
+		data.addTrainRoute(route1);
+		data.addTrainRoute(route2);
+		
+		
+		
+		List<Stop> newStops=new ArrayList<Stop>();
+		
+		stop1_new=new Stop(stop1.getStation(),stop1.getStopType(),stop1.getScheduledArrival(),stop1.getScheduledDeparture(),stop1.getScheduledTrack(),1);
+		stop2_new=new Stop(s4,StopType.STOP,LocalTime.of(0,2,30),LocalTime.of(0,2,45),"4",5);
+		stop3_new=new Stop(stop3.getStation(),stop3.getStopType(),stop3.getScheduledArrival(),stop3.getScheduledDeparture(),stop3.getScheduledTrack(),10);
+		
+		newStops.add(stop1_new);
+		newStops.add(stop2_new);
+		newStops.add(stop3_new);
+		
+		
+		route1_new=new TrainRoute(route1.getId(),999,cat1,newStops);
+	}	
+	
+		
 
 	public TimetableController() {
 		try {
 			//TODO: Laden in receiveEvent() lauffähig bekommen
-			data=RailML2Data.loadML("EBL Regelfahrplan.xml");
+			//data=RailML2Data.loadML("EBL Regelfahrplan.xml");
 			//data = new TimetableData();
+			setUpGraphTest();
 		} catch (Exception ex) {
 			System.out.println(ex.toString());
 		}

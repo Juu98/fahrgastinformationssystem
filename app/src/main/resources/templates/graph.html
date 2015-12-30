@@ -1,29 +1,62 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-	<head th:include="header :: meta"></head>
-	
+	<script th:src="@{/webjars/jquery/2.1.3/jquery.min.js}"></script>	
+	<script th:src="@{/webjars/springy/2.7.1/springy.js}">"></script>
+	<script th:src="@{/webjars/springy/2.7.1/springyui.js}">"></script>
 	<body class="container">
-		<th:block th:include="header :: header(dep)"></th:block>
-		
-		<div class="row">
-			<div class="tab-content col-md-8 col-md-offset-2">
-				<div class="tab-pane active" id="dep">
-					<div th:include="filter :: filter-form"></div>
-
-					<table th:include="traintable :: traintable(dep)" class="table table-hover table-striped"
-						th:if="${currentStation != null and not #lists.isEmpty(trains)}" id="traintable">						   
-					</table>
-
-					<p th:if="${currentStation != null and #lists.isEmpty(trains)}" class="alert alert-warning"
-						th:text="#{fis.alerts.notrains.dep}">Keine Züge.</p>
-					<p th:unless="${currentStation}" class="alert alert-info"
-						th:text="#{fis.alerts.nostation.dep}">Kein Bahnhof ausgewählt.</p>
-				</div>
-			</div>
-		</div>
-		
-		<th:block th:include="header :: footer"></th:block>
+	test
+	
+	<canvas id="graphcanvas" width="800" height="600" style="border:1px solid #000000;"></canvas>
+		<script type="text/javascript">
 			
+			var count=0;
+			var c=document.getElementById("graphcanvas");
+			var ctx=c.getContext("2d");
+			ctx.font = "15px Arial";		
+			
+			var st_height=10;
+			var st_width=10;
+			var nameOffset_X = 6;
+			var nameOffset_Y = -8;
+		</script>			
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		alert("start");
+		
+		
+		var routes = $.get('../fullTrainRoutes.json',function(data){
+			for(i=0; i<data.length;i++){
+				var route=data[i];
+				
+				ctx.beginPath();
+				ctx.moveTo(route.stops[0].x+st_width/2,route.stops[0].y+st_height/2);
+			
+				
+				for(j=1; j<route.stops.length;j++){
+					var station=route.stops[j];
+					ctx.lineTo(station.x+st_width/2,station.y+st_height/2);
+				}
+				ctx.lineWidth=st_width/2;
+				ctx.strokeStyle = 'grey';
+				ctx.stroke();
+			}
+		},'json');
+		
+		
+		var stations = $.get('../stations.json',function(data){
+			for(i=0; i<data.length; i++){
+				var station=data[i];
+				ctx.fillRect(station.x,station.y,st_width,st_height);
+				ctx.fillText(station.name,station.x+nameOffset_X,station.y+nameOffset_Y);
+			}	
+		},'json');
+		/*]]>*/	
+	</script>	
+	
+		<script type="text/javascript">
+		</script>
+				
 		<script th:src="@{/resources/js/fis.js}"></script>
 	</body>
 </html>
