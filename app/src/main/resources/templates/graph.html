@@ -20,7 +20,19 @@
 	
 	<script th:inline="javascript">
 	/*<![CDATA[*/	
+	           
+	    function StationObject(id,name,x,y,width,height){
+			this.id=id;
+			this.name=name;
+			this.x=x;
+			this.y=y;
+			this.width=width;
+			this.height=height;
+		} 
+		var stationObjects = [];
+	    
 		var routes = $.get('../fullTrainRoutes.json',function(data){
+			//zur Anzeige der Zugläufe
 			for(i=0; i<data.length;i++){
 				var route=data[i];
 				
@@ -42,10 +54,45 @@
 		var stations = $.get('../stations.json',function(data){
 			for(i=0; i<data.length; i++){
 				var station=data[i];
+				
 				ctx.fillRect(station.x,station.y,st_width,st_height);
 				ctx.fillText(station.name,station.x+nameOffset_X,station.y+nameOffset_Y);
+				
+				var stationObj = new StationObject(station.id,station.name,station.x,station.y,st_width,st_height);
+				
+				stationObjects.push(stationObj); 
 			}	
 		},'json');
+		
+		
+		$('#graphcanvas').click(function(e){
+			var x = e.pageX - this.offsetLeft;
+		    var y = e.pageY - this.offsetTop;
+		    var clicked = new StationObject('','',x, y, 1, 1);
+		    var pos = getPositions(clicked);
+		    
+		
+		    for (var i = 0; i < stationObjects.length; i++) {
+		        var pos2 = getPositions(stationObjects[i]);
+		        var horizontalMatch = comparePositions(pos[0], pos2[0]);
+		        var verticalMatch = comparePositions(pos[1], pos2[1]);
+		        if (horizontalMatch && verticalMatch) {
+		        	// Aufrufen der Abfahrtsanzeige für den angeklickten Bahnhof
+		            window.location = "../dep/"+stationObjects[i].id;
+		        }
+		    }
+		});
+		
+		
+		function getPositions(item) {
+		    return [[item.x, item.x + item.width], [item.y, item.y + item.height]];
+		}
+
+		function comparePositions(p1, p2) {
+		    var x1 = p1[0] < p2[0] ? p1 : p2;
+		    var x2 = p1[0] < p2[0] ? p2 : p1;
+		    return x1[1] > x2[0] || x1[0] === x2[0] ? true : false;
+		}
 		/*]]>*/	
 	</script>	
 	
