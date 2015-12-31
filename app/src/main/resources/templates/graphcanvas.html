@@ -1,26 +1,34 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 		<script th:src="@{/webjars/jquery/2.1.3/jquery.min.js}"></script>
+		
 		<link rel="stylesheet" type="text/css" th:href="@{/resources/css/graph.css}" />	
-	<body class="container">
-	<canvas id="graphcanvas"></canvas>
-		<script type="text/javascript">		
+		<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}" type="text/css" />
+		<link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+		
+	<body class="container" th:fragment="graph_body">
+	<div id="divcanvas">
+		<canvas id="graphcanvas"></canvas>
+	</div>
+		<script type="text/javascript" th:inline="javascript">		
 			//<canvas id="graphcanvas" style="border:1px solid #000000;"></canvas>
+		
+			/*<![CDATA[*/	
 			var count=0;
 			var c=document.getElementById("graphcanvas");
-			c.width=document.body.clientWidth;
-			c.height=document.body.clientHeight;
+			var d=document.getElementById("divcanvas");
+			c.width=d.offsetWidth;
+			c.height=d.offsetHeight;
+			
 			var ctx=c.getContext("2d");
 			ctx.font = "15px Arial";		
-			
-			var st_height=15;
-			var st_width=15;
-			var nameOffset_X = 10;
-			var nameOffset_Y = -10;
-		</script>			
-	
-	<script th:inline="javascript">
-	/*<![CDATA[*/	
+			ctx.globalCompositeOperation = 'destination-over';
+			var st_height=12;
+			var st_width=12;
+			var nameOffset_X = 5;
+			var nameOffset_Y = -5;
+			var line_width = st_width/2;
+			var line_strokeStyle = 'grey';
 	           
 	    function StationObject(id,name,x,y,width,height){
 			this.id=id;
@@ -32,11 +40,57 @@
 		} 
 		var stationObjects = [];
 	    
+		
+		//Bahnhöfe
+		var stations = $.get('../stations.json',function(data){
+			//Skalierung berechnen
+			var maxX = 0;
+			var maxY = 0;
+			var max = 0;
+			var min = nameOffset_X;
+			
+			for(i=0; i<data.length;i++){
+				if(maxX<data[i].x){
+					maxX=data[i].x;
+				}
+				if(maxY<data[i].y){
+					maxY=data[i].y;
+				}
+			}
+			max = maxX;
+			if(max < maxY){
+				max = maxY;
+			}
+			//stellt sicher, dass auch der äußerste Punkt noch zu sehen ist
+			max = max + st_height*4 + min;
+			
+			for(i=0; i<data.length; i++){
+				var station=data[i];
+				//Position entsprechend des Maximums skalieren
+				station.x=(station.x/max)*(c.width)+min;
+				station.y=(station.y/max)*(c.height) + min;			
+				ctx.fillRect(station.x,station.y,st_width,st_height);
+				ctx.fillText(station.name,station.x+nameOffset_X,station.y+nameOffset_Y);
+				
+				var stationObj = new StationObject(station.id,station.name,station.x,station.y,st_width,st_height);
+				
+				stationObjects.push(stationObj); 
+			}	
+		
+		
 		var routes = $.get('../fullTrainRoutes.json',function(data){
+			
 			//zur Anzeige der Zugläufe
 			for(i=0; i<data.length;i++){
+				
 				var route=data[i];
 				
+				for(j=0; j<route.stops.length;j++){
+					//Position entsprechend des Maximums skalieren
+					var station=route.stops[j];
+					station.x=(station.x/max)*(c.width) + min;
+					station.y=(station.y/max)*(c.height) + min;
+				}
 				ctx.beginPath();
 				ctx.moveTo(route.stops[0].x+st_width/2,route.stops[0].y+st_height/2);
 			
@@ -45,31 +99,18 @@
 					var station=route.stops[j];
 					ctx.lineTo(station.x+st_width/2,station.y+st_height/2);
 				}
-				ctx.lineWidth=st_width/2;
-				ctx.strokeStyle = 'grey';
+				ctx.lineWidth = line_width;
+				ctx.strokeStyle = line_strokeStyle;
 				ctx.stroke();
-				
-				
-				var stations = $.get('../stations.json',function(data){
-					for(i=0; i<data.length; i++){
-						var station=data[i];
-						
-						ctx.fillRect(station.x,station.y,st_width,st_height);
-						ctx.fillText(station.name,station.x+nameOffset_X,station.y+nameOffset_Y);
-						
-						var stationObj = new StationObject(station.id,station.name,station.x,station.y,st_width,st_height);
-						
-						stationObjects.push(stationObj); 
-					}	
-				},'json');
 			}
+			},'json');
 		},'json');
 		
 		
 		
 		$('#graphcanvas').click(function(e){
-			var x = e.pageX - this.offsetLeft;
-		    var y = e.pageY - this.offsetTop;
+			var x = e.pageX - $('#graphcanvas').offset().left;
+		    var y = e.pageY -  $('#graphcanvas').offset().top;
 		    var clicked = new StationObject('','',x, y, 1, 1);
 		    var pos = getPositions(clicked);
 		    
