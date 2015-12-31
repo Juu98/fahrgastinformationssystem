@@ -397,24 +397,14 @@ public class FisController {
 		// Standardparameter zum Model hinzufügen
 		defaults(model);
 		
-		
-		
 		Station currentStation = null;
-		Set<TrainRoute> routes = new HashSet<>(timetable.getTrainRoutes());
-		Set<TrainRoute> currentRoutes = new HashSet<TrainRoute>();
 		
 		if(stn != null){
 			currentStation = timetable.getData().getStationById(stn);
-			
-			//damit TrainRoutes nicht doppelt sind
-			//currentRoutes zur Markierung der TrainRoutes der Station
-			currentRoutes = timetable.getTrainRoutesByStation(currentStation, FilterType.ANY);
-			routes.removeAll(currentRoutes);
 		}
 		model.addAttribute("stations",timetable.getStations());
 		model.addAttribute("trainRoutes", timetable.getTrainRoutes());
 		model.addAttribute("currentStation",currentStation);
-		model.addAttribute("currentTrainRoutes",currentRoutes);
 		return "graph";
 	}
 	
