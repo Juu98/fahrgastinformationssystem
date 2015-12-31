@@ -28,7 +28,11 @@
 			var nameOffset_X = 5;
 			var nameOffset_Y = -5;
 			var line_width = st_width/2;
-			var line_strokeStyle = 'grey';
+			var line_strokeStyle_normal = 'grey';
+			var line_strokeStyle_selected = 'orange';
+			var st_fillStyle_normal = 'black';
+			var st_fillStyle_selected = 'red';
+			
 	           
 	    function StationObject(id,name,x,y,width,height){
 			this.id=id;
@@ -68,7 +72,14 @@
 				var station=data[i];
 				//Position entsprechend des Maximums skalieren
 				station.x=(station.x/max)*(c.width)+min;
-				station.y=(station.y/max)*(c.height) + min;			
+				station.y=(station.y/max)*(c.height) + min;	
+				
+				if([[${stn}]] == (station.id)){
+					ctx.fillStyle = st_fillStyle_selected;
+				}
+				else{
+					ctx.fillStyle = st_fillStyle_normal;
+				}
 				ctx.fillRect(station.x,station.y,st_width,st_height);
 				ctx.fillText(station.name,station.x+nameOffset_X,station.y+nameOffset_Y);
 				
@@ -82,8 +93,16 @@
 			
 			//zur Anzeige der Zugläufe
 			for(i=0; i<data.length;i++){
-				
+				//feststellen, ob TrainRoute zur ausgewählten Station gehört
+				var selected = false;
 				var route=data[i];
+				
+				for(k = 0;k < route.stops.length; k++){
+					if([[${stn}]] == route.stops[k].id){
+						selected = true;
+					}	
+				}
+				
 				
 				for(j=0; j<route.stops.length;j++){
 					//Position entsprechend des Maximums skalieren
@@ -99,8 +118,15 @@
 					var station=route.stops[j];
 					ctx.lineTo(station.x+st_width/2,station.y+st_height/2);
 				}
+				
 				ctx.lineWidth = line_width;
-				ctx.strokeStyle = line_strokeStyle;
+				
+				if(selected == true){
+					ctx.strokeStyle = line_strokeStyle_selected;
+				}
+				else{
+					ctx.strokeStyle = line_strokeStyle_normal;
+				}
 				ctx.stroke();
 			}
 			},'json');

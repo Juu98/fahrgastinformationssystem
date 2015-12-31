@@ -36,7 +36,7 @@
 						   th:text="#{fis.nav.trn}">Zugnummer</a>
 					</li>
 					<li th:class="${active == 'graph'}? 'active'">
-						<a href="/graph"
+						<a th:href="${currentStation} ? |/graph/${currentStation.id}| : '/graph/'"	
 						   th:text="#{fis.nav.graph}">Liniennetz</a>
 					</li>
 				</ul>

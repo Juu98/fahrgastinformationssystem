@@ -11,7 +11,10 @@ import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -385,12 +388,36 @@ public class FisController {
 	}
 	
 	@RequestMapping("/graph/")
-		public String graph(Model model){
-			model.addAttribute("stations",timetable.getStations());
-			//model.addAttribute("currentStation",currentStation);
-			model.addAttribute("trainRoutes", timetable.getTrainRoutes());
-			return "graph";
+		public String defaultGraph(Model model){
+			return graph(model, null);
 		}
+	
+	@RequestMapping("/graph/{stn}")
+	public String graph(Model model, @PathVariable("stn") String stn){
+		// Standardparameter zum Model hinzufügen
+		defaults(model);
+		
+		
+		
+		Station currentStation = null;
+		Set<TrainRoute> routes = new HashSet<>(timetable.getTrainRoutes());
+		Set<TrainRoute> currentRoutes = new HashSet<TrainRoute>();
+		
+		if(stn != null){
+			currentStation = timetable.getData().getStationById(stn);
+			
+			//damit TrainRoutes nicht doppelt sind
+			//currentRoutes zur Markierung der TrainRoutes der Station
+			currentRoutes = timetable.getTrainRoutesByStation(currentStation, FilterType.ANY);
+			routes.removeAll(currentRoutes);
+		}
+		model.addAttribute("stations",timetable.getStations());
+		model.addAttribute("trainRoutes", timetable.getTrainRoutes());
+		model.addAttribute("currentStation",currentStation);
+		model.addAttribute("currentTrainRoutes",currentRoutes);
+		return "graph";
+	}
+	
 	
 	/**
 	 * Verarbeitungsmethode der Zuglaufanzeige.
