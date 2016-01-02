@@ -309,7 +309,7 @@ public class TimetableController{
 	@EventListener
 	public void receiveEvent(TimetableEvent event){
 		switch(event.getType()){
-		case cleanup:
+			case cleanup:
 			//Löschen der bisherigen Datenstruktur
 			data=new TimetableData();
 		case parseRailML:
@@ -317,7 +317,7 @@ public class TimetableController{
 			try {
 				//Laden des Offline-Fahrplans
 				LOGGER.info("Offline. Laden des RailML-Fahrplans.");
-				data=RailML2Data.loadML("EBL-Regelfahrplan.xml");
+				data=RailML2Data.loadML("EBL Regelfahrplan.xml");
 			} catch (IOException e) {
 				LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
 				e.printStackTrace();
