@@ -18,11 +18,15 @@ public class JSONProvider {
 	public class StationView {
 		private String id;
 		private String name;
-		public StationView(String id, String name){
+		public StationView(String id, String name) throws IllegalArgumentException{
+			if(id == null || name == null)
+				throw new IllegalArgumentException("One of the given parameters is null!"); // TODO: is this needed?
 			this.id = id;
 			this.name = name;
 		}
-		public StationView(Station s){
+		public StationView(Station s) throws IllegalArgumentException{
+			if(s == null)
+				throw new IllegalArgumentException("The given parameter is null!"); // TODO: is this needed?
 			this.id = s.getId();
 			this.name = s.getLongName();
 		}
@@ -42,13 +46,17 @@ public class JSONProvider {
 		private String name;
 		private StationView begin;
 		private StationView end;
-		public TrainRouteView(String id, StationView begin, String name, StationView end){
+		public TrainRouteView(String id, StationView begin, String name, StationView end) throws IllegalArgumentException{
+			if(id == null || begin == null || name == null || end == null)
+				throw new IllegalArgumentException("One of the given parameters is null!"); //TODO: is this needed
 			this.id = id;
 			this.name = name;
 			this.begin = begin;
 			this.end = end;
 		}
-		public TrainRouteView(TrainRoute tr){
+		public TrainRouteView(TrainRoute tr) throws IllegalArgumentException{
+			if(tr == null)
+				throw new IllegalArgumentException("The given parameter is null!"); //TODO: is this needed?
 			this.id = tr.getId();
 			this.name = tr.toString();
 			this.begin = new StationView(tr.getStops().get(0).getStation());
@@ -73,7 +81,9 @@ public class JSONProvider {
 		
 	}
 	
-	public List<StationView> getStations(List<Station> input){
+	public List<StationView> getStations(List<Station> input) throws IllegalArgumentException{
+		if(input == null)
+			throw new IllegalArgumentException("The given parameter is null!");	//TODO: is this needed?
 		List<StationView> ret = new ArrayList<>();
 		for (Station s : input){
 			StationView sv = new StationView(s);
@@ -83,7 +93,9 @@ public class JSONProvider {
 		return ret;
 	}
 	
-	public List<TrainRouteView> getTrainRoutes(List<TrainRoute> input){
+	public List<TrainRouteView> getTrainRoutes(List<TrainRoute> input) throws IllegalArgumentException{
+		if(input == null)
+			throw new IllegalArgumentException("The given parameter is null!");	//TODO: is this needed?
 		List<TrainRouteView> ret = new ArrayList<>();
 		for (TrainRoute tr : input){
 			TrainRouteView trv = new TrainRouteView(tr);
