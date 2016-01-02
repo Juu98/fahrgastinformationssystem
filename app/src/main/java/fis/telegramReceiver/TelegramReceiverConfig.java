@@ -5,7 +5,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by spiollinux on 08.11.15.
+ * Enthält Konfigurationsdaten für den TelegramReceiver
+ * Wird von Spring über {@link @ConfigurationProperties} automatisch mit Daten aus der Konfigurationsdatei befüllt
  */
 @Component
 @ConfigurationProperties(prefix = "telegramserver")
