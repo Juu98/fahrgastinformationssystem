@@ -1,11 +1,11 @@
 package fis.telegramReceiver;
 
-import fis.ConfigurationException;
-import fis.data.TrainRoute;
+import fis.common.ConfigurationException;
 import fis.telegrams.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.AsyncResult;
 
@@ -28,7 +28,7 @@ public class TelegramReceiverControllerTest {
 	TelegramSocket mockedSocket;
 	TelegramParser mockedParser;
 	ApplicationEventPublisher mockedPublisher;
-	byte[] buf = new byte[Telegram.getRawTelegramLength()];
+	byte[] buf = new byte[Telegram.getRawTelegramMaxLength()];
 
 	@Before
 	public void setUp() throws Exception {
@@ -49,12 +49,13 @@ public class TelegramReceiverControllerTest {
 		doReturn(in).when(mockedSocket).getInputStream();
 
 		doNothing().when(mockedSocket).connect(any(),anyInt());
-		doNothing().when(mockedPublisher).publishEvent(any(TelegramParsedEvent.class));
+		doNothing().when(mockedPublisher).publishEvent(any(ApplicationEvent.class));
 
 	}
 
 	@Test
 	public void testConfigNotNull() {
+		realReceiverController.setApplicationEventPublisher(mockedPublisher);
 		try {
 			realReceiverController.connectToHost();
 			fail("telegramserver Konfiguration muss gültige Werte haben");

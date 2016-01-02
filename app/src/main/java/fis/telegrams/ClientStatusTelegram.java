@@ -26,7 +26,7 @@ public class ClientStatusTelegram extends Telegram implements SendableTelegram{
 		this.id = ID;
 		this.status = status;
 		
-		this.rawTelegram = new byte[Telegram.rawTelegramLength];
+		this.rawTelegram = new byte[Telegram.rawTelegramMaxLength];
 		int i = 0;
 		//Laut Spezifikation müssen die ersten 3 Telegrammbytes auf 0xFF stehen
 		for(; i < 3; i++)

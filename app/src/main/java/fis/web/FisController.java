@@ -464,8 +464,13 @@ public class FisController {
 	}
 	
 	public List<TrainRoute> filter(Station station, FilterType type, LocalTime from, LocalTime to, FilterTime filterTime) throws IllegalArgumentException{
-		if(station == null || type == null || from == null || to == null || filterTime == null)
+		if(type == null || from == null || to == null || filterTime == null)
 			throw new IllegalArgumentException();
+		
+		if(station==null){
+			return new ArrayList<TrainRoute>();
+		}
+		
 		Iterable<TrainRoute> routes = this.timetable.getTrainRoutesByStation(station, type);
 		List<TrainRoute> filtered = new ArrayList<TrainRoute>();
 		for(TrainRoute route : routes){

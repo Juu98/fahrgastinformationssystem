@@ -32,7 +32,7 @@ public class TelegramParser {
 	 * TC ... Telegrammtyp
 	 */
 	// Telegrammspezifikation
-	private static final int T_MAXLENGTH   = Telegram.rawTelegramLength;
+	private static final int T_MAXLENGTH   = Telegram.rawTelegramMaxLength;
 	private static final int T_STARTBCOUNT = 3;
 	private static final int T_DATALENPOS  = T_STARTBCOUNT;
 	private static final int T_CATPOS	   = T_STARTBCOUNT+1;
@@ -51,8 +51,6 @@ public class TelegramParser {
 	public static final Charset CHARSET = Charset.forName("ISO-8859-1");
 	// TODO Endianness für die Wort-Konvertierung bei Zeiten
 	public static final boolean LITTLE_ENDIAN = false;
-	// TODO Behandlung von null-Werten
-	public static final boolean PRESERVE_NULLS = false;
 	
 	/**
 	 * Konvertiert eine Ganzzahl in ein vorzeichenloses Byte.
@@ -170,9 +168,6 @@ public class TelegramParser {
 		}
 		byte[] data = Arrays.copyOfRange(rawResponse, T_DATAPOS, T_DATAPOS+dataLength);
 		
-		//Todo: add real parser logic
-        //Todo: response is 0000000... if connection ended
-
 		// Telegramm-Kategorien
 		switch (rawResponse[T_CATPOS]) {
 			case B_TC_LABTIME: return parseLabTimeData(data);
@@ -198,7 +193,7 @@ public class TelegramParser {
 	 * darauf folgen die nicht verarbeiteten Werte für den Laboruhr-Faktor[Byte]
 	 * und Züge Stopp/Weiter[Byte]
 	 * 
-	 * @param rawData die empfangene Rohdaten, mindestens 3 bytes
+	 * @param rawData die empfangenen Rohdaten, mindestens 3 Bytes
 	 * @return ein fertiges Laborzeittelegramm
 	 * @throws TelegramParseException 
 	 */
@@ -236,8 +231,8 @@ public class TelegramParser {
 	 * Abfahrt-Verspätung[B], Gleis-Soll[B], Gleis-Ist[B], Dispo-Typ[B],
 	 * Meldungs-ID[B]
 	 * 
-	 * @param rawData
-	 * @return
+	 * @param rawData die empfangenen Rohdaten
+	 * @return das verarbeitete Telegramm
 	 * @throws TelegramParseException 
 	 */
 	private TrainRouteTelegram parseTrainRouteData(byte[] rawData) throws TelegramParseException{
@@ -268,6 +263,9 @@ public class TelegramParser {
 		final int STPDAT_NTR_POS	= 10;	// neues Gleis
 		final int STPDAT_DPT_POS	= 11;	// DispoTyp TODO: ?
 		final int STPDAT_MSG_POS	= 12;	// Meldungs-Index
+		/* Sonderwerte */
+		final int STPDAT_NUL_VAL	= toUByte(44444);
+		final int STPDAT_PAS_VAL	= toUByte(55555);
 		
 		// Telegrammlänge
 		if (rawData.length < HEADER_MIN_LEN){
@@ -307,7 +305,7 @@ public class TelegramParser {
 			throw new TelegramParseException(String.format("Zuglaufdaten sind kürzer (%d) als angegeben (%d)", rawData.length, stopEndPos));
 		}
 		
-		List<TrainRouteTelegram.StopData> stops = new ArrayList<>();
+		List<TrainRouteTelegram.StopData> stops = new ArrayList<>(stopCount);
 		TrainRouteTelegram telegram = new TrainRouteTelegram(
 			new TrainRouteTelegram.TrainRouteData(trnNum, trnCat, messageID, stops)
 		);
@@ -318,12 +316,27 @@ public class TelegramParser {
 		for (int i = HEADER_MIN_LEN; i < stopEndPos; i += STPDAT_MIN_LEN){
 			stopData = Arrays.copyOfRange(rawData, i, i + STPDAT_MIN_LEN);
 			
-			int station = toUInt(stopData[STPDAT_STN_POS]);
+			final int station = toUInt(stopData[STPDAT_STN_POS]);
 			
-			LocalTime sArrival = fromTenthOfMinute(toUInt(stopData[STPDAT_ARR_POS], stopData[STPDAT_ARR_POS+1], LITTLE_ENDIAN));
-			LocalTime sDeparture = fromTenthOfMinute(toUInt(stopData[STPDAT_DEP_POS], stopData[STPDAT_DEP_POS+1], LITTLE_ENDIAN));
-			LocalTime aArrival = fromTenthOfMinute(toInt(stopData[STPDAT_ADL_POS], stopData[STPDAT_ADL_POS+1], LITTLE_ENDIAN), sArrival);
-			LocalTime aDeparture = fromTenthOfMinute(toInt(stopData[STPDAT_DDL_POS], stopData[STPDAT_DDL_POS+1], LITTLE_ENDIAN), sDeparture);
+			// Zeiten
+			LocalTime sArrival, sDeparture;
+			
+			//TODO temporärer Fix für die Fehlermeldung, die das Bauen verhindert. Bitte überprüfen!
+			sArrival=null;
+			sDeparture=null;
+			
+			int arrTenth = toUInt(stopData[STPDAT_ARR_POS], stopData[STPDAT_ARR_POS+1], LITTLE_ENDIAN);
+			if (arrTenth != STPDAT_NUL_VAL && arrTenth != STPDAT_PAS_VAL){
+				sArrival = fromTenthOfMinute(arrTenth);
+			}
+			int depTenth = toUInt(stopData[STPDAT_DEP_POS], stopData[STPDAT_DEP_POS+1], LITTLE_ENDIAN);
+			if (depTenth != STPDAT_NUL_VAL && depTenth != STPDAT_PAS_VAL){
+				sDeparture = fromTenthOfMinute(depTenth);
+			}
+			
+			// Verspätung
+			final LocalTime aArrival = fromTenthOfMinute(toInt(stopData[STPDAT_ADL_POS], stopData[STPDAT_ADL_POS+1], LITTLE_ENDIAN), sArrival);
+			final LocalTime aDeparture = fromTenthOfMinute(toInt(stopData[STPDAT_DDL_POS], stopData[STPDAT_DDL_POS+1], LITTLE_ENDIAN), sDeparture);
 			
 			int sTrack = toUInt(stopData[STPDAT_TRK_POS]);
 			int aTrack = toUInt(stopData[STPDAT_NTR_POS]);
@@ -337,8 +350,15 @@ public class TelegramParser {
 		return telegram;
 	}
 	
+	/**
+	 * Verarbeitet Zuglaufendetelegramme.
+	 * @param data die empfangenen Rohdaten
+	 * @return das verarbeitete Telegramm
+	 */
 	private TrainRouteEndTelegram parseTrainRouteEndData(byte[] data){
-		throw new UnsupportedOperationException();
+		TrainRouteEndTelegram telegram = new TrainRouteEndTelegram();
+		LOGGER.debug("Received " + telegram);
+		return telegram;
 	}
 	
 	/**
@@ -348,8 +368,8 @@ public class TelegramParser {
 	 * ID[Byte], YY = Länge der Abkürzung[Byte], Abkürzung[YY Bytes cp1252]
 	 * Bezeichnung[Byte[] cp1252]
 	 * 
-	 * @param rawData
-	 * @return
+	 * @param rawData die empfangenen Rohdaten
+	 * @return das verarbeitete Telegramm
 	 * @throws TelegramParseException 
 	 */
 	private StationNameTelegram parseStationNameData(byte[] rawData) throws TelegramParseException{

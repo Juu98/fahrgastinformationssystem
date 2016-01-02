@@ -21,7 +21,7 @@ public class BasicParserTest {
     @Before
     public void setUp() throws IOException, JAXBException {
 	parser = new RailMLParser();
-	railml = parser.parseRailML("EBL Regefahrplan simple.xml");
+	railml = parser.parseRailML("EBL Regelfahrplan simple.xml");
 	timetable = railml.getTimetable();
 	infrastructure = railml.getInfrastructure();
 
