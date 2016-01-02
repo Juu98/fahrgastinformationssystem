@@ -11,7 +11,8 @@ import java.util.concurrent.Future;
 import static org.junit.Assert.*;
 
 /**
- * Created by spiollinux on 20.12.15.
+ * Testet die Funtionalität der Klasse TelegramReceiver
+ * @author spiollinux
  */
 public class TelegramReceiverTest {
 	TelegramReceiver receiver;
@@ -22,9 +23,14 @@ public class TelegramReceiverTest {
 		receiver = new TelegramReceiver(new TelegramReceiverConfig());
 	}
 
+	/**
+	 * Prüft, ob aus Bytestream Rohtelegrammdaten isoliert werden können
+	 * @throws Exception
+	 */
 	@Test
 	public void testParseConnection() throws Exception {
 		byte[] rawData = new byte[200];
+		//bogus bytes
 		rawData[1] = TelegramParser.toUByte(0xFF);
 		rawData[1] = TelegramParser.toUByte(12);
 		rawData[1] = TelegramParser.toUByte(0xFF);

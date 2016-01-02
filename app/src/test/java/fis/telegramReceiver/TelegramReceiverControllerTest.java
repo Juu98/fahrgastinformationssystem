@@ -18,7 +18,8 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 /**
- * Created by spiollinux on 22.11.15.
+ * Testet Funktionalität der TelegramReceiverController Klasse
+ * @author spiollinux
  */
 public class TelegramReceiverControllerTest {
 	TelegramReceiverController realReceiverController;
@@ -30,6 +31,10 @@ public class TelegramReceiverControllerTest {
 	ApplicationEventPublisher mockedPublisher;
 	byte[] buf = new byte[Telegram.getRawTelegramMaxLength()];
 
+	/**
+	 * erstellt allgemein benötogte mocks und Objekte
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		//create mocks for collaborators
@@ -59,6 +64,9 @@ public class TelegramReceiverControllerTest {
 		realReceiverController.setApplicationEventPublisher(mockedPublisher);
 	}
 
+	/**
+	 * Testet, ob null Werte in der Konfiguration zu Fehlern führen
+	 */
 	@Test
 	public void testConfigNotNull() {
 		try {
@@ -72,6 +80,14 @@ public class TelegramReceiverControllerTest {
 	}
 
 
+	/**
+	 * Testet, ob die Steuerlogik unter Beibehaltung der Protokollspezifikation zum Zustandekommen einer Verbindung führt
+	 * @throws InterruptedException
+	 * @throws IOException
+	 * @throws TelegramParseException
+	 * @throws ConfigurationException
+	 * @throws ExecutionException
+	 */
 	@Test
 	public void testConnecting() throws InterruptedException, IOException, TelegramParseException, ConfigurationException, ExecutionException {
 		//setting additional mocks
