@@ -91,8 +91,8 @@ public class TimetableController{
 	public TimetableController() {
 		try {
 			//TODO: um untere Zeile kümmern
-			data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");
-//			data = new TimetableData();
+			//data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");
+			data = new TimetableData();
 		} catch (Exception ex) {
 			System.out.println(ex.toString());
 		}
