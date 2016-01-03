@@ -18,8 +18,7 @@ public class EventTranslator implements ApplicationEventPublisherAware {
 	private boolean hasBeenOnlineBefore;
 
 	public EventTranslator() {
-		//initial parsing of RailML is needed if Receiver is offline
-		this.hasBeenOnlineBefore = true;
+		this.hasBeenOnlineBefore = false;
 	}
 
 	/**
