@@ -144,21 +144,21 @@ public class TimetableController{
 	}
 
 	/**
-	 * @see data.getTrainRoutes
+	 * @see TimetableData#getTrainRoutes
 	 */
 	public List<TrainRoute> getTrainRoutes() {
 		return data.getTrainRoutes();
 	}
 
 	/**
-	 * @see data.getStations
+	 * @see TimetableData#getStations
 	 */
 	public List<Station> getStations() {
 		return data.getStations();
 	}
 
 	/**
-	 * @see data.getTrainCategories
+	 * @see TimetableData#getTrainCategories
 	 */
 	public List<TrainCategory> getTrainCategories() {
 		return data.getTrainCategories();
