@@ -1,16 +1,18 @@
 package fis.data;
 
-import fis.FilterTime;
 import fis.FilterType;
 import fis.RailML2Data;
 import fis.telegramReceiver.TelegramReceiverController;
-import fis.telegrams.*;
+import fis.telegrams.LabTimeTelegram;
+import fis.telegrams.StationNameTelegram;
+import fis.telegrams.Telegram;
+import fis.telegrams.TelegramParsedEvent;
+import fis.telegrams.TrainRouteTelegram;
 import fis.telegrams.TrainRouteTelegram.StopData;
 import fis.telegrams.TrainRouteTelegram.TrainRouteData;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
