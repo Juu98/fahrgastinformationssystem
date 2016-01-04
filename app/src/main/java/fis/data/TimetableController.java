@@ -91,8 +91,6 @@ public class TimetableController{
 	@Autowired
 	private TelegramReceiverController receiver;
 	
-	
-	
 	//TODO: REMOVE (just4Testing)
 		Station s1,s2,s3,s4;
 		Stop stop1,stop2,stop3,stop4,stop5, stop1_new, stop2_new, stop3_new;
