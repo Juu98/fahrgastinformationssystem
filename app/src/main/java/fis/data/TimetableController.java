@@ -1,6 +1,5 @@
 package fis.data;
 
-import fis.FilterTime;
 import fis.FilterType;
 import fis.RailML2Data;
 import fis.telegramReceiver.TelegramReceiverController;
@@ -10,7 +9,6 @@ import fis.telegrams.TrainRouteTelegram.TrainRouteData;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -162,13 +160,21 @@ public class TimetableController{
 	}	
 	
 		
-
+	private void resetData(){
+		data = new TimetableData();
+	}
+	
 	public TimetableController() {
 		try {
-			//TODO: um untere Zeile kümmern
+			resetData();
+			
+			//TODO: Zum Testen des Graphen Testdaten erzeugen
+			//setUpGraphTest();
+	
+				
 			//data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");
-			data = new TimetableData();
-			setUpGraphTest();
+		
+		
 		} catch (Exception ex) {
 			System.out.println(ex.toString());
 		}
@@ -387,7 +393,7 @@ public class TimetableController{
 		switch(event.getType()){
 			case cleanup:
 			//Löschen der bisherigen Datenstruktur
-			data=new TimetableData();
+			resetData();
 			break;
 		case parseRailML:
 			//TODO: Config beachten -> entsprechenden Pfad laden!
