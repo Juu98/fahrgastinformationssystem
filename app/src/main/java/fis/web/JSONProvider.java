@@ -15,7 +15,7 @@ import java.util.List;
  * @author Robert
  */
 public class JSONProvider {
-	public class StationView {
+	public static class StationView {
 		private String id;
 		private String name;
 		public StationView(String id, String name) throws IllegalArgumentException{
@@ -24,6 +24,7 @@ public class JSONProvider {
 			this.id = id;
 			this.name = name;
 		}
+		
 		public StationView(Station s) throws IllegalArgumentException{
 			if(s == null)
 				throw new IllegalArgumentException("The given parameter is null!"); // TODO: is this needed?
@@ -39,9 +40,25 @@ public class JSONProvider {
 			return name;
 		}
 		
+		/**
+		 * Prüft ob der StationView einem anderen Obkjekt gleicht. 
+		 * @param other
+		 * @return {@literal true}, wenn die Objekte gleich sind, sonst {@literal false}
+		 */
+		@Override
+		public boolean equals(Object other){
+			if(other == null)
+				return false;
+			if(other.getClass() != this.getClass())
+				return false;
+			if(((StationView)other).getId().equals(this.getId()) && ((StationView)other).getName().equals(this.getName()))
+				return true;
+			return false;
+		}
+		
 	}
 	
-	public class TrainRouteView {
+	public static class TrainRouteView {
 		private String id;
 		private String name;
 		private StationView begin;

@@ -24,11 +24,39 @@ public class StationViewTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void Constructor1NullTest(){
-		this.view = new StationView("", "");	//TODO: hier weiter machen
+		this.view = new StationView("not_null", null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void Constructor2NullTest(){
+		this.view = new StationView(null, "not_null");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void Constructor3NullTest(){
+		this.view = new StationView(null);
 	}
 	
 	@Test
-	public void getIDAndConstructorTest(){
-		
+	public void getIDAndConstructor1Test(){
+		this.view = new StationView(this.id, this.name);
+		assertEquals(this.view.getId(), this.id);
+		assertEquals(this.view.getName(), this.name);
+	}
+	
+	@Test
+	public void getIDAndConstructor2Test(){
+		this.view = new StationView(this.station);
+		assertEquals(this.view.getId(), this.id);
+		assertEquals(this.view.getName(), this.name);
+	}
+	
+	@Test
+	public void equalsTest(){
+		this.view = new JSONProvider.StationView(station);
+		JSONProvider.StationView new_view = new JSONProvider.StationView("ID", "Name");
+		assertFalse("Should return false if parameter is null!", this.view.equals(null));
+		assertFalse("Should return false if the other object is from another class!", this.view.equals("other class"));
+		assertTrue("Should return true if the objects are equal!", this.view.equals(new_view));
 	}
 }
