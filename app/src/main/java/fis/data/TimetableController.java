@@ -104,8 +104,8 @@ public class TimetableController{
 	 */
 	public void setUpGraphTest(){
 		data=new TimetableData();
-		cat1=new TrainCategory("1","cat1","cat1_desc","cat1_usage");
-		
+		cat1=new TrainCategory("1","cat1","cat1_desc","PASSENGER");
+		data.addTrainCategory(cat1);
 		s1=new Station("1","s1");
 		s1.setPosX(20);
 		s1.setPosY(30);
@@ -138,7 +138,7 @@ public class TimetableController{
 		
 		route2=new TrainRoute("2",2,cat1,stops2);
 		
-		data.addTrainCategory(cat1);
+		//data.addTrainCategory(cat1);
 		data.addStation(s1);
 		data.addStation(s2);
 		data.addStation(s3);
