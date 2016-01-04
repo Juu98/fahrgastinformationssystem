@@ -91,4 +91,13 @@ public class TrainRouteViewTest {
 		assertEquals(this.view.getId(), this.id);
 		assertEquals(this.view.getName(), this.name);
 	}
+	
+	@Test
+	public void equalsTest(){
+		this.view = new JSONProvider.TrainRouteView(this.route);
+		JSONProvider.TrainRouteView new_view = new JSONProvider.TrainRouteView(this.id, this.begin, this.name, this.end);
+		assertFalse("Should return false if parameter is null!", this.view.equals(null));
+		assertFalse("Should return false if the other object is from another class!", this.view.equals("other class"));
+		assertTrue("Should return true if the objects are equal!", this.view.equals(new_view));
+	}
 }
