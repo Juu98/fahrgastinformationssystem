@@ -167,9 +167,9 @@ public class TimetableController{
 
 	public TimetableController() {
 		try {
-			//TODO: Laden in receiveEvent() lauffähig bekommen
-			//data=RailML2Data.loadML("EBL Regelfahrplan.xml");
-			//data = new TimetableData();
+			//TODO: um untere Zeile kümmern
+			//data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");
+			data = new TimetableData();
 			setUpGraphTest();
 		} catch (Exception ex) {
 			System.out.println(ex.toString());
@@ -222,21 +222,21 @@ public class TimetableController{
 	}
 
 	/**
-	 * @see data.getTrainRoutes
+	 * @see TimetableData#getTrainRoutes
 	 */
 	public List<TrainRoute> getTrainRoutes() {
 		return data.getTrainRoutes();
 	}
 
 	/**
-	 * @see data.getStations
+	 * @see TimetableData#getStations
 	 */
 	public List<Station> getStations() {
 		return data.getStations();
 	}
 
 	/**
-	 * @see data.getTrainCategories
+	 * @see TimetableData#getTrainCategories
 	 */
 	public List<TrainCategory> getTrainCategories() {
 		return data.getTrainCategories();
@@ -387,7 +387,7 @@ public class TimetableController{
 	@EventListener
 	public void receiveEvent(TimetableEvent event){
 		switch(event.getType()){
-		case cleanup:
+			case cleanup:
 			//Löschen der bisherigen Datenstruktur
 			data=new TimetableData();
 			break;

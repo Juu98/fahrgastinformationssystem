@@ -2,6 +2,7 @@ package fis;
 
 import fis.common.CommonConfig;
 import fis.common.ConfigurationException;
+import fis.common.EventTranslator;
 import fis.data.TimetableEvent;
 import fis.data.TimetableEventType;
 import fis.telegramReceiver.ConnectionStatusEvent;
@@ -37,6 +38,7 @@ public class Application implements ApplicationEventPublisherAware{
 	@Autowired private TimetableController timetable;
 	@Autowired private TelegramReceiverController receiverController;
 	@Autowired private CommonConfig commonConfig;
+	@Autowired private EventTranslator translator;
 	
 	@Bean
 	public Java8TimeDialect timeDialect(){
@@ -58,22 +60,6 @@ public class Application implements ApplicationEventPublisherAware{
 			publisher.publishEvent(new TimetableEvent(TimetableEventType.parseRailML));
 		}
 	}
-
-	/**
-	 * Übersetzt ConnectionStatusEvents in TimetableEvents
-	 * @param event
-	 */
-	@EventListener
-	public void notifyReceiverOffline(ConnectionStatusEvent event) {
-		ConnectionStatus receivedStatus = event.getStatus();
-		if (receivedStatus.equals(ConnectionStatus.OFFLINE)) {
-			publisher.publishEvent(new TimetableEvent(TimetableEventType.parseRailML));
-		}
-		else if (receivedStatus.equals(ConnectionStatus.ONLINE)) {
-			publisher.publishEvent(new TimetableEvent(TimetableEventType.cleanup));
-		}
-	}
-
 
 	@Override
 	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
