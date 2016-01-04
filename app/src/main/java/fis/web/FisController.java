@@ -499,9 +499,23 @@ public class FisController {
 		return this.timetable.getTrainCategories();
 	}
 	
-	public List<TrainRoute> filter(Station station, FilterType type, LocalTime from, LocalTime to, FilterTime filterTime) throws IllegalArgumentException{
+	/**
+	 * Methode zur Filterung von ZUgläufen
+	 * @param station
+	 * @param type (Abfahrt / Ankunft)
+	 * @param from (Startzeit)
+	 * @param to (Endzeit)
+	 * @param filterTime (geplant / tatsächlich)
+	 * @return Eine Liste der gefilterten Zugläufe
+	 * @throws IllegalArgumentException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<TrainRoute> filter(Station station, FilterType type, LocalTime from, LocalTime to, FilterTime filterTime) throws IllegalArgumentException, UnsupportedOperationException{
 		if(type == null || from == null || to == null || filterTime == null)
 			throw new IllegalArgumentException();
+		
+		if(type.equals(FilterType.ANY))
+			throw new UnsupportedOperationException();
 		
 		if(station==null){
 			return new ArrayList<TrainRoute>();
@@ -533,9 +547,6 @@ public class FisController {
 						filtered.add(route);
 					}
 				}
-			}
-			else{
-				throw new UnsupportedOperationException("FilterType.ANY is not allowed!");
 			}
 		}
 		return filtered;

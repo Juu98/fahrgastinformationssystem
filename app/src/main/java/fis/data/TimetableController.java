@@ -3,7 +3,11 @@ package fis.data;
 import fis.FilterType;
 import fis.RailML2Data;
 import fis.telegramReceiver.TelegramReceiverController;
-import fis.telegrams.*;
+import fis.telegrams.LabTimeTelegram;
+import fis.telegrams.StationNameTelegram;
+import fis.telegrams.Telegram;
+import fis.telegrams.TelegramParsedEvent;
+import fis.telegrams.TrainRouteTelegram;
 import fis.telegrams.TrainRouteTelegram.StopData;
 import fis.telegrams.TrainRouteTelegram.TrainRouteData;
 
@@ -172,7 +176,7 @@ public class TimetableController{
 			//setUpGraphTest();
 	
 				
-			//data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");
+			data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");
 		
 		
 		} catch (Exception ex) {

@@ -15,7 +15,7 @@ import java.util.Comparator;
 
 /**
  * {@link Comparator} that compares two given {@link TrainRoute}s
- * by the time they are present at a given {qlink station}.
+ * by the time they are present at a given {@link station}.
  * 
  * <p> In the event of a train stopping twice at the same station, the first stop is taken into account.
  * @author Robert
@@ -29,7 +29,7 @@ public class TrainRouteComparator implements Comparator<TrainRoute>{
 	 * Default constructor.
 	 * @param station		The {@link Station} at which the times should be compared
 	 * @param filterTime	Whether to compare the scheduled or actual times
-	 * @param filterType	Wheter to compare arrival or departure times,
+	 * @param filterType	Whether to compare arrival or departure times,
 	 *						{@link FilterType.ANY} not supported here.
 	 */
 	public TrainRouteComparator(Station station, FilterTime filterTime, FilterType filterType){

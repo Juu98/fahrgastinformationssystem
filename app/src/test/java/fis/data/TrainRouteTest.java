@@ -77,4 +77,20 @@ public class TrainRouteTest {
 	public void testStopLinked(){
 		assertEquals("Die Referenz des Stops auf die TrainRoute wurde nicht korrekt gesetzt!", route1,stop1.getTrainRoute());
 	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void getStopAtStationNullTest(){
+		route1.getStopAtStation(null);
+	}
+	
+	@Test
+	public void getStopAtStationNonExistantTest(){
+		Station notOnRoute = new Station("NOR", "Not On Route");
+		assertNull("getStopAtStation should return null if the statoin is not on the route!", route1.getStopAtStation(notOnRoute));
+	}
+	
+	@Test
+	public void getStopAtStationTest(){
+		assertEquals("The stops should be equal!", route1.getStopAtStation(s1), stop1);
+	}
 }
