@@ -393,6 +393,7 @@ public class TimetableController{
 	 */
 	@EventListener
 	public void receiveEvent(TimetableEvent event){
+		LOGGER.debug("\n received Event "+ event.getType()+"\n");
 		switch(event.getType()){
 			case cleanup:
 			//Löschen der bisherigen Datenstruktur

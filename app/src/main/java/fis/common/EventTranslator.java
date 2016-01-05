@@ -31,11 +31,10 @@ public class EventTranslator implements ApplicationEventPublisherAware {
 	@EventListener
 	public void notifyReceiverOffline(ConnectionStatusEvent event) {
 		ConnectionStatus receivedStatus = event.getStatus();
-		LOGGER.debug("\n"+receivedStatus+"\n");
 		if (receivedStatus.equals(ConnectionStatus.OFFLINE)) {
 			if (this.hasBeenOnlineBefore) {
 				publisher.publishEvent(new TimetableEvent(TimetableEventType.parseRailML));
-				LOGGER.debug("\nparseRailML event");
+				LOGGER.debug("published parseRailML event");
 			}
 			this.hasBeenOnlineBefore = false;
 		}
