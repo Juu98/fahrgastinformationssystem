@@ -164,7 +164,7 @@ public class TimetableController{
 	}	
 	
 		
-	private void resetData(){
+	public void resetData(){
 		data = new TimetableData();
 	}
 	

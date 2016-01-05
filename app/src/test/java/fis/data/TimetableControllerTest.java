@@ -24,6 +24,7 @@ public class TimetableControllerTest{
 	@Before
 	public void setUp() throws Exception{
 		timetable=new TimetableController();
+		timetable.resetData();
 		data=timetable.getData();
 		
 		if(data==null) throw new Exception("data should not be null!");
