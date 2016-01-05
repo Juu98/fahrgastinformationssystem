@@ -32,6 +32,7 @@ public class FisControllerTest {
 	public void setup() throws NullPointerException{
 		this.ttc = new TimetableController();
 		this.ttc.resetData();
+		this.ttc.loadML();
 		this.controller = new FisController(this.ttc);
 		this.station = this.ttc.getData().getStations().get(0);
 		

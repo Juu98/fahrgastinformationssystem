@@ -102,6 +102,7 @@ public class TimetableController{
 	/**
 	 * Nur zum Testen des Graphen
 	 */
+		//TODO: remove before release
 	public void setUpGraphTest(){
 		data=new TimetableData();
 		cat1=new TrainCategory("1","cat1","cat1_desc","PASSENGER");
@@ -398,24 +399,31 @@ public class TimetableController{
 			resetData();
 			break;
 		case parseRailML:
-			//TODO: Config beachten -> entsprechenden Pfad laden!
-			try {
-				//Laden des Offline-Fahrplans
-				LOGGER.info("Offline. Laden des RailML-Fahrplans.");
-				data=RailML2Data.loadML("EBL Regelfahrplan.xml");
-			} catch (IOException e) {
-				LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
-				e.printStackTrace();
-			} catch (JAXBException e) {
-				LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
-				e.printStackTrace();
-			}
+			resetData();
+			loadML();
 			break;
 		default:
 			break;
 		}
 	}
 
+	/**
+	 * Lädt die RailML in die Datenstruktur
+	 */
+	public void loadML(){
+		//TODO: Config beachten -> entsprechenden Pfad laden!
+		try {
+			//Laden des Offline-Fahrplans
+			LOGGER.info("Offline. Laden des RailML-Fahrplans.");
+			data=RailML2Data.loadML("EBL Regelfahrplan.xml");
+		} catch (IOException e) {
+			LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
+			e.printStackTrace();
+		} catch (JAXBException e) {
+			LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Erzeugt ein "richtiges" {@link TrainRoute}-Objekt aus dem rohen
