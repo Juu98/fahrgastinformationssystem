@@ -173,7 +173,7 @@ public class TimetableController{
 		try {
 			resetData();
 			
-			//TODO: Zum Testen des Graphen Testdaten erzeugen
+			//TODO: entfernen, wenn nicht mehr benötigt
 			setUpGraphTest();				
 			//data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");
 		
@@ -401,8 +401,8 @@ public class TimetableController{
 			resetData();
 			break;
 		case parseRailML:
-			//resetData();
-			//loadML();
+			resetData();
+			loadML();
 			break;
 		default:
 			break;
