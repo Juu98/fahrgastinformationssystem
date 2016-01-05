@@ -107,11 +107,11 @@ public class TimetableController{
 		cat1=new TrainCategory("1","cat1","cat1_desc","PASSENGER");
 		data.addTrainCategory(cat1);
 		s1=new Station("1","s1");
-		s1.setPosX(20);
-		s1.setPosY(30);
+		s1.setPosX(20.1f);
+		s1.setPosY(30.2f);
 		s2=new Station("2","s2");
-		s2.setPosX(100);
-		s2.setPosY(100);
+		s2.setPosX(100.02f);
+		s2.setPosY(100.03f);
 		s3=new Station("3","s3");
 		s3.setPosX(100);
 		s3.setPosY(200);
@@ -173,10 +173,8 @@ public class TimetableController{
 			resetData();
 			
 			//TODO: Zum Testen des Graphen Testdaten erzeugen
-			//setUpGraphTest();
-	
-				
-			data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");
+			setUpGraphTest();				
+			//data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");
 		
 		
 		} catch (Exception ex) {

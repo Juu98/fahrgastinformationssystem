@@ -14,8 +14,8 @@ public class Station {
 	private String shortName;
 	private String id;
 	private List<Stop> stops;
-	private int posX = -1; //-1, wenn kein Wert gesetzt
-    private int posY = -1; //-1, wenn kein Wert gesetzt
+	private float posX = -1; //-1, wenn kein Wert gesetzt
+    private float posY = -1; //-1, wenn kein Wert gesetzt
 
 	/**
 	 * Standard-Konstruktor.
@@ -25,7 +25,7 @@ public class Station {
 	 * @param x			X-Koordinate
 	 * @param y			Y-Koordinate
 	 */
-	public Station(String id, String longName, String shortName, int x, int y) {
+	public Station(String id, String longName, String shortName, float x, float y) {
 		if (id == null || shortName == null || longName == null)
 			throw new IllegalArgumentException();
 		this.longName = longName;

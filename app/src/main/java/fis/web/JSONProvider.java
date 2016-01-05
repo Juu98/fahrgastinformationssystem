@@ -25,8 +25,8 @@ public class JSONProvider {
 	public static class StationView {
 		private String id;
 		private String name;
-		private int x;
-		private int y;
+		private float x;
+		private float y;
 		
 		/**
 		 * Konstruktor für die Bahnhofsdatenstruktur.
@@ -80,7 +80,7 @@ public class JSONProvider {
 		 * Getter für X-Koordinate
 		 * @return x
 		 */
-		public int getX(){
+		public float getX(){
 			return x;
 		}
 		
@@ -88,7 +88,7 @@ public class JSONProvider {
 		 * Getter für Y-Koordinate
 		 * @return y
 		 */
-		public int getY(){
+		public float getY(){
 			return y;
 		}
 
