@@ -184,7 +184,6 @@ public class TimetableControllerTest{
 		TrainRouteTelegram telegram = new TrainRouteTelegram(
 			new TrainRouteTelegram.TrainRouteData(trnNum, trnCat, messageID, stops)
 		);
-		
 		TrainRoute route=timetable.createTrainRouteFromTelegram(telegram);
 		
 		assertEquals("TrainRouteID stimmt nicht!",trnNum,route.getId());

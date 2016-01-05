@@ -11,7 +11,10 @@ import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -378,6 +381,34 @@ public class FisController {
 		return "redirect:/trn/";
 	}
 	
+	
+	@RequestMapping("/graph")
+	public String graphRedir(){
+		return "redirect:/graph/";
+	}
+	
+	@RequestMapping("/graph/")
+		public String defaultGraph(Model model){
+			return graph(model, null);
+		}
+	
+	@RequestMapping("/graph/{stn}")
+	public String graph(Model model, @PathVariable("stn") String stn){
+		// Standardparameter zum Model hinzufügen
+		defaults(model);
+		
+		Station currentStation = null;
+		
+		if(stn != null){
+			currentStation = timetable.getData().getStationById(stn);
+		}
+		model.addAttribute("stations",timetable.getStations());
+		model.addAttribute("trainRoutes", timetable.getTrainRoutes());
+		model.addAttribute("currentStation",currentStation);
+		return "graph";
+	}
+	
+	
 	/**
 	 * Verarbeitungsmethode der Zuglaufanzeige.
 	 * 
@@ -450,6 +481,11 @@ public class FisController {
 		return new JSONProvider().getTrainRoutes(this.timetable.getData().getTrainRoutes());
 	}
 	
+	@RequestMapping("fullTrainRoutes.json")
+	public @ResponseBody List<JSONProvider.FullTrainRouteView> getFullTrainRoutes(){
+		return new JSONProvider().getFullTrainRoutes(this.timetable.getData().getTrainRoutes());
+	}
+	
 	/**
 	 * Liefert eine JSON-Liste mit allen {@link TrainCategory} Einträgen 
 	 * des aktuellen Fahrplans.
@@ -463,9 +499,23 @@ public class FisController {
 		return this.timetable.getTrainCategories();
 	}
 	
-	public List<TrainRoute> filter(Station station, FilterType type, LocalTime from, LocalTime to, FilterTime filterTime) throws IllegalArgumentException{
+	/**
+	 * Methode zur Filterung von ZUgläufen
+	 * @param station
+	 * @param type (Abfahrt / Ankunft)
+	 * @param from (Startzeit)
+	 * @param to (Endzeit)
+	 * @param filterTime (geplant / tatsächlich)
+	 * @return Eine Liste der gefilterten Zugläufe
+	 * @throws IllegalArgumentException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<TrainRoute> filter(Station station, FilterType type, LocalTime from, LocalTime to, FilterTime filterTime) throws IllegalArgumentException, UnsupportedOperationException{
 		if(type == null || from == null || to == null || filterTime == null)
 			throw new IllegalArgumentException();
+		
+		if(type.equals(FilterType.ANY))
+			throw new UnsupportedOperationException();
 		
 		if(station==null){
 			return new ArrayList<TrainRoute>();
@@ -498,10 +548,11 @@ public class FisController {
 					}
 				}
 			}
-			else{
-				throw new UnsupportedOperationException("FilterType.ANY is not allowed!");
-			}
 		}
 		return filtered;
 	}
+	
+	
+	
+
 }

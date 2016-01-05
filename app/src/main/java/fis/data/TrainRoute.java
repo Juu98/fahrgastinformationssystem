@@ -134,23 +134,6 @@ public class TrainRoute {
 	public Stop getFirstStop() {
 		return stops.get(0);
 	}
-
-	/**
-	 * Überprüft ob der Zuglauf an einer bestimmten Station vorbeifährt.
-	 * @param station
-	 * @return {@literal true}, wenn der Zug an der Station hält; sonst {@literal false}
-	 * @throws IllegalArgumentException
-	 */
-	public boolean passesStation(Station station) throws IllegalArgumentException {
-		if (station == null)
-			throw new IllegalArgumentException();
-		for (Stop stop : this.getStops()) {
-			if (stop.getStation().equals(station) && (stop.getStopType().equals(StopType.BEGIN)
-					|| stop.getStopType().equals(StopType.END) || stop.getStopType().equals(StopType.STOP)))
-				return true;
-		}
-		return false;
-	}
 	
 	/**
 	 * Funktion zum bestimmen des Stops einer Station in einem Zuglauf. 
