@@ -83,27 +83,29 @@
 			//Knoten (Bahnhöfe) durchlaufen
 			for(i=0; i<data.length; i++){
 				var station=data[i];
-				//Position entsprechend des Maximums skalieren
-				station.x=(station.x/max)*(c.width)+min;
-				station.y=(station.y/max)*(c.height) + min;	
+				if(station.x!=-1){}
+					//Position entsprechend des Maximums skalieren
+					station.x=(station.x/max)*(c.width)+min;
+					station.y=(station.y/max)*(c.height) + min;	
 				
-				//Unterscheidung ausgewählt <-> normal		
-				if([[${stn}]] == (station.id)){
-					ctx.fillStyle = st_fillStyle_selected;
-				}
-				else{
-					ctx.fillStyle = st_fillStyle_normal;
-				}
+					//Unterscheidung ausgewählt <-> normal		
+					if([[${stn}]] == (station.id)){
+						ctx.fillStyle = st_fillStyle_selected;
+					}
+					else{
+						ctx.fillStyle = st_fillStyle_normal;
+					}
 				
-				//Zeichnen des Bahnhofs
-				ctx.fillRect(station.x,station.y,st_width,st_height);
+					//Zeichnen des Bahnhofs
+					ctx.fillRect(station.x,station.y,st_width,st_height);
 				
-				//Zeichnen der Beschriftung
-				ctx.fillText(station.name,station.x+nameOffset_X,station.y+nameOffset_Y);
+					//Zeichnen der Beschriftung
+					ctx.fillText(station.name,station.x+nameOffset_X,station.y+nameOffset_Y);
 				
-				//zur Javascript-Datenstruktur hinzufügen (um Klickbarkeit zu realisieren)
-				var stationObj = new StationObject(station.id,station.name,station.x,station.y,st_width,st_height);
-				stationObjects.push(stationObj); 
+					//zur Javascript-Datenstruktur hinzufügen (um Klickbarkeit zu realisieren)
+					var stationObj = new StationObject(station.id,station.name,station.x,station.y,st_width,st_height);
+					stationObjects.push(stationObj); 
+			}
 			}	
 		
 		//Kanten (Zugläufe) aus JSON entgegennehmen
