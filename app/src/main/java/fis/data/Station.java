@@ -15,8 +15,8 @@ public class Station {
     private String shortName;
     private String id;
     private List<Stop> stops;
-    private int posX=-1; //-1, wenn kein Wert gesetzt
-    private int posY=-1; //-1, wenn kein Wert gesetzt
+    private float posX=-1; //-1, wenn kein Wert gesetzt
+    private float posY=-1; //-1, wenn kein Wert gesetzt
 
     /**
      * 
@@ -148,7 +148,7 @@ public class Station {
 	 * Festlegen der X-Koordinate
 	 * @param posX
 	 */
-	public void setPosX(int posX){
+	public void setPosX(float posX){
 		this.posX=posX;
 	}
 	
@@ -156,7 +156,7 @@ public class Station {
 	 * Festlegen der Y-Koordinate
 	 * @param posY
 	 */
-	public void setPosY(int posY){
+	public void setPosY(float posY){
 		this.posY=posY;
 	}
 	
@@ -164,7 +164,7 @@ public class Station {
 	 * 
 	 * @return X-Koordinate des Bahnhofs
 	 */
-	public int getPosX(){
+	public float getPosX(){
 		return this.posX;
 	}
 	
@@ -172,7 +172,7 @@ public class Station {
 	 * 
 	 * @return Y-Koordinate des Bahnhofs
 	 */
-	public int getPosY(){
+	public float getPosY(){
 		return this.posY;
 	}
 
