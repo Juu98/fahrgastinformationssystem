@@ -4,6 +4,7 @@ import fis.data.TimetableEvent;
 import fis.data.TimetableEventType;
 import fis.telegramReceiver.ConnectionStatus;
 import fis.telegramReceiver.ConnectionStatusEvent;
+import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.context.event.EventListener;
@@ -16,9 +17,11 @@ import org.springframework.stereotype.Component;
 public class EventTranslator implements ApplicationEventPublisherAware {
 	private ApplicationEventPublisher publisher;
 	private boolean hasBeenOnlineBefore;
+	private Logger LOGGER = Logger.getLogger(EventTranslator.class);
 
 	public EventTranslator() {
-		this.hasBeenOnlineBefore = false;
+		//needed for startup
+		this.hasBeenOnlineBefore = true;
 	}
 
 	/**
@@ -28,9 +31,11 @@ public class EventTranslator implements ApplicationEventPublisherAware {
 	@EventListener
 	public void notifyReceiverOffline(ConnectionStatusEvent event) {
 		ConnectionStatus receivedStatus = event.getStatus();
+		LOGGER.debug("\n"+receivedStatus+"\n");
 		if (receivedStatus.equals(ConnectionStatus.OFFLINE)) {
 			if (this.hasBeenOnlineBefore) {
 				publisher.publishEvent(new TimetableEvent(TimetableEventType.parseRailML));
+				LOGGER.debug("\nparseRailML event");
 			}
 			this.hasBeenOnlineBefore = false;
 		}

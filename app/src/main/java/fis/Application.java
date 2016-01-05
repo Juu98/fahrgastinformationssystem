@@ -51,14 +51,7 @@ public class Application implements ApplicationEventPublisherAware{
 	 */
 	@PostConstruct
 	private void initialize() {
-		try {
-			Thread.sleep(commonConfig.getTelegramserverTimeout());
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-		}
-		if(receiverController.getConnectionStatus() != ConnectionStatus.ONLINE) {
-			publisher.publishEvent(new TimetableEvent(TimetableEventType.parseRailML));
-		}
+
 	}
 
 	@Override
