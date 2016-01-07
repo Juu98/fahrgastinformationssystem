@@ -129,7 +129,7 @@ public class TimetableController{
 		stops1.add(stop2);
 		stops1.add(stop3);
 		
-		route1=new TrainRoute("1",1,cat1,stops1);
+		route1=new TrainRoute("1",1,cat1,stops1, 0);
 		
 		List<Stop> stops2=new ArrayList<Stop>();
 		stop4=new Stop(s2,StopType.BEGIN,null,LocalTime.of(3,1),"4",0);
@@ -137,7 +137,7 @@ public class TimetableController{
 		stops2.add(stop4);
 		stops2.add(stop5);
 		
-		route2=new TrainRoute("2",2,cat1,stops2);
+		route2=new TrainRoute("2",2,cat1,stops2, 0);
 		
 		//data.addTrainCategory(cat1);
 		data.addStation(s1);
@@ -161,12 +161,61 @@ public class TimetableController{
 		newStops.add(stop3_new);
 		
 		
-		route1_new=new TrainRoute(route1.getId(),999,cat1,newStops);
+		route1_new=new TrainRoute(route1.getId(),999,cat1,newStops, 0);
 	}	
 	
+	/**
+	 * Gibt die zur gegebenen ID gehörende Nachricht zurück
+	 * @param id Die MessageID
+	 * @return Die zur ID gehörige Nachricht
+	 */
+	public String getMessage(int id){
+		if(messages.containsKey(id)){
+			return messages.get(id).getMessage();
+		} else{
+			return "";
+		}
+	}
+	
+	/**
+	 * Gibt die zur gegebenen TrainRoute gehörende Nachricht zurück
+	 * @param route
+	 * @return
+	 */
+	public String getMessage(TrainRoute route){
+		if(route==null){
+			throw new IllegalArgumentException("Route darf nicht null sein!");
+		}
 		
+		return getMessage(route.getMessageId());
+	}
+	
+	/**
+	 * Gibt die zum gegebenen Stop gehörende Nachricht zurück
+	 * @param stop
+	 * @return
+	 */
+	public String getMessage(Stop stop){
+		if(stop==null){
+			throw new IllegalArgumentException("Stop darf nicht null sein!");
+		}
+		
+		return getMessage(stop.getMessageId());
+	}
+		
+	/**
+	 * Löscht die bisherige Datenstruktur
+	 */
 	public void resetData(){
 		data = new TimetableData();
+	}
+	
+	/**
+	 * 
+	 * @return Die Map mit allen Messages
+	 */
+	public Map<Integer, Message> getMessageMap(){
+		return messages;
 	}
 	
 	public TimetableController() {
@@ -175,8 +224,7 @@ public class TimetableController{
 			
 			//TODO: entfernen, wenn nicht mehr benötigt
 			setUpGraphTest();				
-			//data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");
-		
+			//data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");	
 		
 		} catch (Exception ex) {
 			System.out.println(ex.toString());
@@ -467,7 +515,7 @@ public class TimetableController{
 			cat = data.getTrainCategoryById(routeData.getTrainCategoryShort());
 		}
 
-		TrainRoute route = new TrainRoute("" + trainNr, Integer.parseInt(trainNr), cat, routeStops);
+		TrainRoute route = new TrainRoute("" + trainNr, Integer.parseInt(trainNr), cat, routeStops, messageId);
 
 		return route;
 	}

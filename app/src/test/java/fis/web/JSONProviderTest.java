@@ -57,7 +57,7 @@ public class JSONProviderTest {
 		this.stops1 = new ArrayList<Stop>();
 		this.stops1.add(stop1);
 		this.stops1.add(stop2);
-		this.route1 = new TrainRoute("ID1", 3, category, stops1);
+		this.route1 = new TrainRoute("ID1", 3, category, stops1,0);
 		this.stop1.setTrainRoute(route1);
 		this.stop2.setTrainRoute(route1);
 		//Erstellen des 2. Zuglaufes
@@ -66,7 +66,7 @@ public class JSONProviderTest {
 		this.stops2 = new ArrayList<Stop>();
 		this.stops2.add(stop3);
 		this.stops2.add(stop4);
-		this.route2 = new TrainRoute("ID2", 25, category, stops2);
+		this.route2 = new TrainRoute("ID2", 25, category, stops2,0);
 		stop3.setTrainRoute(route2);
 		stop4.setTrainRoute(route2);
 		//Erstellen und Füllen der Zuglauflisten
