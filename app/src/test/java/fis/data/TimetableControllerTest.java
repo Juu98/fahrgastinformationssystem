@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import fis.common.CommonConfig;
 import org.junit.Before;
 import org.junit.Test;
 import fis.telegrams.LabTimeTelegram;
@@ -23,7 +25,7 @@ public class TimetableControllerTest{
 	
 	@Before
 	public void setUp() throws Exception{
-		timetable=new TimetableController();
+		timetable=new TimetableController(new CommonConfig());
 		timetable.resetData();
 		data=timetable.getData();
 		

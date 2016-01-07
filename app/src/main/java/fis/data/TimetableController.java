@@ -2,6 +2,8 @@ package fis.data;
 
 import fis.FilterType;
 import fis.RailML2Data;
+import fis.common.CommonConfig;
+import fis.common.ConfigurationException;
 import fis.telegramReceiver.TelegramReceiverController;
 import fis.telegrams.LabTimeTelegram;
 import fis.telegrams.StationNameTelegram;
@@ -37,6 +39,8 @@ import javax.xml.bind.JAXBException;
 @Component
 public class TimetableController{
 	private static final Logger LOGGER = Logger.getLogger(RailML2Data.class);
+	@Autowired
+	private CommonConfig fisConfig;
 	
 	
 	/**
@@ -168,8 +172,10 @@ public class TimetableController{
 	public void resetData(){
 		data = new TimetableData();
 	}
-	
-	public TimetableController() {
+
+	@Autowired
+	public TimetableController(CommonConfig config) {
+		this.fisConfig = config;
 		try {
 			resetData();
 			
@@ -401,8 +407,8 @@ public class TimetableController{
 			resetData();
 			break;
 		case parseRailML:
-			//resetData();
-			//loadML();
+			resetData();
+			loadML();
 			break;
 		default:
 			break;
@@ -417,13 +423,18 @@ public class TimetableController{
 		try {
 			//Laden des Offline-Fahrplans
 			LOGGER.info("Offline. Laden des RailML-Fahrplans.");
-			data=RailML2Data.loadML("EBL Regelfahrplan.xml");
+			if(fisConfig.getRailmlpath() == null) {
+				throw new ConfigurationException("ungültiger Pfad zur RailML");
+			}
+			data=RailML2Data.loadML(fisConfig.getRailmlpath());
 		} catch (IOException e) {
 			LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
 			e.printStackTrace();
 		} catch (JAXBException e) {
 			LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
 			e.printStackTrace();
+		} catch (ConfigurationException e) {
+			LOGGER.error(e.getMessage());
 		}
 	}
 	
