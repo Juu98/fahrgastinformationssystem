@@ -1,12 +1,15 @@
 package fis.data;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.*;
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 import au.com.bytecode.opencsv.bean.CsvToBean;
 import fis.common.ConfigurationException;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Eine Ladeklasse für Meldungstexte. 

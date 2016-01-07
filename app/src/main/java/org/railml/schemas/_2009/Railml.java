@@ -8,12 +8,9 @@
 
 package org.railml.schemas._2009;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 import org.purl.dc.elements._1.ElementContainer;
+
+import javax.xml.bind.annotation.*;
 
 
 /**

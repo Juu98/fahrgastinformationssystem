@@ -1,8 +1,6 @@
 package fis.telegrams;
 
-import fis.data.TrainRoute;
 import java.time.LocalTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
