@@ -1,5 +1,6 @@
 package fis.web;
 
+import fis.common.CommonConfig;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
@@ -13,6 +14,7 @@ import fis.data.TimetableController;
 import fis.data.TimetableData;
 import fis.data.TrainCategory;
 import fis.data.TrainRoute;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -27,10 +29,13 @@ public class FisControllerTest {
 	private TrainRoute tp_9802;
 	private List<TrainRoute> expectedTrainRoutesDeparture;
 	private List<TrainRoute> expectedTrainRoutesArrival;
-	
+	private CommonConfig config;
+
 	@Before
 	public void setup() throws NullPointerException{
-		this.ttc = new TimetableController();
+		this.config = new CommonConfig();
+		config.setRailmlpath("EBL Regelfahrplan.xml");
+		this.ttc = new TimetableController(this.config);
 		this.ttc.resetData();
 		this.ttc.loadML();
 		this.controller = new FisController(this.ttc);
