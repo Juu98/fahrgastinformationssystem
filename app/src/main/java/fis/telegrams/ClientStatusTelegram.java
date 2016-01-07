@@ -16,12 +16,12 @@ public class ClientStatusTelegram extends Telegram implements SendableTelegram{
 	 * Konstruktor für das Clientstatustelegramm. 
 	 * @param ID
 	 * @param status
-	 * @throws NullPointerException
+	 * @throws IllegalArgumentException
 	 * @throws UnsupportedEncodingException 
 	 */
-	public ClientStatusTelegram(String ID, byte status) throws NullPointerException, UnsupportedEncodingException {
+	public ClientStatusTelegram(String ID, byte status) throws IllegalArgumentException, UnsupportedEncodingException {
 		if(ID == null){
-			throw new NullPointerException();
+			throw new IllegalArgumentException();
 		}
 		this.id = ID;
 		this.status = status;

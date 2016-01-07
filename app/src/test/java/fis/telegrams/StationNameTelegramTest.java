@@ -22,10 +22,10 @@ public class StationNameTelegramTest {
 		boolean exceptionCatched = false;
 		try{
 			this.telegram = new StationNameTelegram(this.ID, null, this.name);
-		} catch(NullPointerException e) {
+		} catch(IllegalArgumentException e) {
 			exceptionCatched = true;
 		}
-		assertTrue("The constructor should throw a NullPointerException if given a null parameter!", exceptionCatched);
+		assertTrue("The constructor should throw a IllegalArgumentException if given a null parameter!", exceptionCatched);
 	}
 	
 	@Test
@@ -33,10 +33,10 @@ public class StationNameTelegramTest {
 		boolean exceptionCatched = false;
 		try{
 			this.telegram = new StationNameTelegram(this.ID, this.code, null);
-		} catch(NullPointerException e) {
+		} catch(IllegalArgumentException e) {
 			exceptionCatched = true;
 		}
-		assertTrue("The constructor should throw a NullPointerException if given a null parameter!", exceptionCatched);
+		assertTrue("The constructor should throw a IllegalArgumentException if given a null parameter!", exceptionCatched);
 	}
 	
 	@Test
