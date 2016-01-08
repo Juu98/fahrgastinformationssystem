@@ -519,8 +519,9 @@ public class TimetableController{
 
 		TrainCategory cat;
 		if (data.getTrainCategoryById(routeData.getTrainCategoryShort()) == null) {
+			//Nur TrainRoutes mit "PASSENGER" werden angezeigt
 			cat = new TrainCategory(routeData.getTrainCategoryShort(), routeData.getTrainCategoryShort(),
-					routeData.getTrainCategoryShort(), routeData.getTrainCategoryShort());
+					routeData.getTrainCategoryShort(), "PASSENGER");
 			data.addTrainCategory(cat);
 		} else {
 			cat = data.getTrainCategoryById(routeData.getTrainCategoryShort());
