@@ -10,7 +10,7 @@
 = Welche Erfahrungen habe ich mit der Zusammenarbeit im Team gemacht?
 * TODO
 
-== Welche Erfahrungen habe ich bei der Wiederverwendung von Bibliotheken/Frameworks (insbesondere SalesPoint) gemacht?
+== Welche Erfahrungen habe ich bei der Wiederverwendung von Bibliotheken/Frameworks gemacht?
 * TODO
 
 == Welche Vorschläge zur weiteren Verbesserung des Softwarepraktikums gibt es?
