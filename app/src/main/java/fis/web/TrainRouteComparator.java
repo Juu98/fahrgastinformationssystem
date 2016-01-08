@@ -10,7 +10,6 @@ import fis.FilterType;
 import fis.data.Station;
 import fis.data.Stop;
 import fis.data.TrainRoute;
-
 import java.time.LocalTime;
 import java.util.Comparator;
 

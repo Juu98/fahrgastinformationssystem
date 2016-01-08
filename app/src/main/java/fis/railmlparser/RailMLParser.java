@@ -1,11 +1,12 @@
 package fis.railmlparser;
 
+import java.io.IOException;
+
+import javax.xml.bind.JAXBException;
+
 import org.railml.schemas._2009.Railml;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import javax.xml.bind.JAXBException;
-import java.io.IOException;
 
 /**
  * Hauptklasse des RailML-Parsers. Erstellt Javaobjekte aus RailML-Daten.

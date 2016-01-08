@@ -1,9 +1,12 @@
 package fis.telegrams;
 
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
-
 import java.time.DateTimeException;
+import java.nio.charset.Charset;
+import java.time.DateTimeException;
+import java.time.Duration;
+import org.apache.log4j.Logger;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;

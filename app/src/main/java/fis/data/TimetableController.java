@@ -5,19 +5,29 @@ import fis.RailML2Data;
 import fis.common.CommonConfig;
 import fis.common.ConfigurationException;
 import fis.telegramReceiver.TelegramReceiverController;
-import fis.telegrams.*;
+import fis.telegrams.LabTimeTelegram;
+import fis.telegrams.StationNameTelegram;
+import fis.telegrams.Telegram;
+import fis.telegrams.TelegramParsedEvent;
+import fis.telegrams.TrainRouteTelegram;
 import fis.telegrams.TrainRouteTelegram.StopData;
 import fis.telegrams.TrainRouteTelegram.TrainRouteData;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
+
+import javax.xml.bind.JAXBException;
 
 /**
  * Controller für {@link TimetableData}. Beinhaltet Weiterreichen von
