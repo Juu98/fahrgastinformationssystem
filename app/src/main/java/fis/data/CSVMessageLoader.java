@@ -26,7 +26,7 @@ public class CSVMessageLoader {
 	public static Map<Integer, Message> loadCSV(String path) throws NullPointerException, IllegalArgumentException, FileNotFoundException, ConfigurationException {
 		if(path == null)
 			throw new NullPointerException();
-		if(path == "")
+		if(path.isEmpty())
 			throw new IllegalArgumentException("Path cannot be empty!");
 		//Erstellen der nötigen Variablen
 		Map<Integer, Message> messages = new HashMap<Integer, Message>();
