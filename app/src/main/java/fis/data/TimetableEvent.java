@@ -24,4 +24,12 @@ public class TimetableEvent extends ApplicationEvent{
 	public TimetableEventType getType() {
 		return type;
 	}
+
+	@Override
+	public boolean equals(Object e) {
+		if(e.getClass() == TimetableEvent.class) {
+			return this.type.equals(((TimetableEvent) e).getType());
+		}
+		return false;
+	}
 }
