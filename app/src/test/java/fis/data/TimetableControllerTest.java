@@ -111,7 +111,7 @@ public class TimetableControllerTest{
 		for(TrainRoute route:timetable.getTrainRoutes()){
 			if(route.getId().equals(oldId)){
 				found=true;
-				assertEquals("Zugnummer der Route wurde nicht richtig aktualisiert",999,route.getTrainNumber());
+				assertEquals("Zugnummer der Route wurde nicht richtig aktualisiert","999",route.getTrainNumber());
 				assertEquals("Halte wurden nicht richtig aktualisiert",stop1_new,route.getStops().get(0));
 				assertEquals("Halte wurden nicht richtig aktualisiert",stop2_new,route.getStops().get(1));
 				assertEquals("Halte wurden nicht richtig aktualisiert",stop3_new,route.getStops().get(2));

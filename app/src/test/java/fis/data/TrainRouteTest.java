@@ -75,7 +75,7 @@ public class TrainRouteTest {
 		assertEquals("ID der TrainRoute stimmt nicht!", route1.getId(),"1");
 		assertEquals("TrainCategory stimmt nicht!", route1.getTrainCategory(), cat1);
 		assertEquals("Stops stimmen nicht!", route1.getStops(),stops1);
-		assertEquals("TrainNumber stimmt nicht!", route1.getTrainNumber(),1);
+		assertEquals("TrainNumber stimmt nicht!", route1.getTrainNumber(),"1");
 	}
 	
 	@Test
