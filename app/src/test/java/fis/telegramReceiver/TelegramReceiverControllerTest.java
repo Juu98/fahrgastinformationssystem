@@ -29,7 +29,7 @@ public class TelegramReceiverControllerTest {
 	TelegramSocket mockedSocket;
 	TelegramParser mockedParser;
 	ApplicationEventPublisher mockedPublisher;
-	byte[] buf = new byte[Telegram.getRawTelegramMaxLength()];
+	byte[] buf = new byte[TelegramPart.RAW_DATA.maxLength()];
 
 	/**
 	 * erstellt allgemein benötogte mocks und Objekte
