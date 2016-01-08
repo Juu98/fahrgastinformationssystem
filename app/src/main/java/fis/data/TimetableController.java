@@ -420,20 +420,22 @@ public class TimetableController{
 
 		if (event.getSource() == null)
 			throw new IllegalArgumentException();
-		if (telegram.getClass() == LabTimeTelegram.class) {
+		if (telegram.getClass().equals(LabTimeTelegram.class)) {
 			setTime(((LabTimeTelegram) telegram).getTime());
 		}
 
-		if (telegram instanceof TrainRouteTelegram) {
+		if (telegram.getClass().equals(TrainRouteTelegram.class)) {
 			updateTrainRoute(createTrainRouteFromTelegram((TrainRouteTelegram) telegram));
 		}
 
-		if (telegram instanceof StationNameTelegram) {
+		if (telegram.getClass().equals(StationNameTelegram.class)) {
 			String id = Byte.toString((((StationNameTelegram) telegram).getId()));
 			String shortName = ((StationNameTelegram) telegram).getCode();
 			String longName = ((StationNameTelegram) telegram).getName();
+			float x = ((StationNameTelegram) telegram).getX();
+			float y = ((StationNameTelegram) telegram).getY();
 
-			Station station = new Station(id, longName, shortName);
+			Station station = new Station(id, longName, shortName, x, y);
 			data.addStation(station);
 		}
 
