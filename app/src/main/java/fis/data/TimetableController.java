@@ -432,10 +432,11 @@ public class TimetableController{
 			String id = Byte.toString((((StationNameTelegram) telegram).getId()));
 			String shortName = ((StationNameTelegram) telegram).getCode();
 			String longName = ((StationNameTelegram) telegram).getName();
-			float x = ((StationNameTelegram) telegram).getX();
-			float y = ((StationNameTelegram) telegram).getY();
-
+			float x = ((StationNameTelegram) telegram).getX() * 100;
+			float y = ((StationNameTelegram) telegram).getY() * 100;
+			
 			Station station = new Station(id, longName, shortName, x, y);
+			LOGGER.debug("Created Station. X: "+x+", Y: "+y);
 			data.addStation(station);
 		}
 
