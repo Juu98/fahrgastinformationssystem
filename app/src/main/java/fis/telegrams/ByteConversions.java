@@ -185,11 +185,6 @@ public abstract class ByteConversions {
 			throw new IllegalArgumentException("Integer benötigt genau 4 Bytes.");
 		}
 		
-		byte[] arr = new byte[4];
-		for (int i=0; i<in.length; i++){
-			arr[i] = (littleEndian) ? in[in.length - i] : in[i];
-		}
-		
 		ByteOrder o = (littleEndian) ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN;
 		return ByteBuffer.wrap(in).order(o).getFloat();
 	}
