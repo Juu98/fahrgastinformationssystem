@@ -1,13 +1,12 @@
 package fis.railmlparser;
 
-import java.io.IOException;
-import java.io.InputStream;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.stream.StreamSource;
-
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Klasse, die von RailMLParser benutzt wird, um XML-Daten zu konvertieren.

@@ -18,7 +18,7 @@ public class ClientStatusTelegram extends SendableTelegram{
 	 * Konstruktor für das Clientstatustelegramm. 
 	 * @param ID
 	 * @param status
-	 * @throws NullPointerException
+	 * @throws IllegalArgumentException
 	 * @throws UnsupportedEncodingException 
 	 */
 	public ClientStatusTelegram(String ID, byte status) throws UnsupportedEncodingException {

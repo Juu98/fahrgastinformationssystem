@@ -14,11 +14,11 @@ public class StationNameTelegram extends Telegram{
 	 * @param ID
 	 * @param code
 	 * @param name
-	 * @throws NullPointerException
+	 * @throws IllegalArgumentException
 	 */
-	public StationNameTelegram(byte ID, String code, String name) throws NullPointerException {
+	public StationNameTelegram(byte ID, String code, String name) throws IllegalArgumentException {
 		if(code == null || name == null)
-			throw new NullPointerException();
+			throw new IllegalArgumentException();
 		this.id = ID;
 		this.code = code;
 		this.name = name;

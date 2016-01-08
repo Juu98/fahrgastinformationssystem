@@ -12,9 +12,10 @@ import java.util.List;
 public class TrainRoute {
 	private String id;
 	private int trainNumber;
+	private int messageId;
 	private TrainCategory trainCategory;
 	private List<Stop> stops = new ArrayList<Stop>();
-
+	
 	/**
 	 * @param id
 	 *            Zuglauf-ID
@@ -25,7 +26,7 @@ public class TrainRoute {
 	 * @param stops
 	 *            List von allen {@link Stop}s dieses Zuglaufs.
 	 */
-	public TrainRoute(String id, int trainNumber, TrainCategory trainCategory, List<Stop> stops) {
+	public TrainRoute(String id, int trainNumber, TrainCategory trainCategory, List<Stop> stops, int messageId) {
 		if (id == null || trainCategory == null || stops == null) {
 			throw new IllegalArgumentException("id, trainCategory und stops dürfen nicht null sein!");
 		}
@@ -34,12 +35,29 @@ public class TrainRoute {
 		this.trainNumber = trainNumber;
 		this.trainCategory = trainCategory;
 		this.stops = stops;
+		this.messageId=messageId;
 
 		// link stops
 		for (Stop stop : stops) {
 			linkStop(stop);
 		}
 	}
+	
+	/**
+	 * Aktualisiert die aktuelle Meldung
+	 * @param messageId
+	 */
+	public void updateMessage(int messageId){
+		this.messageId=messageId;
+	}
+	
+	/**
+	 * @return Die Id der Message
+	 */
+	public int getMessageId(){
+		return messageId;
+	}
+	
 
 	/**
 	 * @return ID des Zuglaufs

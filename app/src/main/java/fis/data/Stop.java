@@ -1,7 +1,6 @@
 package fis.data;
 
 import java.time.LocalTime;
-
 /**
  * Repräsentiert einen spezifischen Halt
  * @author Eric

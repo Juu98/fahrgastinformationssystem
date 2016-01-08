@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import fis.common.CommonConfig;
 import org.junit.Before;
 import org.junit.Test;
 import fis.telegrams.LabTimeTelegram;
@@ -23,8 +25,17 @@ public class TimetableControllerTest{
 	
 	@Before
 	public void setUp() throws Exception{
-		timetable=new TimetableController();
+		timetable=new TimetableController(new CommonConfig());
 		timetable.resetData();
+		Message m1 = new Message();
+		m1.setIndex(1);
+		m1.setMessage("Test Message 1");
+		timetable.getMessageMap().put(1, m1);
+		Message m2 = new Message();
+		m2.setIndex(2);
+		m2.setMessage("Test Message 2");
+		timetable.getMessageMap().put(2, m2);
+		
 		data=timetable.getData();
 		
 		if(data==null) throw new Exception("data should not be null!");
@@ -36,7 +47,7 @@ public class TimetableControllerTest{
 		s3=new Station("3","s3");
 		s4=new Station("4","s4");
 		
-		stop1=new Stop(s1,StopType.BEGIN,null,LocalTime.of(0, 1),"1",0);
+		stop1=new Stop(s1,StopType.BEGIN,null,LocalTime.of(0, 1),"1", 1);
 		stop2=new Stop(s2,StopType.STOP,LocalTime.of(0, 2),LocalTime.of(0, 3),"2",0);
 		stop3=new Stop(s3,StopType.END,LocalTime.of(0, 4),null,"3",0);
 		
@@ -45,7 +56,7 @@ public class TimetableControllerTest{
 		stops1.add(stop2);
 		stops1.add(stop3);
 		
-		route1=new TrainRoute("1",1,cat1,stops1);
+		route1=new TrainRoute("1",1,cat1,stops1, 2);
 		
 		List<Stop> stops2=new ArrayList<Stop>();
 		stop4=new Stop(s2,StopType.BEGIN,null,LocalTime.of(3,1),"4",0);
@@ -53,7 +64,7 @@ public class TimetableControllerTest{
 		stops2.add(stop4);
 		stops2.add(stop5);
 		
-		route2=new TrainRoute("2",2,cat1,stops2);
+		route2=new TrainRoute("2",2,cat1,stops2, 0);
 		
 		data.addTrainCategory(cat1);
 		data.addStation(s1);
@@ -76,7 +87,7 @@ public class TimetableControllerTest{
 		newStops.add(stop3_new);
 		
 		
-		route1_new=new TrainRoute(route1.getId(),999,cat1,newStops);
+		route1_new=new TrainRoute(route1.getId(),999,cat1,newStops, 2);
 	}	
 
 	
@@ -123,10 +134,41 @@ public class TimetableControllerTest{
 		}
 		
 	}
+	@Test
+	public void testGetMessage_Id_Exists(){
+		assertEquals("Die erwartete Message stimmt nicht!", "Test Message 1", timetable.getMessage(1));
+	}
+	
+	@Test
+	public void testGetMessage_Id_WrongId(){
+		assertEquals("Bei einer ID mit nicht existierender Message soll ein leerer String zurückgegeben werden", "", timetable.getMessage(5));
+	}
+	
+	@Test
+	public void testGetMessage_Stop_Exists(){
+		assertEquals("Die erwartete Message stimmt nicht!", "Test Message 1", timetable.getMessage(stop1));
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testGetMessage_Stop_Null(){
+		Stop nullStop = null;
+		assertEquals("Bei einem Null-Argument soll ein Fehler geworfen werden!", "", timetable.getMessage(nullStop));
+	}
+	
+	@Test
+	public void testGetMessage_TrainRoute_Exists(){
+		assertEquals("Die erwartete Message stimmt nicht!", "Test Message 2", timetable.getMessage(route1));
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testGetMessage_TrainRoute_Null(){
+		TrainRoute nullRoute = null;
+		assertEquals("Bei einem Null-Argument soll ein Fehler geworfen werden!", "", timetable.getMessage(nullRoute));
+	}
 	
 	@Test
 	public void testUpdateTrainRoute_new(){
-		TrainRoute routeX=new TrainRoute("23452345", 555, cat1, route1_new.getStops());
+		TrainRoute routeX=new TrainRoute("23452345", 555, cat1, route1_new.getStops(), 0);
 		
 		timetable.updateTrainRoute(routeX);
 		assertTrue("Eine noch nicht in der Datenstruktur existierende TrainRoute soll hinzugefügt werden!",

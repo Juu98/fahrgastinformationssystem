@@ -2,30 +2,22 @@ package fis.data;
 
 import fis.FilterType;
 import fis.RailML2Data;
+import fis.common.CommonConfig;
+import fis.common.ConfigurationException;
 import fis.telegramReceiver.TelegramReceiverController;
-import fis.telegrams.LabTimeTelegram;
-import fis.telegrams.StationNameTelegram;
-import fis.telegrams.Telegram;
-import fis.telegrams.TelegramParsedEvent;
-import fis.telegrams.TrainRouteTelegram;
+import fis.telegrams.*;
 import fis.telegrams.TrainRouteTelegram.StopData;
 import fis.telegrams.TrainRouteTelegram.TrainRouteData;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
-
-import javax.xml.bind.JAXBException;
 
 /**
  * Controller für {@link TimetableData}. Beinhaltet Weiterreichen von
@@ -37,6 +29,8 @@ import javax.xml.bind.JAXBException;
 @Component
 public class TimetableController{
 	private static final Logger LOGGER = Logger.getLogger(RailML2Data.class);
+	@Autowired
+	private CommonConfig fisConfig;
 	
 	
 	/**
@@ -129,7 +123,7 @@ public class TimetableController{
 		stops1.add(stop2);
 		stops1.add(stop3);
 		
-		route1=new TrainRoute("1",1,cat1,stops1);
+		route1=new TrainRoute("1",1,cat1,stops1, 0);
 		
 		List<Stop> stops2=new ArrayList<Stop>();
 		stop4=new Stop(s2,StopType.BEGIN,null,LocalTime.of(3,1),"4",0);
@@ -137,7 +131,7 @@ public class TimetableController{
 		stops2.add(stop4);
 		stops2.add(stop5);
 		
-		route2=new TrainRoute("2",2,cat1,stops2);
+		route2=new TrainRoute("2",2,cat1,stops2, 0);
 		
 		//data.addTrainCategory(cat1);
 		data.addStation(s1);
@@ -161,22 +155,72 @@ public class TimetableController{
 		newStops.add(stop3_new);
 		
 		
-		route1_new=new TrainRoute(route1.getId(),999,cat1,newStops);
+		route1_new=new TrainRoute(route1.getId(),999,cat1,newStops, 0);
 	}	
 	
+	/**
+	 * Gibt die zur gegebenen ID gehörende Nachricht zurück
+	 * @param id Die MessageID
+	 * @return Die zur ID gehörige Nachricht
+	 */
+	public String getMessage(int id){
+		if(messages.containsKey(id)){
+			return messages.get(id).getMessage();
+		} else{
+			return "";
+		}
+	}
+	
+	/**
+	 * Gibt die zur gegebenen TrainRoute gehörende Nachricht zurück
+	 * @param route
+	 * @return
+	 */
+	public String getMessage(TrainRoute route){
+		if(route==null){
+			throw new IllegalArgumentException("Route darf nicht null sein!");
+		}
 		
+		return getMessage(route.getMessageId());
+	}
+	
+	/**
+	 * Gibt die zum gegebenen Stop gehörende Nachricht zurück
+	 * @param stop
+	 * @return
+	 */
+	public String getMessage(Stop stop){
+		if(stop==null){
+			throw new IllegalArgumentException("Stop darf nicht null sein!");
+		}
+		
+		return getMessage(stop.getMessageId());
+	}
+		
+	/**
+	 * Löscht die bisherige Datenstruktur
+	 */
 	public void resetData(){
 		data = new TimetableData();
 	}
+
+	/**
+	 * 
+	 * @return Die Map mit allen Messages
+	 */
+	public Map<Integer, Message> getMessageMap(){
+		return messages;
+	}
 	
-	public TimetableController() {
+	@Autowired
+	public TimetableController(CommonConfig config) {
+		this.fisConfig = config;
 		try {
 			resetData();
 			
 			//TODO: entfernen, wenn nicht mehr benötigt
 			setUpGraphTest();				
-			//data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");
-		
+			//data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");	
 		
 		} catch (Exception ex) {
 			System.out.println(ex.toString());
@@ -417,13 +461,18 @@ public class TimetableController{
 		try {
 			//Laden des Offline-Fahrplans
 			LOGGER.info("Offline. Laden des RailML-Fahrplans.");
-			data=RailML2Data.loadML("EBL Regelfahrplan.xml");
+			if(fisConfig.getRailmlpath() == null) {
+				throw new ConfigurationException("ungültiger Pfad zur RailML");
+			}
+			data=RailML2Data.loadML(fisConfig.getRailmlpath());
 		} catch (IOException e) {
 			LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
 			e.printStackTrace();
 		} catch (JAXBException e) {
 			LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
 			e.printStackTrace();
+		} catch (ConfigurationException e) {
+			LOGGER.error(e.getMessage());
 		}
 	}
 	
@@ -467,7 +516,7 @@ public class TimetableController{
 			cat = data.getTrainCategoryById(routeData.getTrainCategoryShort());
 		}
 
-		TrainRoute route = new TrainRoute("" + trainNr, Integer.parseInt(trainNr), cat, routeStops);
+		TrainRoute route = new TrainRoute("" + trainNr, Integer.parseInt(trainNr), cat, routeStops, messageId);
 
 		return route;
 	}

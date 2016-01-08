@@ -1,31 +1,16 @@
 package fis;
 
+import fis.data.*;
+import fis.railmlparser.RailMLParser;
+import org.apache.log4j.Logger;
+import org.railml.schemas._2009.*;
+
+import javax.xml.bind.JAXBException;
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.JAXBException;
-import javax.xml.datatype.XMLGregorianCalendar;
-
-import org.apache.log4j.Logger;
-import org.railml.schemas._2009.ECategory;
-import org.railml.schemas._2009.EOcp;
-import org.railml.schemas._2009.EOcpTT;
-import org.railml.schemas._2009.ETrainPart;
-import org.railml.schemas._2009.Infrastructure;
-import org.railml.schemas._2009.Railml;
-import org.railml.schemas._2009.TOcpOperationalType;
-import org.railml.schemas._2009.TUsageType;
-import org.railml.schemas._2009.Timetable;
-
-import fis.data.Station;
-import fis.data.Stop;
-import fis.data.StopType;
-import fis.data.TimetableData;
-import fis.data.TrainCategory;
-import fis.data.TrainRoute;
-import fis.railmlparser.RailMLParser;
 
 public class RailML2Data {
 	private static final Logger LOGGER = Logger.getLogger(RailML2Data.class);
@@ -150,7 +135,7 @@ public class RailML2Data {
 				//evtl. gehen die Categories eleganter, dasselbe gilt für die Ocp's weiter oben
 				if(stops.size()>0){
 					data.addTrainRoute(new TrainRoute(trainPart.getId(),trainNumber,
-							data.getTrainCategoryById(((ECategory)trainPart.getCategoryRef()).getId()),stops));
+							data.getTrainCategoryById(((ECategory)trainPart.getCategoryRef()).getId()),stops, 0));
 					countTrainRoutes+=1;
 				}
 			} 
