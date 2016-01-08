@@ -1,0 +1,110 @@
+= Protokoll Gruppe 03
+
+[cols="<h,<a"]
+|===
+|Treffen am 15.12.2015    |13:00 Uhr, EBL
+|Schriftführer            |Robert Mörseburg
+|Nächstes Treffen         |05.01.2016, 13:00 Uhr, APB
+|Teilnehmer               |
+* Eric Schölzel (Scrum-Master)
+* Jonas Schenke
+* Oliver Schmidt
+* Robert Mörseburg
+* Zdravko Yanakiev
+* Walerian Nesterenko (Betreuer EBL)
+* Ronny Kaiser (Betreuer Lehrstuhl SWT)
+|===
+
+== Bemerkungen
+
+Zum Treffen fand ein Test der Anwendung im Eisenbahnbetriebslabor statt. Aufgrund des hohen verbliebenen Testbedarfs fand am 18.12.2015 von 13:00 - 16:30 Uhr ein weiteres Treffen mit Tests statt, an dem neben dem Betreuer Herrn Nesterenko Jonas Schenke, Olliver Schmidt und Robert Mörseburg teilnahmen.
+
+== Retrospektive des letzten Sprints
+
+Nachdem der Kunde eine genaue Spezifikation der Telegramme geliefert hat, wurde diese im letzten Sprint implementiert. Des Weiteren wurde der Anwendung Funktionalität zum Auslesen externer Konfigurationsdateien und einer CSV-Datei mit Meldungstexten hinzugefügt.
+
+[options="header"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|28 |TCP Verarbeitung			|in Bearbeitung		|Telegramme senden/empfangen
+|35 |Opera 12 Kompatibilität	|fast abgeschlossen	|--
+|39 |Javadoc 					|in Bearbeitung		|--
+|41 |Konsolenausgabe			|abgeschlossen		|--
+|48 |Verarbeitung Update-Telegramme |in Bearbeitung	|noch ungetestet
+|55	|Externe Konfigurationsdatei	|in Bearbeitung	|Hierarchie noch nicht abschließend geklärt
+|56	|Apache-Konfiguration		|abgeschlossen		|--
+|57	|Telegramme parsen 			|fast abgeschlossen	|Spezifikationen implementiert
+|59	|Telegrammklassen implementieren und testen 	|abgeschlossen |--
+|===
+
+== Aktueller Stand
+
+=== Treffen am 15.12.
+
+Zum Test wurde auf einer Windows-Maschine ein Apache-Server aufgesetzt, die als Reverse Proxy konfiguriert werden konnte, sodass eine Weiterleitung auf den Spring-internen Tomcat-Server möglich war. Die Anwendung konnte als `JAR` problemlos gestartet werden. Ein Problem mit der `DOCTYPE`-Definition konnte Zdravko am 15.12. operativ beheben.
+
+Eine Verbindung zum Telegrammserver war beim ersten Test am 15.12. zwar möglich, die Anwendung konnte sich erfolgreich registrieren, allerdings konnten keine Telegramme verarbeitet werden.
+
+Eine vom Kunden neu generierte `RailML`-Datei konnte von der Anwendung auf Anhieb geparst werden.
+
+Folgende offene Punkte wurden am 15.12. geklärt:
+
+* Die Länge der Nutzdaten im Telegramm schließt die Telegramm-Kennung mit ein.
+* Die Zuggattungen sollen dynamisch aus den Zuglauftelegrammen entnommen werden, es werden keine Telegramme für Güterzüge gesendet.
+* Da bei einem Byte Daten die maximale Verspätung 12 Minuten betragen würde, wird der Kunde nach einem Hinweis der Gruppe die Spezifikation des Zuglauftelegrammes noch einmal anpassen.
+* Enthält ein Halt keine Daten für Abfahrt oder Ankunft (erster bzw. letzter Bahnhof auf einem Zuglauf), so wird die Zahl `44444` als Zeit gesendet.
+* Hält ein Zug an einem Bahnhof nicht (Durchfahrt), so wird die Zahl `55555` als Zeit gesendet.
+
+Der Kunde definierte am 15.12 auch seine zusätzliche Anforderung:
+Aus der XML-Datei bzw. den Telegrammen erhält jeder Bahnhof Koordinaten. Mit diesen Werten soll die Anwendung eine Karte des Streckennetzes generieren und anzeigen, aus der der Benutzer einen Bahnhof auswählen kann und die in der Zuglaufanzeige den gewählten Zuglauf besonders markiert.
+
+Die Telegrammspezifikation wird dementsprechend vom Kunden erweitert, der genaue Pfad der Koordinaten innerhalb der XML-Datei wird vom Kunden zu einem spätereeren Zeitpunkt mitgeteilt.
+
+=== Treffen am 18.12.
+
+Am 18.12. wurde intensives Debugging betrieben, um die TCP-Verbindung zum Server zu untersuchen. Dabei stellte sich eine Inkonsistenz zwischen Spezifikation und tatsächlich gesendeten Telegrammen heraus. In allen bisher erhaltenen Spezifikationen (auch der momentan aktuellen vom 17.12.15) findet sich folgender Satz unter "Grundlegender Telegrammaufbau":
+"Die Länge der Nutzbytes ist immer 251 Bytes."
+
+Diese Spezifikation wird vom Server ausschleßlich beim Laborzeittelegramm eingehalten (mit `0x00` aufgefüllt), alle anderen Telegramme enden nach der angegeben Nutzbytezahl. Nach einigen Anpassungen kann die Anwendung nun beide Telegrammformen konsistent empfangen.
+
+Im Gespräch mit dem Kunden stellten sich weitere kleinere Fehler in der Spezifikation heraus:
+
+* die Länge der Zugnummer ist, entgegen der Spezifikation, variabel und nicht weiter begrenzt, das heißt, anstelle mit 6 Byte, die notfalls mit `0x00` aufgefüllt werden, werden immer genau die unter Länge angegebene Zahl an Bytes gesendet.
+* Gleiches gilt für die Zugkategorie.
+* Gleiches gilt für die Abkürzung der Betriebsstellen (siehe Mailverkehr vom 17.12.).
+* Das Feld "Übergang in Zugnummer" ist nicht wie angegeben 5 sondern 4 Byte lang.
+
+Weiterhin wurden folgende offene Punkte geklärt:
+
+* Der Dispo-Typ soll von der Anwendung ignoriert werden.
+* Eine leere Meldung hat den Index `0`.
+* Beim Senden von Registrierungs- und ClientStatus-Telegrammen sollen folgende Standardwerte verwendet werden:
+	** Laboruhrfaktor: `1`
+	** Züge Stop/Weiter: `1`
+* Der Kunde ist sich relativ sicher, dass Daten, die mehrere Bytes umfassen, in Little Endian gesendet werden, dies sollte aber nochmal geprüft werden.
+
+Beim abschließenden Test konnte sich die Anwendung mit dem Server verbinden und dort erfolgreich registrieren. Desweiteren wurden die Betriebsstellentelegramme erfolgreich verarbeitet und alle Bahnhöfe konnten in der GUI angezeigt werden. Die Zuglauftelegramme konnten aufgrund der o.g. Unstimmigkeiten nicht verarbeitet werden, wurden von der Anwendung aber augenscheinlich korrekt empfangen.
+
+Eine Logausgabe mit einigen Telegrammen liegt diesem Protokoll für spätere Tests bei.
+
+== Planung des nächsten Sprints
+
+Über den Jahreswechsel werden die Methoden zur Telegrammverarbeitung verfeinert.
+Insbesondere der Wechsel zwischen XML-Verarbeitung und Telegramm-Empfang wird mittels Events automatisiert.
+
+UML-Diagramm und Testplan müssen an die aktuellen Änderungen angepasst werden und weitere Tests, sowei JAvadoc-Dokumentation wird ergänzt.
+
+Ein erstes Konzept zur Erzeugung der Karte auf Grundlage einer einfachen Graphen-Bibliothek wird erarbeitet.
+
+[options="header"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|35 |Opera 12 Kompatibilität	|fast abgeschlossen	|abschließende Tests (durch *Robert*)
+|39 |Javadoc 					|in Bearbeitung		|erweitern (durch *alle*)
+|48 |Verarbeitung Update-Telegramme |in Bearbeitung	|mittels Events, testen (durch *Eric*)
+|57	|Telegramme parsen 			|fast abgeschlossen	|Koordinaten implementieren (durch *Robert*)
+|65	|Testplan					|in Bearbeitung		|aktualisieren, erweitern, neue Tests (durch *alle*)
+|66	|Umschaltung TCP / XML 		|in Bearbeitung		|ebenfalls eventbasiert
+|68	|Integration Tests 			|offen 				|eventuell mittels Testserver
+|69	|Karte des Streckennetzes	|offen 				|--
+|===
