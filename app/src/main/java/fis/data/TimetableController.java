@@ -229,7 +229,7 @@ public class TimetableController{
 			resetData();
 			
 			//TODO: entfernen, wenn nicht mehr benötigt
-			setUpGraphTest();				
+			//setUpGraphTest();				
 			//data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");	
 		
 		} catch (Exception ex) {
@@ -451,12 +451,12 @@ public class TimetableController{
 		switch(event.getType()){
 			case cleanup:
 			//Löschen der bisherigen Datenstruktur
-			setTime(null);
-			resetData();
+			//setTime(null);
+			//resetData();
 			break;
 		case parseRailML:
-			resetData();
-			loadML();
+			//resetData();
+			//loadML();
 			break;
 		default:
 			break;
