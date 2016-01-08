@@ -133,7 +133,7 @@ public class TimetableController{
 		stops1.add(stop2);
 		stops1.add(stop3);
 		
-		route1=new TrainRoute("1",1,cat1,stops1, 0);
+		route1=new TrainRoute("1","1",cat1,stops1, 0);
 		
 		List<Stop> stops2=new ArrayList<Stop>();
 		stop4=new Stop(s2,StopType.BEGIN,null,LocalTime.of(3,1),"4",0);
@@ -141,7 +141,7 @@ public class TimetableController{
 		stops2.add(stop4);
 		stops2.add(stop5);
 		
-		route2=new TrainRoute("2",2,cat1,stops2, 0);
+		route2=new TrainRoute("2","2",cat1,stops2, 0);
 		
 		//data.addTrainCategory(cat1);
 		data.addStation(s1);
@@ -165,7 +165,7 @@ public class TimetableController{
 		newStops.add(stop3_new);
 		
 		
-		route1_new=new TrainRoute(route1.getId(),999,cat1,newStops, 0);
+		route1_new=new TrainRoute(route1.getId(),"999",cat1,newStops, 0);
 	}	
 	
 	/**
@@ -526,7 +526,7 @@ public class TimetableController{
 			cat = data.getTrainCategoryById(routeData.getTrainCategoryShort());
 		}
 
-		TrainRoute route = new TrainRoute("" + trainNr, Integer.parseInt(trainNr), cat, routeStops, messageId);
+		TrainRoute route = new TrainRoute("" + trainNr, trainNr, cat, routeStops, messageId);
 
 		return route;
 	}

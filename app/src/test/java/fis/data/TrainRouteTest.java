@@ -33,25 +33,25 @@ public class TrainRouteTest {
 		stops1.add(stop2);
 		stops1.add(stop3);
 		
-		route1=new TrainRoute("1",1,cat1,stops1, 1);
+		route1=new TrainRoute("1","1",cat1,stops1, 1);
 		
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_1(){
-		new TrainRoute(null,0,cat1,stops1, 0);
+		new TrainRoute(null,"0",cat1,stops1, 0);
 		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_2(){
-		new TrainRoute("2",0,null,stops1, 0);
+		new TrainRoute("2","0",null,stops1, 0);
 		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_3(){
-		new TrainRoute("2",0,cat1,null, 0);
+		new TrainRoute("2","0",cat1,null, 0);
 		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");
 	}
 	
