@@ -486,6 +486,10 @@ public class TimetableController{
 			throw new IllegalArgumentException("Das Telegram darf nicht null sein!");
 		}
 		TrainRouteData routeData = tel.getData();
+		
+		if(routeData==null){
+			throw new IllegalArgumentException("Das Telegram muss ein TrainRouteData-Objekt besitzen");
+		}
 		String trainNr = routeData.getTrainNumber();
 		int messageId = routeData.getMessageId();
 		List<Stop> routeStops = new ArrayList<Stop>();
