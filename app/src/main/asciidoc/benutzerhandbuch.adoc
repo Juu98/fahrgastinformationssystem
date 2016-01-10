@@ -89,7 +89,7 @@ image::trainNr_tab.png[Tabelle Zuglauf, 80%, title="Tabelle Zuglauf"]
 
 === Liniennetz
 
-Hier wird eine Karte des Netzes angezeigt, falls Koordinaten-Informationen verfügbar sind.
+Hier wird eine Karte des Netzes angezeigt, falls Koordinaten verfügbar sind.
 
 image::graphtab.png[Liniennetz-Tab, 80%, title="Liniennetz-Tab"]
 
