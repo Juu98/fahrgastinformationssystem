@@ -454,12 +454,12 @@ public class TimetableController{
 		switch(event.getType()){
 			case cleanup:
 			//Löschen der bisherigen Datenstruktur
-			//setTime(null);
-			//resetData();
+			setTime(null);
+			resetData();
 			break;
 		case parseRailML:
-			//resetData();
-			//loadML();
+			resetData();
+			loadML();
 			break;
 		default:
 			break;
