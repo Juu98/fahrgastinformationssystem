@@ -1,5 +1,7 @@
 = Benutzerhandbuch
 
+:imagesdir: benutzerhandbuch
+
 == Installation
 === Konfiguration des Apache Servers
 Es ist möglich und vorgesehen, dass die Anwendung hinter einem als _Reverse Proxy_ konfigurierten Apache Server läuft. Das hat den Vorteil, dass sie einfacher für den Benutzer vom lokalen Netzwerk aus erreichbar ist. Im folgenden Abschnitt wird die Konfiguration eines Apache Servers für FIS angegeben.
@@ -37,5 +39,33 @@ ProxyPassReverse /fis http://localhost:8080
 
 == Konfiguration
 == Programmstart
+
+[source,conf]
+Der Start des Programms erfolgt über die Kommandozeile
+----
+java -jar fis.jar
+----
+
 == Benutzung
+Die Benutzeroberfläche des FIS unterteilt sich in 4 verschiedene Registerkarten (Tabs).
+
+=== Abfahrten und Ankünfte
+
+Hier werden die abfahrenden bzw. ankommenden Züge innerhalb des ausgewählten Zeitraumes angezeigt.
+image::dep_1.png[Abfahrten, 80%, title="Übersicht Abfahrtsanzeige"]
+
+Am Anfang muss ein Bahnhof ausgewählt werden, für den die Anzeige erfolgen soll. Das Auswählen des Bahnhofs geschieht über die Suchleiste am oberen Bildschirmrand. Durch einen Klick auf den Pfeil rechts von der Suche erhält man eine Liste von allen verfügbaren Bahnhöfen. Der entsprechende Bahnhof muss dann nur noch angeklickt werden.
+Alternativ kann der Name des Bahnhofs auch in die Suchmaske eingefügt werden. Es werden dann passende Bahnhöfe vorgeschlagen. Ein Klick auf "Anzeigen" oder die Enter-Taste wählen in diesem Fall den Bahnhof aus.
+
+image::dep_3.png[Tabelle Abfahrten, 100%, title="Tabelle Abfahrten"]
+
+
+Hier werden die Filterfunktionen angewendet. Man kann den Zeitraum auswählen, in dem die Abfahrten bzw. Ankünfte angezeigt werden Standardmäßig ist ein Zeitraum von 2 Stunden ausgehend von der aktuellen Laborzeit eingestellt. Zudem werden die anzuzeigenden Zugtypen ausgewählt. Es werden nur Passagierzugtypen zur Auswahl gestellt (nur relevant, wenn von einem Offline-Fahrplan gelesen wird).
+
+image::filter.png[Tabelle Abfahrten, 100%, title="Tabelle Abfahrten"]
+
+
+image::dep_tab.png[Tabelle Abfahrten, 100%, title="Tabelle Abfahrten"]
+ 
+
 == Administrationsbereich
