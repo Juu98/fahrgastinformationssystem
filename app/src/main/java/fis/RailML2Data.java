@@ -149,7 +149,7 @@ public class RailML2Data {
 				
 				//evtl. gehen die Categories eleganter, dasselbe gilt für die Ocp's weiter oben
 				if(stops.size()>0){
-					data.addTrainRoute(new TrainRoute(trainPart.getId(),trainNumber,
+					data.addTrainRoute(new TrainRoute(trainPart.getId(),Integer.toString(trainNumber),
 							data.getTrainCategoryById(((ECategory)trainPart.getCategoryRef()).getId()),stops, 0));
 					countTrainRoutes+=1;
 				}

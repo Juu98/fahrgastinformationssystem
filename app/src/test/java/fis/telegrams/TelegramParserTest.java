@@ -105,15 +105,17 @@ public class TelegramParserTest {
 		
 		validRawTelegram = ByteConversions.fromString(
 				"FF FF FF",
-				ByteConversions.toByteString((byte) ((name.length + code.length + 3) & 0xFF)),
+				ByteConversions.toByteString((byte) ((name.length + code.length + 11) & 0xFF)),
 				"EE",
 				ByteConversions.toByteString(id),
 				ByteConversions.toByteString((byte) (code.length & 0xFF)),
 				ByteConversions.toByteString(code),
-				ByteConversions.toByteString(name)
+				ByteConversions.toByteString(name),
+				"bf800000",
+				"bf800000"
 		);
 		StationNameTelegram telegram = (StationNameTelegram) parser.parse(validRawTelegram);
-		StationNameTelegram referenceTelegram = new StationNameTelegram(id, c, n);
+		StationNameTelegram referenceTelegram = new StationNameTelegram(id, c, n, -1, -1);
 		
 		Assert.assertEquals("BS-Bezeichnungstelegramme stimmen nicht überein", referenceTelegram, telegram);
 	}

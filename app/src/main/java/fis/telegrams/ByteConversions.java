@@ -1,5 +1,7 @@
 package fis.telegrams;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.time.Duration;
 import java.time.LocalTime;
 
@@ -176,5 +178,14 @@ public abstract class ByteConversions {
 		}
 		
 		return s.trim();
+	}
+	
+	public static float toFloat(byte[] in, boolean littleEndian){
+		if (in.length != 4){
+			throw new IllegalArgumentException("Integer benötigt genau 4 Bytes.");
+		}
+		
+		ByteOrder o = (littleEndian) ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN;
+		return ByteBuffer.wrap(in).order(o).getFloat();
 	}
 }

@@ -81,7 +81,7 @@ public class StationTest {
     	List<Stop> stops = new ArrayList<Stop>();
     	stops.add(s1);
     	TrainCategory category = new TrainCategory("TLX", "TeElIx", "Isn Zuch!", "Damit kann man Dinge von A nach B bewegen. ");
-    	TrainRoute route = new TrainRoute("TLX_0815", 3, category, stops, 0);
+    	TrainRoute route = new TrainRoute("TLX_0815", "3", category, stops, 0);
     	s1.setTrainRoute(route);
     	nowhere.addStop(s1);
     	assertNull("getStopFromTrainRoute should return null if the route is not passing the station. ", station.getStopForTrainRoute(route));
@@ -93,7 +93,7 @@ public class StationTest {
     	List<Stop> stops = new ArrayList<Stop>();
     	stops.add(s2);
     	TrainCategory category = new TrainCategory("TLX", "TeElIx", "Isn Zuch!", "Damit kann man Dinge von A nach B bewegen. ");
-    	TrainRoute route = new TrainRoute("TLX_0815", 3, category, stops, 0);
+    	TrainRoute route = new TrainRoute("TLX_0815", "3", category, stops, 0);
     	s2.setTrainRoute(route);
     	station.addStop(s2);
     	assertEquals("The stops should be equal! ", station.getStopForTrainRoute(route), s2);

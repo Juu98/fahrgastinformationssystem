@@ -2,11 +2,7 @@ package fis.telegrams;
 
 import org.springframework.stereotype.Component;
 import java.time.DateTimeException;
-import java.nio.charset.Charset;
-import java.time.DateTimeException;
-import java.time.Duration;
 import org.apache.log4j.Logger;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -261,7 +257,7 @@ public class TelegramParser {
 	 * @throws TelegramParseException 
 	 */
 	private StationNameTelegram parseStationNameData(byte[] rawData) throws TelegramParseException{
-		final int MIN_LENGTH = 4;
+		final int MIN_LENGTH = 12;
 		
 		if(rawData.length < MIN_LENGTH) {
 			throw new TelegramParseException(String.format("Bytearray für BS-Bezeichnungstelegramm ist kürzer (%d) als erwartet (%d)", rawData.length, MIN_LENGTH));
@@ -269,11 +265,13 @@ public class TelegramParser {
 		
 		final int codeLength = ByteConversions.toUInt(rawData[1]);
 		final String code = new String(Arrays.copyOfRange(rawData, 2, codeLength+2), Telegram.CHARSET);
-		final String name = new String(Arrays.copyOfRange(rawData, codeLength+2, rawData.length), Telegram.CHARSET);
+		final String name = new String(Arrays.copyOfRange(rawData, codeLength+2, rawData.length-8), Telegram.CHARSET);
+		float x = ByteConversions.toFloat(Arrays.copyOfRange(rawData, rawData.length-8, rawData.length-4), Telegram.LITTLE_ENDIAN);
+		float y = ByteConversions.toFloat(Arrays.copyOfRange(rawData, rawData.length-4, rawData.length), Telegram.LITTLE_ENDIAN);
 		
 		// TODO coords
 		
-		StationNameTelegram returnTele = new StationNameTelegram(rawData[0], code, name);
+		StationNameTelegram returnTele = new StationNameTelegram(rawData[0], code, name, x, y);
 		LOGGER.debug("Parsed " + returnTele);
 		return returnTele;
 	}
