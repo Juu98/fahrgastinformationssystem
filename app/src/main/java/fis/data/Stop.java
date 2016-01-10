@@ -1,6 +1,8 @@
 package fis.data;
 
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+
 /**
  * Repräsentiert einen spezifischen Halt
  * @author Eric
@@ -173,5 +175,97 @@ public class Stop {
 	public TrainRoute getTrainRoute(){
 		return trainRoute;
 	}	
+	
+	/**Berechnet die Verspätung bei der Ankunft in Sekunden. 
+	 * @return Positives Ergebnis, wenn der Zug zu spät ankommt
+	 * Negatives Ergebnis, wenn der Zug zu früh ankommt.
+	 */
+	public long getDelayArrival(){
+		if(actualArrival.isBefore(scheduledArrival)){
+			return -this.actualArrival.until(this.scheduledArrival, ChronoUnit.SECONDS);
+		}
+		else{
+			return this.scheduledArrival.until(this.actualArrival,ChronoUnit.SECONDS);	
+		}
+	}
+	/**Berechnet die Verspätung bei der Abfahrt in Sekunden. 
+	 * @return Positives Ergebnis, wenn der Zug zu spät abfährt
+	 * Negatives Ergebnis, wenn der Zug zu früh abfährt.
+	 */
+	public long getDelayDeparture(){
+		if(actualDeparture.isBefore(scheduledDeparture)){
+			return -this.actualDeparture.until(this.scheduledDeparture, ChronoUnit.SECONDS);
+		}
+		else{
+			return this.scheduledDeparture.until(this.actualDeparture,ChronoUnit.SECONDS);	
+		}
+	}
+	
+	/**
+	 * @return Liefert die Ankunftsverspätung in der Form [-]MM.SS
+	 */
+	public String getDelayArrivalString(){
+		long delay = this.getDelayArrival();
+		String str = "";
+		
+		if(delay < 0){
+			LocalTime time = LocalTime.MIDNIGHT.plus(0 - delay, ChronoUnit.SECONDS);
+			String min = Integer.toString(time.getMinute());
+			if(min.length()==1){
+				min = "0"+min;
+			}
+			String sec = Integer.toString(time.getSecond());
+			if(sec.length()==1){
+				sec = "0"+sec;
+			}
+			str = "-" + min + ":" + sec;
+		} else {
+			LocalTime time = LocalTime.MIDNIGHT.plus(delay, ChronoUnit.SECONDS);
+			String min = Integer.toString(time.getMinute());
+			if(min.length()==1){
+				min = "0"+min;
+			}
+			String sec = Integer.toString(time.getSecond());
+			if(sec.length()==1){
+				sec = "0"+sec;
+			}
+			str = "+" + min + ":" + sec;
+		}
+		return str;
+	}
+	
+	/**
+	 * @return Liefert die Abfahrtsverspätung in der Form [-]MM.SS
+	 */
+	public String getDelayDepartureString(){
+		long delay = this.getDelayDeparture();
+		String str = "";
+		
+		if(delay < 0){
+			LocalTime time = LocalTime.MIDNIGHT.plus(0 - delay, ChronoUnit.SECONDS);
+			String min = Integer.toString(time.getMinute());
+			if(min.length()==1){
+				min = "0"+min;
+			}
+			String sec = Integer.toString(time.getSecond());
+			if(sec.length()==1){
+				sec = "0"+sec;
+			}
+			str = "-" + min + ":" + sec;
+		} else {
+			LocalTime time = LocalTime.MIDNIGHT.plus(delay, ChronoUnit.SECONDS);
+			String min = Integer.toString(time.getMinute());
+			if(min.length()==1){
+				min = "0"+min;
+			}
+			String sec = Integer.toString(time.getSecond());
+			if(sec.length()==1){
+				sec = "0"+sec;
+			}
+			str = "+" +min + ":" + sec;
+		}
+		return str;
+	}
+	
 	
 }
