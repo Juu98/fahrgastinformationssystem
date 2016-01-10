@@ -1,0 +1,44 @@
+= Protokoll Gruppe XX
+__Treffen am 08.01.2016__
+
+__Schriftführer:__ Oliver Schmidt
+
+__Nächstes Treffen:__ XX.XX.20XX
+
+__Teilnehmer:__ Eric, Zdravko, Jonas, Oliver
+
+== Bemerkungen
+Abgabe ist am 15.01.2016, Projekt muss wirklich __fertig__ sein!
+
+Frage zum Testplan: 
+* eher abstrakt halten
+* es wird keinen Testserver geben -> manche Integration Tests nicht realisierbar
+
+Neue RailML? Nein -> Koordinaten nur per Telegrammen
+
+== Retrospektive des letzten Sprints
+*Issue referenziert die Issue ID von GitHub*
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Aufgabe |Status |Bemerkung
+|…     |…       |…      |…
+|===
+
+
+== Aktueller Stand
+Anmerkungen und Kritik zum aktuellen Stand der Software, den Diagrammen und den
+Dokumenten.
+
+== Planung des nächsten Sprints
+Benutzerhandbuch
+Perlenschnur
+Evaluation
+
+// See http://asciidoctor.org/docs/user-manual/=tables
+[option="headers"]
+|===
+|Issue |Titel |Beschreibung |Verantwortlicher |Status
+|…     |…     |…            |…                |…
+|===
