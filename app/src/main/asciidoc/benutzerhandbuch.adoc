@@ -40,8 +40,9 @@ ProxyPassReverse /fis http://localhost:8080
 == Konfiguration
 == Programmstart
 
-[source,conf]
 Der Start des Programms erfolgt über die Kommandozeile
+
+[source,conf]
 ----
 java -jar fis.jar
 ----
