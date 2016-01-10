@@ -8,9 +8,14 @@
 
 package org.railml.schemas._2009;
 
-import javax.xml.bind.annotation.*;
-import javax.xml.datatype.Duration;
 import java.math.BigDecimal;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.datatype.Duration;
 
 
 /**

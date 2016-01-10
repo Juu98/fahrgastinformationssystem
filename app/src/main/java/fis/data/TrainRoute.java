@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class TrainRoute {
 	private String id;
-	private int trainNumber;
+	private String trainNumber;
 	private int messageId;
 	private TrainCategory trainCategory;
 	private List<Stop> stops = new ArrayList<Stop>();
@@ -22,11 +22,11 @@ public class TrainRoute {
 	 * @param trainNumber
 	 *            Zugnummer
 	 * @param trainCategory
-	 *            Zugkategorie. Siehe {@link TrainCategory}.
+ *            Zugkategorie. Siehe {@link TrainCategory}.
 	 * @param stops
-	 *            List von allen {@link Stop}s dieses Zuglaufs.
+*            List von allen {@link Stop}s dieses Zuglaufs.
 	 */
-	public TrainRoute(String id, int trainNumber, TrainCategory trainCategory, List<Stop> stops, int messageId) {
+	public TrainRoute(String id, String trainNumber, TrainCategory trainCategory, List<Stop> stops, int messageId) {
 		if (id == null || trainCategory == null || stops == null) {
 			throw new IllegalArgumentException("id, trainCategory und stops dürfen nicht null sein!");
 		}
@@ -90,14 +90,14 @@ public class TrainRoute {
 	 * 
 	 * @param newNr
 	 */
-	public void setTrainNumber(int newNr) {
+	public void setTrainNumber(String newNr) {
 		this.trainNumber = newNr;
 	}
 
 	/**
 	 * @return Zugnummer
 	 */
-	public int getTrainNumber() {
+	public String getTrainNumber() {
 		return trainNumber;
 	}
 

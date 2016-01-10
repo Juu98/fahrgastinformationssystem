@@ -8,20 +8,24 @@ public class StationNameTelegram extends Telegram{
 	private byte id;
 	private String code;
 	private String name;
+	private float x;
+	private float y;
 	
 	/**
 	 * Konstruktor für Bahnhofsnamentelegramme. 
 	 * @param ID
 	 * @param code
 	 * @param name
-	 * @throws NullPointerException
+	 * @throws IllegalArgumentException
 	 */
-	public StationNameTelegram(byte ID, String code, String name) throws NullPointerException {
+	public StationNameTelegram(byte ID, String code, String name, float x, float y) throws IllegalArgumentException {
 		if(code == null || name == null)
-			throw new NullPointerException();
+			throw new IllegalArgumentException("Name und Abkürzung dürfen nicht null sein.");
 		this.id = ID;
 		this.code = code;
 		this.name = name;
+		this.x = x;
+		this.y = y;
 	}
 	
 	/**
@@ -47,6 +51,16 @@ public class StationNameTelegram extends Telegram{
 	public String getName(){
 		return this.name;
 	}
+
+	public float getX() {
+		return x;
+	}
+
+	public float getY() {
+		return y;
+	}
+	
+	
 	
 	@Override
 	public String toString(){

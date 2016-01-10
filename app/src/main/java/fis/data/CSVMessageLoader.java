@@ -1,15 +1,12 @@
 package fis.data;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.*;
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 import au.com.bytecode.opencsv.bean.CsvToBean;
 import fis.common.ConfigurationException;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Eine Ladeklasse für Meldungstexte. 
@@ -29,7 +26,7 @@ public class CSVMessageLoader {
 	public static Map<Integer, Message> loadCSV(String path) throws NullPointerException, IllegalArgumentException, FileNotFoundException, ConfigurationException {
 		if(path == null)
 			throw new NullPointerException();
-		if(path == "")
+		if(path.isEmpty())
 			throw new IllegalArgumentException("Path cannot be empty!");
 		//Erstellen der nötigen Variablen
 		Map<Integer, Message> messages = new HashMap<Integer, Message>();

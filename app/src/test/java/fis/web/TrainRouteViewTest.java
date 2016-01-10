@@ -41,7 +41,7 @@ public class TrainRouteViewTest {
 		this.stops = new ArrayList<Stop>();
 		this.stops.add(first);
 		this.stops.add(last);
-		this.route = new TrainRoute(this.id, 1, this.category, stops, 0);
+		this.route = new TrainRoute(this.id, "1", this.category, stops, 0);
 		this.first.setTrainRoute(route);
 		this.last.setTrainRoute(route);
 		this.name = this.route.toString();

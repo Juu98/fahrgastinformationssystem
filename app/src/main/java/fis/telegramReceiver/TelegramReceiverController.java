@@ -126,10 +126,11 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 			this.telegramRawQueue = new LinkedList<>();
 			// handling the connected state
 			LOGGER.debug("handling, " + getConnectionStatus());
+			Future<byte[]> currentTelegram = null;
 			try {
 				while (getConnectionStatus() != ConnectionStatus.OFFLINE && !Thread.currentThread().isInterrupted()) {
 					LOGGER.debug("Creating Future");
-					Future<byte[]> currentTelegram = receiver.parseConnection(server.getInputStream());
+					currentTelegram = receiver.parseConnection(server.getInputStream());
 					LOGGER.debug("Future created");
 					do {
 						if (!telegramRawQueue.isEmpty()) {
@@ -144,8 +145,9 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 							try {
 								Telegram telegramResponse = parser.parse(currentRawTele);
 								LOGGER.debug("Parsed " + telegramResponse);
+								setConnectionStatus(ConnectionStatus.INIT);
 
-								if (getConnectionStatus() == ConnectionStatus.CONNECTING
+								if (getConnectionStatus() == ConnectionStatus.INIT
 										&& telegramResponse.getClass() == TrainRouteEndTelegram.class) {
 									setConnectionStatus(ConnectionStatus.ONLINE);
 									receiver.sendTelegram(server.getOutputStream(), new ClientStatusTelegram("FIS", (byte) 0x00));
@@ -169,6 +171,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 				LOGGER.error("Socket error: " + e.getMessage());
 				LOGGER.debug("", e);
 			} catch (InterruptedException e) {
+				LOGGER.debug("Future interrupted");
 				this.interrupt();
 			} catch (ExecutionException e) {
 				LOGGER.error("receiving telegram bytes failed, cause: " + e.getCause());
@@ -183,6 +186,11 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 				}
 				setConnectionStatus(ConnectionStatus.OFFLINE);
 			}
+			//cancel Future listening for telegramserver bytes
+			if(currentTelegram != null)
+				if(!currentTelegram.isDone()) {
+					currentTelegram.cancel(true);
+				}
 		}
 		//safely stopping the Thread
 		if(!server.isClosed()) {

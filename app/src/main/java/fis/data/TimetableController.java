@@ -5,19 +5,29 @@ import fis.RailML2Data;
 import fis.common.CommonConfig;
 import fis.common.ConfigurationException;
 import fis.telegramReceiver.TelegramReceiverController;
-import fis.telegrams.*;
+import fis.telegrams.LabTimeTelegram;
+import fis.telegrams.StationNameTelegram;
+import fis.telegrams.Telegram;
+import fis.telegrams.TelegramParsedEvent;
+import fis.telegrams.TrainRouteTelegram;
 import fis.telegrams.TrainRouteTelegram.StopData;
 import fis.telegrams.TrainRouteTelegram.TrainRouteData;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
+
+import javax.xml.bind.JAXBException;
 
 /**
  * Controller für {@link TimetableData}. Beinhaltet Weiterreichen von
@@ -123,7 +133,7 @@ public class TimetableController{
 		stops1.add(stop2);
 		stops1.add(stop3);
 		
-		route1=new TrainRoute("1",1,cat1,stops1, 0);
+		route1=new TrainRoute("1","1",cat1,stops1, 0);
 		
 		List<Stop> stops2=new ArrayList<Stop>();
 		stop4=new Stop(s2,StopType.BEGIN,null,LocalTime.of(3,1),"4",0);
@@ -131,7 +141,7 @@ public class TimetableController{
 		stops2.add(stop4);
 		stops2.add(stop5);
 		
-		route2=new TrainRoute("2",2,cat1,stops2, 0);
+		route2=new TrainRoute("2","2",cat1,stops2, 0);
 		
 		//data.addTrainCategory(cat1);
 		data.addStation(s1);
@@ -155,7 +165,7 @@ public class TimetableController{
 		newStops.add(stop3_new);
 		
 		
-		route1_new=new TrainRoute(route1.getId(),999,cat1,newStops, 0);
+		route1_new=new TrainRoute(route1.getId(),"999",cat1,newStops, 0);
 	}	
 	
 	/**
@@ -219,7 +229,7 @@ public class TimetableController{
 			resetData();
 			
 			//TODO: entfernen, wenn nicht mehr benötigt
-			setUpGraphTest();				
+			//setUpGraphTest();				
 			//data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");	
 		
 		} catch (Exception ex) {
@@ -410,20 +420,23 @@ public class TimetableController{
 
 		if (event.getSource() == null)
 			throw new IllegalArgumentException();
-		if (telegram.getClass() == LabTimeTelegram.class) {
+		if (telegram.getClass().equals(LabTimeTelegram.class)) {
 			setTime(((LabTimeTelegram) telegram).getTime());
 		}
 
-		if (telegram instanceof TrainRouteTelegram) {
+		if (telegram.getClass().equals(TrainRouteTelegram.class)) {
 			updateTrainRoute(createTrainRouteFromTelegram((TrainRouteTelegram) telegram));
 		}
 
-		if (telegram instanceof StationNameTelegram) {
+		if (telegram.getClass().equals(StationNameTelegram.class)) {
 			String id = Byte.toString((((StationNameTelegram) telegram).getId()));
 			String shortName = ((StationNameTelegram) telegram).getCode();
 			String longName = ((StationNameTelegram) telegram).getName();
-
-			Station station = new Station(id, longName, shortName);
+			float x = ((StationNameTelegram) telegram).getX() * 100;
+			float y = ((StationNameTelegram) telegram).getY() * 100;
+			
+			Station station = new Station(id, longName, shortName, x, y);
+			LOGGER.debug("Created Station. X: "+x+", Y: "+y);
 			data.addStation(station);
 		}
 
@@ -487,6 +500,10 @@ public class TimetableController{
 			throw new IllegalArgumentException("Das Telegram darf nicht null sein!");
 		}
 		TrainRouteData routeData = tel.getData();
+		
+		if(routeData==null){
+			throw new IllegalArgumentException("Das Telegram muss ein TrainRouteData-Objekt besitzen");
+		}
 		String trainNr = routeData.getTrainNumber();
 		int messageId = routeData.getMessageId();
 		List<Stop> routeStops = new ArrayList<Stop>();
@@ -509,14 +526,15 @@ public class TimetableController{
 
 		TrainCategory cat;
 		if (data.getTrainCategoryById(routeData.getTrainCategoryShort()) == null) {
+			//Nur TrainRoutes mit "PASSENGER" werden angezeigt
 			cat = new TrainCategory(routeData.getTrainCategoryShort(), routeData.getTrainCategoryShort(),
-					routeData.getTrainCategoryShort(), routeData.getTrainCategoryShort());
+					routeData.getTrainCategoryShort(), "PASSENGER");
 			data.addTrainCategory(cat);
 		} else {
 			cat = data.getTrainCategoryById(routeData.getTrainCategoryShort());
 		}
 
-		TrainRoute route = new TrainRoute("" + trainNr, Integer.parseInt(trainNr), cat, routeStops, messageId);
+		TrainRoute route = new TrainRoute("" + trainNr, trainNr, cat, routeStops, messageId);
 
 		return route;
 	}

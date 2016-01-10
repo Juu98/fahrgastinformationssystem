@@ -8,7 +8,6 @@ package fis.web;
 import fis.data.Station;
 import fis.data.Stop;
 import fis.data.TrainRoute;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

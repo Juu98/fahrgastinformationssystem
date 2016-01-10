@@ -29,7 +29,7 @@ public class EventTranslator implements ApplicationEventPublisherAware {
 	 * @param event
 	 */
 	@EventListener
-	public void notifyReceiverOffline(ConnectionStatusEvent event) {
+	public void translateReceiverToTimetable(ConnectionStatusEvent event) {
 		ConnectionStatus receivedStatus = event.getStatus();
 		if (receivedStatus.equals(ConnectionStatus.OFFLINE)) {
 			if (this.hasBeenOnlineBefore) {
@@ -38,7 +38,7 @@ public class EventTranslator implements ApplicationEventPublisherAware {
 			}
 			this.hasBeenOnlineBefore = false;
 		}
-		else if (receivedStatus.equals(ConnectionStatus.ONLINE)) {
+		else if (receivedStatus.equals(ConnectionStatus.INIT)) {
 			this.hasBeenOnlineBefore = true;
 			publisher.publishEvent(new TimetableEvent(TimetableEventType.cleanup));
 		}
