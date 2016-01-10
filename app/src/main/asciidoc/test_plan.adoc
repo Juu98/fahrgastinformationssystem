@@ -10,14 +10,14 @@ Die Test-IDs werden nach folgendem Schema benannt:
 
   * UnitTests:
     [U] - [Bereich] - [Klasse] - [Methode]
-  
+
   * IntegrationTests:
     [I] - [TestNr]
 
-*Beispiele:* 
+*Beispiele:*
 
 * U-Data-TrainRoute-1
-* U-XML-railml2data-1
+* U-XML-RailML2Data-1
 * I-1
 
 
@@ -106,12 +106,13 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |U-Data-TimetableController-4|forwardTelegram|Telegram verwerten|gesamte Telegramstruktur|StatusTelegram|Geupdatete Zeit
 |U-Data-TimetableController-5|forwardTelegram|Telegram verwerten|gesamte Telegramstruktur|TrainRouteTelegram|entsprechende TrainRoute aktualisieren
 |U-Data-TimetableController-6|forwardTelegram|Telegram verwerten|gesamte Telegramstruktur|StationNameTelegram|Bahnhofsobjekte erstellen
-|*[U-XML-railml2data]*|||||
-|U-XML-railml2data-1|loadML|Geparste Railml-Daten in die eigene Datenstruktur bringen|RailMLParser, Data|ungültiger Pfad|*Fehler*
+|*[U-XML-RailML2Data]*|||||
+|U-XML-RailML2Data-1|loadML|Geparste Railml-Daten in die eigene Datenstruktur bringen|RailMLParser, Data|ungültiger Pfad|*Fehler*
 |*[U-XML-RailMLParser]*|||||
-|U-XML-railml2data-1|ParseRailML|RailML parsen|RailML-Schemaklassen|ungültiger Pfad|*Fehler*
-|U-XML-railml2data-2|ParseRailML|RailML parsen|RailML-Schemaklassen|ungültige Datei|*Fehler*
-|U-XML-railml2data-3|ParseRailML|RailML parsen|RailML-Schemaklassen|gültiger Pfad+gültige Datei|RailML-Objekt
+|U-XML-RailMLParser-1|ParseRailML|RailML parsen|RailML-Schemaklassen|ungültiger Pfad|*Fehler*
+|U-XML-RailMLParser-2|ParseRailML|RailML parsen|RailML-Schemaklassen|gültiger Pfad+gültige Datei|RailML-Objekt
+|U-XML-RailMLParser-3|ParseRailML|RailML parsen|RailML-Schemaklassen|gültiger Pfad+gültige Datei|XML-Attribute werden richtig geparst
+|U-XML-RailMLParser-4|ParseRailML|RailML parsen|RailML-Schemaklassen|gültiger Pfad+gültige Datei|XML-Elemente werden richtig geparst
 |*[U-Telegram-Telegram]*|||||
 |U-Telegram-Telegram-1|parseTelegram|Telegramme parsen|-|byte[] mit Typ Bestätigungstelegramm|Objekt ConfirmationTelegram
 |U-Telegram-Telegram-2|parseTelegram|Telegramme parsen|-|byte[] mit Typ Statustelegramm|Objekt StatusTelegram
@@ -149,7 +150,7 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |===
 |*ID*|*Bereich(e)*|*Beteiligte Klassen*|*Anwendungsfall*|*Vorbedingungen*|*Eingabe*|*Ausgabe / zu überprüfende Wirkung*
 
-|I-1|Data, XML|TimetableData, TrainCategory, TrainRoute, Stop, Station,XMLConverter,RailMLParser,railml2data|Parsen+Auswerten einer RailML-Datei|-|Dateipfad|Laden der RailML; Einfügen in die eigene Datenstruktur
-|I-2|Data, XML|TimetableController,TimetableData, TrainCategory, TrainRoute, Stop, Station,XMLConverter,RailMLParser,railml2data|*Fall Offline:* Laden des Offline-Fahrplans|-|Status Offline|Laden der RailML; Einfügen in die eigene Datenstruktur
+|I-1|Data, XML|TimetableData, TrainCategory, TrainRoute, Stop, Station,XMLConverter,RailMLParser,RailML2Data|Parsen+Auswerten einer RailML-Datei|-|Dateipfad|Laden der RailML; Einfügen in die eigene Datenstruktur
+|I-2|Data, XML|TimetableController,TimetableData, TrainCategory, TrainRoute, Stop, Station,XMLConverter,RailMLParser,RailML2Data|*Fall Offline:* Laden des Offline-Fahrplans|-|Status Offline|Laden der RailML; Einfügen in die eigene Datenstruktur
 |I-3|TelegramReceiver, Telegrams|TelegramReceiver, TelegramReceiverConfig, ConnectionStatus, sämtliche Telegram Klassen|Telegramme empfangen und parsen|Telegramm-Testserver läuft, Verbindungsdaten in Konfigurationsdatei, Mock-Version von TimeTableController.forwardTelegram() |TCP-Pakete des Testservers|gültige Telegramme
 ||||||

@@ -2,6 +2,8 @@ package fis.data;
 
 import fis.FilterType;
 import fis.RailML2Data;
+import fis.common.CommonConfig;
+import fis.common.ConfigurationException;
 import fis.telegramReceiver.TelegramReceiverController;
 import fis.telegrams.LabTimeTelegram;
 import fis.telegrams.StationNameTelegram;
@@ -37,6 +39,8 @@ import javax.xml.bind.JAXBException;
 @Component
 public class TimetableController{
 	private static final Logger LOGGER = Logger.getLogger(RailML2Data.class);
+	@Autowired
+	private CommonConfig fisConfig;
 	
 	
 	/**
@@ -129,7 +133,7 @@ public class TimetableController{
 		stops1.add(stop2);
 		stops1.add(stop3);
 		
-		route1=new TrainRoute("1",1,cat1,stops1, 0);
+		route1=new TrainRoute("1","1",cat1,stops1, 0);
 		
 		List<Stop> stops2=new ArrayList<Stop>();
 		stop4=new Stop(s2,StopType.BEGIN,null,LocalTime.of(3,1),"4",0);
@@ -137,7 +141,7 @@ public class TimetableController{
 		stops2.add(stop4);
 		stops2.add(stop5);
 		
-		route2=new TrainRoute("2",2,cat1,stops2, 0);
+		route2=new TrainRoute("2","2",cat1,stops2, 0);
 		
 		//data.addTrainCategory(cat1);
 		data.addStation(s1);
@@ -161,7 +165,7 @@ public class TimetableController{
 		newStops.add(stop3_new);
 		
 		
-		route1_new=new TrainRoute(route1.getId(),999,cat1,newStops, 0);
+		route1_new=new TrainRoute(route1.getId(),"999",cat1,newStops, 0);
 	}	
 	
 	/**
@@ -209,7 +213,7 @@ public class TimetableController{
 	public void resetData(){
 		data = new TimetableData();
 	}
-	
+
 	/**
 	 * 
 	 * @return Die Map mit allen Messages
@@ -218,12 +222,14 @@ public class TimetableController{
 		return messages;
 	}
 	
-	public TimetableController() {
+	@Autowired
+	public TimetableController(CommonConfig config) {
+		this.fisConfig = config;
 		try {
 			resetData();
 			
 			//TODO: entfernen, wenn nicht mehr benötigt
-			setUpGraphTest();				
+			//setUpGraphTest();				
 			//data=RailML2Data.loadML("2015-04-27_EBL-Regefahrplan-Export.xml");	
 		
 		} catch (Exception ex) {
@@ -414,20 +420,23 @@ public class TimetableController{
 
 		if (event.getSource() == null)
 			throw new IllegalArgumentException();
-		if (telegram.getClass() == LabTimeTelegram.class) {
+		if (telegram.getClass().equals(LabTimeTelegram.class)) {
 			setTime(((LabTimeTelegram) telegram).getTime());
 		}
 
-		if (telegram instanceof TrainRouteTelegram) {
+		if (telegram.getClass().equals(TrainRouteTelegram.class)) {
 			updateTrainRoute(createTrainRouteFromTelegram((TrainRouteTelegram) telegram));
 		}
 
-		if (telegram instanceof StationNameTelegram) {
+		if (telegram.getClass().equals(StationNameTelegram.class)) {
 			String id = Byte.toString((((StationNameTelegram) telegram).getId()));
 			String shortName = ((StationNameTelegram) telegram).getCode();
 			String longName = ((StationNameTelegram) telegram).getName();
-
-			Station station = new Station(id, longName, shortName);
+			float x = ((StationNameTelegram) telegram).getX() * 100;
+			float y = ((StationNameTelegram) telegram).getY() * 100;
+			
+			Station station = new Station(id, longName, shortName, x, y);
+			LOGGER.debug("Created Station. X: "+x+", Y: "+y);
 			data.addStation(station);
 		}
 
@@ -445,12 +454,12 @@ public class TimetableController{
 		switch(event.getType()){
 			case cleanup:
 			//Löschen der bisherigen Datenstruktur
-			setTime(null);
-			resetData();
+			//setTime(null);
+			//resetData();
 			break;
 		case parseRailML:
-			resetData();
-			loadML();
+			//resetData();
+			//loadML();
 			break;
 		default:
 			break;
@@ -465,13 +474,18 @@ public class TimetableController{
 		try {
 			//Laden des Offline-Fahrplans
 			LOGGER.info("Offline. Laden des RailML-Fahrplans.");
-			data=RailML2Data.loadML("EBL Regelfahrplan.xml");
+			if(fisConfig.getRailmlpath() == null) {
+				throw new ConfigurationException("ungültiger Pfad zur RailML");
+			}
+			data=RailML2Data.loadML(fisConfig.getRailmlpath());
 		} catch (IOException e) {
 			LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
 			e.printStackTrace();
 		} catch (JAXBException e) {
 			LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
 			e.printStackTrace();
+		} catch (ConfigurationException e) {
+			LOGGER.error(e.getMessage());
 		}
 	}
 	
@@ -512,14 +526,15 @@ public class TimetableController{
 
 		TrainCategory cat;
 		if (data.getTrainCategoryById(routeData.getTrainCategoryShort()) == null) {
+			//Nur TrainRoutes mit "PASSENGER" werden angezeigt
 			cat = new TrainCategory(routeData.getTrainCategoryShort(), routeData.getTrainCategoryShort(),
-					routeData.getTrainCategoryShort(), routeData.getTrainCategoryShort());
+					routeData.getTrainCategoryShort(), "PASSENGER");
 			data.addTrainCategory(cat);
 		} else {
 			cat = data.getTrainCategoryById(routeData.getTrainCategoryShort());
 		}
 
-		TrainRoute route = new TrainRoute("" + trainNr, Integer.parseInt(trainNr), cat, routeStops, messageId);
+		TrainRoute route = new TrainRoute("" + trainNr, trainNr, cat, routeStops, messageId);
 
 		return route;
 	}

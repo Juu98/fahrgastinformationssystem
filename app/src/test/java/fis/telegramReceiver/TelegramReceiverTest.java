@@ -1,6 +1,6 @@
 package fis.telegramReceiver;
 
-import fis.telegrams.TelegramParser;
+import fis.telegrams.ByteConversions;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,22 +31,22 @@ public class TelegramReceiverTest {
 	public void testParseConnection() throws Exception {
 		byte[] rawData = new byte[200];
 		//bogus bytes
-		rawData[1] = TelegramParser.toUByte(0xFF);
-		rawData[1] = TelegramParser.toUByte(12);
-		rawData[1] = TelegramParser.toUByte(0xFF);
+		rawData[1] = ByteConversions.toUByte(0xFF);
+		rawData[1] = ByteConversions.toUByte(12);
+		rawData[1] = ByteConversions.toUByte(0xFF);
 		//start bytes
-		rawData[20] = TelegramParser.toUByte(0xFF);
-		rawData[21] = TelegramParser.toUByte(0xFF);
-		rawData[22] = TelegramParser.toUByte(0xFF);
+		rawData[20] = ByteConversions.toUByte(0xFF);
+		rawData[21] = ByteConversions.toUByte(0xFF);
+		rawData[22] = ByteConversions.toUByte(0xFF);
 		//length byte
-		rawData[23] = TelegramParser.toUByte(10);
+		rawData[23] = ByteConversions.toUByte(10);
 		//irrelevant byte
 		rawData[145] = 23;
 		byte[] referenceData = new byte[255];
-		referenceData[0] = TelegramParser.toUByte(0xFF);
-		referenceData[1] = TelegramParser.toUByte(0xFF);
-		referenceData[2] = TelegramParser.toUByte(0xFF);
-		referenceData[3] = TelegramParser.toUByte(10);
+		referenceData[0] = ByteConversions.toUByte(0xFF);
+		referenceData[1] = ByteConversions.toUByte(0xFF);
+		referenceData[2] = ByteConversions.toUByte(0xFF);
+		referenceData[3] = ByteConversions.toUByte(10);
 		in = new ByteArrayInputStream(rawData);
 		Future<byte[]> parsedData = receiver.parseConnection(in);
 		byte[] parsedRawData = parsedData.get();

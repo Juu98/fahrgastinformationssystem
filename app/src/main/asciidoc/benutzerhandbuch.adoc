@@ -1,6 +1,40 @@
 = Benutzerhandbuch
 
 == Installation
+=== Konfiguration des Apache Servers
+Es ist möglich und vorgesehen, dass die Anwendung hinter einem als _Reverse Proxy_ konfigurierten Apache Server läuft. Das hat den Vorteil, dass sie einfacher für den Benutzer vom lokalen Netzwerk aus erreichbar ist. Im folgenden Abschnitt wird die Konfiguration eines Apache Servers für FIS angegeben.
+
+Abhängig von der Apache Version und vom Betriebssystem kann die Konfiguration des Webservers eine einzelne Datei (meistens 'httpd.conf') umfassen  oder in mehreren Dateien aufgeteilt sein. Bei Unsicherheit fragen Sie Ihren Systemadministratoren. Zuerst müssen die benötigten zusätlichen Module aktiviert werden. Dies geschieht durch das Hinzufügen folgender Zeilen zu der Konfiguration, falls sie noch nicht vorhanden sind:
+
+[source,conf]
+----
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
+LoadModule proxy_html_module modules/mod_proxy_html.so
+LoadModule headers_module modules/mod_headers.so
+LoadModule filter_module modules/mod_filter.so
+LoadModule deflate_module modules/mod_deflate.so
+----
+
+Dann muss das eigentliche Proxy auch konfiguriert werden:
+
+[source,conf]
+----
+ProxyRequests off # <1>
+ProxyPass /fis http://localhost:8080 # <2>
+ProxyPassReverse /fis http://localhost:8080
+<Location "/fis">
+  SetOutputFilter proxy-html
+  ProxyHTMLURLMap ^/(.*)$ /fis/$1 R
+  ProxyHTMLDocType "<!DOCTYPE html>" # <3>
+  Order allow,deny
+  Allow from all
+</Location>
+----
+<1> Aus Sicherheitsgründen soll diese Einstellung immer `off` sein.
+<2> Der erste Parameter bestimmt den Pfad, unter dem die Anwendung erreichbar sein wird (in diesem Fall 'http://<Adresse-des-Apache-Servers>/fis'), und kann nach Belieben verändert werden. Wichtig ist, dass der gleiche Pfad überall in der Konfigurationsdatei  benutzt wird. Der zweite Parameter ist die URL des internen Tomcat-Servers und soll nicht verändert werden.
+<3> Stellt sicher, dass HTML5 korrekt angezeigt wird.
+
 == Konfiguration
 == Programmstart
 == Benutzung

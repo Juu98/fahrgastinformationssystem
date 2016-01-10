@@ -1,8 +1,8 @@
 package fis.telegramReceiver;
 
+import fis.telegrams.ByteConversions;
 import fis.telegrams.SendableTelegram;
-import fis.telegrams.Telegram;
-import fis.telegrams.TelegramParser;
+import fis.telegrams.TelegramPart;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -42,13 +42,13 @@ public class TelegramReceiver {
 	 */
     @Async
     Future<byte[]> parseConnection(InputStream in) throws IOException {
-        byte[] response = new byte[Telegram.getRawTelegramMaxLength()];
+        byte[] response = new byte[TelegramPart.RAW_DATA.maxLength()];
 	    int pos = 0;
 	    while (pos < 3) {
 		    //read one byte and look whether it is 0xFF, which marks beginning of a new Telegram
 		    in.read(response, pos, 1);
 		    //throw away invalid data
-		    if (response[pos] != TelegramParser.toUByte(0xFF)) {
+		    if (response[pos] != ByteConversions.toUByte(0xFF)) {
 			    //reset telegram, start again
 			    if (pos > 0) {
 				    pos = 0;
@@ -59,7 +59,7 @@ public class TelegramReceiver {
 	    }
 	    //read length byte
 	    in.read(response, pos, 1);
-	    int length = TelegramParser.toUInt(response[pos]);
+	    int length = ByteConversions.toUInt(response[pos]);
 	    //read telegram data
 	    in.read(response, ++pos, length);
 	    return new AsyncResult<>(response);

@@ -29,7 +29,7 @@ public class TelegramReceiverControllerTest {
 	TelegramSocket mockedSocket;
 	TelegramParser mockedParser;
 	ApplicationEventPublisher mockedPublisher;
-	byte[] buf = new byte[Telegram.getRawTelegramMaxLength()];
+	byte[] buf = new byte[TelegramPart.RAW_DATA.maxLength()];
 
 	/**
 	 * erstellt allgemein benötogte mocks und Objekte
@@ -101,7 +101,7 @@ public class TelegramReceiverControllerTest {
 		when(mockedResult.get()).thenReturn(dummy);
 		//stub to return 4 Telegrams needed to establish a connection
 		when(mockedParser.parse(any())).thenReturn(new LabTimeTelegram(LocalTime.now()),
-				new StationNameTelegram((byte) 0x01, "FOO", "foobar"),
+				new StationNameTelegram((byte) 0x01, "FOO", "foobar", -1f, -1f),
 				new TrainRouteTelegram(mockedTrainRouteData),
 				new TrainRouteEndTelegram());
 		//don't really send a telegram

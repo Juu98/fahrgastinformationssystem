@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import fis.common.CommonConfig;
 import org.junit.Before;
 import org.junit.Test;
 import fis.telegrams.LabTimeTelegram;
@@ -23,7 +25,7 @@ public class TimetableControllerTest{
 	
 	@Before
 	public void setUp() throws Exception{
-		timetable=new TimetableController();
+		timetable=new TimetableController(new CommonConfig());
 		timetable.resetData();
 		Message m1 = new Message();
 		m1.setIndex(1);
@@ -54,7 +56,7 @@ public class TimetableControllerTest{
 		stops1.add(stop2);
 		stops1.add(stop3);
 		
-		route1=new TrainRoute("1",1,cat1,stops1, 2);
+		route1=new TrainRoute("1","1",cat1,stops1, 2);
 		
 		List<Stop> stops2=new ArrayList<Stop>();
 		stop4=new Stop(s2,StopType.BEGIN,null,LocalTime.of(3,1),"4",0);
@@ -62,7 +64,7 @@ public class TimetableControllerTest{
 		stops2.add(stop4);
 		stops2.add(stop5);
 		
-		route2=new TrainRoute("2",2,cat1,stops2, 0);
+		route2=new TrainRoute("2","2",cat1,stops2, 0);
 		
 		data.addTrainCategory(cat1);
 		data.addStation(s1);
@@ -85,7 +87,7 @@ public class TimetableControllerTest{
 		newStops.add(stop3_new);
 		
 		
-		route1_new=new TrainRoute(route1.getId(),999,cat1,newStops, 2);
+		route1_new=new TrainRoute(route1.getId(),"999",cat1,newStops, 2);
 	}	
 
 	
@@ -109,7 +111,7 @@ public class TimetableControllerTest{
 		for(TrainRoute route:timetable.getTrainRoutes()){
 			if(route.getId().equals(oldId)){
 				found=true;
-				assertEquals("Zugnummer der Route wurde nicht richtig aktualisiert",999,route.getTrainNumber());
+				assertEquals("Zugnummer der Route wurde nicht richtig aktualisiert","999",route.getTrainNumber());
 				assertEquals("Halte wurden nicht richtig aktualisiert",stop1_new,route.getStops().get(0));
 				assertEquals("Halte wurden nicht richtig aktualisiert",stop2_new,route.getStops().get(1));
 				assertEquals("Halte wurden nicht richtig aktualisiert",stop3_new,route.getStops().get(2));
@@ -166,7 +168,7 @@ public class TimetableControllerTest{
 	
 	@Test
 	public void testUpdateTrainRoute_new(){
-		TrainRoute routeX=new TrainRoute("23452345", 555, cat1, route1_new.getStops(), 0);
+		TrainRoute routeX=new TrainRoute("23452345", "555", cat1, route1_new.getStops(), 0);
 		
 		timetable.updateTrainRoute(routeX);
 		assertTrue("Eine noch nicht in der Datenstruktur existierende TrainRoute soll hinzugefügt werden!",

@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 import java.io.UnsupportedEncodingException;
 
 /**
- * Created by spiollinux on 06.12.15.
+ * @author spiollinux, Robert
  */
 public class ClientStatusTelegramTest {
 	private ClientStatusTelegram telegram;
@@ -19,43 +19,21 @@ public class ClientStatusTelegramTest {
 	public void setup() throws UnsupportedEncodingException{
 		this.ID ="FIS";
 		this.status = (byte) 0;
-		//construct a rawTelegram
-		this.rawReferenceTelegram = new byte[Telegram.rawTelegramMaxLength];
-		byte[] rawID = this.ID.getBytes("windows-1252");
-		int i = 0;
-		for(; i < 3; ++i) {
-			this.rawReferenceTelegram[i] = (byte) 255;
-		}
-		//skipping length byte for now
-		i++;
-		this.rawReferenceTelegram[i++] = (byte) 243;
-		for(; i < 12; ++i) {
-			int j = i - 5;
-			if(j < rawID.length)
-				this.rawReferenceTelegram[i] = rawID[j];
-			else
-				this.rawReferenceTelegram[i] = 0;
-		}
-		this.rawReferenceTelegram[i] = this.status;
-		//set length
-		this.rawReferenceTelegram[3] = (byte) (i-4);
+		// construct a rawTelegram
+		this.rawReferenceTelegram = ByteConversions.fromString(
+			"FF FF FF 09 F3 46 49 53 00 00 00 00 00"
+		);
 	}
 	
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void NullConstructorTest() throws UnsupportedEncodingException{
-		boolean exceptionCatched = false;
-		try{
-			this.telegram = new ClientStatusTelegram(null, this.status);
-		} catch (NullPointerException e) {
-			exceptionCatched = true;
-		}
-		assertTrue("The constructor should throw a NullPointerException if given a null parameter!", exceptionCatched);
+		this.telegram = new ClientStatusTelegram(null, this.status);
 	}
 	
 	@Test
-	public void GetRawTelegramAndConstructorTest() throws NullPointerException, UnsupportedEncodingException{
+	public void GetRawTelegramAndConstructorTest() throws UnsupportedEncodingException{
 		this.telegram = new ClientStatusTelegram(ID, status);
-		//compare
+		// compare
 		assertArrayEquals("ClientStatusTelegram doesn't have expected value", this.rawReferenceTelegram, this.telegram.getRawTelegram());
 	}
 }

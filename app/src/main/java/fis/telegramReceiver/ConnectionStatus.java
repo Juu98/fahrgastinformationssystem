@@ -6,5 +6,6 @@ package fis.telegramReceiver;
 public enum ConnectionStatus {
     CONNECTING,
     OFFLINE,
-    ONLINE
+    ONLINE,
+    INIT    //Verbindung besteht, Telegramme werden empfangen, aber noch kein Trainroute End telegram
 }
