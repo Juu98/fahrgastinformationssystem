@@ -95,4 +95,6 @@ image::graphtab.png[Liniennetz-Tab, 80%, title="Liniennetz-Tab"]
 
 Falls vorher ein Bahnhof ausgewählt wurde, wird dieser farblich markiert. Ebenfalls markiert werden alle Zugläufe, die den ausgewählten Bahnhof beinhalten.
 
+Es ist zudem möglich, die angezeigten Bahnhöfe anzuklicken. In diesem Fall wird dann in die entsprechende Abfahrtsanzeige gewechselt.
+
 == Administrationsbereich
