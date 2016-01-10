@@ -17,25 +17,30 @@
 			var count=0;
 			var c=document.getElementById("graphcanvas");
 			var d=document.getElementById("divcanvas");
+			d.height=d.width;
 			c.width=d.offsetWidth;
 			c.height=d.offsetHeight;
 			
 			var ctx=c.getContext("2d");
 			ctx.globalCompositeOperation = 'destination-over';
-			
+			ctx.imageSmoothingEnabled = true;
 			//Schriftart
-			ctx.font = "15px Arial";
+			ctx.font = "16px Arial";
 			
 			//Größe der Bahnhofsknoten
-			var st_height=12;
-			var st_width=12;
+			var st_height=8;
+			var st_width=8;
 			
 			//Offset der Bahnhofsbeschriftung
-			var nameOffset_X = 5;
-			var nameOffset_Y = -5;
+			var nameOffset_X = -5;
+			var nameOffset_Y = 0;
+			
+			//MinX und MinY
+			var minX = 5;
+			var minY = 15;
 			
 			//Größe der Zuglaufkanten
-			var line_width = st_width/2;
+			var line_width = st_width/4;
 			
 			//Farben
 			var line_strokeStyle_normal = 'grey';
@@ -43,6 +48,11 @@
 			var st_fillStyle_normal = 'black';
 			var st_fillStyle_selected = 'red';
 			
+			
+			//"Default-Werte" der Koordinaten -> Bahnhöfe ohne "richtige" eigene Koordinaten
+			var defaultX=0;
+			var defaultY=0;
+					
 	    //Javascript-Bahnhofsdatenstruktur (zum Klickbarmachen)      
 	    function StationObject(id,name,x,y,width,height){
 			this.id=id;
@@ -52,17 +62,57 @@
 			this.width=width;
 			this.height=height;
 		} 
+	    
+	    var stations = [];
 		var stationObjects = [];
 	    
+		//zum Testen derweil
+		function data_contains(data,station){
+			//alert(data.length);
+			
+			for(k=0; k<data.length;k++){
+				//alert(k);
+				if(data[k].id == station.id){
+					//alert(station.id);
+					return true;
+					
+				}
+			}
+			//alert(station.id);
+			return false;
+	
+		}
+		//Ende
+		
 		
 		//Knoten (Bahnhöfe) aus JSON entgegennehmen
-		var stations = $.get('../stations.json',function(data){
+		//var stations = $.get('../stations.json',function(data){
+		var routes = $.get('../resources/fullTrainRoutes.json',function(testroutes){
 			
+			//var stations = [];
+			var data = [];
+			
+			for(i=0;i<testroutes.length; i++){
+				for(nr=0; nr<testroutes[i].stops.length; nr++){
+				
+			//	alert(nr);
+					var stat = testroutes[i].stops[nr];
+					if(data_contains(data,stat) == false){
+						data.push(stat);
+					}			
+				}
+			}
+			
+			for(i=0; i < data.length; i++){
+				//alert(data[i].name);
+			}
+
 			//Skalierung berechnen
 			var maxX = 0;
 			var maxY = 0;
 			var max = 0;
-			var min = nameOffset_X;
+			minX += nameOffset_X;
+			minY += -nameOffset_Y * 4;
 			
 			for(i=0; i<data.length;i++){
 				if(maxX<data[i].x){
@@ -72,22 +122,20 @@
 					maxY=data[i].y;
 				}
 			}
-			max = maxX;
-			if(max < maxY){
-				max = maxY;
-			}
-			
+
 			//stellt sicher, dass auch der äußerste Punkt noch zu sehen ist
-			max = max + st_height*4 + min;
+			maxX = maxX + st_width*2 + minX;
+			maxY = maxY + st_height * 0 +minY;
 			
 			//Knoten (Bahnhöfe) durchlaufen
 			for(i=0; i<data.length; i++){
 				var station=data[i];
 				if(station.x!=-1){
-					//Position entsprechend des Maximums skalieren
-					station.x=(station.x/max)*(c.width)+min;
-					station.y=(station.y/max)*(c.height) + min;	
-				
+					//Position entsprechend des Maximums skalieren	
+					station.x=(station.x/maxX)*(c.width)+minX;
+					station.y=(station.y/maxY)*(c.height) + minY;	
+					
+					
 					//Unterscheidung ausgewählt <-> normal		
 					if([[${stn}]] == (station.id)){
 						ctx.fillStyle = st_fillStyle_selected;
@@ -99,8 +147,10 @@
 					//Zeichnen des Bahnhofs
 					ctx.fillRect(station.x,station.y,st_width,st_height);
 				
-					//Zeichnen der Beschriftung
-					ctx.fillText(station.name,station.x+nameOffset_X,station.y+nameOffset_Y);
+					//Zeichnen der Beschriftung, Bahnhöfe ohne richtige Koordinaten werden ignoriert
+					if(station.x!=defaultX+minX && station.y!=defaultY+minY){
+						ctx.fillText(station.name,station.x+nameOffset_X,station.y+nameOffset_Y);
+					}
 				
 					//zur Javascript-Datenstruktur hinzufügen (um Klickbarkeit zu realisieren)
 					var stationObj = new StationObject(station.id,station.name,station.x,station.y,st_width,st_height);
@@ -109,7 +159,9 @@
 			}	
 		
 		//Kanten (Zugläufe) aus JSON entgegennehmen
-		var routes = $.get('../fullTrainRoutes.json',function(data){
+		//TODO: wieder alte Funktionalität
+		//var routes = $.get('../fullTrainRoutes.json',function(data){
+			var routes = $.get('../resources/fullTrainRoutes.json',function(data){
 			
 			//Kanten (Zugläufe)
 			for(i=0; i<data.length;i++){
@@ -117,7 +169,6 @@
 				//feststellen, ob TrainRoute zur ausgewählten Station gehört
 				var selected = false;
 				var route=data[i];
-				
 				for(k = 0;k < route.stops.length; k++){
 					if([[${stn}]] == route.stops[k].id){
 						selected = true;
@@ -127,12 +178,13 @@
 				//Position entsprechend des Maximums skalieren
 				for(j=0; j<route.stops.length;j++){
 					var station=route.stops[j];
-					station.x=(station.x/max)*(c.width) + min;
-					station.y=(station.y/max)*(c.height) + min;
+					station.x=(station.x/maxX)*(c.width) + minX;
+					station.y=(station.y/maxY)*(c.height) + minY;
 				}
 				
 				//Pfadanfang
 				ctx.beginPath();
+				//ctx.translate(0.5,0.5);
 				ctx.moveTo(route.stops[0].x+st_width/2,route.stops[0].y+st_height/2);
 			
 				//Kanten (Zugläufe) durchlaufen
@@ -155,9 +207,14 @@
 				
 				//Linie zeichnen
 				ctx.stroke();
+				//ctx.translate(1,1);
 			}
+			
+
 			},'json');
 		},'json');
+	
+		
 		
 		
 		//Klickbarkeit realisieren
@@ -194,6 +251,9 @@
 		    var x2 = p1[0] < p2[0] ? p2 : p1;
 		    return x1[1] > x2[0] || x1[0] === x2[0] ? true : false;
 		}
+		
+		
+		
 		/*]]>*/	
 	</script>	
 	

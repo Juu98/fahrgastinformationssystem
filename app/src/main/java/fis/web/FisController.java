@@ -17,6 +17,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -481,9 +482,12 @@ public class FisController {
 		return new JSONProvider().getTrainRoutes(this.timetable.getData().getTrainRoutes());
 	}
 	
+	//TODO: wieder umändern!
 	@RequestMapping("fullTrainRoutes.json")
-	public @ResponseBody List<JSONProvider.FullTrainRouteView> getFullTrainRoutes(){
-		return new JSONProvider().getFullTrainRoutes(this.timetable.getData().getTrainRoutes());
+	//public @ResponseBody List<JSONProvider.FullTrainRouteView> getFullTrainRoutes(){
+		//return new JSONProvider().getFullTrainRoutes(this.timetable.getData().getTrainRoutes());
+	public String getFullTrainRoutes(){
+		return "redirect:/resources/fullTrainRoutes_test.json";
 	}
 	
 	/**
