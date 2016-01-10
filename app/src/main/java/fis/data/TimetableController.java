@@ -458,8 +458,8 @@ public class TimetableController{
 			resetData();
 			break;
 		case parseRailML:
-			//resetData();
-			//loadML();
+			resetData();
+			loadML();
 			break;
 		default:
 			break;

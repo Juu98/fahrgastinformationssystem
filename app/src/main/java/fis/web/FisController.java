@@ -482,12 +482,12 @@ public class FisController {
 		return new JSONProvider().getTrainRoutes(this.timetable.getData().getTrainRoutes());
 	}
 	
-	//TODO: wieder umändern!
+
 	@RequestMapping("fullTrainRoutes.json")
-	//public @ResponseBody List<JSONProvider.FullTrainRouteView> getFullTrainRoutes(){
-		//return new JSONProvider().getFullTrainRoutes(this.timetable.getData().getTrainRoutes());
-	public String getFullTrainRoutes(){
-		return "redirect:/resources/fullTrainRoutes_test.json";
+	public @ResponseBody List<JSONProvider.FullTrainRouteView> getFullTrainRoutes(){
+		return new JSONProvider().getFullTrainRoutes(this.timetable.getData().getTrainRoutes());
+	//public String getFullTrainRoutes(){
+		//return "redirect:/resources/fullTrainRoutes_test.json";
 	}
 	
 	/**

@@ -32,12 +32,12 @@
 			var st_width=8;
 			
 			//Offset der Bahnhofsbeschriftung
-			var nameOffset_X = -5;
-			var nameOffset_Y = 0;
+			var nameOffset_X = 5;
+			var nameOffset_Y = -5;
 			
 			//MinX und MinY
 			var minX = 5;
-			var minY = 15;
+			var minY = 5;
 			
 			//Größe der Zuglaufkanten
 			var line_width = st_width/4;
@@ -86,10 +86,10 @@
 		
 		
 		//Knoten (Bahnhöfe) aus JSON entgegennehmen
-		//var stations = $.get('../stations.json',function(data){
-		var routes = $.get('../resources/fullTrainRoutes.json',function(testroutes){
+		var stations = $.get('../stations.json',function(data){
 			
-			//var stations = [];
+		/** var routes = $.get('../resources/fullTrainRoutes.json',function(testroutes){
+			
 			var data = [];
 			
 			for(i=0;i<testroutes.length; i++){
@@ -102,17 +102,15 @@
 					}			
 				}
 			}
+			*/
 			
-			for(i=0; i < data.length; i++){
-				//alert(data[i].name);
-			}
 
 			//Skalierung berechnen
 			var maxX = 0;
 			var maxY = 0;
 			var max = 0;
 			minX += nameOffset_X;
-			minY += -nameOffset_Y * 4;
+			minY += -nameOffset_Y * 2;
 			
 			for(i=0; i<data.length;i++){
 				if(maxX<data[i].x){
@@ -124,8 +122,8 @@
 			}
 
 			//stellt sicher, dass auch der äußerste Punkt noch zu sehen ist
-			maxX = maxX + st_width*2 + minX;
-			maxY = maxY + st_height * 0 +minY;
+			maxX = maxX + st_width*2 + minX + 20;
+			maxY = maxY + st_height * 4 + 2*minY + 20;
 			
 			//Knoten (Bahnhöfe) durchlaufen
 			for(i=0; i<data.length; i++){
@@ -155,13 +153,13 @@
 					//zur Javascript-Datenstruktur hinzufügen (um Klickbarkeit zu realisieren)
 					var stationObj = new StationObject(station.id,station.name,station.x,station.y,st_width,st_height);
 					stationObjects.push(stationObj); 
+				}
 			}
-			}	
+
 		
-		//Kanten (Zugläufe) aus JSON entgegennehmen
-		//TODO: wieder alte Funktionalität
-		//var routes = $.get('../fullTrainRoutes.json',function(data){
-			var routes = $.get('../resources/fullTrainRoutes.json',function(data){
+		//Kanten (Zugläufe) aus JSON entgegennehmen	
+		var routes = $.get('../fullTrainRoutes.json',function(data){
+			//var routes = $.get('../resources/fullTrainRoutes.json',function(data){
 			
 			//Kanten (Zugläufe)
 			for(i=0; i<data.length;i++){
@@ -207,14 +205,12 @@
 				
 				//Linie zeichnen
 				ctx.stroke();
-				//ctx.translate(1,1);
-			}
+				}
+			//}
 			
 
 			},'json');
 		},'json');
-	
-		
 		
 		
 		//Klickbarkeit realisieren
