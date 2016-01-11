@@ -1,11 +1,13 @@
 package fis.telegramReceiver;
 
 import fis.telegrams.ByteConversions;
+import fis.telegrams.RegistrationTelegram;
+import fis.telegrams.SendableTelegram;
+import org.hibernate.engine.transaction.synchronization.internal.RegisteredSynchronization;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.concurrent.Future;
 
 import static org.junit.Assert.*;
@@ -51,5 +53,14 @@ public class TelegramReceiverTest {
 		Future<byte[]> parsedData = receiver.parseConnection(in);
 		byte[] parsedRawData = parsedData.get();
 		assertArrayEquals("received raw telegram doesn't match expected one",referenceData,parsedRawData);
+	}
+
+	@Test
+	public void testSendTelegram() throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream(255);
+		SendableTelegram tele = new RegistrationTelegram((byte) 42);
+		receiver.sendTelegram(out, tele);
+		out.flush();
+		assertArrayEquals(tele.getRawTelegram(), out.toByteArray());
 	}
 }
