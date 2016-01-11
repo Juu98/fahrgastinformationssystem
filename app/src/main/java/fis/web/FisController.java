@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -527,7 +526,10 @@ public class FisController {
     @RequestMapping("fullTrainRoutes.json")
     public @ResponseBody List<JSONProvider.FullTrainRouteView> getFullTrainRoutes() {
 	return new JSONProvider().getFullTrainRoutes(this.timetable.getData().getTrainRoutes());
+	//public String getFullTrainRoutes(){
+			//return "redirect:/resources/fullTrainRoutes_test.json";
     }
+    
 
     /**
      * Liefert eine JSON-Liste mit allen {@link TrainCategory} Einträgen des
@@ -570,82 +572,21 @@ public class FisController {
 	if (station == null) {
 	    return new ArrayList<TrainRoute>();
 	}
-	
-	/**
-	 * Liefert eine JSON-Liste mit allen {@link Station}s in diesem Fahrplan.
-	 * 
-	 * <p> Wird asynchron abgerufen und liefert die Daten für die Textersetzung
-	 * im {@code typeahead}-Element der Bahnhofssuche.
-	 * 
-	 * <p> Die Daten werden durch den {@link JSONProvider} so gefiltert, dass
-	 * für jeden Bahnhof nur ID und Name übergeben werden.
-	 * 
-	 * @return JSON body
-	 */
-	@RequestMapping("stations.json")
-	public @ResponseBody List<JSONProvider.StationView> getStations(){
-		return new JSONProvider().getStations(
-				this.timetable.getData().getStations());
-	}
-	
-	/**
-	 * Liefert eine JSON-Liste mit allen {@link TrainRoute}s in diesem Fahrplan.
-	 * 
-	 * <p> Wird asynchron abgerufen und liefert die Daten für die Textersetzung
-	 * im {@code typeahead}-Element der Zuglaufsuche.
-	 * 
-	 * <p> Die Daten werden durch den {@link JSONProvider} so gefiltert, dass
-	 * für jeden Zuglauf nur ID, Zugnummer, Anfang und Ende aufgeführt werden.
-	 * {@see JSONProvider.TrainRouteView}.
-	 * 
-	 * @return JSON body
-	 */
-	@RequestMapping("trainRoutes.json")
-	public @ResponseBody List<JSONProvider.TrainRouteView> getTrainRoutes(){
-		return new JSONProvider().getTrainRoutes(this.timetable.getData().getTrainRoutes());
-	}
-	
 
-	@RequestMapping("fullTrainRoutes.json")
-	public @ResponseBody List<JSONProvider.FullTrainRouteView> getFullTrainRoutes(){
-		return new JSONProvider().getFullTrainRoutes(this.timetable.getData().getTrainRoutes());
-	//public String getFullTrainRoutes(){
-		//return "redirect:/resources/fullTrainRoutes_test.json";
-	}
-	
-	/**
-	 * Liefert eine JSON-Liste mit allen {@link TrainCategory} Einträgen 
-	 * des aktuellen Fahrplans.
-	 * 
-	 * <p> Wird für die Ausgabe der Liste der Zugtypen zum Filtern verwendet.
-	 * 
-	 * @return JSON body
-	 */
-	@RequestMapping("trainCategories.json")
-	public @ResponseBody List<TrainCategory> getTrainCategories(){
-		return this.timetable.getTrainCategories();
-	}
-	
-	/**
-	 * Methode zur Filterung von ZUgläufen
-	 * @param station
-	 * @param type (Abfahrt / Ankunft)
-	 * @param from (Startzeit)
-	 * @param to (Endzeit)
-	 * @param filterTime (geplant / tatsächlich)
-	 * @return Eine Liste der gefilterten Zugläufe
-	 * @throws IllegalArgumentException
-	 * @throws UnsupportedOperationException
-	 */
-	public List<TrainRoute> filter(Station station, FilterType type, LocalTime from, LocalTime to, FilterTime filterTime) throws IllegalArgumentException, UnsupportedOperationException{
-		if(type == null || from == null || to == null || filterTime == null)
-			throw new IllegalArgumentException();
-		
-		if(type.equals(FilterType.ANY))
-			throw new UnsupportedOperationException();
-		
-		if(station==null){
-			return new ArrayList<TrainRoute>();
+	Iterable<TrainRoute> routes = this.timetable.getTrainRoutesByStation(station, type);
+	List<TrainRoute> filtered = new ArrayList<TrainRoute>();
+	for (TrainRoute route : routes) {
+	    if (type.equals(FilterType.ARRIVAL)) {
+		if (filterTime == FilterTime.ACTUAL) {
+		    if (route.getStopAtStation(station).getActualArrival().isAfter(from)
+			    && route.getStopAtStation(station).getActualArrival().isBefore(to)) {
+			filtered.add(route);
+		    }
+		} else {
+		    if (route.getStopAtStation(station).getScheduledArrival().isAfter(from)
+			    && route.getStopAtStation(station).getScheduledArrival().isBefore(to)) {
+			filtered.add(route);
+		    }
 		}
 	    } else if (type.equals(FilterType.DEPARTURE)) {
 		if (filterTime == FilterTime.ACTUAL) {
