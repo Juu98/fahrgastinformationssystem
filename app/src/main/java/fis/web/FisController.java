@@ -526,7 +526,10 @@ public class FisController {
     @RequestMapping("fullTrainRoutes.json")
     public @ResponseBody List<JSONProvider.FullTrainRouteView> getFullTrainRoutes() {
 	return new JSONProvider().getFullTrainRoutes(this.timetable.getData().getTrainRoutes());
+	//public String getFullTrainRoutes(){
+			//return "redirect:/resources/fullTrainRoutes_test.json";
     }
+    
 
     /**
      * Liefert eine JSON-Liste mit allen {@link TrainCategory} Einträgen des

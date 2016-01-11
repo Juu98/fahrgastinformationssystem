@@ -111,4 +111,27 @@ public class StopTest {
 		stop1.updateMessage(message);
 		assertEquals("Aktualisierung der Nachricht funktioniert nicht",stop1.getMessageId(),message);
 	}
+	
+	@Test
+	public void testDelay(){
+		Stop testStop = new Stop(s1, StopType.STOP, LocalTime.of(1,0),LocalTime.of(1, 5),"1", 42);
+		testStop.updateArrival(LocalTime.of(1,3,50));
+		testStop.updateDeparture(LocalTime.of(2, 0));
+		
+		assertEquals("Die ausgegebene Verspätung der Ankunft stimmt nicht!",230,testStop.getDelayArrival());
+		assertEquals("Die ausgegebene Verspätung der Abfahrt stimmt nicht!",3300,testStop.getDelayDeparture());
+		
+		assertEquals("Formatierung der Verspätung stimmt nicht!","+03:50",testStop.getDelayArrivalString());
+		assertEquals("Formatierung der Verspätung stimmt nicht!","+55:00",testStop.getDelayDepartureString());
+		
+		testStop.updateArrival(LocalTime.of(0,50,0));
+		testStop.updateDeparture(LocalTime.of(1, 0));
+		
+		assertEquals("Die ausgegebene Verspätung soll negativ sein, wenn verfüht!",-600,testStop.getDelayArrival());
+		assertEquals("Die ausgegebene Verspätung soll negativ sein, wenn verfüht!",-300,testStop.getDelayDeparture());
+		
+		assertEquals("Formatierung der Verfrühung stimmt nicht!","-10:00",testStop.getDelayArrivalString());
+		assertEquals("Formatierung der Verfrühung stimmt nicht!","-05:00",testStop.getDelayDepartureString());
+	
+	}
 }
