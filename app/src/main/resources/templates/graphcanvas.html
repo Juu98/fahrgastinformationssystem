@@ -1,0 +1,205 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+		<script th:src="@{/webjars/jquery/2.1.3/jquery.min.js}"></script>
+		
+		<link rel="stylesheet" type="text/css" th:href="@{/resources/css/graph.css}" />	
+		<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}" type="text/css" />
+		<link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
+		
+	<body class="container" th:fragment="graph_body">
+	<div id="divcanvas">
+		<canvas id="graphcanvas"></canvas>
+	</div>
+		<script type="text/javascript" th:inline="javascript">		
+			//<canvas id="graphcanvas" style="border:1px solid #000000;"></canvas>
+		
+			/*<![CDATA[*/	
+			var count=0;
+			var c=document.getElementById("graphcanvas");
+			var d=document.getElementById("divcanvas");
+			c.width=d.offsetWidth;
+			c.height=d.offsetHeight;
+			
+			var ctx=c.getContext("2d");
+			ctx.globalCompositeOperation = 'destination-over';
+			
+			//Schriftart
+			ctx.font = "15px Arial";
+			
+			//Größe der Bahnhofsknoten
+			var st_height=12;
+			var st_width=12;
+			
+			//Offset der Bahnhofsbeschriftung
+			var nameOffset_X = 5;
+			var nameOffset_Y = -5;
+			
+			//Größe der Zuglaufkanten
+			var line_width = st_width/2;
+			
+			//Farben
+			var line_strokeStyle_normal = 'grey';
+			var line_strokeStyle_selected = 'orange';
+			var st_fillStyle_normal = 'black';
+			var st_fillStyle_selected = 'red';
+			
+	    //Javascript-Bahnhofsdatenstruktur (zum Klickbarmachen)      
+	    function StationObject(id,name,x,y,width,height){
+			this.id=id;
+			this.name=name;
+			this.x=x;
+			this.y=y;
+			this.width=width;
+			this.height=height;
+		} 
+		var stationObjects = [];
+	    
+		
+		//Knoten (Bahnhöfe) aus JSON entgegennehmen
+		var stations = $.get('../stations.json',function(data){
+			
+			//Skalierung berechnen
+			var maxX = 0;
+			var maxY = 0;
+			var max = 0;
+			var min = nameOffset_X;
+			
+			for(i=0; i<data.length;i++){
+				if(maxX<data[i].x){
+					maxX=data[i].x;
+				}
+				if(maxY<data[i].y){
+					maxY=data[i].y;
+				}
+			}
+			max = maxX;
+			if(max < maxY){
+				max = maxY;
+			}
+			
+			//stellt sicher, dass auch der äußerste Punkt noch zu sehen ist
+			max = max + st_height*4 + min;
+			
+			//Knoten (Bahnhöfe) durchlaufen
+			for(i=0; i<data.length; i++){
+				var station=data[i];
+				if(station.x!=-1){
+					//Position entsprechend des Maximums skalieren
+					station.x=(station.x/max)*(c.width)+min;
+					station.y=(station.y/max)*(c.height) + min;	
+				
+					//Unterscheidung ausgewählt <-> normal		
+					if([[${stn}]] == (station.id)){
+						ctx.fillStyle = st_fillStyle_selected;
+					}
+					else{
+						ctx.fillStyle = st_fillStyle_normal;
+					}
+				
+					//Zeichnen des Bahnhofs
+					ctx.fillRect(station.x,station.y,st_width,st_height);
+				
+					//Zeichnen der Beschriftung
+					ctx.fillText(station.name,station.x+nameOffset_X,station.y+nameOffset_Y);
+				
+					//zur Javascript-Datenstruktur hinzufügen (um Klickbarkeit zu realisieren)
+					var stationObj = new StationObject(station.id,station.name,station.x,station.y,st_width,st_height);
+					stationObjects.push(stationObj); 
+			}
+			}	
+		
+		//Kanten (Zugläufe) aus JSON entgegennehmen
+		var routes = $.get('../fullTrainRoutes.json',function(data){
+			
+			//Kanten (Zugläufe)
+			for(i=0; i<data.length;i++){
+				
+				//feststellen, ob TrainRoute zur ausgewählten Station gehört
+				var selected = false;
+				var route=data[i];
+				
+				for(k = 0;k < route.stops.length; k++){
+					if([[${stn}]] == route.stops[k].id){
+						selected = true;
+					}	
+				}
+				
+				//Position entsprechend des Maximums skalieren
+				for(j=0; j<route.stops.length;j++){
+					var station=route.stops[j];
+					station.x=(station.x/max)*(c.width) + min;
+					station.y=(station.y/max)*(c.height) + min;
+				}
+				
+				//Pfadanfang
+				ctx.beginPath();
+				ctx.moveTo(route.stops[0].x+st_width/2,route.stops[0].y+st_height/2);
+			
+				//Kanten (Zugläufe) durchlaufen
+				for(j=1; j<route.stops.length;j++){
+					var station=route.stops[j];
+					//Position der Linie festlegen
+					ctx.lineTo(station.x+st_width/2,station.y+st_height/2);
+				}
+				
+				//Linienbreite übernehmen
+				ctx.lineWidth = line_width;
+				
+				//Unterscheidung ausgewählt <-> normal
+				if(selected == true){
+					ctx.strokeStyle = line_strokeStyle_selected;
+				}
+				else{
+					ctx.strokeStyle = line_strokeStyle_normal;
+				}
+				
+				//Linie zeichnen
+				ctx.stroke();
+			}
+			},'json');
+		},'json');
+		
+		
+		//Klickbarkeit realisieren
+		$('#graphcanvas').click(function(e){
+			//angeklickte Position bestimmen
+			var x = e.pageX - $('#graphcanvas').offset().left;
+		    var y = e.pageY -  $('#graphcanvas').offset().top;
+		    //"Fake-Bahnhof" zur Kollisionserkennung
+		    var clicked = new StationObject('','',x, y, 1, 1);
+		    //Hilfsfunktion aufrufen
+		    var pos = getPositions(clicked);
+		    
+		    //kollidiert die angeklickte Position mit einem der Knoten?
+		    for (var i = 0; i < stationObjects.length; i++) {
+		        var pos2 = getPositions(stationObjects[i]);
+		        var horizontalMatch = comparePositions(pos[0], pos2[0]);
+		        var verticalMatch = comparePositions(pos[1], pos2[1]);
+		        
+		        //Kollision? Wenn ja, dann angeklickt
+		        if (horizontalMatch && verticalMatch) {
+		        	// Aufrufen der Abfahrtsanzeige für den angeklickten Bahnhof
+		            window.location = "../dep/"+stationObjects[i].id;
+		        }
+		    }
+		});
+		
+		//Hilfsfunktion für die Kollisionserkennung
+		function getPositions(item) {
+		    return [[item.x, item.x + item.width], [item.y, item.y + item.height]];
+		}
+		
+		function comparePositions(p1, p2) {
+		    var x1 = p1[0] < p2[0] ? p1 : p2;
+		    var x2 = p1[0] < p2[0] ? p2 : p1;
+		    return x1[1] > x2[0] || x1[0] === x2[0] ? true : false;
+		}
+		/*]]>*/	
+	</script>	
+	
+		<script type="text/javascript">
+		</script>
+				
+		<script th:src="@{/resources/js/fis.js}"></script>
+	</body>
+</html>

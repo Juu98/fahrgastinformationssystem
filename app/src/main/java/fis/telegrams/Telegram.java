@@ -1,16 +1,18 @@
 package fis.telegrams;
 
+import java.nio.charset.Charset;
 
 /**
- * Created by spiollinux on 12.11.15.
+ * Abstrakte Klasse, die die Telegramme kapselt.
+ * 
+ * @author spiollinux, Robert
  */
 public abstract class Telegram {
-	protected static final int rawTelegramLength = 255;
-
-	public static int getRawTelegramLength() {
-		return rawTelegramLength;
-	}
-
+	// Codepage für String-Konvertierung
+	public static final Charset CHARSET = Charset.forName("ISO-8859-1");
+	// Endianness für die Wort-Konvertierung bei Zeiten
+	public static final boolean LITTLE_ENDIAN = true;
+	
 	@Override
 	public abstract String toString();
 	

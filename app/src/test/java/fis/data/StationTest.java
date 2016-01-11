@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -68,4 +69,33 @@ public class StationTest {
 	assertFalse("Der Halt muss gelöscht werden!", station.hasStop(stop1));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void getStopForTrainRouteNullTest(){
+    	station.getStopForTrainRoute(null);
+    }
+    
+    @Test
+    public void getStopForTrainRouteNonExistantTest(){
+    	Station nowhere = new Station("NWR", "Nowhere");
+    	Stop s1 = new Stop(nowhere, StopType.STOP, LocalTime.of(13, 37), LocalTime.of(13, 38), "2", 2/*TODO: was zum geier solldiese id hier?*/);
+    	List<Stop> stops = new ArrayList<Stop>();
+    	stops.add(s1);
+    	TrainCategory category = new TrainCategory("TLX", "TeElIx", "Isn Zuch!", "Damit kann man Dinge von A nach B bewegen. ");
+    	TrainRoute route = new TrainRoute("TLX_0815", "3", category, stops, 0);
+    	s1.setTrainRoute(route);
+    	nowhere.addStop(s1);
+    	assertNull("getStopFromTrainRoute should return null if the route is not passing the station. ", station.getStopForTrainRoute(route));
+    }
+    
+    @Test
+    public void getStopForTrainRouteTest(){
+    	Stop s2 = new Stop(station, StopType.STOP, LocalTime.of(13, 37), LocalTime.of(13, 38), "2", 2);
+    	List<Stop> stops = new ArrayList<Stop>();
+    	stops.add(s2);
+    	TrainCategory category = new TrainCategory("TLX", "TeElIx", "Isn Zuch!", "Damit kann man Dinge von A nach B bewegen. ");
+    	TrainRoute route = new TrainRoute("TLX_0815", "3", category, stops, 0);
+    	s2.setTrainRoute(route);
+    	station.addStop(s2);
+    	assertEquals("The stops should be equal! ", station.getStopForTrainRoute(route), s2);
+    }
 }

@@ -4,43 +4,31 @@ import java.util.Arrays;
 
 /**
  * Eine Klasse für die Anmeldetelegramme. 
- * @author spiollinux, kloppstock
+ * @author spiollinux, kloppstock, Robert
  */
-public class RegistrationTelegram extends Telegram implements SendableTelegram{
-	private final byte[] rawTelegram;
+public class RegistrationTelegram extends SendableTelegram{
 	private final byte id;
+	public static final int LABTIME_FACTOR = 1;
+	public static final int TRAINS_STOP_GO = 1;
 
 	/**
 	 * Konstruktor für die Anmeldetelegramme. 
-	 * @param id
+	 * @param id die Client-ID, welche an den Server gesendet werden soll
 	 */
 	public RegistrationTelegram(byte id) {
+		super();
+		
 		this.id = id;
-		this.rawTelegram = new byte[Telegram.rawTelegramLength];
-		int i = 0;
-		//Laut Spezifikation müssen die ersten 3 Telegrammbytes auf 0xFF stehen
-		for(; i < 3; i++)
-			this.rawTelegram[i] = (byte) 255;
-		//Das nächste Byte gibt die Länge des genutzten Bereiches an.
-		//Diesed Byte wird erst am Ende gesetzt.
-		i++;
-		//Das 5. Byte beinhaltet die Kennung, welche für das das Anmeldetelegramm laut Spezifikation 251 ist,  
-		this.rawTelegram[i++] = (byte) 251; 
-		//Das 6. Byte enthällt schließlich die ID. 
-		this.rawTelegram[i++] = id;
-		//Die nächsten beiden Bytes enthalten den Laboruhrzeitfaktor und das Stopp/Start Signal und werden beide auf Standardwerte (siehe Spezifikation) gesetzt.
-		this.rawTelegram[i++] = this.rawTelegram[i] = (byte) 1;
-		//Da nur die Kennung und die ID gesendet wird, ist der genutzte Bereich 2 Byte lang. 
-		this.rawTelegram[3] = (byte) (i-4);
-	}
-
-	/**
-	 * Getter für das im Konstruktor generierte "Rohtelegramm". 
-	 * @return rawTelegram
-	 */
-	@Override
-	public byte[] getRawTelegram() {
-		return this.rawTelegram;
+		byte[] data = new byte[3];
+		// Client-ID
+		data[0] = this.id;
+		// Laborzeit-Faktor
+		data[1] = ByteConversions.toUByte(LABTIME_FACTOR);
+		// Züge Stop/Weiter
+		data[2] = ByteConversions.toUByte(TRAINS_STOP_GO);
+		
+		this.setCategory(TelegramCategory.REGISTRATION);
+		this.setData(data);
 	}
 
 	@Override
@@ -57,6 +45,6 @@ public class RegistrationTelegram extends Telegram implements SendableTelegram{
 			return false;
 		}
 		RegistrationTelegram o = (RegistrationTelegram) other;
-		return Arrays.equals(this.rawTelegram, o.getRawTelegram());
+		return Arrays.equals(this.getRawTelegram(), o.getRawTelegram());
 	}
 }

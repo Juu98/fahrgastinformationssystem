@@ -9,51 +9,43 @@ public class StationNameTelegramTest {
 	private byte ID;
 	private String code;
 	private String name;
+	private float x;
+	private float y;
 	
 	@Before
 	public void setup(){
 		this.ID = (byte) 255;
 		this.code = "CODE__";
 		this.name = "Name";
+		this.x = -1f;
+		this.y = -1f;
 	}
 	
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void CodeNullConstructorTest(){
-		boolean exceptionCatched = false;
-		try{
-			this.telegram = new StationNameTelegram(this.ID, null, this.name);
-		} catch(NullPointerException e) {
-			exceptionCatched = true;
-		}
-		assertTrue("The constructor should throw a NullPointerException if given a null parameter!", exceptionCatched);
+		this.telegram = new StationNameTelegram(this.ID, null, this.name, this.x, this.y);
 	}
 	
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void NameNullConstructorTest(){
-		boolean exceptionCatched = false;
-		try{
-			this.telegram = new StationNameTelegram(this.ID, this.code, null);
-		} catch(NullPointerException e) {
-			exceptionCatched = true;
-		}
-		assertTrue("The constructor should throw a NullPointerException if given a null parameter!", exceptionCatched);
+		this.telegram = new StationNameTelegram(this.ID, this.code, null, this.x, this.y);
 	}
 	
 	@Test
 	public void GetIDAndConstructorTest(){
-		this.telegram = new StationNameTelegram(this.ID, this.code, this.name);
+		this.telegram = new StationNameTelegram(this.ID, this.code, this.name, this.x, this.y);
 		assertEquals("The getID()-Method didn't return the expected value!", this.ID, this.telegram.getId());
 	}
 	
 	@Test
 	public void GetCodeAndConstructorTest(){
-		this.telegram = new StationNameTelegram(this.ID, this.code, this.name);
+		this.telegram = new StationNameTelegram(this.ID, this.code, this.name, this.x, this.y);
 		assertEquals("The getCode()-Method didn't return the expected value!", this.code, this.telegram.getCode());
 	}
 	
 	@Test
 	public void GetNameAndConstructorTest(){
-		this.telegram = new StationNameTelegram(this.ID, this.code, this.name);
+		this.telegram = new StationNameTelegram(this.ID, this.code, this.name, this.x, this.y);
 		assertEquals("The getName()-Method didn't return the expected value!", this.name, this.telegram.getName());
 	}
 }

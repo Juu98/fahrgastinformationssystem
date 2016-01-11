@@ -40,8 +40,8 @@ public class TrainRouteTelegramTest {
 		this.stops3 = new ArrayList<Stop>();
 		this.stops3.addAll(stops1);
 		this.stops3.addAll(stops2);
-		this.route1 = new TrainRoute("ID_1", 9000, category, stops1);
-		this.route2 = new TrainRoute("ID_2", 9001, category, stops2);
+		this.route1 = new TrainRoute("ID_1", "9000", category, stops1, 0);
+		this.route2 = new TrainRoute("ID_2", "9001", category, stops2, 0);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

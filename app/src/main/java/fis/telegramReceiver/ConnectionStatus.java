@@ -1,10 +1,11 @@
 package fis.telegramReceiver;
 
 /**
- * Created by spiollinux on 07.11.15.
+ * Gibt den Verbindungsstatus zum Telegrammserver an
  */
 public enum ConnectionStatus {
     CONNECTING,
     OFFLINE,
-    ONLINE
+    ONLINE,
+    INIT    //Verbindung besteht, Telegramme werden empfangen, aber noch kein Trainroute End telegram
 }

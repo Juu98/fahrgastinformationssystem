@@ -1,14 +1,14 @@
 package fis.telegramReceiver;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by spiollinux on 08.11.15.
+ * Enthält Konfigurationsdaten für den TelegramReceiver. Wird von Spring über
+ * {@link org.springframework.boot.context.properties.ConfigurationProperties}
+ * automatisch mit Daten aus der Konfigurationsdatei befüllt
  */
 @Component
-@PropertySource("file:./config.properties")
 @ConfigurationProperties(prefix = "telegramserver")
 public class TelegramReceiverConfig {
     private String hostname;
@@ -18,38 +18,38 @@ public class TelegramReceiverConfig {
     private int timeTillReconnect = 5000;
 
     public int getTimeTillReconnect() {
-        return timeTillReconnect;
+	return timeTillReconnect;
     }
 
     public String getHostname() {
-        return hostname;
+	return hostname;
     }
 
     public int getPort() {
-        return port;
+	return port;
     }
 
     public int getTimeout() {
-        return timeout;
+	return timeout;
     }
 
     public void setHostname(String hostname) {
-        this.hostname = hostname;
+	this.hostname = hostname;
     }
 
     public void setPort(int port) {
-        this.port = port;
+	this.port = port;
     }
 
     public byte getClientID() {
-        return clientID;
+	return clientID;
     }
 
     public void setClientID(byte clientID) {
-        this.clientID = clientID;
+	this.clientID = clientID;
     }
 
     public void setTimeout(int timeout) {
-        this.timeout = timeout;
+	this.timeout = timeout;
     }
 }

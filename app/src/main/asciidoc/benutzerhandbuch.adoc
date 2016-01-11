@@ -1,0 +1,101 @@
+= Benutzerhandbuch
+
+:imagesdir: benutzerhandbuch
+
+== Installation
+=== Konfiguration des Apache Servers
+Es ist möglich und vorgesehen, dass die Anwendung hinter einem als _Reverse Proxy_ konfigurierten Apache Server läuft. Das hat den Vorteil, dass sie einfacher für den Benutzer vom lokalen Netzwerk aus erreichbar ist. Im folgenden Abschnitt wird die Konfiguration eines Apache Servers für FIS angegeben.
+
+Abhängig von der Apache Version und vom Betriebssystem kann die Konfiguration des Webservers eine einzelne Datei (meistens 'httpd.conf') umfassen  oder in mehreren Dateien aufgeteilt sein. Bei Unsicherheit fragen Sie Ihren Systemadministratoren. Zuerst müssen die benötigten zusätlichen Module aktiviert werden. Dies geschieht durch das Hinzufügen folgender Zeilen zu der Konfiguration, falls sie noch nicht vorhanden sind:
+
+[source,conf]
+----
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
+LoadModule proxy_html_module modules/mod_proxy_html.so
+LoadModule headers_module modules/mod_headers.so
+LoadModule filter_module modules/mod_filter.so
+LoadModule deflate_module modules/mod_deflate.so
+----
+
+Dann muss das eigentliche Proxy auch konfiguriert werden:
+
+[source,conf]
+----
+ProxyRequests off # <1>
+ProxyPass /fis http://localhost:8080 # <2>
+ProxyPassReverse /fis http://localhost:8080
+<Location "/fis">
+  SetOutputFilter proxy-html
+  ProxyHTMLURLMap ^/(.*)$ /fis/$1 R
+  ProxyHTMLDocType "<!DOCTYPE html>" # <3>
+  Order allow,deny
+  Allow from all
+</Location>
+----
+<1> Aus Sicherheitsgründen soll diese Einstellung immer `off` sein.
+<2> Der erste Parameter bestimmt den Pfad, unter dem die Anwendung erreichbar sein wird (in diesem Fall 'http://<Adresse-des-Apache-Servers>/fis'), und kann nach Belieben verändert werden. Wichtig ist, dass der gleiche Pfad überall in der Konfigurationsdatei  benutzt wird. Der zweite Parameter ist die URL des internen Tomcat-Servers und soll nicht verändert werden.
+<3> Stellt sicher, dass HTML5 korrekt angezeigt wird.
+
+== Konfiguration
+== Programmstart
+
+Der Start des Programms erfolgt über die Kommandozeile
+
+[source,conf]
+----
+java -jar fis.jar
+----
+
+== Benutzung
+Die Benutzeroberfläche des FIS unterteilt sich in 4 verschiedene Registerkarten (Tabs).
+
+=== Abfahrten und Ankünfte
+
+Hier werden die abfahrenden bzw. ankommenden Züge innerhalb des ausgewählten Zeitraumes angezeigt.
+
+image::dep_1.png[Übersicht Abfahrtsanzeige, 60%, title="Übersicht Abfahrtsanzeige"]
+
+
+Am Anfang muss ein Bahnhof ausgewählt werden, für den die Anzeige erfolgen soll. Das Auswählen des Bahnhofs geschieht über die Suchleiste am oberen Bildschirmrand. Durch einen Klick auf den Pfeil rechts von der Suche erhält man eine Liste von allen verfügbaren Bahnhöfen. Der entsprechende Bahnhof muss dann nur noch angeklickt werden.
+Alternativ kann der Name des Bahnhofs auch in die Suchmaske eingefügt werden. Es werden dann passende Bahnhöfe vorgeschlagen. Ein Klick auf "Anzeigen" oder die Enter-Taste wählen in diesem Fall den Bahnhof aus.
+
+image::dep_3.png[Suchmaske, 100%, title="Suchmaske"]
+
+
+Hier werden die Filterfunktionen angewendet. Man kann den Zeitraum auswählen, in dem die Abfahrten bzw. Ankünfte angezeigt werden Standardmäßig ist ein Zeitraum von 2 Stunden ausgehend von der aktuellen Laborzeit eingestellt. Zudem werden die anzuzeigenden Zugtypen ausgewählt. Es werden nur Passagierzugtypen zur Auswahl gestellt (nur relevant, wenn von einem Offline-Fahrplan gelesen wird).
+
+image::filter.png[Filter, 50%, title="Filter"]
+
+Die Abfahrten bzw. Ankünfte werden in Form einer Tabelle ausgegeben. Angezeigt werden die Ankunfts- bzw. Abfahrtszeit, die jeweilige Zugnummer, die Richtung/Herkunft des Zuges (der Start- oder Endbahnhof wird dabei markiert), der Gleis und - falls verfügbar - die aktuelle den Zug betreffende Meldung. 
+
+Ein Klick auf die Zugnummer wechselt dabei in den Zugnummern-Tab und zeigt den entsprechenden Zuglauf an. Analog gilt dies für die Bahnhöfe in der Richtungsanzeige (aus dem Abfahrtstab wechselt man in den Abfahrtstab des angeklickten Bahnhofs, selbiges gilt für den Ankunftstab).
+
+
+image::dep_tab.png[Tabelle Abfahrten, 100%, title="Tabelle Abfahrten"]
+
+Beim Wechsel zwischen Ankunfts- und Abfahrtstab bleibt der ausgewählte Bahnhof bestehen. Ein Wechsel zum Liniennetz-Tab markiert den aktuellen Bahnhof auf der Karte und hebt die dazugehörigen Zugläufe farblich hervor.
+
+=== Zugnummer
+
+Hier kann man Züge nach der Zugnummer suchen und sich den entsprechenden Zuglauf anzeigen lassen. Die Sucheingabe funktioniert dabei im Grunde so wie bereits in den Abfahrts- und Ankunftstabs, nur dass hier eine Liste von Zugnummern angezeigt bzw. nach einer Zugnummer gesucht wird
+
+image::trainNr_search.png[Suchmaske Zugnummer, 80%, title="Suchmaske Zugnummer"]
+
+
+In der Ausgabetabelle werden für den ausgewählten Zug alle angefahrenen Bahnhöfe chronologisch aufgelistet (d.h. Start- bis Zielbahnhof), sowie die jeweiligen Ankunfts- und Abfahrtszeiten, der Bahnhof, der Gleis, sowie die eventuelle aktuelle Meldung angezeigt. Ein Klick auf einen Bahnhof führt zur Abfahrtsanzeige des Bahnhofs.
+
+image::trainNr_tab.png[Tabelle Zuglauf, 80%, title="Tabelle Zuglauf"]
+
+
+=== Liniennetz
+
+Hier wird eine Karte des Netzes angezeigt, falls Koordinaten verfügbar sind.
+
+image::graphtab.png[Liniennetz-Tab, 80%, title="Liniennetz-Tab"]
+
+Falls vorher ein Bahnhof ausgewählt wurde, wird dieser farblich markiert. Ebenfalls markiert werden alle Zugläufe, die den ausgewählten Bahnhof beinhalten.
+
+Es ist zudem möglich, die angezeigten Bahnhöfe anzuklicken. In diesem Fall wird dann in die entsprechende Abfahrtsanzeige gewechselt.
+
+== Administrationsbereich

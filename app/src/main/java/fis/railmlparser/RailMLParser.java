@@ -35,7 +35,7 @@ public class RailMLParser {
      * Baumstruktur verwendet werden kann, zurück.
      * 
      * 
-     * @param railMLpath
+     * @param railMLPath
      *            Pfad der RailML-Datei im Klassenpfad.
      * 
      * @return Railml-Wurzelobjekt

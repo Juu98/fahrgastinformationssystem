@@ -19,6 +19,7 @@
 
 				<h1 class="col-md-8 text-center" th:text="#{fis.title}">Fahrgastinformationssystem</h1>
 				<h2 class="col-md-2" th:text="${#temporals.format(time, 'HH:mm')}">13:37</h2>
+				 
 			</div>
 			<div class="row">
 				<ul class="col-md-8 col-md-offset-2 nav nav-tabs">
@@ -32,7 +33,12 @@
 					</li>
 					<li th:class="${active == 'trn'}? 'active'">
 						<a href="/trn"
-						   th:text="#{fis.nav.trn}">Zugnummer</a></li>
+						   th:text="#{fis.nav.trn}">Zugnummer</a>
+					</li>
+					<li th:class="${active == 'graph'}? 'active'">
+						<a th:href="${currentStation} ? |/graph/${currentStation.id}| : '/graph/'"	
+						   th:text="#{fis.nav.graph}">Liniennetz</a>
+					</li>
 				</ul>
 			</div>
 		</th:block>

@@ -1,6 +1,7 @@
 package fis.telegrams;
 
 import java.time.LocalTime;
+import java.util.IllegalFormatCodePointException;
 
 /**
  * @author spiollinux, kloppstock
@@ -12,11 +13,11 @@ public class LabTimeTelegram extends Telegram {
 	/**
 	 * Konstruktor für das Laborzeittelegramm. 
 	 * @param time (Zeit)
-	 * @throws NullPointerException
+	 * @throws IllegalArgumentException
 	 */
-	public LabTimeTelegram(LocalTime time) throws NullPointerException {
+	public LabTimeTelegram(LocalTime time) throws IllegalArgumentException {
 		if(time == null)
-			throw new NullPointerException();
+			throw new IllegalArgumentException();
 		this.time = time;
 	}
 	

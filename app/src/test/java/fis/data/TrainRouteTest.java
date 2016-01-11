@@ -33,26 +33,31 @@ public class TrainRouteTest {
 		stops1.add(stop2);
 		stops1.add(stop3);
 		
-		route1=new TrainRoute("1",1,cat1,stops1);
+		route1=new TrainRoute("1","1",cat1,stops1, 1);
 		
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_1(){
-		new TrainRoute(null,0,cat1,stops1);
+		new TrainRoute(null,"0",cat1,stops1, 0);
 		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_2(){
-		new TrainRoute("2",0,null,stops1);
+		new TrainRoute("2","0",null,stops1, 0);
 		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testNullConstructor_3(){
-		new TrainRoute("2",0,cat1,null );
+		new TrainRoute("2","0",cat1,null, 0);
 		fail("Konstruktor soll bei null-Argumenten entsprechende Exception werfen!");
+	}
+	
+	@Test
+	public void testGetMessageId(){
+		assertEquals("Die MessageId stimmt nicht überein!", 1, route1.getMessageId());
 	}
 	
 	@Test
@@ -70,11 +75,27 @@ public class TrainRouteTest {
 		assertEquals("ID der TrainRoute stimmt nicht!", route1.getId(),"1");
 		assertEquals("TrainCategory stimmt nicht!", route1.getTrainCategory(), cat1);
 		assertEquals("Stops stimmen nicht!", route1.getStops(),stops1);
-		assertEquals("TrainNumber stimmt nicht!", route1.getTrainNumber(),1);
+		assertEquals("TrainNumber stimmt nicht!", route1.getTrainNumber(),"1");
 	}
 	
 	@Test
 	public void testStopLinked(){
 		assertEquals("Die Referenz des Stops auf die TrainRoute wurde nicht korrekt gesetzt!", route1,stop1.getTrainRoute());
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void getStopAtStationNullTest(){
+		route1.getStopAtStation(null);
+	}
+	
+	@Test
+	public void getStopAtStationNonExistantTest(){
+		Station notOnRoute = new Station("NOR", "Not On Route");
+		assertNull("getStopAtStation should return null if the statoin is not on the route!", route1.getStopAtStation(notOnRoute));
+	}
+	
+	@Test
+	public void getStopAtStationTest(){
+		assertEquals("The stops should be equal!", route1.getStopAtStation(s1), stop1);
 	}
 }

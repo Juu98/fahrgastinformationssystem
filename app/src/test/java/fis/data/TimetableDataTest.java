@@ -37,7 +37,7 @@ public class TimetableDataTest {
 		stops1.add(stop2);
 		stops1.add(stop3);
 		
-		route1=new TrainRoute("1",1,cat1,stops1);
+		route1=new TrainRoute("1","1",cat1,stops1, 0);
 		
 		List<Stop> stops2=new ArrayList<Stop>();
 		stop4=new Stop(s2,StopType.BEGIN,null,LocalTime.of(3,1),"4",0);
@@ -45,7 +45,7 @@ public class TimetableDataTest {
 		stops2.add(stop4);
 		stops2.add(stop5);
 		
-		route2=new TrainRoute("2",2,cat1,stops2);
+		route2=new TrainRoute("2","2",cat1,stops2, 0);
 		
 		data.addTrainCategory(cat1);
 		data.addStation(s1);
@@ -93,7 +93,7 @@ public class TimetableDataTest {
 		stops3.add(stop4);
 		stops3.add(stop5);
 		
-		route3=new TrainRoute("2",2,cat2,stops3);
+		route3=new TrainRoute("2","2",cat2,stops3, 0);
 		
 		data.addTrainRoute(route3);
 		
