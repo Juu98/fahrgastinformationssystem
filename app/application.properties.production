@@ -2,9 +2,10 @@
 
 server.port = 8080
 
-
-# wie lange soll auf den Telegrammserver gewartet werden, bevor XML geparst wird?
-fis.telegramserverTimeout = 10000
+# Konfiguration des FIS
+fis.railmlpath = ./EBL Regelfahrplan.xml
+fis.benutzertext = Fubar
+fis.logoPath = logo.png
 
 # Logging
 # Loggingeinstellungen für das Gesamtsystem (inklusive Spring Framework)
