@@ -75,6 +75,7 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |U-Data-Stop-1|(testGetter)|Abfragen der Attribute|-|Abfahrt, Ankunft, Gleis, Bahnhof|getter liefern korrekte, vorher dem Konstruktor übergebene Werte; IstZeit=SollZeit
 |U-Data-Stop-2|update XY| Updaten des Haltes (durch Telegramme verursacht)|funktionierende Getter|neue Zeiten, Gleis, Meldung|korrektes Speichern in den vorgesehenen Variablen
 |U-Data-Stop-3|(testNullConstructor) |-|-|Konstruktor mit null-Argumenten|NullPointerException
+|U-Data-Stop-4|(testdelay) |-|-|Berechnung der Verspätung|korrekte Ausgabe der Verspätung/Verfrühung
 |*[U-Data-Station]*|||||
 |U-Data-Station-1|addStop|Halt hinzufügen|-|null|Fehler/Warnung
 |U-Data-Station-2|addStop|Halt hinzufügen|-|hinzuzufügender Halt|(neuer Halt muss zur Liste stops hinzugefügt werden)
