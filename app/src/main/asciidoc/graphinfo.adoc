@@ -24,19 +24,23 @@ Die folgenden Variablen können unter src/main/resources/templates/graphcanvas.h
 [source,JavaScript]
 ----
 //Schriftart
-ctx.font = "15px Arial";
-	
+ctx.font = "16px Arial";
+
 //Größe der Bahnhofsknoten
-var st_height=12;
-var st_width=12;
+var st_height=8;
+var st_width=8;
 	
 //Offset der Bahnhofsbeschriftung
-var nameOffset_X = 5;
+var nameOffset_X = -2;
 var nameOffset_Y = -5;
 	
+//MinX und MinY
+var minX = 5;
+var minY = 5;
+
 //Größe der Zuglaufkanten
-var line_width = st_width/2;
-	
+var line_width = st_width/4;
+
 //Farben
 var line_strokeStyle_normal = 'grey';
 var line_strokeStyle_selected = 'orange';
