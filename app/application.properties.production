@@ -4,6 +4,7 @@ server.port = 8080
 
 # Konfiguration des FIS
 fis.railmlpath = ./EBL Regelfahrplan.xml
+fis.messagecsvpath = ./messages.csv
 fis.benutzertext = Fubar
 fis.logoPath = logo.png
 

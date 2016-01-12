@@ -36,7 +36,7 @@ public class CSVMessageLoaderTest {
 		boolean exceptionCatched = false;
 		try{
 			CSVMessageLoader.loadCSV(null);
-		} catch (NullPointerException e) {
+		} catch (ConfigurationException e) {
 			exceptionCatched = true;
 		}
 		assertTrue("The constructor should throw a NullPointerException if given a null parameter!", exceptionCatched);
@@ -58,7 +58,7 @@ public class CSVMessageLoaderTest {
 		boolean exceptionCatched = false;
 		try{
 			CSVMessageLoader.loadCSV("/file/not/found.csv");
-		} catch (FileNotFoundException e) {
+		} catch (ConfigurationException e) {
 			exceptionCatched = true;
 		}
 		assertTrue("The constructor should throw a FileNotFoundException if given an illegal path!", exceptionCatched);

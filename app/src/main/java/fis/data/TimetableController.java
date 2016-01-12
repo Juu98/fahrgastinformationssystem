@@ -1,12 +1,9 @@
 package fis.data;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 
 import javax.xml.bind.JAXBException;
@@ -236,9 +233,10 @@ public class TimetableController {
 	    System.out.println(ex.toString());
 	}
 	try {
-	    this.messages = CSVMessageLoader.loadCSV("./messages.csv");
-	} catch (Exception ex) {
-	    System.out.println(ex.toString());
+		this.messages = CSVMessageLoader.loadCSV(config.getMessagecsvpath());
+	} catch (ConfigurationException e) {
+		this.messages = new HashMap<>();
+		LOGGER.error(e.getMessage());
 	}
     }
 

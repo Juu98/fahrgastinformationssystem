@@ -25,7 +25,8 @@ public class TimetableControllerTest{
 	
 	@Before
 	public void setUp() throws Exception{
-		timetable=new TimetableController(new CommonConfig());
+		CommonConfig conf = new CommonConfig();
+		timetable=new TimetableController(conf);
 		timetable.resetData();
 		Message m1 = new Message();
 		m1.setIndex(1);
