@@ -138,6 +138,8 @@ Das Spring-Framework orientiert sich bei seiner Implementierung der Nutzerschnit
 
 Da die Telegramme unterschiedliche Form haben können und unterschiedliche Daten übermitteln sollen, aber diese jedoch alle Telegramme sind, wurde sich hier für das Strategy-Pattern entschieden. Dadurch lassen sich die Telgramme leicht in Unterkategorien aufteilen und können allgemeine Eigenschaften aus ihren abstrakten Oberklassen erben.
 
+Die TimetableData Klasse stellt eine Fassade zu den Kerndaten wie den Zugläufen und Stationen dar. Die TimetableController-Klasse bildet eine Fassade zum kompletten data-package. Dadurch wird der Zugriff auf die Daten eindeutiger ersichtlich und einfacher zu handhaben. 
+
 Auf das Singleton-Pattern wurde bei diesem Entwurf bewusst verzichtet, da sich dies mit der von dem Spring-Framework bereitgestellten "@Autowired" Annotation ähnliches einfacher implementieren lässt.
 
 === Persistenz
