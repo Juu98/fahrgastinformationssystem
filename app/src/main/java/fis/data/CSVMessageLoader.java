@@ -1,21 +1,25 @@
 package fis.data;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.*;
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.bean.ColumnPositionMappingStrategy;
 import au.com.bytecode.opencsv.bean.CsvToBean;
 import fis.common.ConfigurationException;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
- * Eine Ladeklasse für Meldungstexte. 
- * @author kloppstock
+ * Eine Ladeklasse für Meldungstexte.
  *
+ * @author kloppstock
  */
 public class CSVMessageLoader {
 	/**
-	 * Statische Lademethode zum Laden von Meldungstexten. 
+	 * Statische Lademethode zum Laden von Meldungstexten.
+	 *
 	 * @param path (Pfad)
 	 * @return HashMap<Integer, Message>
 	 * @throws NullPointerException
@@ -24,9 +28,9 @@ public class CSVMessageLoader {
 	 * @throws ConfigurationException
 	 */
 	public static Map<Integer, Message> loadCSV(String path) throws ConfigurationException {
-		if(path == null)
+		if (path == null)
 			throw new ConfigurationException("Pfad zur messages csv ist nicht angegeben");
-		if(path.isEmpty())
+		if (path.isEmpty())
 			throw new IllegalArgumentException("Path cannot be empty!");
 		//Erstellen der nötigen Variablen
 		Map<Integer, Message> messages = new HashMap<Integer, Message>();
@@ -52,8 +56,7 @@ public class CSVMessageLoader {
 					throw new ConfigurationException("messages csv enthält doppelte Werte");
 				messages.put(m.getIndex(), m);
 			}
-		}
-		catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			throw new ConfigurationException("angegebene messages csv nicht am angegebenen Pfad gefunden");
 		}
 		return messages;

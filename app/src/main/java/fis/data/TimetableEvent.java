@@ -5,11 +5,12 @@ import org.springframework.context.ApplicationEvent;
 /**
  * Event, das auf notwendige Änderungen der Fahrplan-Datenstruktur oder Datenquelle hinweist
  */
-public class TimetableEvent extends ApplicationEvent{
+public class TimetableEvent extends ApplicationEvent {
 	private TimetableEventType type;
 
 	/**
 	 * erstellt neues TimeTableEvent mit einem Typen {@link TimetableEventType}
+	 *
 	 * @param type
 	 */
 	public TimetableEvent(TimetableEventType type) {
@@ -19,6 +20,7 @@ public class TimetableEvent extends ApplicationEvent{
 
 	/**
 	 * Gibt den Eventtyp zurück
+	 *
 	 * @return TimeTableEventType
 	 */
 	public TimetableEventType getType() {
@@ -27,7 +29,7 @@ public class TimetableEvent extends ApplicationEvent{
 
 	@Override
 	public boolean equals(Object e) {
-		if(e.getClass() == TimetableEvent.class) {
+		if (e.getClass() == TimetableEvent.class) {
 			return this.type.equals(((TimetableEvent) e).getType());
 		}
 		return false;

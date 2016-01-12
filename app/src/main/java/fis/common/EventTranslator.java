@@ -26,6 +26,7 @@ public class EventTranslator implements ApplicationEventPublisherAware {
 
 	/**
 	 * Übersetzt ConnectionStatusEvents in TimetableEvents
+	 *
 	 * @param event
 	 */
 	@EventListener
@@ -37,8 +38,7 @@ public class EventTranslator implements ApplicationEventPublisherAware {
 				LOGGER.debug("published parseRailML event");
 			}
 			this.hasBeenOnlineBefore = false;
-		}
-		else if (receivedStatus.equals(ConnectionStatus.INIT)) {
+		} else if (receivedStatus.equals(ConnectionStatus.INIT)) {
 			this.hasBeenOnlineBefore = true;
 			publisher.publishEvent(new TimetableEvent(TimetableEventType.cleanup));
 		}

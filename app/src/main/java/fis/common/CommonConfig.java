@@ -1,6 +1,5 @@
 package fis.common;
 
-import org.apache.log4j.Logger;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 

@@ -8,18 +8,20 @@ package fis.web;
 import fis.data.Station;
 import fis.data.Stop;
 import fis.data.TrainRoute;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * Static methods to convert the Lists into nice JSON.
- * 
+ *
  * @author Robert
  */
 public class JSONProvider {
 	/**
-	 * Eine Klasse für die JSON optimierten Bahnhofsdaten. 
+	 * Eine Klasse für die JSON optimierten Bahnhofsdaten.
+	 *
 	 * @author Robert, kloppstock
 	 */
 	public static class StationView {
@@ -27,16 +29,17 @@ public class JSONProvider {
 		private String name;
 		private float x;
 		private float y;
-		
+
 		/**
 		 * Konstruktor für die Bahnhofsdatenstruktur.
+		 *
 		 * @param id
 		 * @param name
 		 * @param x
 		 * @param y
 		 * @throws IllegalArgumentException
 		 */
-		public StationView(String id, String name, int x, int y){
+		public StationView(String id, String name, int x, int y) {
 			if (id == null || name == null)
 				throw new IllegalArgumentException("One of the given parameters is null!");
 			this.id = id;
@@ -47,13 +50,14 @@ public class JSONProvider {
 
 		/**
 		 * Konstruktor für die Bahnhofsdatenstruktur.
+		 *
 		 * @param s (Station)
 		 * @throws IllegalArgumentException
 		 */
 		public StationView(Station s) throws IllegalArgumentException {
 			if (s == null)
 				throw new IllegalArgumentException("The given parameter is null!");
-			
+
 			this.id = s.getId();
 			this.name = s.getLongName();
 			this.x = s.getPosX();
@@ -62,6 +66,7 @@ public class JSONProvider {
 
 		/**
 		 * Getter für id
+		 *
 		 * @return id
 		 */
 		public String getId() {
@@ -70,6 +75,7 @@ public class JSONProvider {
 
 		/**
 		 * Getter für name
+		 *
 		 * @return name
 		 */
 		public String getName() {
@@ -78,17 +84,19 @@ public class JSONProvider {
 
 		/**
 		 * Getter für X-Koordinate
+		 *
 		 * @return x
 		 */
-		public float getX(){
+		public float getX() {
 			return x;
 		}
-		
+
 		/**
 		 * Getter für Y-Koordinate
+		 *
 		 * @return y
 		 */
-		public float getY(){
+		public float getY() {
 			return y;
 		}
 
@@ -100,10 +108,10 @@ public class JSONProvider {
 
 		/**
 		 * Prüft ob der StationView einem anderen Obkjekt gleicht.
-		 * 
+		 *
 		 * @param obj
 		 * @return {@literal true}, wenn die Objekte gleich sind, sonst
-		 *         {@literal false}
+		 * {@literal false}
 		 */
 		@Override
 		public boolean equals(Object obj) {
@@ -131,9 +139,9 @@ public class JSONProvider {
 	}
 
 	/**
-	 * Eine Klasse für die JSON optimierten Zuglaufsdaten. 
-	 * @author Robert, kloppstock
+	 * Eine Klasse für die JSON optimierten Zuglaufsdaten.
 	 *
+	 * @author Robert, kloppstock
 	 */
 	public static class TrainRouteView {
 		private String id;
@@ -143,6 +151,7 @@ public class JSONProvider {
 
 		/**
 		 * Konstruktor für die Zuglaufdatenstruktur.
+		 *
 		 * @param id
 		 * @param begin
 		 * @param name
@@ -153,7 +162,7 @@ public class JSONProvider {
 				throws IllegalArgumentException {
 			if (id == null || begin == null || name == null || end == null)
 				throw new IllegalArgumentException("One of the given parameters is null!");
-			
+
 			this.id = id;
 			this.name = name;
 			this.begin = begin;
@@ -162,13 +171,14 @@ public class JSONProvider {
 
 		/**
 		 * Konstruktor für die Bahnhofsdatenstruktur.
+		 *
 		 * @param tr (Zuglauf)
 		 * @throws IllegalArgumentException
 		 */
 		public TrainRouteView(TrainRoute tr) throws IllegalArgumentException {
 			if (tr == null)
 				throw new IllegalArgumentException("The given parameter is null!");
-			
+
 			this.id = tr.getId();
 			this.name = tr.toString();
 			this.begin = new StationView(tr.getStops().get(0).getStation());
@@ -177,6 +187,7 @@ public class JSONProvider {
 
 		/**
 		 * Getter für id
+		 *
 		 * @return id
 		 */
 		public String getId() {
@@ -185,6 +196,7 @@ public class JSONProvider {
 
 		/**
 		 * Getter für name
+		 *
 		 * @return name
 		 */
 		public String getName() {
@@ -193,6 +205,7 @@ public class JSONProvider {
 
 		/**
 		 * Getter für begin
+		 *
 		 * @return begin
 		 */
 		public StationView getBegin() {
@@ -201,6 +214,7 @@ public class JSONProvider {
 
 		/**
 		 * Getter für end
+		 *
 		 * @return end
 		 */
 		public StationView getEnd() {
@@ -209,10 +223,10 @@ public class JSONProvider {
 
 		/**
 		 * Prüft ob der TrainRouteView einem anderen Obkjekt gleicht.
-		 * 
+		 *
 		 * @param other
 		 * @return {@literal true}, wenn die Objekte gleich sind, sonst
-		 *         {@literal false}
+		 * {@literal false}
 		 */
 		@Override
 		public boolean equals(Object other) {
@@ -232,6 +246,7 @@ public class JSONProvider {
 
 	/**
 	 * Methode zum Erstellen einer Liste von optimierten Bahnhofsdaten aus nicht optimierten Bahnhofsdaten.
+	 *
 	 * @param input (Liste der nicht opimierten Bahnhofsdaten)
 	 * @return Liste der opimierten Bahnhofsdaten
 	 * @throws IllegalArgumentException
@@ -239,7 +254,7 @@ public class JSONProvider {
 	public List<StationView> getStations(List<Station> input) throws IllegalArgumentException {
 		if (input == null)
 			throw new IllegalArgumentException("The given parameter is null!");
-		
+
 		List<StationView> ret = new ArrayList<>();
 		for (Station s : input) {
 			StationView sv = new StationView(s);
@@ -251,14 +266,15 @@ public class JSONProvider {
 
 	/**
 	 * Methode zum Erstellen einer Liste von optimierten Zuglaufdaten aus nicht optimierten Zuglaufdaten.
+	 *
 	 * @param input (Liste der nicht opimierten Zuglaufdaten)
 	 * @return Liste der opimierten Zuglaufdaten
 	 * @throws IllegalArgumentException
 	 */
 	public List<TrainRouteView> getTrainRoutes(List<TrainRoute> input) throws IllegalArgumentException {
 		if (input == null)
-			throw new IllegalArgumentException("The given parameter is null!"); 
-		
+			throw new IllegalArgumentException("The given parameter is null!");
+
 		List<TrainRouteView> ret = new ArrayList<>();
 		for (TrainRoute tr : input) {
 			TrainRouteView trv = new TrainRouteView(tr);
@@ -267,24 +283,25 @@ public class JSONProvider {
 
 		return ret;
 	}
-	
-	
-	
+
+
 	//
-	
+
 	public class FullTrainRouteView {
 		private String id;
 		private String name;
-		private List<StationView> stops=new ArrayList<StationView>();
-		public FullTrainRouteView(String id, List<StationView> stops, String name){
+		private List<StationView> stops = new ArrayList<StationView>();
+
+		public FullTrainRouteView(String id, List<StationView> stops, String name) {
 			this.id = id;
 			this.name = name;
-			this.stops=stops;
+			this.stops = stops;
 		}
-		public FullTrainRouteView(TrainRoute tr){
+
+		public FullTrainRouteView(TrainRoute tr) {
 			this.id = tr.getId();
 			this.name = tr.toString();
-			for(Stop stop:tr.getStops()){
+			for (Stop stop : tr.getStops()) {
 				stops.add(new StationView(stop.getStation()));
 			}
 		}
@@ -292,7 +309,7 @@ public class JSONProvider {
 		public String getId() {
 			return id;
 		}
-		
+
 		public String getName() {
 			return name;
 		}
@@ -300,17 +317,17 @@ public class JSONProvider {
 		public List<StationView> getStops() {
 			return stops;
 		}
-		
+
 	}
-	
-	public List<FullTrainRouteView> getFullTrainRoutes(List<TrainRoute> input){
+
+	public List<FullTrainRouteView> getFullTrainRoutes(List<TrainRoute> input) {
 		List<FullTrainRouteView> ret = new ArrayList<>();
-		for (TrainRoute tr : input){
+		for (TrainRoute tr : input) {
 			FullTrainRouteView trv = new FullTrainRouteView(tr);
 			ret.add(trv);
 		}
-		
+
 		return ret;
 	}
-	
+
 }
