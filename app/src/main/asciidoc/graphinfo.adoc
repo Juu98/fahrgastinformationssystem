@@ -1,0 +1,8 @@
+= Informationen zum Graph
+
+Da zum Zeitpunkt der Entwicklung noch keine fertigen Koordinaten zur Verfügung standen, gibt es hier noch ein paar Informationen zum Graph, die zu beachten sind
+
+[source,conf]
+----
+asd
+----
