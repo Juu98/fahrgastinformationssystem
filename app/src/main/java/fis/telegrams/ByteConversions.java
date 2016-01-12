@@ -10,6 +10,9 @@ import java.time.LocalTime;
  * @author Robert
  */
 public abstract class ByteConversions {
+	/** Magic number, die eine Zeit am Folgetag kennzeichnet */
+	public static final int NEXT_DAY_OFFSET = 20000;
+	
 	/**
 	 * Konvertiert eine Ganzzahl in ein vorzeichenloses Byte.
 	 * @param i	die umzuwandelnde Ganzzahl
@@ -63,8 +66,8 @@ public abstract class ByteConversions {
 	
 	/**
 	 * Berechnet einen Zeitpunkt aus Zehnetlminutenangaben.
-	 * @param tenth	Die Zehntelminuten
-	 * @return der Zeitpunkt
+	 * @param tenth	Die Zehntelminuten (u.U. am nächsten Tag)
+	 * @return der Zeitpunkt als Uhrzeit
 	 * @throws TelegramParseException wenn negative Zehntelminuten übergeben werden.
 	 */
 	public static LocalTime fromTenthOfMinute(int tenth) throws TelegramParseException{
@@ -72,9 +75,9 @@ public abstract class ByteConversions {
 	}
 	
 	/**
-	 * Berechnet einen zeitpunkt aus dem Unterschied zu einem Referenzzeitpunkt.
+	 * Berechnet einen Zeitpunkt aus dem Unterschied zu einem Referenzzeitpunkt.
 	 * @param tenth	der Zeitunterschied in Zehntelminuten (kann auch negativ sein)
-	 * @param base der Referenzzeitpunkt oder {@literal null}, wenn nur ein Zeitpunkt bestimmt werden soll.
+	 * @param base der Referenzzeitpunkt oder {@literal null}, wenn nur ein Zeitpunkt bestimmt werden soll (dann auch Folgetag möglich).
 	 * @return berechneter Zeitpunkt
 	 * @throws TelegramParseException wenn ein negativer Zeitunterschied ohne Referenzzeitpunkt angegeben wurde.
 	 */
@@ -85,6 +88,11 @@ public abstract class ByteConversions {
 		if (base == null){
 			if (isNegative){
 				throw new TelegramParseException("Zeitpunkt kann nicht negativ sein.");
+			}
+			
+			// Folgetag
+			if (tenth >= NEXT_DAY_OFFSET){
+				tenth -= NEXT_DAY_OFFSET;
 			}
 			return LocalTime.ofSecondOfDay(tenth*6);
 		}
