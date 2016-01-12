@@ -75,6 +75,9 @@ public class FisController {
 
 	// Verbindungsstatus zum Fahrplanserver
 	model.addAttribute("connectionState", this.timetable.getStateName());
+	
+	// Meldungen
+	model.addAttribute("messageMap", this.timetable.getMessageMap());
 
 	// Version der Anwendung
 	// wird nur bei direkter Ausführung der jar geladen
