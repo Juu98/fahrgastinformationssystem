@@ -31,7 +31,7 @@
 									<span th:if="${stpStat.index} &gt; ${train.stops.indexOf(stop)}"
 										  th:class="${stpStat.last}? 'station-end'">
 										<a th:href="|/dep/${nStop.station.id}|" th:text="${nStop.station.longName}" th:title="#{fis.traintable.deptitle}">Hogwarts</a>
-										<th:block th:text="|${#temporals.format(nStop.ScheduledArrival, 'HH:mm')}|">13:37</th:block>
+										<th:block th:if="${nStop.ScheduledArrival}" th:text="|${#temporals.format(nStop.ScheduledArrival, 'HH:mm')}|">13:37</th:block>
 									</span>
 									<th:block th:if="${stpStat.index} &gt; ${train.stops.indexOf(stop)}"
 										  th:unless="${stpStat.last}">&ndash;</th:block>

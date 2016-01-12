@@ -337,7 +337,7 @@ public class FisController {
 		}
 
 		if (start == null || end == null) {
-			start = LocalTime.now();
+			start = this.timetable.getTime();
 			// TODO default Zeitraum
 			end = start.plus(2, ChronoUnit.HOURS);
 		}
