@@ -206,6 +206,7 @@ public class Stop {
 		return trainRoute;
 	}
 
+	//TODO: Schauen, welcher Intervall kleiner ist
 	/**
 	 * Berechnet die Verspätung bei der Ankunft in Sekunden.
 	 *
@@ -267,6 +268,7 @@ public class Stop {
 		return str;
 	}
 
+	
 	/**
 	 * @return Liefert die Abfahrtsverspätung in der Form [-]MM.SS
 	 */
@@ -299,6 +301,6 @@ public class Stop {
 		}
 		return str;
 	}
-
+	
 
 }
