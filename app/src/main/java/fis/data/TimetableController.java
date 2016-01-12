@@ -89,7 +89,7 @@ public class TimetableController {
     }
 
     private TimetableData data;
-    private LocalTime time = LocalTime.MIDNIGHT;
+    private LocalTime time = null;
     private Map<Integer, Message> messages;
     @Autowired
     private TelegramReceiverController receiver;
