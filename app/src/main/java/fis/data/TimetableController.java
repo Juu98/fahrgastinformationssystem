@@ -38,7 +38,7 @@ import fis.telegrams.TrainRouteTelegram.TrainRouteData;
  */
 @Component
 public class TimetableController {
-    private static final Logger LOGGER = Logger.getLogger(RailML2Data.class);
+    private static final Logger LOGGER = Logger.getLogger(TimetableController.class);
     @Autowired
     private CommonConfig fisConfig;
 
