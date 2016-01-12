@@ -73,7 +73,7 @@ public abstract class ByteConversions {
 	}
 
 	/**
-	 * Berechnet einen Zeitpunkt aus Zehnetlminutenangaben.
+	 * Berechnet einen Zeitpunkt aus Zehntelminutenangaben.
 	 *
 	 * @param tenth Die Zehntelminuten (u.U. am nächsten Tag)
 	 * @return der Zeitpunkt als Uhrzeit
