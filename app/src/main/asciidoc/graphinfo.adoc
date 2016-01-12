@@ -15,9 +15,12 @@ Die Koordinaten werden mittels der generierten Stations.json an das JavaScript �
 
 == Skalierung
 
-Damit der Graph mit der Fenstergröße skalieren kann, werden die Maximalwerte in X- und Y-Richtung gesucht und alle Koordinaten intern anhand dieses Wertes skaliert. Nicht wirklich skaliert werden dadurch z.B. die Offsets der Bahnhofsnamen, diese müssen manuell angepasst werden, falls durch ein Ändern der Koordinaten die Anzeige fehlerhaft wird. Dies ist nur bei größeren Eingriffen in die Koordinaten nötig.
+Damit der Graph mit der Fenstergröße skalieren kann, werden die Maximalwerte in X- und Y-Richtung gesucht und alle Koordinaten intern anhand dieses Wertes skaliert. Nicht wirklich skaliert werden dadurch z.B. die Offsets der Bahnhofsnamen, diese müssen manuell angepasst werden, falls durch ein Ändern der Koordinaten die Anzeige fehlerhaft wird. 
 
-== Anpassung der Varbiablen
+Dies ist nur bei größeren Eingriffen in die Koordinaten nötig.
+
+
+== Anpassung der Variablen
 
 Die folgenden Variablen können unter src/main/resources/templates/graphcanvas.html angepasst werden. Zu finden sind diese in den ersten Zeilen des Javascripts.
 
