@@ -155,7 +155,8 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 			    try {
 				Telegram telegramResponse = parser.parse(currentRawTele);
 				LOGGER.debug("Parsed " + telegramResponse);
-				setConnectionStatus(ConnectionStatus.INIT);
+				if(this.getConnectionStatus() == ConnectionStatus.CONNECTING)
+					setConnectionStatus(ConnectionStatus.INIT);
 
 				if (getConnectionStatus() == ConnectionStatus.INIT
 					&& telegramResponse.getClass() == TrainRouteEndTelegram.class) {
