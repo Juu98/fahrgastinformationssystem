@@ -147,81 +147,37 @@ Auf das Singleton-Pattern wurde bei diesem Entwurf bewusst verzichtet, da sich d
 Die für das Anzeigen der Fahrpläne benötigten Daten werden bevorzugt von dem Fahrplan-Server bezogen und nur bei Verbindungsproblemen aus einer lokal gespeicherten XML-Datei geladen.
 Weiterhin wird eine Konfigurationsdatei lokal gespeichert in der Hostname, Port, der Pfad zur Fahrplan-XML, der Pfad zur message.csv, der Pfad zum Logo, der Benutzertext, die Zeit bis zur Wiederverbindung (timeTillReconnect) und die Zeit bis zum Verbindungsabbruch (timeout) gespeichert wird.
 
-=== Benutzeroberfläche
+== Installation
+=== Konfiguration des Apache Servers
+Es ist möglich und vorgesehen, dass die Anwendung hinter einem als _Reverse Proxy_ konfigurierten Apache Server läuft. Das hat den Vorteil, dass sie einfacher für den Benutzer vom lokalen Netzwerk aus erreichbar ist. Im folgenden Abschnitt wird die Konfiguration eines Apache Servers für FIS angegeben.
 
-==== Überblick: Dialoglandkarte
-:imagesdir: resources
-// Erstellen Sie ein Übersichtsdiagramm, das das Zusammenspiel Ihrer Masken zur Laufzeit darstellt. Also mit welchen Aktionen zwischen den Masken navigiert wird. Die nachfolgende Abbildung zeigt eine an die Pinnwand gezeichnete Dialoglandkarte. Ihre Karte sollte zusätzlich die Buttons/Funktionen darstellen, mit deren Hilfe Sie zwischen den Masken navigieren.
-image::dialoglandkarte.png[Dialoglandkarte, 100%, title="Dialoglandkarte"]
+Abhängig von der Apache Version und vom Betriebssystem kann die Konfiguration des Webservers eine einzelne Datei (meistens 'httpd.conf') umfassen  oder in mehreren Dateien aufgeteilt sein. Bei Unsicherheit fragen Sie Ihren Systemadministratoren. Zuerst müssen die benötigten zusätlichen Module aktiviert werden. Dies geschieht durch das Hinzufügen folgender Zeilen zu der Konfiguration, falls sie noch nicht vorhanden sind:
 
-==== Dialogbeschreibung
+[source,conf]
+----
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
+LoadModule proxy_html_module modules/mod_proxy_html.so
+LoadModule headers_module modules/mod_headers.so
+LoadModule filter_module modules/mod_filter.so
+LoadModule deflate_module modules/mod_deflate.so
+----
 
-===== Suchdialoge
+Dann muss das eigentliche Proxy auch konfiguriert werden:
 
-Es werden 3 Suchdialoge benötigt: Abfahrtssuche, Ankunftssuche und Zuglaufsuche. Diese befinden sich alle auf der selben Seite, wobei die verschiedenen Suchdialoge durch Tabs (Registerkarten) umschaltbar sind. Sie dienen der Eingabe des gewünschten Bahnhofs (Abfahrts- und Ankunftssuche) bzw. der Eingabe der Zugnummer, wobei optional weitere Filterkriterien festgelegt werden können.
-
-image::search_departures.png[Suchdialog Abfahrten, 100%, title="Abfahrtssuche"]
-image::search_arrivals.png[Suchdialog Ankünfte, 100%, title="Ankunftssuche"]
-
-Maskenelemente:
-
-* Tabs zum Umschalten zwischen den Suchmodi
-* Textbox mit Autovervollständigung zur Eingabe des Bahnhofs
-* "Dropdown" Schaltfläche zur Anzeige aller Bahnhöfe
-* Schaltfläche zum Durchführen der Suche
-* aufklappbarer Container mit weiteren Filteroptionen:
-	** Textboxen zur Angabe eines Zeitraums
-	** Uhrsymbol, Klick darauf setzt Zeitraum auf aktuelle Zeit + 1 Stunde
-	** Checkboxen zur Auswahl von Zugtypen
-	** Bahnhofstextbox wie obige
-
-image::search_train.png[Suchdialog Zuglauf, 100%, title="Zuglaufsuche"]
-
-Maskenelemente:
-
-* Textbox zur Eingabe der Zugnummer
-* Bestätigungsschaltfläche
-
-===== Abfahrts-/Ankunftslisten
-
-Die Abfahrts- und Ankunftslisten zeigen eine Tabelle der Abfahrten/ Ankünfte am gewählten Bahnhof im gewählten Zeitraum unter Berücksichtigung der gewählten Filterbedingungen an.
-
-image::departures.png[Abfahrtsliste, 100%, title="Abfahrtsliste"]
-image::arrivals.png[Ankunftsliste, 100%, title="Ankunftsliste"]
-
-Maskenelemente:
-
-* Textbox mit gewähltem Bahnhof zur schnellen Änderung, Lupensymbol klickbar als Bestätigung
-* Filteroptionen wie auf Suchseite
-* Tabelle mit Ergebnissen
-
-===== Zuglaufanzeige
-
-Die Zuglaufanzeige zeigt einen konkreten Zuglauf mit seinen Halten, angereichert mit aktuellen Informationen, an.
-
-image::train.png[Zuglaufanzeige, 100%, title="Zuglaufanzeige"]
-
-Maskenelemente:
-
-* Label mit Typ des gewählten Zuglaufs
-* Textbox mit Nummer des gewählten Zuglaufs zur schnellen Änderung, Lupensymbol klickbar als Bestätigung
-* Perlenschnurdarstellung des Zuglaufs:
-	** Start- und Endbahnhof durch Rechteck dargestellt
-	** Zwischenbahnhöfe durch Kreis dargestellt
-	** planmäßige Ankunfts- und Abfahrtszeiten links der Schnur
-	** Verspätungszeiten rechts der Schnur
-	** Bahnhöfe, die der Zug bereits durchfahren hat, sind ausgefüllt
-	** noch zu durchfahrende Bahnhöfe sind nicht ausgefüllt
-* Tabelle mit den Spalten Bahnhof, Gleis, Bemerkung
-
-////
-Für jeden Dialog:
-
-1. Kurze textuelle Dialogbeschreibung eingefügt: Was soll der jeweilige Dialog? Was kann man damit tun? Überblick?
-2. Maskenentwürfe (Screenshot, Mockup)
-3. Maskenelemente (Ein/Ausgabefelder, Aktionen wie Buttons, Listen, …)
-4. Evtl. Maskendetails, spezielle Widgets
-////
-
-[appendix]
-== Glossar
+[source,conf]
+----
+ProxyRequests off # <1>
+ProxyPass /fis http://localhost:8080 # <2>
+ProxyPassReverse /fis http://localhost:8080
+<Location "/fis">
+  SetOutputFilter proxy-html
+  ProxyHTMLURLMap ^/(.*)$ /fis/$1 R
+  ProxyHTMLDocType "<!DOCTYPE html>" # <3>
+  Order allow,deny
+  Allow from all
+</Location>
+----
+<1> Aus Sicherheitsgründen soll diese Einstellung immer `off` sein.
+<2> Der erste Parameter bestimmt den Pfad, unter dem die Anwendung erreichbar sein wird (in diesem Fall 'http://<Adresse-des-Apache-Servers>/fis'), und kann nach Belieben verändert werden. Wichtig ist, dass der gleiche Pfad überall in der Konfigurationsdatei  benutzt wird. Der zweite Parameter ist die URL des internen Tomcat-Servers und soll nicht verändert werden.
+<3> Stellt sicher, dass HTML5 korrekt angezeigt wird.
