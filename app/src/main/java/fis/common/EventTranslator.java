@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class EventTranslator implements ApplicationEventPublisherAware {
 	private ApplicationEventPublisher publisher;
 	private boolean hasBeenOnlineBefore;
-	private Logger LOGGER = Logger.getLogger(EventTranslator.class);
+	private static final Logger LOGGER = Logger.getLogger(EventTranslator.class);
 
 	public EventTranslator() {
 		//needed for startup
