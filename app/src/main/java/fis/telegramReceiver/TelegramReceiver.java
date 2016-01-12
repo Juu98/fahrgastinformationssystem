@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,54 +25,56 @@ public class TelegramReceiver {
 
 	/**
 	 * Konstruktor, benötigt eine receiverConfig
+	 *
 	 * @param config
 	 */
 	@Autowired
-    public TelegramReceiver(TelegramReceiverConfig config) {
+	public TelegramReceiver(TelegramReceiverConfig config) {
 		this.receiverConfig = config;
-    }
+	}
 
 	/**
 	 * Asnchroner Empfang von Telegrammrohdaten aus dem InputStream in
+	 *
 	 * @param in (Inputstream)
 	 * @return response
-	 *         in ein AsyncResult<byte[]> verpackte Telegrammrohdaten
+	 * in ein AsyncResult<byte[]> verpackte Telegrammrohdaten
 	 * @throws IOException
 	 */
-    @Async
-    Future<byte[]> parseConnection(InputStream in) throws IOException {
-        byte[] response = new byte[TelegramPart.RAW_DATA.maxLength()];
-	    int pos = 0;
-	    while (pos < 3) {
-		    //read one byte and look whether it is 0xFF, which marks beginning of a new Telegram
-		    in.read(response, pos, 1);
-		    //throw away invalid data
-		    if (response[pos] != ByteConversions.toUByte(0xFF)) {
-			    //reset telegram, start again
-			    if (pos > 0) {
-				    pos = 0;
-			    }
-			    continue;
-		    }
-		    pos++;
-	    }
-	    //read length byte
-	    in.read(response, pos, 1);
-	    int length = ByteConversions.toUInt(response[pos]);
-	    //read telegram data
-	    in.read(response, ++pos, length);
-	    return new AsyncResult<>(response);
-    }
+	@Async
+	Future<byte[]> parseConnection(InputStream in) throws IOException {
+		byte[] response = new byte[TelegramPart.RAW_DATA.maxLength()];
+		int pos = 0;
+		while (pos < 3) {
+			//read one byte and look whether it is 0xFF, which marks beginning of a new Telegram
+			in.read(response, pos, 1);
+			//throw away invalid data
+			if (response[pos] != ByteConversions.toUByte(0xFF)) {
+				//reset telegram, start again
+				if (pos > 0) {
+					pos = 0;
+				}
+				continue;
+			}
+			pos++;
+		}
+		//read length byte
+		in.read(response, pos, 1);
+		int length = ByteConversions.toUInt(response[pos]);
+		//read telegram data
+		in.read(response, ++pos, length);
+		return new AsyncResult<>(response);
+	}
 
 	/**
 	 * verschickt ein SendableTelegram in Rohdatenform an den Telegrammserver
+	 *
 	 * @param out
-	 * @param telegram
-	 *        ein SendableTelegramm
+	 * @param telegram ein SendableTelegramm
 	 * @throws IOException
 	 */
-    public void sendTelegram(OutputStream out, SendableTelegram telegram) throws IOException {
-	    out.write(telegram.getRawTelegram());
-    }
+	public void sendTelegram(OutputStream out, SendableTelegram telegram) throws IOException {
+		out.write(telegram.getRawTelegram());
+	}
 
 }

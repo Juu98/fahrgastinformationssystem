@@ -1,25 +1,27 @@
 package fis.telegrams;
 
 /**
- * Eine Klasse für Bahnhofsnamentelegramme. 
+ * Eine Klasse für Bahnhofsnamentelegramme.
+ *
  * @author spiollinux, kloppstock
  */
-public class StationNameTelegram extends Telegram{
+public class StationNameTelegram extends Telegram {
 	private byte id;
 	private String code;
 	private String name;
 	private float x;
 	private float y;
-	
+
 	/**
-	 * Konstruktor für Bahnhofsnamentelegramme. 
+	 * Konstruktor für Bahnhofsnamentelegramme.
+	 *
 	 * @param ID
 	 * @param code
 	 * @param name
 	 * @throws IllegalArgumentException
 	 */
 	public StationNameTelegram(byte ID, String code, String name, float x, float y) throws IllegalArgumentException {
-		if(code == null || name == null)
+		if (code == null || name == null)
 			throw new IllegalArgumentException("Name und Abkürzung dürfen nicht null sein.");
 		this.id = ID;
 		this.code = code;
@@ -27,28 +29,31 @@ public class StationNameTelegram extends Telegram{
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	/**
-	 * Getter für ID. 
+	 * Getter für ID.
+	 *
 	 * @return ID
 	 */
-	public byte getId(){
+	public byte getId() {
 		return this.id;
 	}
-	
+
 	/**
 	 * Getter für code.
+	 *
 	 * @return code
 	 */
-	public String getCode(){
+	public String getCode() {
 		return this.code;
 	}
-	
+
 	/**
 	 * Getter für name.
+	 *
 	 * @return name
 	 */
-	public String getName(){
+	public String getName() {
 		return this.name;
 	}
 
@@ -59,26 +64,25 @@ public class StationNameTelegram extends Telegram{
 	public float getY() {
 		return y;
 	}
-	
-	
-	
+
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return String.format("StationNameTelegram: ID %0#4x; [%s] %s", this.id, this.code, this.name);
 	}
-	
+
 	@Override
-	public boolean equals(Object other){
-		if (other == null){
+	public boolean equals(Object other) {
+		if (other == null) {
 			return false;
 		}
-		if (!other.getClass().equals(this.getClass())){
+		if (!other.getClass().equals(this.getClass())) {
 			return false;
 		}
 		StationNameTelegram o = (StationNameTelegram) other;
 		return
 				this.id == o.getId() &&
-				this.code.equals(o.getCode()) &&
-				this.name.equals(o.getName());
+						this.code.equals(o.getCode()) &&
+						this.name.equals(o.getName());
 	}
 }

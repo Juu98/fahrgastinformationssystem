@@ -1,13 +1,12 @@
 package fis.telegrams;
 
-import fis.data.TrainRoute;
 import java.time.LocalTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Eine Klasse für Zuglauftelegramme. 
+ * Eine Klasse für Zuglauftelegramme.
+ *
  * @author spiollinux, kloppstock
  */
 public class TrainRouteTelegram extends Telegram {
@@ -71,7 +70,7 @@ public class TrainRouteTelegram extends Telegram {
 			return stopDataList;
 		}
 	}
-	
+
 	public static class StopData {
 		private final int stationId;
 		private final LocalTime scheduledArrival;
@@ -177,21 +176,22 @@ public class TrainRouteTelegram extends Telegram {
 			return messageId;
 		}
 	}
-	
+
 	private TrainRouteData trainRouteData;
-	
+
 	/**
 	 * Konstruktor für Zuglauftelegramme.
+	 *
 	 * @param trainRouteData
 	 */
-	public TrainRouteTelegram(TrainRouteData trainRouteData){
-		if (trainRouteData == null){
+	public TrainRouteTelegram(TrainRouteData trainRouteData) {
+		if (trainRouteData == null) {
 			throw new IllegalArgumentException("Versuch ein TrainRouteTelegramm ohne Daten anzulegen!");
 		}
 		this.trainRouteData = trainRouteData;
 	}
-	
-	public TrainRouteData getData(){
+
+	public TrainRouteData getData() {
 		return trainRouteData;
 	}
 
@@ -202,14 +202,14 @@ public class TrainRouteTelegram extends Telegram {
 
 	@Override
 	public boolean equals(Object other) {
-		if (other == null){
+		if (other == null) {
 			return false;
 		}
-		if (!other.getClass().equals(this.getClass())){
+		if (!other.getClass().equals(this.getClass())) {
 			return false;
 		}
 		TrainRouteTelegram o = (TrainRouteTelegram) other;
-		
-		return this.trainRouteData.equals(o.getData());		
+
+		return this.trainRouteData.equals(o.getData());
 	}
 }

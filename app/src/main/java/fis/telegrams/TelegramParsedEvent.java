@@ -5,7 +5,7 @@ import org.springframework.context.ApplicationEvent;
 /**
  * Created by spiollinux on 05.12.15.
  */
-public class TelegramParsedEvent extends ApplicationEvent{
+public class TelegramParsedEvent extends ApplicationEvent {
 
 	/**
 	 * Create a new ApplicationEvent.
@@ -14,10 +14,10 @@ public class TelegramParsedEvent extends ApplicationEvent{
 	 */
 	public TelegramParsedEvent(Telegram source) {
 		super(source);
-		this.source=source;
+		this.source = source;
 	}
 
 	public Telegram getSource() {
-		return (Telegram)this.source;
+		return (Telegram) this.source;
 	}
 }
