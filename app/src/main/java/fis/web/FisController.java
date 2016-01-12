@@ -585,26 +585,45 @@ public class FisController {
 			}
 			if (type.equals(FilterType.ARRIVAL)) {
 				if (filterTime == FilterTime.ACTUAL) {
-					if (route.getStopAtStation(station).getActualArrival().isAfter(from)
-							&& route.getStopAtStation(station).getActualArrival().isBefore(to)) {
-						filtered.add(route);
+					if(route.getStopAtStation(station).getActualArrival() != null) {
+						if (route.getStopAtStation(station).getActualArrival().isAfter(from)
+								&& route.getStopAtStation(station).getActualArrival().isBefore(to)) {
+							filtered.add(route);
+						}
 					}
+					else
+						LOGGER.debug("keine actual departure auf " + route +" für " + station);
 				} else {
-					if (route.getStopAtStation(station).getScheduledArrival().isAfter(from)
-							&& route.getStopAtStation(station).getScheduledArrival().isBefore(to)) {
-						filtered.add(route);
+					if(route.getStopAtStation(station).getScheduledArrival() != null) {
+						if (route.getStopAtStation(station).getScheduledArrival().isAfter(from)
+								&& route.getStopAtStation(station).getScheduledArrival().isBefore(to)) {
+							filtered.add(route);
+						}
+					}
+					else{
+						LOGGER.debug("keine scheduled arrival auf " + route +" für " + station);
 					}
 				}
 			} else if (type.equals(FilterType.DEPARTURE)) {
 				if (filterTime == FilterTime.ACTUAL) {
-					if (route.getStopAtStation(station).getActualDeparture().isAfter(from)
-							&& route.getStopAtStation(station).getActualDeparture().isBefore(to)) {
-						filtered.add(route);
+					if(route.getStopAtStation(station).getActualDeparture() != null) {
+						if (route.getStopAtStation(station).getActualDeparture().isAfter(from)
+								&& route.getStopAtStation(station).getActualDeparture().isBefore(to)) {
+							filtered.add(route);
+						}
+					}
+					else{
+						LOGGER.debug("keine actual departure auf " + route +" für " + station);
 					}
 				} else {
-					if (route.getStopAtStation(station).getScheduledDeparture().isAfter(from)
-							&& route.getStopAtStation(station).getScheduledDeparture().isBefore(to)) {
-						filtered.add(route);
+					if(route.getStopAtStation(station).getScheduledDeparture() != null) {
+						if (route.getStopAtStation(station).getScheduledDeparture().isAfter(from)
+								&& route.getStopAtStation(station).getScheduledDeparture().isBefore(to)) {
+							filtered.add(route);
+						}
+					}
+					else {
+						LOGGER.debug("keine scheduled departure auf " + route +" für " + station);
 					}
 				}
 			}
