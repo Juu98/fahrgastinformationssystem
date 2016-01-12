@@ -1,0 +1,52 @@
+= Informationen zum Graph (Für Entwickler)
+
+Da zum Zeitpunkt der Entwicklung noch keine fertigen Koordinaten zur Verfügung standen, gibt es hier noch ein paar Informationen zum Graph, die zu beachten sind.
+
+
+== Funktionsweise
+
+Der Graph wurde mithilfe des HTML5-Canvas-Elementes realisiert. Daraus resultierende Probleme sind die Kommunikation mit JavaScript sowie die Skalierung.
+
+== Koordinaten
+
+Die Koordinaten werden nach aktuellem Kenntnisstand zwischen 0 und 1 jeweils in x- und y-Richtung angegeben. Damit JavaScript mit diesen Daten klar kommt, werden sie aktuell mit 100 multipliziert, bevor sie in die Datenstruktur eingepflegt werden.
+
+Die Koordinaten werden mittels der generierten Stations.json an das JavaScript übermittelt, zusätzlich wurde noch eine fullTrainRoutes.json verwendet, die die nötigen Informationen für die Anzeige der Zugläufe bereithält.
+
+== Skalierung
+
+Damit der Graph mit der Fenstergröße skalieren kann, werden die Maximalwerte in X- und Y-Richtung gesucht und alle Koordinaten intern anhand dieses Wertes skaliert. Nicht wirklich skaliert werden dadurch z.B. die Offsets der Bahnhofsnamen, diese müssen manuell angepasst werden, falls durch ein Ändern der Koordinaten die Anzeige fehlerhaft wird. 
+
+Dies ist nur bei größeren Eingriffen in die Koordinaten nötig.
+
+
+== Anpassung der Variablen
+
+Die folgenden Variablen können unter src/main/resources/templates/graphcanvas.html angepasst werden. Zu finden sind diese in den ersten Zeilen des Javascripts.
+
+[source,JavaScript]
+----
+//Schriftart
+ctx.font = "16px Arial";
+
+//Größe der Bahnhofsknoten
+var st_height=8;
+var st_width=8;
+	
+//Offset der Bahnhofsbeschriftung
+var nameOffset_X = -2;
+var nameOffset_Y = -5;
+	
+//MinX und MinY
+var minX = 5;
+var minY = 5;
+
+//Größe der Zuglaufkanten
+var line_width = st_width/4;
+
+//Farben
+var line_strokeStyle_normal = 'grey';
+var line_strokeStyle_selected = 'orange';
+var st_fillStyle_normal = 'black';
+var st_fillStyle_selected = 'red';
+----

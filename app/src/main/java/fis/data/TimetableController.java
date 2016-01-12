@@ -38,7 +38,7 @@ import fis.telegrams.TrainRouteTelegram.TrainRouteData;
  */
 @Component
 public class TimetableController {
-    private static final Logger LOGGER = Logger.getLogger(RailML2Data.class);
+    private static final Logger LOGGER = Logger.getLogger(TimetableController.class);
     @Autowired
     private CommonConfig fisConfig;
 
@@ -89,7 +89,7 @@ public class TimetableController {
     }
 
     private TimetableData data;
-    private LocalTime time = LocalTime.MIDNIGHT;
+    private LocalTime time = null;
     private Map<Integer, Message> messages;
     @Autowired
     private TelegramReceiverController receiver;

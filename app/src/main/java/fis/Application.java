@@ -33,7 +33,7 @@ public class Application implements ApplicationEventPublisherAware{
         SpringApplication.run(Application.class, args);
     }
 
-	private Logger LOGGER = Logger.getLogger(Application.class);
+	private static final Logger LOGGER = Logger.getLogger(Application.class);
 	private ApplicationEventPublisher publisher;
 	@Autowired private TimetableController timetable;
 	@Autowired private TelegramReceiverController receiverController;

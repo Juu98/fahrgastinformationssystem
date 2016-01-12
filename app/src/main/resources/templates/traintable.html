@@ -17,7 +17,11 @@
 					th:if="${#lists.contains(currentCategories, train.trainCategory)}">
 					<th:block th:each="stop, trnStat : ${train.stops}" th:if="${stop.station == currentStation}">
 						<td th:switch="${active}">
-							<th:block th:case="'dep'" th:text="${#temporals.format(stop.ScheduledDeparture, 'HH:mm')}">13:37</th:block>
+							<th:block th:case="'dep'">
+								<span th:text="${#temporals.format(stop.ScheduledDeparture, 'HH:mm')}">13:37</span>
+								<span th:text="${stop.getDelayDepartureString()}">+42</span>
+							</th:block>
+							
 							<th:block th:case="'arr'" th:text="${#temporals.format(stop.ScheduledArrival, 'HH:mm')}">13:37</th:block>
 						</td>
 						<td><a th:href="|/trn/${train.id}" th:text="${train}" th:title="#{fis.traintable.trntitle}" class="text-nowrap">ICE 123</a></td>
@@ -45,7 +49,8 @@
 							</th:block>
 						</td>
 						<td th:text="${stop.ScheduledTrack}">9 3/4</td>
-						<td th:text="'&mdash;'">...</td>
+						<td th:if="${stop.messageId}" th:text="${messageMap.get(stop.messageId)}">...</td>
+						<td th:unless="${stop.messageId}">&mdash;</td>
 					</th:block>
 				</tr>
 			</tbody>

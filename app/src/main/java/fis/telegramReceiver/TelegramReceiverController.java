@@ -103,10 +103,19 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 	LOGGER.info("TelegramReceiver started");
 	while (!currentThread().isInterrupted()) {
 	    // try to connect until there is a connection
-	    while (this.getConnectionStatus() == ConnectionStatus.OFFLINE) {
-		try {
-		    connectToHost();
-		} catch (ConfigurationException e) {
+		while (this.getConnectionStatus() == ConnectionStatus.OFFLINE) {
+			try {
+				connectToHost();
+				//if connection fails, exception is thrown and code beneath never executed
+				try {
+					register();
+					break;
+				} catch (IOException e) {
+					LOGGER.error("error while sending RegistrationTelegram: " + e.getMessage());
+					LOGGER.debug("", e);
+					this.setConnectionStatus(ConnectionStatus.OFFLINE);
+				}
+			} catch (ConfigurationException e) {
 		    this.setConnectionStatus(ConnectionStatus.OFFLINE);
 		    LOGGER.error("configuration error: " + e.getMessage());
 		    LOGGER.debug("", e);
@@ -115,16 +124,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 		    LOGGER.error("connecting to server failed: " + e.getMessage());
 		    LOGGER.debug("", e);
 		}
-		if (server.isConnected()) {
-		    try {
-			register();
-			break;
-		    } catch (IOException e) {
-			LOGGER.error("error while sending RegistrationTelegram: " + e.getMessage());
-			LOGGER.debug("", e);
-			this.setConnectionStatus(ConnectionStatus.OFFLINE);
-		    }
-		}
+
 		try {
 		    Thread.sleep(receiverConfig.getTimeTillReconnect());
 		} catch (InterruptedException e) {
@@ -155,7 +155,8 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 			    try {
 				Telegram telegramResponse = parser.parse(currentRawTele);
 				LOGGER.debug("Parsed " + telegramResponse);
-				setConnectionStatus(ConnectionStatus.INIT);
+				if(this.getConnectionStatus() == ConnectionStatus.CONNECTING)
+					setConnectionStatus(ConnectionStatus.INIT);
 
 				if (getConnectionStatus() == ConnectionStatus.INIT
 					&& telegramResponse.getClass() == TrainRouteEndTelegram.class) {

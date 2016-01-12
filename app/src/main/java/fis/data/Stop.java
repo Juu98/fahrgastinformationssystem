@@ -260,7 +260,7 @@ public class Stop {
 				sec = "0"+sec;
 			}
 			str = "-" + min + ":" + sec;
-		} else {
+		} else if (delay > 0) {
 			LocalTime time = LocalTime.MIDNIGHT.plus(delay, ChronoUnit.SECONDS);
 			String min = Integer.toString(time.getMinute());
 			if(min.length()==1){
@@ -293,7 +293,7 @@ public class Stop {
 				sec = "0"+sec;
 			}
 			str = "-" + min + ":" + sec;
-		} else {
+		} else if (delay > 0) {
 			LocalTime time = LocalTime.MIDNIGHT.plus(delay, ChronoUnit.SECONDS);
 			String min = Integer.toString(time.getMinute());
 			if(min.length()==1){

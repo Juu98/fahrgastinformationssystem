@@ -107,8 +107,6 @@ public class TelegramReceiverControllerTest {
 		//don't really send a telegram
 		doNothing().when(mockedReceiver).sendTelegram(any(OutputStream.class), any(RegistrationTelegram.class));
 		doReturn(mockedResult).when(mockedReceiver).parseConnection(any(InputStream.class));
-		//socket is always connected
-		when(mockedSocket.isConnected()).thenReturn(true);
 		//setup test configuration
 		realConfig.setHostname("localhost");
 		realConfig.setPort(42);
