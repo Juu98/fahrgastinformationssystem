@@ -304,6 +304,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 	 */
 	@Override
 	public void stop(Runnable callback) {
+		this.setConnectionStatus(ConnectionStatus.OFFLINE);
 		this.interrupt();
 		while (this.isRunning()) {
 			try {
