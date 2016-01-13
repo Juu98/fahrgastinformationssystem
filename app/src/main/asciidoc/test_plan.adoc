@@ -106,6 +106,12 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |U-Data-TimetableController-4|forwardTelegram|Telegram verwerten|gesamte Telegramstruktur|StatusTelegram|Geupdatete Zeit
 |U-Data-TimetableController-5|forwardTelegram|Telegram verwerten|gesamte Telegramstruktur|TrainRouteTelegram|entsprechende TrainRoute aktualisieren
 |U-Data-TimetableController-6|forwardTelegram|Telegram verwerten|gesamte Telegramstruktur|StationNameTelegram|Bahnhofsobjekte erstellen
+|*[U-Data-CSVMessageLoader]*|||||
+|U-Data-CSVMessageLoader-1|loadCSV|CSV-Dateien parsen|-|null|*Fehler*
+|U-Data-CSVMessageLoader-2|loadCSV|CSV-Dateien parsen|-|leere Datei|*Fehler*
+|U-Data-CSVMessageLoader-3|loadCSV|CSV-Dateien parsen|-|ungültiger Pfad|*Fehler*
+|U-Data-CSVMessageLoader-4|loadCSV|CSV-Dateien parsen|-|Datei, die mehrere Nachrichten mit dem selben Index enthält|*Fehler*
+|U-Data-CSVMessageLoader-5|loadCSV|CSV-Dateien parsen|-|gültige CSV-Datei|Nachrichten als String
 |*[U-XML-RailML2Data]*|||||
 |U-XML-RailML2Data-1|loadML|Geparste Railml-Daten in die eigene Datenstruktur bringen|RailMLParser, Data|ungültiger Pfad|*Fehler*
 |*[U-XML-RailMLParser]*|||||
