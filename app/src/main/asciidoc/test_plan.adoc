@@ -138,6 +138,8 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |U-TelegramReceiver-Telegram-ReceiverController-2|run|Verbinden mit Hilfe von Konfigurationsdaten|siehe vorheriger, insbesondere aber TelegramReceiverConfig|hostname = null|ConfigurationException
 |*[U-TelegramReceiver-TelegramReceiver]*|||||
 |U-TelegramReceiver-TelegramReceiver-1|parseConnection|Telegramme parsen|TelegramReceiver Objekt|CharArrayByteStream mit gültigen Telegrammdaten, aber auch mit sinnlosen Daten|Future mit byte[], das genau die Rohdaten des ersten im ByteStream gefundenen Telegramms enthält
+|*[U-Common-EventTranslator]*|||||
+|U-Common-EventTranslator-1|translateReceiverToTimetable|Events übersetzen||ConnectionStatusEvent|ConnectionStatusEvent wird ins entsprechende TimetableEvent übersetzt|
 |===
 
 == IntegrationTests
