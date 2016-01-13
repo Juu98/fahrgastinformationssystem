@@ -45,18 +45,20 @@ Im Rahmen des Softwarepraktikums soll eine webbasierte Ankunfts- und Abfahrtsanz
 
 ==== Kann-Kriterien
 * Ausblenden der Uhrzeit, wenn keine Verbindung zum Fahrplanserver besteht
-* automatische Aktualisierung nach einer Minute
 * Verbindungsstatus (nicht verbunden, Verbindungsaufbau, verbunden)
 * Logo als GIF, PNG oder JPEG
-* individuell änderbare Farben
 * Zuglaufanzeige ähnlich einer Perlenschnur
 * Vor- / Zurückfunktion des Browsers korrekt verwendbar
 * keine dauerhafte Speicherung der Fahrplandaten (zum Beispiel in einer Datenbank)
 * Erweiterbarkeit
 * unmittelbare Reaktion auf Benutzerinteraktion
 * Sortierung der Abfahrten/ Ankünfte nach Sollzeit
-* Header und Footer
-	** optional: konfigurierbar in einer Konfigurationsdatei (mitscrollend oder fix)
+	
+==== Zusätzlicher Kundenwunsch
+ * zusätzliche Auswertung von Koordinaten der Betriebsstellen
+ * Visualisierung dieser auf einer passend skalierten Karte inklusive der Zugläufe zwischen diesen
+ * Auswahl einer Betriebsstelle über die Visualisierung soll möglich sein
+ * derzeit ausgewählte Betriebsstelle soll farbig hervorgehoben werden
 
 == Randbedingungen
 
@@ -65,7 +67,7 @@ Im Rahmen des Softwarepraktikums soll eine webbasierte Ankunfts- und Abfahrtsanz
  * Java 8
  * Apache 2.2
  * SUSE Linux Enterprise Server 11
- * Opera 11
+ * Opera 12
 
 === Vorgaben zum Betrieb des Software:
 
@@ -101,11 +103,11 @@ image::Use_Case_Diagram__Anwendungsfalldiagramm.png[Anwendungsfalldiagramm, 100%
 | Ergebnisse filtern | |
 |=========================================
 
-Der Nutzer hat über einen festen Hostnamen Zugriff auf das Fahrgastinformationssystem. Dabei kann er zwischen einer Ankunftstafel, einer Abfahrtstafel und einer Zuglaufsdarstellung wählen. Er hat ebenfalls die Möglichkeit das Ergebnis nach einem bestimmten Zeitrahmen, Zugtypen oder Zielbahnhof zu filtern.
+Der Nutzer hat über einen festen Hostnamen Zugriff auf das Fahrgastinformationssystem. Dabei kann er zwischen einer Ankunftstafel, einer Abfahrtstafel, einer Zuglaufsdarstellung und einer interaktiven Karte der Betriebsstellen wählen. Er hat ebenfalls die Möglichkeit das Ergebnis nach einem bestimmten Zeitrahmen, Zugtypen oder Zielbahnhof zu filtern.
 
 Der Fahrplan-Server ist für die Bereitstellung aktueller Daten verantwortlich. So liefert dieser beispielsweise Telegramme mit Zugläufen oder die aktuelle Laborzeit.
 
-Der Administrator hat die Möglichkeit den Hostnamen, den Port, die Client ID (mit der sich das Fahrgastinformationssystemes am Fahrplan-Server anmeldet), den Timeout (TimeOutTillReconnect), der bestimmt, wann die Applikation nach einem Verbindungsabbruch einen Wiederverbindungsversuch startet, und den Timeout (TimeOut), der bestimmt nach welcher Zeit die Applikation in den Offline-Modus übergeht, einzustellen. Damit diese Änderungen in Kraft treten, muss das Fahrgastinformationssystem neu gestartet werden.
+Der Administrator hat die Möglichkeit den Hostnamen, den Port, die Client ID (mit der sich das Fahrgastinformationssystemes am Fahrplan-Server anmeldet), die Zeit (timeTillReconnect), die bestimmt, wann die Applikation nach einem Verbindungsabbruch einen Wiederverbindungsversuch startet, und den Timeout (timeout), der bestimmt nach welcher Zeit die Applikation in den Offline-Modus übergeht, einzustellen. Damit diese Änderungen in Kraft treten, muss das Fahrgastinformationssystem neu gestartet werden. Ebenfalls kann der Pfad zur Fahrplan-XML, der Pfad zur message.csv (der Datei mit der Liste aller Meldungstexte), der Pfad zum Logo un der Benutzertext geändert werden.
 
 == Lösungsstrategie
 
@@ -124,9 +126,9 @@ image::Class_Diagram__Entwurfsklassendiagramm.jpg[Entwurfsklassendiagrammm, 100%
 ===  Architektur
 
 Das Fahrgastinformationssystem ist mithilfe des Spring-Frameworks in Java 8 implementiert.
-Grundlegend ist es in Telegrammteil (Telegram), einen Telegrammempfängerteil (TelegramReceiver), einen XML-Teil (XML), einen GUI-Teil (GUI) und einen Fahrplanteil (Timetable) (mit einem gekapselten Datenteil (TimetableData)) unterteilt.
+Grundlegend ist es in Telegrammteil (telegrams), einen Telegrammempfängerteil (telegramReceiver), einen XML-Teil (railmlparser), einen GUI-Teil (web) und einen Fahrplanteil (data) unterteilt.
 
-Der Telegrammteil beinhaltet alle erstellbaren Telegramme, welche durch die parseTelegram()-Funktion in der Telegram-Klasse erstellt werden. Der Telegrammenpfänger kümmert sich um die Interatkion mit dem Fahrplan-Server und gibt dem Telegrammteil gegebenfalls den Auftrag und die Daten zum Erstellen eines Telegrammes, welches dann an den Fahrplan weitergegeben wird. Dort wird das Telegramm aufgelöst und die Änderung wird an dem entsprechenden Objekten in den Fahrplandaten vorgenommen. Eine Ausnahme davon ist die aktuelle Laborzeit (time in der TimetableData-Klasse), welche sofort vom Telegrammempfänger gesetzt wird. Dies dadurch möglich, dass die aktuelle Laborzeit mit der "@Autowired"-Annotation versehen ist.
+Der Telegrammteil beinhaltet alle erstellbaren Telegramme, welche durch die TelegramParser-Klasse erstellt werden. Der Telegrammenpfänger kümmert sich um die Interatkion mit dem Fahrplan-Server und gibt erstellte Telegramme an den TimetableController im Fahrplanteil weiter. Dort werden die Telegramme aufgelöst und die Änderung wird an dem entsprechenden Objekten in den Fahrplandaten vorgenommen. Eine Ausnahme davon ist die aktuelle Laborzeit (time in der TimetableData-Klasse), welche sofort vom Telegrammempfänger gesetzt wird. Dies dadurch möglich, dass die aktuelle Laborzeit mit der "@Autowired"-Annotation versehen ist.
 Falls anfangs keine Verbindung zum Fahrplan-Server hergestellt werden kann, werden die benötigten Daten mithilfe des XML-Teiles geladen und anschließend durch den Fahrplan in die Fahrplandaten übernommen.
 Die TimetableController-Klasse hat die Aufgabe die Daten des Fahrplanes für das GUI bereitzustellen, welches diese dann filtert und mittels Thymeleaf dann auf der Webseite ausgibt.
 
@@ -136,90 +138,85 @@ Das Spring-Framework orientiert sich bei seiner Implementierung der Nutzerschnit
 
 Da die Telegramme unterschiedliche Form haben können und unterschiedliche Daten übermitteln sollen, aber diese jedoch alle Telegramme sind, wurde sich hier für das Strategy-Pattern entschieden. Dadurch lassen sich die Telgramme leicht in Unterkategorien aufteilen und können allgemeine Eigenschaften aus ihren abstrakten Oberklassen erben.
 
-In der abtrakten Telegram-Klasse ist zusätzlich das Factory-Method-Pattern implementiert um das erstellen von Telegrammen aus Byte-Informationen zu erleichtern.
+Die TimetableData Klasse stellt eine Fassade zu den Kerndaten wie den Zugläufen und Stationen dar. Die TimetableController-Klasse bildet eine Fassade zum kompletten data-package. Dadurch wird der Zugriff auf die Daten eindeutiger ersichtlich und einfacher zu handhaben. 
 
 Auf das Singleton-Pattern wurde bei diesem Entwurf bewusst verzichtet, da sich dies mit der von dem Spring-Framework bereitgestellten "@Autowired" Annotation ähnliches einfacher implementieren lässt.
 
 === Persistenz
 
 Die für das Anzeigen der Fahrpläne benötigten Daten werden bevorzugt von dem Fahrplan-Server bezogen und nur bei Verbindungsproblemen aus einer lokal gespeicherten XML-Datei geladen.
-Weiterhin wird eine Konfigurationsdatei lokal gespeichert in der Hostname, Port, die Zeit bis zur Wiederverbindung (TimeOutTillReconnect) und die Zeit bis zum Verbindungsabbruch (TimeOut) gespeichert wird.
+Weiterhin wird eine Konfigurationsdatei lokal gespeichert in der Hostname, Port, der Pfad zur Fahrplan-XML, der Pfad zur message.csv, der Pfad zum Logo, der Benutzertext, die Zeit bis zur Wiederverbindung (timeTillReconnect) und die Zeit bis zum Verbindungsabbruch (timeout) gespeichert wird.
 
-=== Benutzeroberfläche
+== Installation
+=== Konfiguration des Apache Servers
+Es ist möglich und vorgesehen, dass die Anwendung hinter einem als _Reverse Proxy_ konfigurierten Apache Server läuft. Das hat den Vorteil, dass sie einfacher für den Benutzer vom lokalen Netzwerk aus erreichbar ist. Im folgenden Abschnitt wird die Konfiguration eines Apache Servers für FIS angegeben.
 
-==== Überblick: Dialoglandkarte
-:imagesdir: resources
-// Erstellen Sie ein Übersichtsdiagramm, das das Zusammenspiel Ihrer Masken zur Laufzeit darstellt. Also mit welchen Aktionen zwischen den Masken navigiert wird. Die nachfolgende Abbildung zeigt eine an die Pinnwand gezeichnete Dialoglandkarte. Ihre Karte sollte zusätzlich die Buttons/Funktionen darstellen, mit deren Hilfe Sie zwischen den Masken navigieren.
-image::dialoglandkarte.png[Dialoglandkarte, 100%, title="Dialoglandkarte"]
+Abhängig von der Apache Version und vom Betriebssystem kann die Konfiguration des Webservers eine einzelne Datei (meistens 'httpd.conf') umfassen  oder in mehreren Dateien aufgeteilt sein. Bei Unsicherheit fragen Sie Ihren Systemadministratoren. Zuerst müssen die benötigten zusätlichen Module aktiviert werden. Dies geschieht durch das Hinzufügen folgender Zeilen zu der Konfiguration, falls sie noch nicht vorhanden sind:
 
-==== Dialogbeschreibung
+[source,conf]
+----
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
+LoadModule proxy_html_module modules/mod_proxy_html.so
+LoadModule headers_module modules/mod_headers.so
+LoadModule filter_module modules/mod_filter.so
+LoadModule deflate_module modules/mod_deflate.so
+----
 
-===== Suchdialoge
+Dann muss das eigentliche Proxy auch konfiguriert werden:
 
-Es werden 3 Suchdialoge benötigt: Abfahrtssuche, Ankunftssuche und Zuglaufsuche. Diese befinden sich alle auf der selben Seite, wobei die verschiedenen Suchdialoge durch Tabs (Registerkarten) umschaltbar sind. Sie dienen der Eingabe des gewünschten Bahnhofs (Abfahrts- und Ankunftssuche) bzw. der Eingabe der Zugnummer, wobei optional weitere Filterkriterien festgelegt werden können.
+[source,conf]
+----
+ProxyRequests off # <1>
+ProxyPass /fis http://localhost:8080 # <2>
+ProxyPassReverse /fis http://localhost:8080
+<Location "/fis">
+  SetOutputFilter proxy-html
+  ProxyHTMLURLMap ^/(.*)$ /fis/$1 R
+  ProxyHTMLDocType "<!DOCTYPE html>" # <3>
+  Order allow,deny
+  Allow from all
+</Location>
+----
+<1> Aus Sicherheitsgründen soll diese Einstellung immer `off` sein.
+<2> Der erste Parameter bestimmt den Pfad, unter dem die Anwendung erreichbar sein wird (in diesem Fall 'http://<Adresse-des-Apache-Servers>/fis'), und kann nach Belieben verändert werden. Wichtig ist, dass der gleiche Pfad überall in der Konfigurationsdatei  benutzt wird. Der zweite Parameter ist die URL des internen Tomcat-Servers und soll nicht verändert werden.
+<3> Stellt sicher, dass HTML5 korrekt angezeigt wird.
 
-image::search_departures.png[Suchdialog Abfahrten, 100%, title="Abfahrtssuche"]
-image::search_arrivals.png[Suchdialog Ankünfte, 100%, title="Ankunftssuche"]
+== Konfiguration
 
-Maskenelemente:
+Mittels der 'application.properties', die im Verzeichnis der Applikation liegt ist es möglich sämtliche Konfigurationen vorzunehmen. 
 
-* Tabs zum Umschalten zwischen den Suchmodi
-* Textbox mit Autovervollständigung zur Eingabe des Bahnhofs
-* "Dropdown" Schaltfläche zur Anzeige aller Bahnhöfe
-* Schaltfläche zum Durchführen der Suche
-* aufklappbarer Container mit weiteren Filteroptionen:
-	** Textboxen zur Angabe eines Zeitraums
-	** Uhrsymbol, Klick darauf setzt Zeitraum auf aktuelle Zeit + 1 Stunde
-	** Checkboxen zur Auswahl von Zugtypen
-	** Bahnhofstextbox wie obige
+[source, conf]
+----
+# a development configuration, please replace with application.properties.production
 
-image::search_train.png[Suchdialog Zuglauf, 100%, title="Zuglaufsuche"]
+fis.railmlpath = EBL Regelfahrplan.xml # <1>
+fis.messagecsvpath = ./messages.csv # <2>
+fis.benutzertext = Fubar # <3>
+fis.logoPath = logo.png # <4>
 
-Maskenelemente:
+# Konfiguration für den Telegrammempfänger (TelegramReceiverConfig)
+telegramserver.hostname = localhost # <5>
+telegramserver.port = 2342 # <6>
+telegramserver.clientID = 42 # <7>
+telegramserver.timeout = 1000 # <8>
+telegramserver.timeTillReconnect = 5000 # <9>
+----
 
-* Textbox zur Eingabe der Zugnummer
-* Bestätigungsschaltfläche
+Folgende allgemeine Konfigurationen können vorgenommen werden:
 
-===== Abfahrts-/Ankunftslisten
+<1> gibt den Pfad zur Fahrplan-XML aus, die geladen wird im Falle, dass der Farhplan nicht vom Server bezogen werden kann.
+<2> gibt den Pfad zu der Datei mit allen Meldungstexten an, die als Information zu einem Halt oder Zuglauf angezeigt werden können.
+<3> enthällt den Nutzertext, der im Footer auf der rechten unteren Teil der Webseite angezeigt wird.
+<4> gibt den Pfad zum Logo an, was in der linken oberen Ecke der Webseite zu sehen ist, an.
+<5> gibt den Hostname des Fahrplanservers an.
+<6> gibt den Port an unter dem der Fahrplanserver erreichbar ist.
+<7> ist die Client ID mit dem sich die Applikation am Fahrplanserver anmeldet.
+<8> ist die Zeit bis ein Verbindungsversuch abgebrochen wird.
+<9> ist die Zeit bis zum erneuten Verbindungsversuch. 
 
-Die Abfahrts- und Ankunftslisten zeigen eine Tabelle der Abfahrten/ Ankünfte am gewählten Bahnhof im gewählten Zeitraum unter Berücksichtigung der gewählten Filterbedingungen an.
+Die Konfigurationen <5> bis <9> dienen zur Konfiguration des Telegrammenpfängers.
 
-image::departures.png[Abfahrtsliste, 100%, title="Abfahrtsliste"]
-image::arrivals.png[Ankunftsliste, 100%, title="Ankunftsliste"]
+=== Aufbau der messages.csv
 
-Maskenelemente:
-
-* Textbox mit gewähltem Bahnhof zur schnellen Änderung, Lupensymbol klickbar als Bestätigung
-* Filteroptionen wie auf Suchseite
-* Tabelle mit Ergebnissen
-
-===== Zuglaufanzeige
-
-Die Zuglaufanzeige zeigt einen konkreten Zuglauf mit seinen Halten, angereichert mit aktuellen Informationen, an.
-
-image::train.png[Zuglaufanzeige, 100%, title="Zuglaufanzeige"]
-
-Maskenelemente:
-
-* Label mit Typ des gewählten Zuglaufs
-* Textbox mit Nummer des gewählten Zuglaufs zur schnellen Änderung, Lupensymbol klickbar als Bestätigung
-* Perlenschnurdarstellung des Zuglaufs:
-	** Start- und Endbahnhof durch Rechteck dargestellt
-	** Zwischenbahnhöfe durch Kreis dargestellt
-	** planmäßige Ankunfts- und Abfahrtszeiten links der Schnur
-	** Verspätungszeiten rechts der Schnur
-	** Bahnhöfe, die der Zug bereits durchfahren hat, sind ausgefüllt
-	** noch zu durchfahrende Bahnhöfe sind nicht ausgefüllt
-* Tabelle mit den Spalten Bahnhof, Gleis, Bemerkung
-
-////
-Für jeden Dialog:
-
-1. Kurze textuelle Dialogbeschreibung eingefügt: Was soll der jeweilige Dialog? Was kann man damit tun? Überblick?
-2. Maskenentwürfe (Screenshot, Mockup)
-3. Maskenelemente (Ein/Ausgabefelder, Aktionen wie Buttons, Listen, …)
-4. Evtl. Maskendetails, spezielle Widgets
-////
-
-[appendix]
-== Glossar
+Die Meldungstexte sind im CSV-Format (Comma seperated values; in diesem Falle werden statt Kommata Semikola verwendet) gespeichert. An erster Stelle steht ein Meldungsindex, der nicht doppelt vorkommen kann. Dieser wird von einem Semikolon und dem Meldungstext gefolgt. Sollte der Meldungstext Semikola enthalten, sollte der Text in Anführungszeichen gesetzt werden.
