@@ -112,6 +112,11 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |U-Data-CSVMessageLoader-3|loadCSV|CSV-Dateien parsen|-|ungültiger Pfad|*Fehler*
 |U-Data-CSVMessageLoader-4|loadCSV|CSV-Dateien parsen|-|Datei, die mehrere Nachrichten mit dem selben Index enthält|*Fehler*
 |U-Data-CSVMessageLoader-5|loadCSV|CSV-Dateien parsen|-|gültige CSV-Datei|Nachrichten als String
+|*[U-Data-Message]*|||||
+|U-Data-Message-1|setIndex, getIndex|Index setzen und zurückgeben|-|Index|Index
+|U-Data-Message-2|setMessage|Message setzen|-|null|*Fehler*
+|U-Data-Message-3|setMessage, getMessage|Message setzen|-|Message|Message
+|U-Data-Message-4|toString|Nachricht als String ausgeben|-|-|Index + Message als String
 |*[U-XML-RailML2Data]*|||||
 |U-XML-RailML2Data-1|loadML|Geparste Railml-Daten in die eigene Datenstruktur bringen|RailMLParser, Data|ungültiger Pfad|*Fehler*
 |*[U-XML-RailMLParser]*|||||
@@ -139,6 +144,8 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |U-Telegrams-LabTimeTelegram-2|LabTimeTelegram|Telegramme parsen|-|null|InvalidArgumentException
 |U-Telegram-RegistrationTelegram-1|RegistrationTelegram|Am Fahrplanserver anmelden|-|byte ClientID|Objekt RegistrationTelegram
 |U-Telegram-RegistrationTelegram-2|getRawTelegram|Am Fahrplanserver anmelden| RegistrationTelegram Objekt|-|gültiges byte[] mit Anmeldetelegramm
+|*[U-Telegram-ByteConversion]*|||||
+|U-Telegram-ByteConversion-[1-17]|fromX, toY|In verschiedene Datentypen konvertieren|-|Variable vom Typ X|Wert vom Typ Y
 |*[U-TelegramReceiver-TelegramReceiverController]*|||||
 |U-TelegramReceiver-Telegram-ReceiverController-1|run|Steuerschleife des TelegrammReceivers: Verbinden, anmelden, Telegramme parsen, Verbindungsstatus setzen|echte Collaborator-Objekte: TelegramReceiverConfig; weggemockte Collaborator-Objekte: Socket, TelegramReceiver, ApplicationEventPublisher, TelegramParser|Simulation eines erfolgreichen Verbindungsvorgangs zum Telegrammserver über entsprechend zurückgegebene Telegramme durch gemockte Objekte|ConnectionStatus = Online, richtige Anzahl an Funktionsaufrufen
 |U-TelegramReceiver-Telegram-ReceiverController-2|run|Verbinden mit Hilfe von Konfigurationsdaten|siehe vorheriger, insbesondere aber TelegramReceiverConfig|hostname = null|ConfigurationException
