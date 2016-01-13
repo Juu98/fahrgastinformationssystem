@@ -100,12 +100,6 @@ public class JSONProvider {
 			return y;
 		}
 
-		@Override
-		public int hashCode() {
-			int hash = 7;
-			return hash;
-		}
-
 		/**
 		 * Prüft ob der StationView einem anderen Obkjekt gleicht.
 		 *
@@ -118,7 +112,7 @@ public class JSONProvider {
 			if (obj == null) {
 				return false;
 			}
-			if (getClass() != obj.getClass()) {
+			if (this.getClass() != obj.getClass()) {
 				return false;
 			}
 			final StationView other = (StationView) obj;
@@ -128,10 +122,10 @@ public class JSONProvider {
 			if (!Objects.equals(this.name, other.name)) {
 				return false;
 			}
-			if (this.x != other.x) {
+			if (Float.floatToRawIntBits(this.x) != Float.floatToRawIntBits(other.x)) {
 				return false;
 			}
-			if (this.y != other.y) {
+			if (Float.floatToRawIntBits(this.y) != Float.floatToRawIntBits(other.y)) {
 				return false;
 			}
 			return true;

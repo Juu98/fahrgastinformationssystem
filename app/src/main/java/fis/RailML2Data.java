@@ -12,9 +12,20 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Eine Klasse zum konvertieren der RailML Daten in die intern genutzte Struktur. 
+ * @author kloppstock
+ */
 public class RailML2Data {
 	private static final Logger LOGGER = Logger.getLogger(RailML2Data.class);
 
+	/**
+	 * Erstellt die kompletten Fahrplandaten aus der Fahrplan-XML (am angegebenen Pfad).
+	 * @param path (Pfad)
+	 * @return Fahrplandaten
+	 * @throws IOException
+	 * @throws JAXBException
+	 */
 	public static TimetableData loadML(String path) throws IOException, JAXBException {
 		int countStations = 0;
 		int countTrainCategories = 0;
