@@ -64,13 +64,17 @@ Folgende allgemeine Konfigurationen können vorgenommen werden:
 <2> gibt den Pfad zu der Datei mit allen Meldungstexten an, die als Information zu einem Halt oder Zuglauf angezeigt werden können.
 <3> enthällt den Nutzertext, der im Footer auf der rechten unteren Teil der Webseite angezeigt wird.
 <4> gibt den Pfad zum Logo an, was in der linken oberen Ecke der Webseite zu sehen ist, an.
-
-Für die Verbindung mit dem Fahrplanserver sind folgende Konfigurationen zuständig:
 <5> gibt den Hostname des Fahrplanservers an.
 <6> gibt den Port an unter dem der Fahrplanserver erreichbar ist.
 <7> ist die Client ID mit dem sich die Applikation am Fahrplanserver anmeldet.
 <8> ist die Zeit bis ein Verbindungsversuch abgebrochen wird.
 <9> ist die Zeit bis zum erneuten Verbindungsversuch. 
+
+Die Konfigurationen <5> bis <9> dienen zur Konfiguration des Telegrammenpfängers.
+
+=== Aufbau der messages.csv
+
+Die Meldungstexte sind im CSV-Format (Comma seperated values; in diesem Falle werden statt Kommata Semikola verwendet) gespeichert. An erster Stelle steht ein Meldungsindex, der nicht doppelt vorkommen kann. Dieser wird von einem Semikolon und dem Meldungstext gefolgt. Sollte der Meldungstext Semikola enthalten, sollte der Text in Anführungszeichen gesetzt werden.
 
 == Programmstart
 
