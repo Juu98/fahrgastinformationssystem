@@ -37,7 +37,41 @@ ProxyPassReverse /fis http://localhost:8080
 <2> Der erste Parameter bestimmt den Pfad, unter dem die Anwendung erreichbar sein wird (in diesem Fall 'http://<Adresse-des-Apache-Servers>/fis'), und kann nach Belieben verändert werden. Wichtig ist, dass der gleiche Pfad überall in der Konfigurationsdatei  benutzt wird. Der zweite Parameter ist die URL des internen Tomcat-Servers und soll nicht verändert werden.
 <3> Stellt sicher, dass HTML5 korrekt angezeigt wird.
 
+
 == Konfiguration
+
+Die Konfiguration erfolgt über die Datei "application.properties", die sich im selben Verzeichnis wie die .jar befindet. Existiert keine solche Datei, wird eine Standard-Konfiguration geladen, die sich in der jar selbst befindet.
+
+Folgende Parameter können konfiguriert werden (zusätzliche Kommentare hier in eckigen Klammern):
+
+[source,conf]
+----
+# Konfigurationsbeispiel für den Endkunden
+
+server.port = 8080 [Port, unter dem das FIS im Browser erreichbar ist]
+
+# Konfiguration des FIS
+fis.railmlpath = ./EBL Regelfahrplan.xml [Pfad zur RailML, die geladen wird, wenn eine Verbindung zum Server besteht]
+fis.messagecsvpath = ./messages.csv [Pfad zur CSV-Datei, in der die Meldungen gespeichert sind, die angezeigt werden können]
+fis.benutzertext = Fubar [Im GUI angezeigter Benutzertext]
+fis.logoPath = logo.png [Im GUI angezeigtes Logo]
+
+# Logging
+# Loggingeinstellungen für das Gesamtsystem (inklusive Spring Framework)
+logging.level.root = INFO
+# Loggingeinstellungen für das Fahrgastinformationssystem
+logging.level.fis  = INFO
+
+# Konfiguration für den Telegrammempfänger (TelegramReceiverConfig)
+telegramserver.hostname = 10.2.0.101 [Hostname des Telegramservers]
+telegramserver.port = 9910 [Port des Telegramservers]
+telegramserver.clientID = 42 [Die ID, unter der das FIS im Telegramservers angezeigt wird]
+telegramserver.timeout = 1000 [Gibt an, wie lange das FIS versucht, sich zum Server zu verbinden (in ms)]
+telegramserver.timeTillReconnect = 5000 [Gibt an, nach wie viel ms das FIS versucht, sich erneut zu verbinden]
+
+----
+
+
 == Programmstart
 
 Der Start des Programms erfolgt über die Kommandozeile
@@ -97,39 +131,3 @@ image::graphtab.png[Liniennetz-Tab, 80%, title="Liniennetz-Tab"]
 Falls vorher ein Bahnhof ausgewählt wurde, wird dieser farblich markiert. Ebenfalls markiert werden alle Zugläufe, die den ausgewählten Bahnhof beinhalten.
 
 Es ist zudem möglich, die angezeigten Bahnhöfe anzuklicken. In diesem Fall wird dann in die entsprechende Abfahrtsanzeige gewechselt.
-
-
-
-= Konfiguration
-
-Die Konfiguration erfolgt über die Datei "application.properties", die sich im selben Verzeichnis wie die .jar befindet. Existiert keine solche Datei, wird eine Standard-Konfiguration geladen, die sich in der jar selbst befindet.
-
-Folgende Parameter können konfiguriert werden (zusätzliche Kommentare hier in eckigen Klammern):
-
-[source,conf]
-----
-# Konfigurationsbeispiel für den Endkunden
-
-server.port = 8080 [Port, unter dem das FIS im Browser erreichbar ist]
-
-# Konfiguration des FIS
-fis.railmlpath = ./EBL Regelfahrplan.xml [Pfad zur RailML, die geladen wird, wenn eine Verbindung zum Server besteht]
-fis.messagecsvpath = ./messages.csv [Pfad zur CSV-Datei, in der die Meldungen gespeichert sind, die angezeigt werden können]
-fis.benutzertext = Fubar [Im GUI angezeigter Benutzertext]
-fis.logoPath = logo.png [Im GUI angezeigtes Logo]
-
-# Logging
-# Loggingeinstellungen für das Gesamtsystem (inklusive Spring Framework)
-logging.level.root = INFO
-# Loggingeinstellungen für das Fahrgastinformationssystem
-logging.level.fis  = INFO
-
-# Konfiguration für den Telegrammempfänger (TelegramReceiverConfig)
-telegramserver.hostname = 10.2.0.101 [Hostname des Telegramservers]
-telegramserver.port = 9910 [Port des Telegramservers]
-telegramserver.clientID = 42 [Die ID, unter der das FIS im Telegramservers angezeigt wird]
-telegramserver.timeout = 1000 [Gibt an, wie lange das FIS versucht, sich zum Server zu verbinden (in ms)]
-telegramserver.timeTillReconnect = 5000 [Gibt an, nach wie viel ms das FIS versucht, sich erneut zu verbinden]
-
-----
-
