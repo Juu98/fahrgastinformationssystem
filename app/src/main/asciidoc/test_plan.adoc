@@ -106,6 +106,17 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |U-Data-TimetableController-4|forwardTelegram|Telegram verwerten|gesamte Telegramstruktur|StatusTelegram|Geupdatete Zeit
 |U-Data-TimetableController-5|forwardTelegram|Telegram verwerten|gesamte Telegramstruktur|TrainRouteTelegram|entsprechende TrainRoute aktualisieren
 |U-Data-TimetableController-6|forwardTelegram|Telegram verwerten|gesamte Telegramstruktur|StationNameTelegram|Bahnhofsobjekte erstellen
+|*[U-Data-CSVMessageLoader]*|||||
+|U-Data-CSVMessageLoader-1|loadCSV|CSV-Dateien parsen|-|null|*Fehler*
+|U-Data-CSVMessageLoader-2|loadCSV|CSV-Dateien parsen|-|leere Datei|*Fehler*
+|U-Data-CSVMessageLoader-3|loadCSV|CSV-Dateien parsen|-|ungültiger Pfad|*Fehler*
+|U-Data-CSVMessageLoader-4|loadCSV|CSV-Dateien parsen|-|Datei, die mehrere Nachrichten mit dem selben Index enthält|*Fehler*
+|U-Data-CSVMessageLoader-5|loadCSV|CSV-Dateien parsen|-|gültige CSV-Datei|Nachrichten als String
+|*[U-Data-Message]*|||||
+|U-Data-Message-1|setIndex, getIndex|Index setzen und zurückgeben|-|Index|Index
+|U-Data-Message-2|setMessage|Message setzen|-|null|*Fehler*
+|U-Data-Message-3|setMessage, getMessage|Message setzen|-|Message|Message
+|U-Data-Message-4|toString|Nachricht als String ausgeben|-|-|Index + Message als String
 |*[U-XML-RailML2Data]*|||||
 |U-XML-RailML2Data-1|loadML|Geparste Railml-Daten in die eigene Datenstruktur bringen|RailMLParser, Data|ungültiger Pfad|*Fehler*
 |*[U-XML-RailMLParser]*|||||
@@ -113,36 +124,35 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |U-XML-RailMLParser-2|ParseRailML|RailML parsen|RailML-Schemaklassen|gültiger Pfad+gültige Datei|RailML-Objekt
 |U-XML-RailMLParser-3|ParseRailML|RailML parsen|RailML-Schemaklassen|gültiger Pfad+gültige Datei|XML-Attribute werden richtig geparst
 |U-XML-RailMLParser-4|ParseRailML|RailML parsen|RailML-Schemaklassen|gültiger Pfad+gültige Datei|XML-Elemente werden richtig geparst
-|*[U-Telegram-Telegram]*|||||
-|U-Telegram-Telegram-1|parseTelegram|Telegramme parsen|-|byte[] mit Typ Bestätigungstelegramm|Objekt ConfirmationTelegram
-|U-Telegram-Telegram-2|parseTelegram|Telegramme parsen|-|byte[] mit Typ Statustelegramm|Objekt StatusTelegram
-|U-Telegram-Telegram-3|parseTelegram|Telegramme parsen|-|byte[] mit Typ Zuglauftelegramm|Objekt TrainRouteTelegram
-|U-Telegram-Telegram-4|parseTelegram|Telegramme parsen|-|byte[] mit Typ Änderungstelegramm Meldung|Objekt MessageModificationTelegram
-|U-Telegram-Telegram-5|parseTelegram|Telegramme parsen|-|byte[] mit Typ Änderungstelegramm Zugstrecke|Objekt TrackModificationTelegram
-|U-Telegram-Telegram-6|parseTelegram|Telegramme parsen|-|byte[] mit Typ Änderungstelegramm Ankunft|Objekt ArrivalModificationTelegram
-|U-Telegram-Telegram-7|parseTelegram|Telegramme parsen|-|byte[] mit Typ Änderungstelegramm Abfahrt|Objekt DepartureModificationTelegram
-|U-Telegram-Telegram-8|parseTelegram|Telegramme parsen|-|byte[] mit ungültigem Typ|Fehler "ungültiger Telegrammtyp"
-|U-Telegram-TrainRouteTelegram-1|TrainRouteTelegram|Telegramme parsen|-|gültiges TrainRoute Objekt|Objekt TrainRouteTelegram
-|U-Telegram-TrainRouteTelegram-2|TrainRouteTelegram|Telegramme parsen|-|null|InvalidArgumentException
-|U-Telegram-StatusTelegram-1|StatusTelegram|Telegramme parsen|-|gültiges Time Objekt|Objekt StatusTelegram
-|U-Telegram-StatusTelegram-2|StatusTelegram|Telegramme parsen|-|null|InvalidArgumentException
-|U-Telegram-ConfirmationTelegram-1|ConfirmationTelegram|Telegramme parsen|-|gültiges Time Objekt|Objekt ConfirmationTelegram
-|U-Telegram-ConfirmationTelegram|ConfirmationTelegram|Telegramme parsen|-|null|InvalidArgumentException
-|U-Telegram-MessageModificationTelegram-1|MessageModificationTelegram|Telegramme parsen|-|gültiges stop Objekt, int platform > 0|Objekt MessageModificationTelegram
-|U-Telegram-MessageModificationTelegram-2|MessageModificationTelegram|Telegramme parsen|-|gültiges stop Objekt, int platform <= 0|InvalidArgumentException
-|U-Telegram-MessageModificationTelegram-3|MessageModificationTelegram|Telegramme parsen|-|stop null|InvalidArgumentException
-|U-Telegram-TrackModificationTelegram-1|TrackModificationTelegram|Telegramme parsen|-|gültiges stop Objekt, int platform > 0|Objekt TrackModificationTelegram
-|U-Telegram-TrackModificationTelegram-2|TrackModificationTelegram|Telegramme parsen|-|gültiges stop Objekt, int platform <= 0|InvalidArgumentException
-|U-Telegram-TrackModificationTelegram-3|TrackModificationTelegram|Telegramme parsen|-|stop null|InvalidArgumentException
-|U-Telegram-ArrivalModificationTelegram-1|ArrivalModificationTelegram|Telegramme parsen|-|gültiges Time Objekt, gültiges Stop Objekt|Objekt ArrivalModificationTelegram
-|U-Telegram-ArrivalModificationTelegram-2|ArrivalModificationTelegram|Telegramme parsen|-|Time null, gültiges Stop Objekt |InvalidArgumentException
-|U-Telegram-ArrivalModificationTelegram-3|ArrivalModificationTelegram|Telegramme parsen|-|Stop null, gültiges Time Objekt |InvalidArgumentException
-|U-Telegram-DepartureModificationTelegram-1|DepartureModificationTelegram|Telegramme parsen|-|gültiges Time Objekt, gültiges Stop Objekt|Objekt DepartureModificationTelegram
-|U-Telegram-DepartureModificationTelegram-2|DepartureModificationTelegram|Telegramme parsen|-|Time null, gültiges Stop Objekt |InvalidArgumentException
-|U-Telegram-DepartureModificationTelegram-3|DepartureModificationTelegram|Telegramme parsen|-|Stop null, gültiges Time Objekt |InvalidArgumentException
-|U-TelegramReceiver-TelegramReceiver-1|parseConnection|Telegramme parsen|TelegramReceiver Objekt|CharArrayByteStream mit gültigen Telegrammdaten|Future mit byte[255]
+|*[U-Telegram-TelegramParser]*|||||
+|U-TelegramParser-Telegram-1|parse|Telegramme parsen|-|byte[] mit Typ Laborzeittelegramm und gültiger Payload|Objekt LabTimeTelegram mit gültiger Zeit
+|U-TelegramParser-Telegram-3|parse|Telegramme parsen|-|byte[] mit Typ Zuglauftelegramm|Objekt TrainRouteTelegram
+|U-TelegramParser-Telegram-4|parse|Telegramme parsen|-|byte[] mit Typ Betriebsstellen-Bezeichnungstelegramm und gültiger Payload|Objekt StationNameTelegram
+|U-TelegramParser-Telegram-8|parse|Telegramme parsen|-|byte[] mit ungültigem Typ|Fehler "ungültiger Telegrammtyp"
+|U-TelegramParser-Telegram-9|parse|Telegramme parsen|-|byte[] mit ungültiger Struktur|TelegramParseException "ungültige Telegrammstruktur"
+|U-TelegramParser-Telegram-10|parse|Telegramme parsen|-|byte[] mit ausschließlich nullbytes|TelegramParseException
+|U-TelegramParser-Telegram-11|parse|Telegramme parsen|-|null|TelegramParseException
+|U-TelegramParser-Telegram-12|parse|Telegramme parsen|-|byte[] ohne Typinformation|TelegramParseException
+|U-TelegramParser-Telegram-13|parse|Telegramme parsen|-|byte[] ohne Typinformation|TelegramParseException
+|U-TelegramParser-Telegram-14|parse|Telegramme parsen|-|zu langes byte[]|TelegramParseException
+|U-TelegramParser-Telegram-15|parse|Telegramme parsen|-|byte[] mit Typ Laborzeittelegramm, aber ungültiger Payload|TelegramParseException
+|U-TelegramParser-Telegram-15|parse|Telegramme parsen|-|byte[] mit Typ Laborzeittelegramm, aber ungültiger Payload|TelegramParseException
+|*[U-Telegram-Telegramme]*|||||
+|U-Telegrams-TrainRouteTelegram-1|TrainRouteTelegram|Telegramme parsen|-|gültiges TrainRoute Objekt|Objekt TrainRouteTelegram
+|U-Telegrams-TrainRouteTelegram-2|TrainRouteTelegram|Telegramme parsen|-|null|InvalidArgumentException
+|U-Telegrams-LabTimeTelegram-1|LabTimeTelegram|Telegramme parsen|-|gültiges Time Objekt|Objekt LabTimeTelegram
+|U-Telegrams-LabTimeTelegram-2|LabTimeTelegram|Telegramme parsen|-|null|InvalidArgumentException
 |U-Telegram-RegistrationTelegram-1|RegistrationTelegram|Am Fahrplanserver anmelden|-|byte ClientID|Objekt RegistrationTelegram
-|U-Telegram-RegistrationTelegram-2|getRawTelegram|Am Fahrplanserver anmelden| RegistrationTelegram Objekt|-|gültiges byte[255] mit Anmeldetelegramm
+|U-Telegram-RegistrationTelegram-2|getRawTelegram|Am Fahrplanserver anmelden| RegistrationTelegram Objekt|-|gültiges byte[] mit Anmeldetelegramm
+|*[U-Telegram-ByteConversion]*|||||
+|U-Telegram-ByteConversion-[1-17]|fromX, toY|In verschiedene Datentypen konvertieren|-|Variable vom Typ X|Wert vom Typ Y
+|*[U-TelegramReceiver-TelegramReceiverController]*|||||
+|U-TelegramReceiver-Telegram-ReceiverController-1|run|Steuerschleife des TelegrammReceivers: Verbinden, anmelden, Telegramme parsen, Verbindungsstatus setzen|echte Collaborator-Objekte: TelegramReceiverConfig; weggemockte Collaborator-Objekte: Socket, TelegramReceiver, ApplicationEventPublisher, TelegramParser|Simulation eines erfolgreichen Verbindungsvorgangs zum Telegrammserver über entsprechend zurückgegebene Telegramme durch gemockte Objekte|ConnectionStatus = Online, richtige Anzahl an Funktionsaufrufen
+|U-TelegramReceiver-Telegram-ReceiverController-2|run|Verbinden mit Hilfe von Konfigurationsdaten|siehe vorheriger, insbesondere aber TelegramReceiverConfig|hostname = null|ConfigurationException
+|*[U-TelegramReceiver-TelegramReceiver]*|||||
+|U-TelegramReceiver-TelegramReceiver-1|parseConnection|Telegramme parsen|TelegramReceiver Objekt|CharArrayByteStream mit gültigen Telegrammdaten, aber auch mit sinnlosen Daten|Future mit byte[], das genau die Rohdaten des ersten im ByteStream gefundenen Telegramms enthält
+|*[U-Common-EventTranslator]*|||||
+|U-Common-EventTranslator-1|translateReceiverToTimetable|Events übersetzen||ConnectionStatusEvent|ConnectionStatusEvent wird ins entsprechende TimetableEvent übersetzt|
 |===
 
 == IntegrationTests
