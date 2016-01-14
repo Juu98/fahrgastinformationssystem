@@ -131,9 +131,26 @@ public class StopTest {
 		testStop.updateArrival(LocalTime.of(0, 5));
 		testStop.updateDeparture(LocalTime.of(1, 10));
 		assertEquals("Die ausgegebene Verspätung der Ankunft auf den nächsten Tag stimmt nicht!", 83100, testStop.getDelayArrival());
-		assertEquals("Die ausgegebene Verspätung der Abfahrt auf den nächsten Tag stimmt nicht!", 86700, testStop.getDelayDeparture());
-		//assertEquals("Formatierung der Verfrühung stimmt nicht!","-10:00",testStop.getDelayArrivalString());
-		//assertEquals("Formatierung der Verfrühung stimmt nicht!","-05:00",testStop.getDelayDepartureString());
+		assertEquals("Die ausgegebene Verspätung der Abfahrt auf den nächsten Tag stimmt nicht!", 86700, testStop.getDelayDeparture());	
 	
+		
+	}
+	
+	@Test
+	public void testNullDelay(){
+		Stop testStop = new Stop(s1, StopType.STOP, null,null,"1", 42);
+		assertEquals("Wenn geplante oder tatsächliche Zeit null ist, soll 0 zurückgegeben werden",0,testStop.getDelayArrival());
+		assertEquals("Wenn geplante oder tatsächliche Zeit null ist, soll 0 zurückgegeben werden",0,testStop.getDelayDeparture());
+		testStop.updateArrival(LocalTime.MAX);
+		testStop.updateDeparture(LocalTime.MAX);
+		assertEquals("Wenn geplante oder tatsächliche Zeit null ist, soll 0 zurückgegeben werden",0,testStop.getDelayArrival());
+		assertEquals("Wenn geplante oder tatsächliche Zeit null ist, soll 0 zurückgegeben werden",0,testStop.getDelayDeparture());
+		
+		Stop testStop2 = new Stop(s1, StopType.STOP, LocalTime.MAX,LocalTime.MAX,"1", 42);
+		testStop2.updateArrival(null);
+		testStop2.updateDeparture(null);
+		assertEquals("Wenn geplante oder tatsächliche Zeit null ist, soll 0 zurückgegeben werden",0,testStop.getDelayArrival());
+		assertEquals("Wenn geplante oder tatsächliche Zeit null ist, soll 0 zurückgegeben werden",0,testStop.getDelayDeparture());
+		
 	}
 }

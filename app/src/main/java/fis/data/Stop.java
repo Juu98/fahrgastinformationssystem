@@ -225,10 +225,13 @@ public class Stop {
 	 * @return Positives Ergebnis, wenn der Zug zu spät ankommt
 	 * Negatives Ergebnis, wenn der Zug zu früh ankommt.
 	 */
-	public long getDelayArrival() {
+	public long getDelayArrival() {	
+		if(this.scheduledArrival == null || this.actualArrival == null){
+			return 0;
+		}
 		if(this.actualArrivalNextDay){
 			// +1 wegen Rundung von 24:00 (bzw. 00:00) auf 23:59
-			return (this.scheduledArrival.until(LocalTime.MAX, ChronoUnit.SECONDS) + 1 +LocalTime.MIDNIGHT.until(this.actualArrival, ChronoUnit.SECONDS));
+			return (this.scheduledArrival.until(LocalTime.MAX, ChronoUnit.SECONDS) + 1 + LocalTime.MIDNIGHT.until(this.actualArrival, ChronoUnit.SECONDS));
 		}	else{
 			return this.scheduledArrival.until(this.actualArrival, ChronoUnit.SECONDS);
 		}
@@ -241,6 +244,9 @@ public class Stop {
 	 * Negatives Ergebnis, wenn der Zug zu früh abfährt.
 	 */
 	public long getDelayDeparture() {
+		if(this.scheduledDeparture == null || this.actualDeparture == null){
+			return 0;
+		}
 		if(this.actualDepartureNextDay){
 			// +1 wegen Rundung von 24:00 (bzw. 00:00) auf 23:59
 			return (this.scheduledDeparture.until(LocalTime.MAX, ChronoUnit.SECONDS) + 1 + LocalTime.MIDNIGHT.until(this.actualDeparture, ChronoUnit.SECONDS));

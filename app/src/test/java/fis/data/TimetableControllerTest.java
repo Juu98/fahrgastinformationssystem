@@ -120,6 +120,9 @@ public class TimetableControllerTest{
 				
 			} 
 		}
+		if(timetable.getTrainRoutes().contains(route1_new)){
+			fail("Es sollte keine neue TrainRoute hinzugefügt, sondern nur die alte modifiziert werden!");
+		}
 		if(found==false){
 			fail("Der Zuglauf mit der entsprechenden Id sollte immer noch vorhanden sein!");
 		}
@@ -215,7 +218,7 @@ public class TimetableControllerTest{
 		
 		List<TrainRouteTelegram.StopData> stops = new ArrayList<>();
 		
-		StopData data1=new TrainRouteTelegram.StopData(1, null, LocalTime.of(1, 0), null, LocalTime.of(1, 2), scheduledTrack1, actualTrack1, dispoType1, messageId1, false, false);
+		StopData data1=new TrainRouteTelegram.StopData(1, null, LocalTime.of(0, 0), null, LocalTime.of(0, 1), scheduledTrack1, actualTrack1, dispoType1, messageId1, true, true);
 		StopData data2=new TrainRouteTelegram.StopData(2, LocalTime.of(0, 1), LocalTime.of(1, 0), LocalTime.of(0, 2), LocalTime.of(1, 5), scheduledTrack2, actualTrack2, dispoType2, messageId2, false, false);
 		StopData data3=new TrainRouteTelegram.StopData(3, LocalTime.of(3, 5), null, LocalTime.of(3, 10), null, scheduledTrack3, actualTrack3, dispoType3, messageId3, false, false);
 		
@@ -241,11 +244,12 @@ public class TimetableControllerTest{
 		assertEquals("Der erste Stop muss der TrainRoute zugeordnet sein!",route,stop1.getTrainRoute());
 		assertEquals("Die geplante Ankunftszeit des ersten Stops soll null sein",null,stop1.getScheduledArrival());
 		assertEquals("Die tatsächliche Ankunftszeit des ersten Stops soll null sein",null,stop1.getActualArrival());
-		assertEquals("Die geplante Abfahrtszeit des ersten Stops stimmt nicht!",LocalTime.of(1,0),stop1.getScheduledDeparture());
-		assertEquals("Die tatsächliche Abfahrtszeit des ersten Stops stimmt nicht!",LocalTime.of(1, 2),stop1.getActualDeparture());
+		assertEquals("Die geplante Abfahrtszeit des ersten Stops stimmt nicht!",LocalTime.of(0,0),stop1.getScheduledDeparture());
+		assertEquals("Die tatsächliche Abfahrtszeit des ersten Stops stimmt nicht!",LocalTime.of(0, 1),stop1.getActualDeparture());
 		assertEquals("Der geplante Gleis des ersten Stops stimmt nicht!",String.valueOf(scheduledTrack1),stop1.getScheduledTrack());
 		assertEquals("Der tatsächliche Gleis des ersten Stops stimmt nicht!", String.valueOf(actualTrack1),stop1.getActualTrack());
 		assertTrue("Der richtige Bahnhof sollte mit dem ersten Stop verlinkt sein!",s1.getStops().contains(stop1));
+		assertEquals("Die Flags für die Verspätung wurden nicht richtig gesetzt!",86460,stop1.getDelayDeparture());
 		
 		Stop stop2=route.getStops().get(1);
 		assertEquals("Station des zweiten Stops stimmt nicht!",s2,stop2.getStation());
