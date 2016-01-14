@@ -1,6 +1,6 @@
 = Entwicklerdokumentation
 
-:imagesdir: uml
+:imagesdir: model
 
 == Einführung und Ziele
 

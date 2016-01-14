@@ -492,11 +492,10 @@ public class FisController {
 	 * @return JSON body
 	 */
 	@RequestMapping("stations.json")
-	public
-	@ResponseBody
-	List<JSONProvider.StationView> getStations() {
+	public @ResponseBody List<JSONProvider.StationView> getStations() {
 		return new JSONProvider().getStations(this.timetable.getData().getStations());
 	}
+
 
 	/**
 	 * Liefert eine JSON-Liste mit allen {@link TrainRoute}s in diesem Fahrplan.
@@ -520,12 +519,8 @@ public class FisController {
 	}
 
 	@RequestMapping("fullTrainRoutes.json")
-	public
-	@ResponseBody
-	List<JSONProvider.FullTrainRouteView> getFullTrainRoutes() {
+	public 	@ResponseBody List<JSONProvider.FullTrainRouteView> getFullTrainRoutes() {
 		return new JSONProvider().getFullTrainRoutes(this.timetable.getData().getTrainRoutes());
-		//public String getFullTrainRoutes(){
-		//return "redirect:/resources/fullTrainRoutes_test.json";
 	}
 
 
