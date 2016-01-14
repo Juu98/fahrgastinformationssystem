@@ -23,7 +23,7 @@ public class MessageTest {
 		boolean exceptionCatched = false;
 		try{
 			this.message.setMessage(null);
-		} catch(NullPointerException e) {
+		} catch(IllegalArgumentException e) {
 			exceptionCatched = true;
 		}
 		assertTrue("The constructor should throw a NullPointerException if given a null parameter!", exceptionCatched);

@@ -4,18 +4,11 @@ import fis.common.CommonConfig;
 import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
-
 import fis.FilterTime;
 import fis.FilterType;
 import fis.data.Station;
-import fis.data.Stop;
-import fis.data.StopType;
 import fis.data.TimetableController;
-import fis.data.TimetableData;
-import fis.data.TrainCategory;
 import fis.data.TrainRoute;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;

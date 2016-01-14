@@ -43,11 +43,11 @@ public class Message implements Serializable {
 	 * Setter für message.
 	 *
 	 * @param message (Nachricht)
-	 * @throws NullPointerException
+	 * @throws IllegalArgumentException
 	 */
-	public void setMessage(String message) throws NullPointerException {
+	public void setMessage(String message) throws IllegalArgumentException {
 		if (message == null)
-			throw new NullPointerException();
+			throw new IllegalArgumentException();
 		this.message = message;
 	}
 

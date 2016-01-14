@@ -195,7 +195,6 @@ public class TimetableControllerTest{
 	
 	@Test
 	public void testCreateTrainRouteFromTelegram(){
-		//TODO: Test dispoType
 		String trnNum="5";
 		String trnCat="catX";
 		int messageID=5;

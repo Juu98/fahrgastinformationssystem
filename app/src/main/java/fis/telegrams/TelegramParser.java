@@ -279,8 +279,6 @@ public class TelegramParser {
 		float x = ByteConversions.toFloat(Arrays.copyOfRange(rawData, rawData.length - 8, rawData.length - 4), Telegram.LITTLE_ENDIAN);
 		float y = ByteConversions.toFloat(Arrays.copyOfRange(rawData, rawData.length - 4, rawData.length), Telegram.LITTLE_ENDIAN);
 
-		// TODO coords
-
 		StationNameTelegram returnTele = new StationNameTelegram(rawData[0], code, name, x, y);
 		LOGGER.debug("Parsed " + returnTele);
 		return returnTele;

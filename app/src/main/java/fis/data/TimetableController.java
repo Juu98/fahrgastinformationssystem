@@ -81,13 +81,7 @@ public class TimetableController {
 	private Map<Integer, Message> messages;
 	@Autowired
 	private TelegramReceiverController receiver;
-
-	// TODO: REMOVE (just4Testing)
-	Station s1, s2, s3, s4;
-	Stop stop1, stop2, stop3, stop4, stop5, stop1_new, stop2_new, stop3_new;
-	TrainRoute route1, route2, route1_new;
-	TrainCategory cat1;
-
+	
 	/**
 	 * Gibt die zur gegebenen ID gehörende Nachricht zurück
 	 *
@@ -384,7 +378,6 @@ public class TimetableController {
 	 * Lädt die RailML in die Datenstruktur
 	 */
 	public void loadML() {
-		// TODO: Config beachten -> entsprechenden Pfad laden!
 		try {
 			// Laden des Offline-Fahrplans
 			LOGGER.info("Offline. Laden des RailML-Fahrplans.");
