@@ -76,7 +76,7 @@ public class CSVMessageLoaderTest {
 	}
 	
 	@Test
-	public void loadCSVTest() throws NullPointerException, IllegalArgumentException, FileNotFoundException, ConfigurationException{
-		assertEquals("loadCSV() returned the wrong value!", CSVMessageLoader.loadCSV("./messages_test.csv").toString(), this.messages.toString());
+	public void loadCSVTest() throws ConfigurationException{
+		assertEquals("loadCSV() returned the wrong value!", CSVMessageLoader.loadCSV("./messages.csv").toString(), this.messages.toString());
 	}
 }
