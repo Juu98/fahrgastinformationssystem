@@ -44,3 +44,9 @@
 	font-weight: lighter;
 	padding: 8px 0;
 }
+
+/* Perlenschnur table cell */
+.perlenschnur {
+	text-align: center;
+	background: url('../img/line.png') center repeat-y;
+}
