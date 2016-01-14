@@ -1,20 +1,21 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 	<head th:include="header :: meta"></head>
-	<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}" type="text/css" />
-	<link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
 		
 	<body class="container">
 		<th:block th:include="header :: header(graph)"></th:block>
 		
 		<div class="row">
-			<div class="tab-content col-md-8 col-md-offset-2" id="graphdiv">
-					<div th:include="graphcanvas :: graph_body"></div>
+			<div class="tab-content col-md-8 col-md-offset-2">
+				<div class="tab-pane active" id="graph">
+					<div th:unless="${connectionState} eq 'Offline'" id="graphdiv" th:include="graphcanvas :: graph_body"></div>
+					<div th:if="${connectionState} eq 'Offline'" class="alert alert-warning" th:text="#{fis.alerts.nomap}">Keine Karte beim XML-Parsen.</div>
+				</div>
 			</div>
 
 		</div>
 		
-		<script type="text/javascript" th:inline="javascript">		
+		<script type="text/javascript">		
 			/*<![CDATA[*/	
 			var g=document.getElementById("graphdiv");
 			g.height=g.width;
