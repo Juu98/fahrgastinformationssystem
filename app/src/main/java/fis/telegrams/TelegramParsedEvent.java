@@ -3,14 +3,14 @@ package fis.telegrams;
 import org.springframework.context.ApplicationEvent;
 
 /**
- * Created by spiollinux on 05.12.15.
+ * Event, das nach dem erfolgreichen Parsen eines Telegramms ausgelöst wird. Kapselt ein {@see Telegram} Objekt
  */
 public class TelegramParsedEvent extends ApplicationEvent {
 
 	/**
-	 * Create a new ApplicationEvent.
+	 * Erstellt ein neues TelegramParsedEvent
 	 *
-	 * @param source the object on which the event initially occurred (never {@code null})
+	 * @param source ein Telegram Objekt, das mit diesem Event übermittelt werden soll
 	 */
 	public TelegramParsedEvent(Telegram source) {
 		super(source);

@@ -1,7 +1,7 @@
 package fis.telegrams;
 
 /**
- * Created by spiollinux on 05.12.15.
+ * Exception, die das Fehlschlagen des Parsens eines Rohtelegramms anzeigt
  */
 public class TelegramParseException extends Exception {
 
