@@ -1,10 +1,7 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 		<script th:src="@{/webjars/jquery/2.1.3/jquery.min.js}"></script>
-		
-		<link rel="stylesheet" type="text/css" th:href="@{/resources/css/graph.css}" />	
 		<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}" type="text/css" />
-		<link rel="stylesheet" type="text/css" th:href="@{/resources/css/style.css}" />
 		
 	<body class="container" th:fragment="graph_body">
 	<div id="divcanvas">
@@ -19,7 +16,7 @@
 			var d=document.getElementById("divcanvas");
 			d.height=d.width;
 			c.width=d.offsetWidth;
-			c.height=d.offsetHeight;
+			c.height=d.offsetWidth;
 			
 			var ctx=c.getContext("2d");
 			ctx.globalCompositeOperation = 'destination-over';
@@ -32,12 +29,12 @@
 			var st_width=8;
 			
 			//Offset der Bahnhofsbeschriftung
-			var nameOffset_X = -2;
+			var nameOffset_X = -50;
 			var nameOffset_Y = -5;
 			
 			//MinX und MinY
-			var minX = 5;
-			var minY = 5;
+			var minX = 2;
+			var minY = 8;
 			
 			//Größe der Zuglaufkanten
 			var line_width = st_width/4;
@@ -122,8 +119,10 @@
 			}
 
 			//stellt sicher, dass auch der äußerste Punkt noch zu sehen ist
-			maxX = maxX + st_width*2 + minX + 20;
-			maxY = maxY + st_height * 4 + 2*minY + 20;
+			//maxX = maxX + st_width*2 + minX + 20;
+			//maxY = maxY + st_height * 4 + 2*minY + 20;
+			//maxX = maxX + minX;
+			maxY = maxY + st_height/2;
 			
 			//Knoten (Bahnhöfe) durchlaufen
 			for(i=0; i<data.length; i++){
