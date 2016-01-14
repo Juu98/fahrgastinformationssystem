@@ -491,13 +491,9 @@ public class FisController {
 	 *
 	 * @return JSON body
 	 */
-	//TODO: Wieder umändern
 	@RequestMapping("stations.json")
-	//@ResponseBody 
-	//public List<JSONProvider.StationView> getStations() {
-		//return new JSONProvider().getStations(this.timetable.getData().getStations());
-	public String getStations(){
-		return "redirect:/resources/stations.json";
+	public @ResponseBody List<JSONProvider.StationView> getStations() {
+		return new JSONProvider().getStations(this.timetable.getData().getStations());
 	}
 
 
@@ -522,13 +518,9 @@ public class FisController {
 		return new JSONProvider().getTrainRoutes(this.timetable.getData().getTrainRoutes());
 	}
 
-	//TODO: Wieder umändern
 	@RequestMapping("fullTrainRoutes.json")
-	//@ResponseBody
-	//public List<JSONProvider.FullTrainRouteView> getFullTrainRoutes() {
-		//return new JSONProvider().getFullTrainRoutes(this.timetable.getData().getTrainRoutes());
-	public String getFullTrainRoutes(){
-		return "redirect:/resources/fullTrainRoutes.json";
+	public 	@ResponseBody List<JSONProvider.FullTrainRouteView> getFullTrainRoutes() {
+		return new JSONProvider().getFullTrainRoutes(this.timetable.getData().getTrainRoutes());
 	}
 
 
