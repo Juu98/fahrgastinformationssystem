@@ -1,7 +1,7 @@
 package fis.common;
 
 /**
- * Created by spiollinux on 01.12.15.
+ * Exception, die Probleme in der Konfiguration der Anwendung aufzeigen soll
  */
 public class ConfigurationException extends Exception {
 	public ConfigurationException() {

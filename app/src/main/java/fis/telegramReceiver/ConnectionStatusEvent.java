@@ -11,7 +11,7 @@ public class ConnectionStatusEvent extends ApplicationEvent {
 	/**
 	 * Erstellt ein neues ConnectionStatusEvent als Kapselung für einen {@link ConnectionStatus}
 	 *
-	 * @param status
+	 * @param status im Event zu sendender ConnectionStatus
 	 */
 	public ConnectionStatusEvent(ConnectionStatus status) {
 		super(status);

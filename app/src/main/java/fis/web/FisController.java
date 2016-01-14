@@ -543,7 +543,7 @@ public class FisController {
 	/**
 	 * Methode zur Filterung von ZUgläufen
 	 *
-	 * @param station
+	 * @param station Station, an der gefiltert werden soll
 	 * @param type       (Abfahrt / Ankunft)
 	 * @param from       (Startzeit)
 	 * @param to         (Endzeit)
