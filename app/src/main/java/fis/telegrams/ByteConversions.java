@@ -101,7 +101,7 @@ public abstract class ByteConversions {
 			}
 
 			// Folgetag
-			if (isTimeNextDay(tenth)) {
+			if (tenth >= NEXT_DAY_OFFSET) {
 				tenth -= NEXT_DAY_OFFSET;
 			}
 			return LocalTime.ofSecondOfDay(tenth * 6);
@@ -109,10 +109,6 @@ public abstract class ByteConversions {
 
 		Duration delta = Duration.ofSeconds(tenth * 6);
 		return (isNegative) ? base.minus(delta) : base.plus(delta);
-	}
-
-	public static boolean isTimeNextDay(int tenth) {
-		return tenth >= NEXT_DAY_OFFSET;
 	}
 
 	/**
