@@ -132,8 +132,12 @@ public class TrainRouteTelegram extends Telegram {
 		 * @param actualTrack
 		 * @param dispoType
 		 * @param messageId
+		 * @param actualArrivalNextDay zeigt an, ob Zug durch Verspätung erst am nächsten Tag ankommt
+		 * @param actualDepartureNextDay zeigt an, ob Zug durch Verspätung erst am nächsten Tag abfährt
 		 */
-		public StopData(int stationId, LocalTime scheduledArrival, LocalTime scheduledDeparture, LocalTime actualArrival, LocalTime actualDeparture, int scheduledTrack, int actualTrack, int dispoType, int messageId, boolean actualArrivalNextDay, boolean actualDepartureNextDay) {
+		public StopData(int stationId, LocalTime scheduledArrival, LocalTime scheduledDeparture, LocalTime actualArrival,
+		                LocalTime actualDeparture, int scheduledTrack, int actualTrack, int dispoType,
+		                int messageId, boolean actualArrivalNextDay, boolean actualDepartureNextDay) {
 			this.stationId = stationId;
 			this.scheduledArrival = scheduledArrival;
 			this.scheduledDeparture = scheduledDeparture;

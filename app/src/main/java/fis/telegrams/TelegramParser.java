@@ -204,6 +204,8 @@ public class TelegramParser {
 		int station, arrTenth, depTenth;
 		LocalTime aArrival, sArrival, aDeparture, sDeparture;
 		int sTrack, aTrack, dispoId, messageId;
+		boolean aArrivalNextDay, aDepartureNextDay;
+
 		while (i < stopEndPos) {
 			stopData = Arrays.copyOfRange(rawData, i, i + STPDAT_MIN_LEN);
 			station = ByteConversions.toUInt(stopData[STPDAT_STN_POS]);
@@ -213,16 +215,22 @@ public class TelegramParser {
 			sDeparture = null;
 			aArrival = null;
 			aDeparture = null;
+			aArrivalNextDay = false;
+			aDepartureNextDay = false;
 
 			arrTenth = ByteConversions.toUInt(stopData[STPDAT_ARR_POS], stopData[STPDAT_ARR_POS + 1], Telegram.LITTLE_ENDIAN);
 			if (arrTenth != STPDAT_NUL_VAL && arrTenth != STPDAT_PAS_VAL) {
 				sArrival = ByteConversions.fromTenthOfMinute(arrTenth);
-				aArrival = ByteConversions.fromTenthOfMinute(ByteConversions.toInt(stopData[STPDAT_ADL_POS], stopData[STPDAT_ADL_POS + 1], Telegram.LITTLE_ENDIAN), sArrival);
+				int diffTenth = ByteConversions.toInt(stopData[STPDAT_ADL_POS], stopData[STPDAT_ADL_POS + 1], Telegram.LITTLE_ENDIAN);
+				aArrivalNextDay = ByteConversions.isTimeNextDay(diffTenth);
+				aArrival = ByteConversions.fromTenthOfMinute(diffTenth, sArrival);
 			}
 			depTenth = ByteConversions.toUInt(stopData[STPDAT_DEP_POS], stopData[STPDAT_DEP_POS + 1], Telegram.LITTLE_ENDIAN);
 			if (depTenth != STPDAT_NUL_VAL && depTenth != STPDAT_PAS_VAL) {
 				sDeparture = ByteConversions.fromTenthOfMinute(depTenth);
-				aDeparture = ByteConversions.fromTenthOfMinute(ByteConversions.toInt(stopData[STPDAT_DDL_POS], stopData[STPDAT_DDL_POS + 1], Telegram.LITTLE_ENDIAN), sDeparture);
+				int diffTenth = ByteConversions.toInt(stopData[STPDAT_DDL_POS], stopData[STPDAT_DDL_POS + 1], Telegram.LITTLE_ENDIAN);
+				aDepartureNextDay = ByteConversions.isTimeNextDay(diffTenth);
+				aDeparture = ByteConversions.fromTenthOfMinute(diffTenth, sDeparture);
 			}
 
 			sTrack = ByteConversions.toUInt(stopData[STPDAT_TRK_POS]);
@@ -233,8 +241,8 @@ public class TelegramParser {
 			// Filter PASSES heraus
 			// null-Werte werden weiterhin gespeichert
 			if (arrTenth != STPDAT_PAS_VAL){
-				//TODO: Übergeben, ob Zeiten auf nächsten Tag zeigen
-				stops.add(new TrainRouteTelegram.StopData(station, sArrival, sDeparture, aArrival, aDeparture, sTrack, aTrack, dispoId, messageId, false, false));
+				stops.add(new TrainRouteTelegram.StopData(station, sArrival, sDeparture, aArrival, aDeparture, sTrack,
+						aTrack, dispoId, messageId, aArrivalNextDay, aDepartureNextDay));
 			}
 			i += STPDAT_MIN_LEN;
 		}
