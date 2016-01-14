@@ -20,8 +20,8 @@ Die verwendete Zeit beinhaltet auch das Lesen von Dokumentationen, Besprechungen
 | 14.12.2015  |03.01.2016   |13:54    |7:35  |21:54 |11:04   |9:20    |1:49
 | 04.01.2016  |10.01.2016   |11:39    |9:04  |12:52 |11:03   |9:15    |
 | 11.01.2016  |17.01.2016   |         |      |      |        |        |
-2+>| **Summe**              |         |      |      |        |        |**TOTAL** 
-2+>| **Durchscnitt**        |         |      |      |        |        |**Gesamtschnitt**
+2+>| **Summe**              |         |      |      |        |        |**TOTAL**
+2+>| **Durchschnitt**        |         |      |      |        |        |**Gesamtschnitt**
 |===================================================================
 
 __Beim Durchschnitt berechnen die 3 Wochen Weihnachten berücksichtigen.__
