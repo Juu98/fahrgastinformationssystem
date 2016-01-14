@@ -504,6 +504,8 @@ public class TimetableController {
 			stop.updateArrival(stopData.getActualArrival());
 			stop.updateDeparture(stopData.getActualDeparture());
 			stop.updateTrack("" + stopData.getActualTrack());
+			stop.setActualArrivalNextDay(stopData.getActualArrivalNextDay());
+			stop.setActualDepartureNextDay(stopData.getActualDepartureNextDay());
 			routeStops.add(stop);
 		}
 

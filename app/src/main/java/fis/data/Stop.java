@@ -226,9 +226,10 @@ public class Stop {
 	 * Negatives Ergebnis, wenn der Zug zu früh ankommt.
 	 */
 	public long getDelayArrival() {
-		if (actualArrival.isBefore(scheduledArrival)) {
-			return -this.actualArrival.until(this.scheduledArrival, ChronoUnit.SECONDS);
-		} else {
+		if(this.actualArrivalNextDay){
+			// +1 wegen Rundung von 24:00 (bzw. 00:00) auf 23:59
+			return (this.scheduledArrival.until(LocalTime.MAX, ChronoUnit.SECONDS) + 1 +LocalTime.MIDNIGHT.until(this.actualArrival, ChronoUnit.SECONDS));
+		}	else{
 			return this.scheduledArrival.until(this.actualArrival, ChronoUnit.SECONDS);
 		}
 	}
@@ -240,9 +241,10 @@ public class Stop {
 	 * Negatives Ergebnis, wenn der Zug zu früh abfährt.
 	 */
 	public long getDelayDeparture() {
-		if (actualDeparture.isBefore(scheduledDeparture)) {
-			return -this.actualDeparture.until(this.scheduledDeparture, ChronoUnit.SECONDS);
-		} else {
+		if(this.actualDepartureNextDay){
+			// +1 wegen Rundung von 24:00 (bzw. 00:00) auf 23:59
+			return (this.scheduledDeparture.until(LocalTime.MAX, ChronoUnit.SECONDS) + 1 + LocalTime.MIDNIGHT.until(this.actualDeparture, ChronoUnit.SECONDS));
+		}	else{
 			return this.scheduledDeparture.until(this.actualDeparture, ChronoUnit.SECONDS);
 		}
 	}
@@ -253,7 +255,6 @@ public class Stop {
 	public String getDelayArrivalString() {
 		long delay = this.getDelayArrival();
 		String str = "";
-
 		if (delay < 0) {
 			LocalTime time = LocalTime.MIDNIGHT.plus(0 - delay, ChronoUnit.SECONDS);
 			String min = Integer.toString(time.getMinute());
