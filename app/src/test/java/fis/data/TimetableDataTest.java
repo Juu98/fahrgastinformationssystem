@@ -88,8 +88,6 @@ public class TimetableDataTest {
 		TrainRoute route3;
 		TrainCategory cat2=new TrainCategory("2","cat2","cat2_desc","cat2_usage");
 		List<Stop> stops3=new ArrayList<Stop>();
-		Stop stop6=new Stop(s2,StopType.BEGIN,null,LocalTime.of(3,1),"4",0);
-		Stop stop7=new Stop(s1,StopType.END,LocalTime.of(3, 1),null,"5",0);
 		stops3.add(stop4);
 		stops3.add(stop5);
 		

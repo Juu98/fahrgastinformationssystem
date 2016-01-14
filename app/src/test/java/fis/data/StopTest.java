@@ -14,8 +14,6 @@ public class StopTest {
 	LocalTime time2;
 	String track1;
 	
-	//TODO: Die Funktionen zur TrainRoute-Verlinkung in seperatem Datenkonsistenz-Test testen!
-	
 	@Before
 	public void setUp() throws Exception{
 		time1=LocalTime.of(0,2);

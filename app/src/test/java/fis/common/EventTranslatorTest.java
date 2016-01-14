@@ -7,8 +7,6 @@ import fis.telegramReceiver.ConnectionStatusEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationEventPublisher;
-
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**

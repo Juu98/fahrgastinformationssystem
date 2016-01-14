@@ -77,7 +77,7 @@ public class StationTest {
     @Test
     public void getStopForTrainRouteNonExistantTest(){
     	Station nowhere = new Station("NWR", "Nowhere");
-    	Stop s1 = new Stop(nowhere, StopType.STOP, LocalTime.of(13, 37), LocalTime.of(13, 38), "2", 2/*TODO: was zum geier solldiese id hier?*/);
+    	Stop s1 = new Stop(nowhere, StopType.STOP, LocalTime.of(13, 37), LocalTime.of(13, 38), "2", 2);
     	List<Stop> stops = new ArrayList<Stop>();
     	stops.add(s1);
     	TrainCategory category = new TrainCategory("TLX", "TeElIx", "Isn Zuch!", "Damit kann man Dinge von A nach B bewegen. ");
