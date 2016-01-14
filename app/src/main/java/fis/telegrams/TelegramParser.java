@@ -233,7 +233,8 @@ public class TelegramParser {
 			// Filter PASSES heraus
 			// null-Werte werden weiterhin gespeichert
 			if (arrTenth != STPDAT_PAS_VAL){
-				stops.add(new TrainRouteTelegram.StopData(station, sArrival, sDeparture, aArrival, aDeparture, sTrack, aTrack, dispoId, messageId));
+				//TODO: Übergeben, ob Zeiten auf nächsten Tag zeigen
+				stops.add(new TrainRouteTelegram.StopData(station, sArrival, sDeparture, aArrival, aDeparture, sTrack, aTrack, dispoId, messageId, false, false));
 			}
 			i += STPDAT_MIN_LEN;
 		}

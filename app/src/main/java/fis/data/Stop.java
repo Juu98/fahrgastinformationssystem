@@ -17,11 +17,13 @@ public class Stop {
 
 	private String scheduledTrack;
 	private String actualTrack;
-	private int messageId; // Hier bin ich noch unsicher, was dort genau rein
-	// soll
+	private int messageId; 
 	private StopType stopType;
 	private TrainRoute trainRoute;
 
+	private boolean actualArrivalNextDay = false;
+	private boolean actualDepartureNextDay = false;
+	
 	/**
 	 * Erzeugt einen neuen Halt
 	 *
@@ -48,6 +50,22 @@ public class Stop {
 		this.messageId = messageId;
 
 		station.addStop(this);
+	}
+	
+	/**
+	 * Setzt das 'Verspätung der Ankunft zeigt auf den nächsten Tag' - Flag
+	 * @param isNextDay
+	 */
+	public void setActualArrivalNextDay(boolean isNextDay){
+		this.actualArrivalNextDay = isNextDay;
+	}
+	
+	/**
+	 * Setzt das 'Verspätung der Abfahrt zeigt auf den nächsten Tag' - Flag
+	 * @param isNextDay
+	 */
+	public void setActualDepartureNextDay(boolean isNextDay){
+		this.actualDepartureNextDay = isNextDay;
 	}
 
 	/**
@@ -89,7 +107,6 @@ public class Stop {
 
 	/**
 	 * Getter für stopType
-	 *
 	 * @return {@link StopType} dieses Haltes
 	 */
 	public StopType getStopType() {
@@ -113,8 +130,6 @@ public class Stop {
 	 * @param actualArrival Die neue tatsächliche Ankunftszeit.
 	 */
 	public void updateArrival(LocalTime actualArrival) {
-		// if(actualArrival==null) throw new
-		// IllegalArgumentException("actualArrival darf nicht null sein");
 		this.actualArrival = actualArrival;
 	}
 
@@ -124,8 +139,6 @@ public class Stop {
 	 * @param actualDeparture Die neue tatsächliche Abfahrtszeit
 	 */
 	public void updateDeparture(LocalTime actualDeparture) {
-		// if(actualDeparture==null) throw new
-		// IllegalArgumentException("actualDeparture darf nicht null sein");
 		this.actualDeparture = actualDeparture;
 	}
 
@@ -205,8 +218,7 @@ public class Stop {
 	public TrainRoute getTrainRoute() {
 		return trainRoute;
 	}
-
-	//TODO: Schauen, welcher Intervall kleiner ist
+	
 	/**
 	 * Berechnet die Verspätung bei der Ankunft in Sekunden.
 	 *

@@ -216,9 +216,9 @@ public class TimetableControllerTest{
 		
 		List<TrainRouteTelegram.StopData> stops = new ArrayList<>();
 		
-		StopData data1=new TrainRouteTelegram.StopData(1, null, LocalTime.of(1, 0), null, LocalTime.of(1, 2), scheduledTrack1, actualTrack1, dispoType1, messageId1);
-		StopData data2=new TrainRouteTelegram.StopData(2, LocalTime.of(0, 1), LocalTime.of(1, 0), LocalTime.of(0, 2), LocalTime.of(1, 5), scheduledTrack2, actualTrack2, dispoType2, messageId2);
-		StopData data3=new TrainRouteTelegram.StopData(3, LocalTime.of(3, 5), null, LocalTime.of(3, 10), null, scheduledTrack3, actualTrack3, dispoType3, messageId3);
+		StopData data1=new TrainRouteTelegram.StopData(1, null, LocalTime.of(1, 0), null, LocalTime.of(1, 2), scheduledTrack1, actualTrack1, dispoType1, messageId1, false, false);
+		StopData data2=new TrainRouteTelegram.StopData(2, LocalTime.of(0, 1), LocalTime.of(1, 0), LocalTime.of(0, 2), LocalTime.of(1, 5), scheduledTrack2, actualTrack2, dispoType2, messageId2, false, false);
+		StopData data3=new TrainRouteTelegram.StopData(3, LocalTime.of(3, 5), null, LocalTime.of(3, 10), null, scheduledTrack3, actualTrack3, dispoType3, messageId3, false, false);
 		
 		stops.add(data1);
 		stops.add(data2);

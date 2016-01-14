@@ -113,10 +113,13 @@ public class TrainRouteTelegram extends Telegram {
 		private final LocalTime scheduledDeparture;
 		private final LocalTime actualArrival;
 		private final LocalTime actualDeparture;
+		private final boolean actualArrivalNextDay;
+		private final boolean actualDepartureNextDay;
 		private final int scheduledTrack;
 		private final int actualTrack;
 		private final int dispoType;
 		private final int messageId;
+		
 
 		/**
 		 * Konstruktor für die Stopdaten. 
@@ -130,7 +133,7 @@ public class TrainRouteTelegram extends Telegram {
 		 * @param dispoType
 		 * @param messageId
 		 */
-		public StopData(int stationId, LocalTime scheduledArrival, LocalTime scheduledDeparture, LocalTime actualArrival, LocalTime actualDeparture, int scheduledTrack, int actualTrack, int dispoType, int messageId) {
+		public StopData(int stationId, LocalTime scheduledArrival, LocalTime scheduledDeparture, LocalTime actualArrival, LocalTime actualDeparture, int scheduledTrack, int actualTrack, int dispoType, int messageId, boolean actualArrivalNextDay, boolean actualDepartureNextDay) {
 			this.stationId = stationId;
 			this.scheduledArrival = scheduledArrival;
 			this.scheduledDeparture = scheduledDeparture;
@@ -140,6 +143,8 @@ public class TrainRouteTelegram extends Telegram {
 			this.actualTrack = actualTrack;
 			this.dispoType = dispoType;
 			this.messageId = messageId;
+			this.actualArrivalNextDay = actualArrivalNextDay;
+			this.actualDepartureNextDay = actualDepartureNextDay;
 		}
 
 		/**
@@ -267,6 +272,20 @@ public class TrainRouteTelegram extends Telegram {
 		 */
 		public int getMessageId() {
 			return messageId;
+		}
+		
+		/**
+		 * @return Gibt an, ob die Verspätung der Ankunft auf den nächsten Tag zeigt
+		 */
+		public boolean getActualArrivalNextDay(){
+			return this.actualArrivalNextDay;
+		}
+		
+		/**
+		 * @return Gibt an, ob die Verspätung der Abfahrt auf den nächsten Tag zeigt
+		 */
+		public boolean getActualDepartureNextDay(){
+			return this.actualDepartureNextDay;
 		}
 	}
 
