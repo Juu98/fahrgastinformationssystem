@@ -295,14 +295,13 @@ public class TimetableController {
 	 * @param newRoute
 	 */
 	public void updateTrainRoute(TrainRoute newRoute) {
-		boolean alreadyExists = false;
 		if (newRoute == null) {
 			throw new IllegalArgumentException("newRoute darf nicht null sein!");
 		}
 
 		for (TrainRoute route : data.getTrainRoutes()) {
 			if (route.getId().equals(newRoute.getId())) {
-				alreadyExists = true;
+				//trainroute already exists
 				route.removeStops();
 				route.addStops(newRoute.getStops());
 				route.setTrainCategory(newRoute.getTrainCategory());
@@ -310,10 +309,10 @@ public class TimetableController {
 				return;
 			}
 		}
-		if (alreadyExists == false) {
+
+		// route doesn't exist yet
 			// neue TrainRoute hinzufügen
 			this.data.addTrainRoute(newRoute);
-		}
 	}
 
 	/**
@@ -386,10 +385,10 @@ public class TimetableController {
 			}
 			data = RailML2Data.loadML(fisConfig.getRailmlpath());
 		} catch (IOException e) {
-			LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
+			LOGGER.error("Fehler beim Laden des RailML-Fahrplans! \n" + e.getMessage());
 			e.printStackTrace();
 		} catch (JAXBException e) {
-			LOGGER.info("Fehler beim Laden des RailML-Fahrplans! \n" + e.getStackTrace());
+			LOGGER.error("Fehler beim Laden des RailML-Fahrplans! \n" + e.getMessage());
 			e.printStackTrace();
 		} catch (ConfigurationException e) {
 			LOGGER.error(e.getMessage());
