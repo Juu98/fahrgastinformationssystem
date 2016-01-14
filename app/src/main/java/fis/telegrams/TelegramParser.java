@@ -230,7 +230,11 @@ public class TelegramParser {
 			dispoId = ByteConversions.toUInt(stopData[STPDAT_DPT_POS]);
 			messageId = ByteConversions.toUInt(stopData[STPDAT_MSG_POS]);
 
-			stops.add(new TrainRouteTelegram.StopData(station, sArrival, sDeparture, aArrival, aDeparture, sTrack, aTrack, dispoId, messageId));
+			// Filter PASSES heraus
+			// null-Werte werden weiterhin gespeichert
+			if (arrTenth != STPDAT_PAS_VAL){
+				stops.add(new TrainRouteTelegram.StopData(station, sArrival, sDeparture, aArrival, aDeparture, sTrack, aTrack, dispoId, messageId));
+			}
 			i += STPDAT_MIN_LEN;
 		}
 
