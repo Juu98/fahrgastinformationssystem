@@ -120,6 +120,9 @@ public class TimetableControllerTest{
 				
 			} 
 		}
+		if(timetable.getTrainRoutes().contains(route1_new)){
+			fail("Es sollte keine neue TrainRoute hinzugefügt, sondern nur die alte modifiziert werden!");
+		}
 		if(found==false){
 			fail("Der Zuglauf mit der entsprechenden Id sollte immer noch vorhanden sein!");
 		}
