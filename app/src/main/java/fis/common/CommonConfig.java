@@ -1,6 +1,5 @@
 package fis.common;
 
-import org.apache.log4j.Logger;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "fis")
 public class CommonConfig {
 	private String railmlpath;
+	private String messagecsvpath;
 	private String logoPath;
 	private String benutzertext;
 
@@ -37,5 +37,13 @@ public class CommonConfig {
 
 	public void setBenutzertext(String benutzertext) {
 		this.benutzertext = benutzertext;
+	}
+
+	public String getMessagecsvpath() {
+		return messagecsvpath;
+	}
+
+	public void setMessagecsvpath(String messagecsvpath) {
+		this.messagecsvpath = messagecsvpath;
 	}
 }

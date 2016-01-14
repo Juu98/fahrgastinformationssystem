@@ -5,47 +5,49 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Eine Klasse für das Clientstatustelegramm. 
+ * Eine Klasse für das Clientstatustelegramm.
+ *
  * @author spiollinux, kloppstock, Robert
  */
-public class ClientStatusTelegram extends SendableTelegram{
+public class ClientStatusTelegram extends SendableTelegram {
 	private final String id;
 	private final byte status;
-	
+
 	public static final int ID_LENGTH = 7;
 
 	/**
-	 * Konstruktor für das Clientstatustelegramm. 
+	 * Konstruktor für das Clientstatustelegramm.
+	 *
 	 * @param ID
 	 * @param status
 	 * @throws IllegalArgumentException
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
 	public ClientStatusTelegram(String ID, byte status) throws UnsupportedEncodingException {
 		super();
-		byte[] data = new byte[ID_LENGTH+1];
+		byte[] data = new byte[ID_LENGTH + 1];
 		Arrays.fill(data, (byte) 0);
-		
-		if (ID == null || ID.isEmpty()){
+
+		if (ID == null || ID.isEmpty()) {
 			throw new IllegalArgumentException("Das ClientStatusTelegramm benötigt eine ID.");
 		}
-		if (ID.getBytes(Telegram.CHARSET).length > ID_LENGTH){
+		if (ID.getBytes(Telegram.CHARSET).length > ID_LENGTH) {
 			throw new IllegalArgumentException(String.format("Bezeichner zu lang (%d Zeichen).", ID.length()));
 		}
 		this.id = ID;
 		this.status = status;
-		
+
 		// Kategorie setzen
 		this.setCategory(TelegramCategory.CLIENTSTATUS);
-		
+
 		// Daten
 		System.arraycopy(ID.getBytes(Telegram.CHARSET), 0, data, 0, ID.getBytes(Telegram.CHARSET).length);
-		
+
 		// Status
 		data[ID_LENGTH] = status;
 		this.setData(data);
 	}
-	
+
 	@Override
 	public String toString() {
 		return String.format("ClientStatusTelegram: ID %s; Status %0#4x", this.id, this.status);

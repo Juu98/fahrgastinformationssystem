@@ -1,16 +1,17 @@
 package fis.telegrams;
 
 /**
- * Eine Klasse für Zuglaufendtelegramme. 
+ * Eine Klasse für Zuglaufendtelegramme.
+ *
  * @author spiollinux, kloppstock
  */
-public class TrainRouteEndTelegram extends Telegram{
-	
+public class TrainRouteEndTelegram extends Telegram {
+
 	/**
-	 * Konstruktor für Zuglaufendtelegramme. 
+	 * Konstruktor für Zuglaufendtelegramme.
 	 */
-	public TrainRouteEndTelegram(){
-		
+	public TrainRouteEndTelegram() {
+
 	}
 
 	@Override
@@ -20,7 +21,7 @@ public class TrainRouteEndTelegram extends Telegram{
 
 	@Override
 	public boolean equals(Object other) {
-		if (other == null){
+		if (other == null) {
 			return false;
 		}
 		// only check if it's another TrainRouteEndTelegram

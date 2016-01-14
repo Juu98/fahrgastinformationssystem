@@ -37,16 +37,22 @@
 					<table class="table table-hover table-striped" th:if="${currentTrainRoute}" id="traintable">
 						<thead>
 							<tr>
-								<th>An</th>
-								<th>Ab</th>
+								<th class="col-md-1 text-right">An</th>
+								<th class="col-md-1"></th>
+								<th class="col-md-1">Ab</th>
 								<th>Bahnhof</th>
-								<th>Gleis</th>
+								<th class="col-md-1">Gleis</th>
 								<th>Bemerkungen</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="st, stStat : ${currentTrainRoute.stops}">
-								<td th:text="${st.ScheduledArrival}? ${#temporals.format(st.ScheduledArrival, 'HH:mm')}">an</td>
+								<td class="text-right" th:text="${st.ScheduledArrival}? ${#temporals.format(st.ScheduledArrival, 'HH:mm')}">an</td>
+								<td class="perlenschnur" th:with="past=((${st.ActualArrival} and (${time} and ${st.ActualArrival} le ${time})) or
+																		(${st.ActualDeparture} and (${time} and ${st.ActualDeparture} le ${time})))">
+									<img th:if="${past}" th:src="@{/resources/img/circle-black.png}" width="12" />
+									<img th:unless="${past}" th:src="@{/resources/img/circle-white.png}" width="12" />
+								</td>
 								<td th:text="${st.ScheduledDeparture}? ${#temporals.format(st.ScheduledDeparture, 'HH:mm')}">ab</td>
 								<td th:class="${stStat.first}? 'station-begin' : (${stStat.last}? 'station-end')">
 									<a th:href="|/dep/${st.station.id}|" th:text="${st.station.longName}" th:title="#{fis.traintable.deptitle}">Bahnhof</a>

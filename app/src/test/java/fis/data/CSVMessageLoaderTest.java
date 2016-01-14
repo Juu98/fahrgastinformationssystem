@@ -25,7 +25,7 @@ public class CSVMessageLoaderTest {
 		m2.setMessage("Message2");
 		Message m3 = new Message();
 		m3.setIndex(3);
-		m3.setMessage("Message3");
+		m3.setMessage("Message 3");
 		this.messages.put(m1.getIndex(), m1);
 		this.messages.put(m2.getIndex(), m2);
 		this.messages.put(m3.getIndex(), m3);
@@ -36,7 +36,7 @@ public class CSVMessageLoaderTest {
 		boolean exceptionCatched = false;
 		try{
 			CSVMessageLoader.loadCSV(null);
-		} catch (NullPointerException e) {
+		} catch (ConfigurationException e) {
 			exceptionCatched = true;
 		}
 		assertTrue("The constructor should throw a NullPointerException if given a null parameter!", exceptionCatched);
@@ -47,7 +47,7 @@ public class CSVMessageLoaderTest {
 		boolean exceptionCatched = false;
 		try{
 			CSVMessageLoader.loadCSV("");
-		} catch (IllegalArgumentException e) {
+		} catch (ConfigurationException e) {
 			exceptionCatched = true;
 		}
 		assertTrue("The constructor should throw a IllegalArgumentException if given an empty parameter!", exceptionCatched);
@@ -58,7 +58,7 @@ public class CSVMessageLoaderTest {
 		boolean exceptionCatched = false;
 		try{
 			CSVMessageLoader.loadCSV("/file/not/found.csv");
-		} catch (FileNotFoundException e) {
+		} catch (ConfigurationException e) {
 			exceptionCatched = true;
 		}
 		assertTrue("The constructor should throw a FileNotFoundException if given an illegal path!", exceptionCatched);
@@ -77,6 +77,6 @@ public class CSVMessageLoaderTest {
 	
 	@Test
 	public void loadCSVTest() throws NullPointerException, IllegalArgumentException, FileNotFoundException, ConfigurationException{
-		assertEquals("loadCSV() returned the wrong value!", CSVMessageLoader.loadCSV("./messages.csv").toString(), this.messages.toString());
+		assertEquals("loadCSV() returned the wrong value!", CSVMessageLoader.loadCSV("./messages_test.csv").toString(), this.messages.toString());
 	}
 }

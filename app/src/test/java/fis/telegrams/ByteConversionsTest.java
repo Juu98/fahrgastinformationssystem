@@ -54,6 +54,8 @@ public class ByteConversionsTest {
 	@Test
 	public void testFromTenthOfMinute() throws TelegramParseException{
 		Assert.assertEquals(LocalTime.of(13, 37, 42), ByteConversions.fromTenthOfMinute(7+10*(37+60*13)));
+		// Folgetag
+		Assert.assertEquals(LocalTime.of(13, 37, 42), ByteConversions.fromTenthOfMinute(20000+7+10*(37+60*13)));
 	}
 	
 	@Test(expected = TelegramParseException.class)

@@ -159,21 +159,21 @@ public class TelegramParserTest {
 		String stop1 = "01 20 1C 70 1C 00 00 00 00 07 00 00 00";
 		stops.add(new TrainRouteTelegram.StopData(
 				1, LocalTime.of(12, 0), LocalTime.of(12, 8), LocalTime.of(12, 0), LocalTime.of(12, 8),
-				7, 0, 0, 0)
+				7, 0, 0, 0, false, false)
 		);
 		// #13 12:34 12:40 +1min -3min 1 3 1 1
 		// (12*60+34)*10 = 7540 = 0x1D74
 		String stop2 = "0D 74 1D B0 1D 0A 00 E2 FF 01 03 01 01";
 		stops.add(new TrainRouteTelegram.StopData(
 				13, LocalTime.of(12, 34), LocalTime.of(12, 40), LocalTime.of(12, 35), LocalTime.of(12, 37),
-				1, 3, 1, 1)
+				1, 3, 1, 1, false, false)
 		);
 		// #42 13:37 --   +10min --   10 - - -
 		// (13*60+37)*10 = 8170 = 0x1FEA
 		String stop3 = "2A EA 1F 9C AD 64 00 00 00 0A 00 00 00";
 		stops.add(new TrainRouteTelegram.StopData(
 				42, LocalTime.of(13, 37), null, LocalTime.of(13, 47), null,
-				10, 0, 0, 0)
+				10, 0, 0, 0, false, false)
 		);
 		
 		byte[] testData = ByteConversions.fromString(
