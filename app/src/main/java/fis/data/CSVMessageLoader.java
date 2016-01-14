@@ -22,23 +22,20 @@ public class CSVMessageLoader {
 	 *
 	 * @param path (Pfad)
 	 * @return HashMap<Integer, Message>
-	 * @throws NullPointerException
-	 * @throws IllegalArgumentException
-	 * @throws FileNotFoundException
 	 * @throws ConfigurationException
 	 */
 	public static Map<Integer, Message> loadCSV(String path) throws ConfigurationException {
 		if (path == null)
 			throw new ConfigurationException("Pfad zur messages csv ist nicht angegeben");
 		if (path.isEmpty())
-			throw new IllegalArgumentException("Path cannot be empty!");
+			throw new ConfigurationException("Path cannot be empty!");
 		//Erstellen der nötigen Variablen
 		Map<Integer, Message> messages = new HashMap<Integer, Message>();
 		CsvToBean<Message> csv = new CsvToBean<Message>();
 		//Die folgende Zeile kann eine FileNotFoundException werfen, wenn die Datei nicht gefunden wird. 
 		CSVReader reader = null;
 		try {
-			reader = new CSVReader(new FileReader(path));
+			reader = new CSVReader(new FileReader(path), ';');
 			ColumnPositionMappingStrategy<Message> strategy = new ColumnPositionMappingStrategy<Message>();
 
 			//Erstellen einer Tabelle aus Messages mittels der ColumnPisitionMappingStrategy
