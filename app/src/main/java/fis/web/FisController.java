@@ -3,6 +3,7 @@ package fis.web;
 import fis.Application;
 import fis.FilterTime;
 import fis.FilterType;
+import fis.common.CommonConfig;
 import fis.data.Station;
 import fis.data.TimetableController;
 import fis.data.TrainCategory;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -36,7 +38,10 @@ import java.util.List;
 @Controller
 public class FisController {
 	private final TimetableController timetable;
+	private @Autowired CommonConfig cfg;
 	private static final Logger LOGGER = Logger.getLogger(FisController.class);
+	private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("H:m");
+	private static final String IS_AJAX_HEADER = "X-Requested-With=XMLHttpRequest";
 
 	/**
 	 * Verwendungszweck der anzuzeigenden Zugläufe.
@@ -73,8 +78,14 @@ public class FisController {
 		// Verbindungsstatus zum Fahrplanserver
 		model.addAttribute("connectionState", this.timetable.getStateName());
 
-		// Meldungen
-		model.addAttribute("messageMap", this.timetable.getMessageMap());
+		// Timteable für die Meldungen
+		model.addAttribute("timetable", this.timetable);
+		
+		// Benutzertext
+		model.addAttribute("userText", this.cfg.getBenutzertext());
+		
+		// Logo
+		model.addAttribute("logoPath", this.cfg.getLogoPath());
 
 		// Version der Anwendung
 		// wird nur bei direkter Ausführung der jar geladen
@@ -115,7 +126,18 @@ public class FisController {
 	 */
 	@RequestMapping("/dep/")
 	public String depDefault(Model model, FilterForm form) {
-		return dep(model, form, null);
+		return dep(model, form, null, false);
+	}
+	
+	/**
+	 * Vearbeitet AJAX-Anfragen auf der Startseite.
+	  * @param model das Model der {@link Application}
+	 * @param form  Nutzereingaben im {@link FilterForm}
+	 * @return die neue Tabelle oder eine Fehlermeldung
+	 */
+	@RequestMapping(value = "/dep/", headers = IS_AJAX_HEADER)
+	public String depDefaultAjax(Model model, FilterForm form) {
+		return depAjax(model, form, null);
 	}
 
 	/**
@@ -135,6 +157,19 @@ public class FisController {
 	public String depRedir() {
 		return "redirect:/dep/";
 	}
+	
+	/**
+	 * Verarbeitung von AJAX-Anfragen.
+	 * @param model das Model der {@link Application}
+	 * @param form  Nutzereingaben im {@link FilterForm}
+	 * @param stn   ID der aktuellen {@link Station}
+	 * @return die neue Tabelle mit Zugläufen
+	 */
+	@RequestMapping(value = "/dep/{stn}", headers = IS_AJAX_HEADER)
+	public String depAjax(Model model, FilterForm form, @PathVariable("stn") String stn){
+		dep(model, form, stn, true);
+		return "traintable :: traintable(active = 'dep')";
+	}
 
 	/**
 	 * Verarbeitungsmethode der Abfahrtsanzeige.
@@ -151,17 +186,18 @@ public class FisController {
 	 * @param model das Model der {@link Application}
 	 * @param form  Nutzereingaben im {@link FilterForm}
 	 * @param stn   ID der aktuellen {@link Station}
+	 * @param sent	{@literal true} falls Daten via AJAX gesendet wurden.
 	 * @return Abfahrtsanzeige durch Verarbeitung des
 	 * <a href="/src/main/resources/templates/dep.html">
 	 * Abfahrtstemplates</a>
 	 */
 	@RequestMapping("/dep/{stn}")
-	public String dep(Model model, FilterForm form, @PathVariable("stn") String stn) {
+	public String dep(Model model, FilterForm form, @PathVariable("stn") String stn, boolean sent) {
 		// Standardparameter zum Model hinzufügen
 		defaults(model);
 
 		// Formularzustand bestimmen
-		boolean formSent = (form.getSubmit() != null && !form.getSubmit().isEmpty());
+		boolean formSent = sent || (form.getSubmit() != null && !form.getSubmit().isEmpty());
 		boolean resetForm = (form.getReset() != null && !form.getReset().isEmpty());
 
 		// aktuelle Station bestimmen
@@ -192,15 +228,15 @@ public class FisController {
 		LocalTime start = null, end = null;
 		if (formSent && !resetForm) {
 			try {
-				start = LocalTime.parse(form.getStart());
-				end = LocalTime.parse(form.getEnd());
+				start = LocalTime.parse(form.getStart(), DATETIME_FORMATTER);
+				end = LocalTime.parse(form.getEnd(), DATETIME_FORMATTER);
 			} catch (DateTimeParseException e) {
 				// LOGGER.error(e);
 				start = null;
 				end = null;
 			}
 		}
-
+		
 		if (start == null || end == null) {
 			start = this.timetable.getTime();
 			// nicht verbunden
@@ -235,7 +271,7 @@ public class FisController {
 
 		// alle Zugkategorien zum Model hinzufügen
 		model.addAttribute("categories", this.timetable.getTrainCategories(TRAIN_USAGE));
-
+		
 		return "dep";
 	}
 
@@ -253,7 +289,18 @@ public class FisController {
 	 */
 	@RequestMapping("/arr/")
 	public String arrDefault(Model model, FilterForm form) {
-		return arr(model, form, null);
+		return arr(model, form, null, false);
+	}
+	
+	/**
+	 * Verarbeitet AJAX-Anfragen auf der Startseite.
+	 * @param model das Model der {@link Application}
+	 * @param form  Nutzereingaben im {@link FilterForm}
+	 * @return die neue Tabelle oder eine Fehlermeldung
+	 */
+	@RequestMapping(value = "/arr/", headers = IS_AJAX_HEADER)
+	public String arrDefaultAjax(Model model, FilterForm form) {
+		return arrAjax(model, form, null);
 	}
 
 	/**
@@ -273,6 +320,19 @@ public class FisController {
 	public String arrRedir() {
 		return "redirect:/arr/";
 	}
+	
+	/**
+	 * Verarbeitung von AJAX-Anfragen.
+	 * @param model das Model der {@link Application}
+	 * @param form  Nutzereingaben im {@link FilterForm}
+	 * @param stn   ID der aktuellen {@link Station}
+	 * @return die neue Tabelle mit Zugläufen
+	 */
+	@RequestMapping(value = "/arr/{stn}", headers = IS_AJAX_HEADER)
+	public String arrAjax(Model model, FilterForm form, @PathVariable("stn") String stn){
+		arr(model, form, stn, true);
+		return "traintable :: traintable(active = 'arr')";
+	}
 
 	/**
 	 * Verarbeitungsmethode der Ankunftsanzeige.
@@ -289,17 +349,18 @@ public class FisController {
 	 * @param model das Model der {@link Application}
 	 * @param form  Nutzereingaben im {@link FilterForm}
 	 * @param stn   ID der aktuellen {@link Station}
+	 * @param sent	{@literal true} falls Daten via AJAX gesendet wurden.
 	 * @return Ankunftsanzeige durch Verarbeitung des
 	 * <a href="/src/main/resources/templates/arr.html">
 	 * Ankunftstemplates</a>
 	 */
 	@RequestMapping("/arr/{stn}")
-	public String arr(Model model, FilterForm form, @PathVariable("stn") String stn) {
+	public String arr(Model model, FilterForm form, @PathVariable("stn") String stn, boolean sent) {
 		// Standardparameter zum Model hinzufügen
 		defaults(model);
 
 		// Formularzustand bestimmen
-		boolean formSent = (form.getSubmit() != null && !form.getSubmit().isEmpty());
+		boolean formSent = sent || (form.getSubmit() != null && !form.getSubmit().isEmpty());
 		boolean resetForm = (form.getReset() != null && !form.getReset().isEmpty());
 
 		// aktuelle Station bestimmen
@@ -330,8 +391,8 @@ public class FisController {
 		LocalTime start = null, end = null;
 		if (formSent && !resetForm) {
 			try {
-				start = LocalTime.parse(form.getStart());
-				end = LocalTime.parse(form.getEnd());
+				start = LocalTime.parse(form.getStart(), DATETIME_FORMATTER);
+				end = LocalTime.parse(form.getEnd(), DATETIME_FORMATTER);
 			} catch (DateTimeParseException e) {
 				// LOGGER.error(e);
 				start = null;
@@ -391,6 +452,17 @@ public class FisController {
 	public String trnDefault(Model model, TrainRouteForm formTR) {
 		return trn(model, formTR, null);
 	}
+	
+	/**
+	 * Verarbeitet AJAX-Anfragen auf der Startseite.
+	 * @param model  das Model der {@link Application}
+	 * @param formTR Nutzereingaben im {@link TrainRouteForm}
+	 * @return neue Tabelle oder eine fehlermeldung
+	 */
+	@RequestMapping(value = "/trn/", headers = IS_AJAX_HEADER)
+	public String trnDefaultAjax(Model model, TrainRouteForm formTR) {
+		return trnAjax(model, formTR, null);
+	}
 
 	/**
 	 * Weiterleitung bei inkorrekter URI.
@@ -436,6 +508,12 @@ public class FisController {
 		return "graph";
 	}
 
+	@RequestMapping(value = "/trn/{trt}", headers = IS_AJAX_HEADER)
+	public String trnAjax(Model model, TrainRouteForm formTR, @PathVariable("trt") String trt) {
+		trn(model, formTR, trt);
+		return "trn :: traintable";	
+	}
+	
 	/**
 	 * Verarbeitungsmethode der Zuglaufanzeige.
 	 * <p>
@@ -476,6 +554,14 @@ public class FisController {
 		return "trn";
 	}
 
+	@RequestMapping("/currentTime")
+	public @ResponseBody String time() {
+		if (this.timetable.getTime() == null){
+			return "--:--";
+		}
+		return this.timetable.getTime().toString();
+	}
+	
 	/**
 	 * Liefert eine JSON-Liste mit allen {@link Station}s in diesem Fahrplan.
 	 * <p>
@@ -492,8 +578,7 @@ public class FisController {
 	@RequestMapping("stations.json")
 	public @ResponseBody List<JSONProvider.StationView> getStations() {
 		return new JSONProvider().getStations(this.timetable.getData().getStations());
-	}
-
+	}	
 
 	/**
 	 * Liefert eine JSON-Liste mit allen {@link TrainRoute}s in diesem Fahrplan.
@@ -510,9 +595,7 @@ public class FisController {
 	 * @see JSONProvider.TrainRouteView
 	 */
 	@RequestMapping("trainRoutes.json")
-	public
-	@ResponseBody
-	List<JSONProvider.TrainRouteView> getTrainRoutes() {
+	public @ResponseBody List<JSONProvider.TrainRouteView> getTrainRoutes() {
 		return new JSONProvider().getTrainRoutes(this.timetable.getData().getTrainRoutes());
 	}
 
@@ -532,9 +615,7 @@ public class FisController {
 	 * @return JSON body
 	 */
 	@RequestMapping("trainCategories.json")
-	public
-	@ResponseBody
-	List<TrainCategory> getTrainCategories() {
+	public @ResponseBody List<TrainCategory> getTrainCategories() {
 		return this.timetable.getTrainCategories();
 	}
 

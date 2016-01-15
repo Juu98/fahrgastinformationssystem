@@ -84,3 +84,56 @@ $(function(){
 		$("input[name='end']").val('12:00');
 	});
 });
+
+/* auto reload */
+// Zeit aktualisieren (aller 5s)
+setInterval(function(){
+	$.ajax({
+		type	: 'GET',
+		cache	: false,
+		async	: true,
+		url		: '/currentTime',
+		success	: function(data) {
+			$("#time").empty().append(data);
+		}
+	});
+}, 5000);
+
+// Tabelle aktualisieren
+setInterval(function(){
+	var form = $("#filter");
+	var reloadSelected = $("input[name='reload']:checked");
+	var reloadValue = "off";
+	if (reloadSelected.length > 0){
+		reloadValue = reloadSelected.val();
+	}
+	if ($("#trn").hasClass("active")){
+		reloadValue = "update";
+	}
+	
+	switch (reloadValue){
+		case 'update':
+			$("#start").val("");
+			$("#end").val("");
+			// no break
+		case 'current':
+			$.ajax({
+				type	: 'POST',
+				cache	: false,
+				async	: true,
+				url		: form.attr('action'),
+				data	: form.serialize(),
+				success	: function(data) {
+					$("#traintable").empty().append(data);
+					/*$('html, body').animate({
+						scrollTop: $("#traintable").offset().top
+					}, 1000);*/
+				}
+			});
+			break;
+		default : return;
+	}
+			
+	$("#start").val($("#_newStart").val());
+	$("#end").val($("#_newEnd").val());
+}, 20000);
