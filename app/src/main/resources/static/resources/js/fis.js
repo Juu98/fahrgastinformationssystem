@@ -84,3 +84,21 @@ $(function(){
 		$("input[name='end']").val('12:00');
 	});
 });
+
+/* auto reload */
+setInterval(function(){
+		var form = $("#filter");
+
+		$.ajax({
+			type	: 'POST',
+			cache	: false,
+			url		: form.attr('action'),
+			data	: form.serialize(),
+			success	: function(data) {
+				$("#traintable").replaceWith(data);
+				$('html, body').animate({
+					scrollTop: $("#traintable").offset().top
+				}, 1000);
+			}
+		});
+}, 20000);

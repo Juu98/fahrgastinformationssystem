@@ -41,6 +41,7 @@ public class FisController {
 	private @Autowired CommonConfig cfg;
 	private static final Logger LOGGER = Logger.getLogger(FisController.class);
 	private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("H:m");
+	private static final String IS_AJAX_HEADER = "X-Requested-With=XMLHttpRequest";
 
 	/**
 	 * Verwendungszweck der anzuzeigenden Zugläufe.
@@ -125,7 +126,7 @@ public class FisController {
 	 */
 	@RequestMapping("/dep/")
 	public String depDefault(Model model, FilterForm form) {
-		return dep(model, form, null);
+		return dep(model, form, null, false);
 	}
 
 	/**
@@ -145,6 +146,14 @@ public class FisController {
 	public String depRedir() {
 		return "redirect:/dep/";
 	}
+	
+	@RequestMapping(value = "/dep/{stn}", headers = IS_AJAX_HEADER)
+	public String depAjax(Model model, FilterForm form, @PathVariable("stn") String stn){
+		
+		dep(model, form, stn, true);
+		LOGGER.debug(model.asMap().toString());
+		return "traintable :: traintable(active = dep)";
+	}
 
 	/**
 	 * Verarbeitungsmethode der Abfahrtsanzeige.
@@ -161,17 +170,18 @@ public class FisController {
 	 * @param model das Model der {@link Application}
 	 * @param form  Nutzereingaben im {@link FilterForm}
 	 * @param stn   ID der aktuellen {@link Station}
+	 * @param sent	{@literal true} falls Daten via AJAX gesendet wurden.
 	 * @return Abfahrtsanzeige durch Verarbeitung des
 	 * <a href="/src/main/resources/templates/dep.html">
 	 * Abfahrtstemplates</a>
 	 */
 	@RequestMapping("/dep/{stn}")
-	public String dep(Model model, FilterForm form, @PathVariable("stn") String stn) {
+	public String dep(Model model, FilterForm form, @PathVariable("stn") String stn, boolean sent) {
 		// Standardparameter zum Model hinzufügen
 		defaults(model);
 
 		// Formularzustand bestimmen
-		boolean formSent = (form.getSubmit() != null && !form.getSubmit().isEmpty());
+		boolean formSent = sent || (form.getSubmit() != null && !form.getSubmit().isEmpty());
 		boolean resetForm = (form.getReset() != null && !form.getReset().isEmpty());
 
 		// aktuelle Station bestimmen
@@ -210,7 +220,7 @@ public class FisController {
 				end = null;
 			}
 		}
-
+		
 		if (start == null || end == null) {
 			start = this.timetable.getTime();
 			// nicht verbunden
@@ -246,7 +256,7 @@ public class FisController {
 
 		// alle Zugkategorien zum Model hinzufügen
 		model.addAttribute("categories", this.timetable.getTrainCategories(TRAIN_USAGE));
-
+		
 		return "dep";
 	}
 
