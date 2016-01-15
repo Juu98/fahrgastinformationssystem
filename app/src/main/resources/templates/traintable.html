@@ -3,7 +3,7 @@
 	<body>
 		<div th:fragment="traintable(active)">
 			<table class="table table-hover table-striped"
-					th:if="${currentStation != null and not #lists.isEmpty(trains)}" id="traintable">
+					th:if="${currentStation != null and not #lists.isEmpty(trains)}">
 				<thead>
 					<tr>
 						<th th:text="#{fis.traintable.time}" class="col-md-1">Zeit</th>

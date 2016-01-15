@@ -92,10 +92,11 @@ setInterval(function(){
 		$.ajax({
 			type	: 'POST',
 			cache	: false,
+			async	: true,
 			url		: form.attr('action'),
 			data	: form.serialize(),
 			success	: function(data) {
-				$("#traintable").replaceWith(data);
+				$("#traintable").empty().append(data);
 				$('html, body').animate({
 					scrollTop: $("#traintable").offset().top
 				}, 1000);

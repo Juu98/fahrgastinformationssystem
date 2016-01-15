@@ -128,6 +128,17 @@ public class FisController {
 	public String depDefault(Model model, FilterForm form) {
 		return dep(model, form, null, false);
 	}
+	
+	/**
+	 * Vearbeitet AJAX-Anfragen auf der Startseite.
+	  * @param model das Model der {@link Application}
+	 * @param form  Nutzereingaben im {@link FilterForm}
+	 * @return die neue Tabelle oder eine Fehlermeldung
+	 */
+	@RequestMapping(value = "/dep/", headers = IS_AJAX_HEADER)
+	public String depDefaultAjax(Model model, FilterForm form) {
+		return depAjax(model, form, null);
+	}
 
 	/**
 	 * Weiterleitung bei inkorrekter URI.
@@ -147,12 +158,17 @@ public class FisController {
 		return "redirect:/dep/";
 	}
 	
+	/**
+	 * Verarbeitung von AJAX-Anfragen.
+	 * @param model das Model der {@link Application}
+	 * @param form  Nutzereingaben im {@link FilterForm}
+	 * @param stn   ID der aktuellen {@link Station}
+	 * @return die neue Tabelle mit Zugläufen
+	 */
 	@RequestMapping(value = "/dep/{stn}", headers = IS_AJAX_HEADER)
 	public String depAjax(Model model, FilterForm form, @PathVariable("stn") String stn){
-		
 		dep(model, form, stn, true);
-		LOGGER.debug(model.asMap().toString());
-		return "traintable :: traintable(active = dep)";
+		return "traintable :: traintable(active = 'dep')";
 	}
 
 	/**
@@ -274,7 +290,18 @@ public class FisController {
 	 */
 	@RequestMapping("/arr/")
 	public String arrDefault(Model model, FilterForm form) {
-		return arr(model, form, null);
+		return arr(model, form, null, false);
+	}
+	
+	/**
+	 * Verarbeitet AJAX-Anfragen auf der Startseite.
+	 * @param model das Model der {@link Application}
+	 * @param form  Nutzereingaben im {@link FilterForm}
+	 * @return die neue Tabelle oder eine Fehlermeldung
+	 */
+	@RequestMapping(value = "/arr/", headers = IS_AJAX_HEADER)
+	public String arrDefaultAjax(Model model, FilterForm form) {
+		return arrAjax(model, form, null);
 	}
 
 	/**
@@ -294,6 +321,19 @@ public class FisController {
 	public String arrRedir() {
 		return "redirect:/arr/";
 	}
+	
+	/**
+	 * Verarbeitung von AJAX-Anfragen.
+	 * @param model das Model der {@link Application}
+	 * @param form  Nutzereingaben im {@link FilterForm}
+	 * @param stn   ID der aktuellen {@link Station}
+	 * @return die neue Tabelle mit Zugläufen
+	 */
+	@RequestMapping(value = "/arr/{stn}", headers = IS_AJAX_HEADER)
+	public String arrAjax(Model model, FilterForm form, @PathVariable("stn") String stn){
+		arr(model, form, stn, true);
+		return "traintable :: traintable(active = 'arr')";
+	}
 
 	/**
 	 * Verarbeitungsmethode der Ankunftsanzeige.
@@ -310,17 +350,18 @@ public class FisController {
 	 * @param model das Model der {@link Application}
 	 * @param form  Nutzereingaben im {@link FilterForm}
 	 * @param stn   ID der aktuellen {@link Station}
+	 * @param sent	{@literal true} falls Daten via AJAX gesendet wurden.
 	 * @return Ankunftsanzeige durch Verarbeitung des
 	 * <a href="/src/main/resources/templates/arr.html">
 	 * Ankunftstemplates</a>
 	 */
 	@RequestMapping("/arr/{stn}")
-	public String arr(Model model, FilterForm form, @PathVariable("stn") String stn) {
+	public String arr(Model model, FilterForm form, @PathVariable("stn") String stn, boolean sent) {
 		// Standardparameter zum Model hinzufügen
 		defaults(model);
 
 		// Formularzustand bestimmen
-		boolean formSent = (form.getSubmit() != null && !form.getSubmit().isEmpty());
+		boolean formSent = sent || (form.getSubmit() != null && !form.getSubmit().isEmpty());
 		boolean resetForm = (form.getReset() != null && !form.getReset().isEmpty());
 
 		// aktuelle Station bestimmen
@@ -413,6 +454,17 @@ public class FisController {
 	public String trnDefault(Model model, TrainRouteForm formTR) {
 		return trn(model, formTR, null);
 	}
+	
+	/**
+	 * Verarbeitet AJAX-Anfragen auf der Startseite.
+	 * @param model  das Model der {@link Application}
+	 * @param formTR Nutzereingaben im {@link TrainRouteForm}
+	 * @return neue Tabelle oder eine fehlermeldung
+	 */
+	@RequestMapping(value = "/trn/", headers = IS_AJAX_HEADER)
+	public String trnDefaultAjax(Model model, TrainRouteForm formTR) {
+		return trnAjax(model, formTR, null);
+	}
 
 	/**
 	 * Weiterleitung bei inkorrekter URI.
@@ -458,6 +510,12 @@ public class FisController {
 		return "graph";
 	}
 
+	@RequestMapping(value = "/trn/{trt}", headers = IS_AJAX_HEADER)
+	public String trnAjax(Model model, TrainRouteForm formTR, @PathVariable("trt") String trt) {
+		trn(model, formTR, trt);
+		return "trn :: traintable";	
+	}
+	
 	/**
 	 * Verarbeitungsmethode der Zuglaufanzeige.
 	 * <p>
