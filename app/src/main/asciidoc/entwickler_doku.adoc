@@ -184,6 +184,14 @@ ProxyPassReverse /fis http://localhost:8080
 
 == Konfiguration
 
+Für den korrekten Betrieb der Applikation werden folgende Dinge benötigt:
+
+<1> fis.jar (kann umbenannt werden)
+<2> Fahrplan-XML (kann umbenannt werden, aber der Name muss in die application.properties übernommen werden)
+<3> application.properties
+<4> eine Datei mit den Meldungstexten (siehe ./entwickler_docu.adoc#aufbau_der_aufbau_der_meldungstextdatei)
+<5> ein Logo (laut Pflichtenheft im .PNG- oder im .JPG-Format)
+
 Mittels der 'application.properties', die im Verzeichnis der Applikation liegt ist es möglich sämtliche Konfigurationen vorzunehmen. 
 
 [source, conf]
@@ -217,6 +225,6 @@ Folgende allgemeine Konfigurationen können vorgenommen werden:
 
 Die Konfigurationen <5> bis <9> dienen zur Konfiguration des Telegrammenpfängers.
 
-=== Aufbau der messages.csv
+=== Aufbau der Aufbau der Meldungstextdatei
 
 Die Meldungstexte sind im CSV-Format (Comma seperated values; in diesem Falle werden statt Kommata Semikola verwendet) gespeichert. An erster Stelle steht ein Meldungsindex, der nicht doppelt vorkommen kann. Dieser wird von einem Semikolon und dem Meldungstext gefolgt. Sollte der Meldungstext Semikola enthalten, sollte der Text in Anführungszeichen gesetzt werden.
