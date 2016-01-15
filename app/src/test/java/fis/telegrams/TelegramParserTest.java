@@ -179,12 +179,12 @@ public class TelegramParserTest {
 		);
 		// #42 13:37 --   +10min --   10 - - -
 		// (13*60+37)*10 = 8170 = 0x1FEA
-		// Verspätung um 1 Tag + 10 min
-		// 20000 + 10*10 = 20100 = 0x4E84
-		String stop3 = "2A EA 1F 9C AD 64 00 00 00 0A 00 00 00";
+		// Verspätung um 12h
+		// (12*60)*10 = 7200 = 0x1C20
+		String stop3 = "2A EA 1F 9C AD 20 1C 00 00 0A 00 00 00";
 		stops.add(new TrainRouteTelegram.StopData(
-				42, LocalTime.of(13, 37), null, LocalTime.of(13, 47), null,
-				10, 0, 0, 0, false, false)
+				42, LocalTime.of(13, 37), null, LocalTime.of(1, 37), null,
+				10, 0, 0, 0, true, false)
 		);
 		
 		byte[] testData = ByteConversions.fromString(

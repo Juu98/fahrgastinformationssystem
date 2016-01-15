@@ -3,7 +3,7 @@
 Dieser Testplan stellt eine vereinfachte Version der IEEE 829-1998 Vorlage dar.
 
 == Einführung
-Dieser Tesplan soll eine Übersicht der zum aktuellen Zeitpunkt geplanten Tests darstellen. Es werden dabei noch keine konkreten Daten benutzt, sondern Fallunterscheidungen getroffen, die nach aktuellem Kenntnisstand eintreten können. Dies soll als Hilfestellung für das spätere Erstellen der einzelnen Tests dienen.
+Dieser Testplan soll eine Übersicht der zum aktuellen Zeitpunkt geplanten Tests darstellen. Es werden dabei noch keine konkreten Daten benutzt, sondern Fallunterscheidungen getroffen, die nach aktuellem Kenntnisstand eintreten können. Dies soll als Hilfestellung für das spätere Erstellen der einzelnen Tests dienen.
 
 == Aufbau der Testbezeichner
 Die Test-IDs werden nach folgendem Schema benannt:
@@ -11,15 +11,10 @@ Die Test-IDs werden nach folgendem Schema benannt:
   * UnitTests:
     [U] - [Bereich] - [Klasse] - [Methode]
 
-  * IntegrationTests:
-    [I] - [TestNr]
-
 *Beispiele:*
 
 * U-Data-TrainRoute-1
 * U-XML-RailML2Data-1
-* I-1
-
 
 == Test Gegenstände
 
@@ -39,7 +34,6 @@ Die Test-IDs werden nach folgendem Schema benannt:
 == Herangehensweise
 
 * Die Klassen werden mit JUnit getestet.
-* Die Integrationstests verlaufen nach Bottom-Up Prinzip, d.h. wenn das Zusammenspiel von einzelnen Subsystemen klappt,
 werden diese zu größeren Modulen zusammengefasst, die als nächstes getestet werden.
 
 == Umgebungsvoraussetzungen
@@ -127,7 +121,7 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |U-XML-RailMLParser-4|ParseRailML|RailML parsen|RailML-Schemaklassen|gültiger Pfad+gültige Datei|XML-Elemente werden richtig geparst
 |*[U-Telegram-TelegramParser]*|||||
 |U-TelegramParser-Telegram-1|parse|Telegramme parsen|-|byte[] mit Typ Laborzeittelegramm und gültiger Payload|Objekt LabTimeTelegram mit gültiger Zeit
-|U-TelegramParser-Telegram-3|parse|Telegramme parsen|-|byte[] mit Typ Zuglauftelegramm|Objekt TrainRouteTelegram
+|U-TelegramParser-Telegram-3|parse|Telegramme parsen|-|byte[] mit Typ Zuglauftelegramm & Stopdaten mit Verspätung, die in den nächsten Tag zeigen|Objekt TrainRouteTelegram, bei Stop mit Verspätung über Tagesgrenze ist entsprechendes Flag gesetzt
 |U-TelegramParser-Telegram-4|parse|Telegramme parsen|-|byte[] mit Typ Betriebsstellen-Bezeichnungstelegramm und gültiger Payload|Objekt StationNameTelegram
 |U-TelegramParser-Telegram-8|parse|Telegramme parsen|-|byte[] mit ungültigem Typ|Fehler "ungültiger Telegrammtyp"
 |U-TelegramParser-Telegram-9|parse|Telegramme parsen|-|byte[] mit ungültiger Struktur|TelegramParseException "ungültige Telegrammstruktur"
@@ -146,7 +140,9 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |U-Telegram-RegistrationTelegram-1|RegistrationTelegram|Am Fahrplanserver anmelden|-|byte ClientID|Objekt RegistrationTelegram
 |U-Telegram-RegistrationTelegram-2|getRawTelegram|Am Fahrplanserver anmelden| RegistrationTelegram Objekt|-|gültiges byte[] mit Anmeldetelegramm
 |*[U-Telegram-ByteConversion]*|||||
-|U-Telegram-ByteConversion-[1-17]|fromX, toY|In verschiedene Datentypen konvertieren|-|Variable vom Typ X|Wert vom Typ Y
+|U-Telegram-ByteConversion-[1-18]|fromX, toY|In verschiedene Datentypen konvertieren|-|Variable vom Typ X|Wert vom Typ Y
+|U-Telegram-ByteConversion-19|isNextDay|Verspätungsberechnung|-|Basiszeitobjekt + Anzahl Zehntelminuten, sodass Summe über Tagesgrenze geht| isNextDay = true
+|U-Telegram-ByteConversion-20|isNextDay|Verspätungsberechnung|-|Basiszeitobjekt + Anzahl Zehntelminuten, sodass Summe nicht über Tagesgrenze geht| isNextDay = false
 |*[U-TelegramReceiver-TelegramReceiverController]*|||||
 |U-TelegramReceiver-Telegram-ReceiverController-1|run|Steuerschleife des TelegrammReceivers: Verbinden, anmelden, Telegramme parsen, Verbindungsstatus setzen|echte Collaborator-Objekte: TelegramReceiverConfig; weggemockte Collaborator-Objekte: Socket, TelegramReceiver, ApplicationEventPublisher, TelegramParser|Simulation eines erfolgreichen Verbindungsvorgangs zum Telegrammserver über entsprechend zurückgegebene Telegramme durch gemockte Objekte|ConnectionStatus = Online, richtige Anzahl an Funktionsaufrufen
 |U-TelegramReceiver-Telegram-ReceiverController-2|run|Verbinden mit Hilfe von Konfigurationsdaten|siehe vorheriger, insbesondere aber TelegramReceiverConfig|hostname = null|ConfigurationException
@@ -155,13 +151,3 @@ Anmerkung: Bei den Vorbedingungen wird nicht extra notiert, wenn eine Instanz de
 |*[U-Common-EventTranslator]*|||||
 |U-Common-EventTranslator-1|translateReceiverToTimetable|Events übersetzen||ConnectionStatusEvent|ConnectionStatusEvent wird ins entsprechende TimetableEvent übersetzt|
 |===
-
-== IntegrationTests
-
-|===
-|*ID*|*Bereich(e)*|*Beteiligte Klassen*|*Anwendungsfall*|*Vorbedingungen*|*Eingabe*|*Ausgabe / zu überprüfende Wirkung*
-
-|I-1|Data, XML|TimetableData, TrainCategory, TrainRoute, Stop, Station,XMLConverter,RailMLParser,RailML2Data|Parsen+Auswerten einer RailML-Datei|-|Dateipfad|Laden der RailML; Einfügen in die eigene Datenstruktur
-|I-2|Data, XML|TimetableController,TimetableData, TrainCategory, TrainRoute, Stop, Station,XMLConverter,RailMLParser,RailML2Data|*Fall Offline:* Laden des Offline-Fahrplans|-|Status Offline|Laden der RailML; Einfügen in die eigene Datenstruktur
-|I-3|TelegramReceiver, Telegrams|TelegramReceiver, TelegramReceiverConfig, ConnectionStatus, sämtliche Telegram Klassen|Telegramme empfangen und parsen|Telegramm-Testserver läuft, Verbindungsdaten in Konfigurationsdatei, Mock-Version von TimeTableController.forwardTelegram() |TCP-Pakete des Testservers|gültige Telegramme
-||||||
