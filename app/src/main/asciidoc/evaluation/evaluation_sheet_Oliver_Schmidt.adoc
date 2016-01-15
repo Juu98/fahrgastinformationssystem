@@ -27,6 +27,7 @@
 
 == Welche Vorschläge zur weiteren Verbesserung des Softwarepraktikums gibt es?
 * continuous integration nicht nur im master branch, da dieser ja möglichst immer stabil sein sollte
+* Förderung eines sinvollen GIT workflows (Arbeit in develop, nur stabiler code in master, etc.
 * Verwendung von freier Software z. B. für UML Modellierung
 
 == Sonstiges und Anmerkungen
