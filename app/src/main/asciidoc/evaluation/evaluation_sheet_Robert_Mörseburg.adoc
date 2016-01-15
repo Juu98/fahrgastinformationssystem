@@ -1,0 +1,90 @@
+= Persönliches Feedback eines Teammitgliedes des Softwarepraktikums 2015/16
+
+**Von: Robert Mörseburg**
+
+**Gruppe: 3**
+
+== Was habe ich gelernt?
+
+Das Softwaretechnologie-Projekt war für mich eine sehr positive Erfahrung.
+Den größten Mehrwert hat mir die Arbeit mit Spring geliefert, weil mir dieses
+Framework vorher nicht bekannt war. Auch meine Java-Kenntnisse wurden durch die
+Arbeit wieder aufgefrischt und an einigen Stellen erweitert.
+
+Ich denke, ich habe durch das Praktikum auch einige _soft skills_ erworben. Vor
+allem durch die Kommunikation mit dem (beinahe echten) Kunden und die Notwendigkeit
+einer effektiven Zeit-, Aufgaben- und Ressourcenplanung.
+
+Außerdem war es interessant und aufschlussreich, den gesamten Lebenszyklus eines
+großen Projektes mitzuerleben und mitzugestalten.
+
+== Welche Erfahrungen habe ich mit der Zusammenarbeit im Team gemacht?
+
+_____
+"Gute Teamarbeit ist bei entsprechend großem Aufgabenumfang essenziell."
+_____
+
+Dazu gehören meiner Meinung nach zwei verschiedene Aspekte:
+
+Zuerst ist die teaminterne Kommunikation zu nennen. Regelmäßige Treffen sind
+wichtig, weil sie nicht nur alle auf den gleichen Stand bringen sondern sich aus
+der Diskussion auch neue Lösungsansätze und eventuelle Schwachstellen ergeben können.
+
+Aber auch zwischen den Treffen besteht Kommunikationsbedarf. Die Nutzung von _GitHub_
+als Plattform zur gemeinsamen Entwicklung bringt bereits alle notwendigen Features mit,
+damit eine effiziente und erfolgreiche Teamarbeit möglich wird.
+
+Daraus folgt der zweite Punkt, die Verteilung der Aufgaben im Team. Hier ist es wichtig,
+einerseits die Zuständigkeitsbereiche so klar wie möglich abzustecken um Konflikte und
+Dopplungen zu vermeiden, andererseits aber auch den Überblick über den Gesamtfortschritt
+nicht zu verlieren.
+
+Die Arbeit in der Gruppe habe ich als sehr angenehm empfunden. Alle waren engagiert
+und haben ihre eigenen Vorstellungen und Erfahrungen mit eingebracht.
+
+== Welche Erfahrungen habe ich bei der Wiederverwendung von Bibliotheken/Frameworks gemacht?
+
+_____
+"Frameworks und Bibliotheken sind die Grundlage einer umfangreichen und modernen Anwendung."
+_____
+
+Sie liefern die Bausteine, aus denen die eigene Software zusammengesetzt wird.
+Das bringt viele Vorteile mit sich, denn oft existieren für immer wiederkehrende
+Probleme und Anforderungen bereits etablierte Lösungen, die nur noch in das eigene
+Projekt eingebunden werden müssen.
+
+Andererseits kann es passieren, dass beim bloßen Wiederverwenden von Klassen und
+Methoden das Verständnis dafür, was _"unter der Haube"_ passiert, verloren geht.
+Gerade beim Spring Framework ist mir das aufgefallen. Während die vielen Annotations
+äußerst nützlich sind, um schnell eine laufende Web-Anwendung vor sich zu haben,
+verliert man doch schnell den Überblick, welcher Teil der Software welche Aufgaben
+übernimmt und an welcher Stelle Änderungen vorgenommen werden müssen.
+
+Um diese Verständnislücke zu schließen, ist ein enormer Einarbeitungsaufwand notwendig.
+Diesen einzugehen war ich nur in manchen Fällen bereit, sodass schlussendlich
+das Programm zwar funktioniert, an einigen Stellen aber sicherlich besser strukturiert
+hätte werden können.
+
+== Welche Vorschläge zur weiteren Verbesserung des Softwarepraktikums gibt es?
+
+Um das Praktikum noch reibungsloser gestalten zu können, wäre es meiner Meinung nach
+sinnvoll, die Studenten besser vorzubereiten oder ihnen zumindest mehr Materialien
+zur Verfügung zu stellen.
+
+Für viele von uns war das Projekt der erste Kontakt mit Spring. Und obwohl die einzelnen
+Teile allesamt sehr gut dokumentiert sind, kann man vor der schieren Fülle an Möglichkeiten
+und Optionen schon mal verzweifeln. Eine kurze Zusammenfassung der wichtigsten Komponenten
+würde hier sicherlich helfen.
+
+Das `guestbook` Beispielprojekt hat maßgeblich zu meinem Verständnis beigetragen.
+Solche Beispiele könnten in die Dokumentation mit aufgenommen und kommentiert werden.
+
+Die Vorträge von Herrn Giercke fand ich interessant, auch wenn für mich nicht alles
+neu war. Gewünscht hätte ich mir hier zum Beispiel eine Veranstaltung zu gutem und
+sauberen Coding-Stil in Java, gerne auch schon im Sommersemester.
+
+== Sonstiges und Anmerkungen
+
+_____
+"What's the object-oriented way to become wealthy?" --Inheritance.
+_____
