@@ -9,7 +9,7 @@
 					<th th:text="${active == 'dep'}? #{fis.traintable.dest} : #{fis.traintable.origin}"
 						 class="">Richtung (Unterwegshaltestellen)</th>
 					<th th:text="#{fis.traintable.track}" class="col-md-1">Gleis</th>
-					<th th:text="#{fis.traintable.info}" class="col-md-1">Aktuelles</th>
+					<th th:text="#{fis.traintable.info}" class="">Aktuelles</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -19,10 +19,15 @@
 						<td th:switch="${active}">
 							<th:block th:case="'dep'">
 								<span th:text="${#temporals.format(stop.ScheduledDeparture, 'HH:mm')}">13:37</span>
-								<span th:text="${stop.getDelayDepartureString()}">+42</span>
+								<span th:class="(${stop.getDelayDeparture()} gt 0) ? 'late' : 'early'"
+									th:text="${stop.getDelayDepartureString()}">+42</span>
 							</th:block>
 							
-							<th:block th:case="'arr'" th:text="${#temporals.format(stop.ScheduledArrival, 'HH:mm')}">13:37</th:block>
+							<th:block th:case="'arr'">
+								<span th:text="${#temporals.format(stop.ScheduledArrival, 'HH:mm')}">13:37</span>
+								<span th:class="(${stop.getDelayArrival()} gt 0) ? 'late' : 'early'"
+									th:text="${stop.getDelayArrivalString()}">+42</span>
+							</th:block>
 						</td>
 						<td><a th:href="|/trn/${train.id}" th:text="${train}" th:title="#{fis.traintable.trntitle}" class="text-nowrap">ICE 123</a></td>
 						<td th:switch="${active}">
@@ -48,9 +53,16 @@
 								</th:block>
 							</th:block>
 						</td>
-						<td th:text="${stop.ScheduledTrack}">9 3/4</td>
-						<td th:if="${stop.messageId}" th:text="${messageMap.get(stop.messageId)}">...</td>
-						<td th:unless="${stop.messageId}">&mdash;</td>
+						<td>
+							<span th:text="${stop.ScheduledTrack}">9 3/4</span>
+							<span th:if="${stop.ActualTrack} ne ${stop.ScheduledTrack}"
+								  th:text="${stop.ActualTrack}" class="late">(13)</span>
+						</td>
+						<td th:if="${stop.messageId} or ${train.messageId}">
+							<span class="text-warning" th:text="${timetable.getMessage(stop)}">...</span>
+							<span class="text-warning" th:text="${timetable.getMessage(train)}">...</span>
+						</td>
+						<td th:unless="${stop.messageId} or ${train.messageId}">&mdash;</td>
 					</th:block>
 				</tr>
 			</tbody>

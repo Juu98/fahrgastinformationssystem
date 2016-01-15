@@ -1,5 +1,6 @@
 package fis.data;
 
+import java.time.Duration;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
@@ -261,7 +262,11 @@ public class Stop {
 	public String getDelayArrivalString() {
 		long delay = this.getDelayArrival();
 		String str = "";
-		if (delay < 0) {
+		Duration d = Duration.ofSeconds(delay, 0);
+		if (!d.equals(Duration.ZERO)){
+			str = String.format("%+d", d.toMinutes());
+		}
+		/*if (delay < 0) {
 			LocalTime time = LocalTime.MIDNIGHT.plus(0 - delay, ChronoUnit.SECONDS);
 			String min = Integer.toString(time.getMinute());
 			if (min.length() == 1) {
@@ -283,7 +288,7 @@ public class Stop {
 				sec = "0" + sec;
 			}
 			str = "+" + min + ":" + sec;
-		}
+		}*/
 		return str;
 	}
 
@@ -294,8 +299,12 @@ public class Stop {
 	public String getDelayDepartureString() {
 		long delay = this.getDelayDeparture();
 		String str = "";
-
-		if (delay < 0) {
+		Duration d = Duration.ofSeconds(delay, 0);
+		if (!d.equals(Duration.ZERO)){
+			str = String.format("%+d", d.toMinutes());
+		}
+		
+		/*if (delay < 0) {
 			LocalTime time = LocalTime.MIDNIGHT.plus(0 - delay, ChronoUnit.SECONDS);
 			String min = Integer.toString(time.getMinute());
 			if (min.length() == 1) {
@@ -317,7 +326,7 @@ public class Stop {
 				sec = "0" + sec;
 			}
 			str = "+" + min + ":" + sec;
-		}
+		}*/
 		return str;
 	}
 	

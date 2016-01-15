@@ -50,3 +50,12 @@
 	text-align: center;
 	background: url('../img/line.png') center repeat-y;
 }
+
+/* Verspätung */
+.late {
+	color: red;
+}
+
+.early {
+	color: green;
+}

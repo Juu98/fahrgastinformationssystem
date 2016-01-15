@@ -47,13 +47,21 @@
 						</thead>
 						<tbody>
 							<tr th:each="st, stStat : ${currentTrainRoute.stops}">
-								<td class="text-right" th:text="${st.ScheduledArrival}? ${#temporals.format(st.ScheduledArrival, 'HH:mm')}">an</td>
+								<td class="text-right">
+									<span th:text="${st.ScheduledArrival}? ${#temporals.format(st.ScheduledArrival, 'HH:mm')}">an</span>
+									<span th:class="(${st.getDelayArrival()} gt 0) ? 'late' : 'early'"
+									th:text="${st.getDelayArrivalString()}">+42</span>
+								</td>
 								<td class="perlenschnur" th:with="past=((${st.ActualArrival} and (${time} and ${st.ActualArrival} le ${time})) or
 																		(${st.ActualDeparture} and (${time} and ${st.ActualDeparture} le ${time})))">
 									<img th:if="${past}" th:src="@{/resources/img/circle-black.png}" width="12" />
 									<img th:unless="${past}" th:src="@{/resources/img/circle-white.png}" width="12" />
 								</td>
-								<td th:text="${st.ScheduledDeparture}? ${#temporals.format(st.ScheduledDeparture, 'HH:mm')}">ab</td>
+								<td>
+									<span th:text="${st.ScheduledDeparture}? ${#temporals.format(st.ScheduledDeparture, 'HH:mm')}">ab</span>
+									<span th:class="(${st.getDelayDeparture()} gt 0) ? 'late' : 'early'"
+										  th:text="${st.getDelayDepartureString()}">+42</span>
+								</td>
 								<td th:class="${stStat.first}? 'station-begin' : (${stStat.last}? 'station-end')">
 									<a th:href="|/dep/${st.station.id}|" th:text="${st.station.longName}" th:title="#{fis.traintable.deptitle}">Bahnhof</a>
 								</td>
