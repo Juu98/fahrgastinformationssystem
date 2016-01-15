@@ -73,6 +73,9 @@
 				th:text="(${active} eq 'dep') ? #{fis.alerts.notrains.dep} : #{fis.alerts.notrains.arr}">Keine Züge.</p>
 			<p th:unless="${currentStation}" class="alert alert-info"
 				th:text="(${active} eq 'dep') ? #{fis.alerts.nostation.dep} : #{fis.alerts.nostation.arr}">Kein Bahnhof ausgewählt.</p>
+			
+			<input type="hidden" id="_newStart" th:value="${#temporals.format(start, 'HH:mm')}" />
+			<input type="hidden" id="_newEnd" th:value="${#temporals.format(end, 'HH:mm')}" />
 		</div>
 	</body>
 </html>

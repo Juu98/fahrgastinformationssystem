@@ -44,14 +44,14 @@
 									<span class="input-group-addon">
 										<i class="glyphicon glyphicon-time"></i>
 									</span>
-									<input type="time" name="start" class="form-control text-center" th:value="${#temporals.format(start, 'HH:mm')}" />
+									<input type="time" name="start" id="start" class="form-control text-center" th:value="${#temporals.format(start, 'HH:mm')}" />
 								</div>
 								<span class="col-md-2 text-center form-control-static">&mdash;</span>
 								<div class="input-group col-md-2 pull-left">
 									<span class="input-group-addon">
 										<i class="glyphicon glyphicon-time"></i>
 									</span>
-									<input type="time" name="end" class="form-control text-center" th:value="${#temporals.format(end, 'HH:mm')}" />
+									<input type="time" name="end" id="end" class="form-control text-center" th:value="${#temporals.format(end, 'HH:mm')}" />
 								</div>
 								<!--<div class="col-md-2 col-md-offset-2">
 									<button type="button" class="btn btn-warning" id="testTime">Testzeitraum</button>
@@ -64,6 +64,21 @@
 									<input type="checkbox" name="categories" th:value="${cat.id}"
 										   th:checked="${#lists.contains(currentCategories, cat)}? 'checked'" />
 									<span th:text="${cat.name}" th:title="${cat.description}">Category</span>
+								</label>
+							</div>
+							<h4 th:text="#{fis.filterform.reload}">AutoReload</h4>
+							<div class="form-group">
+								<label class="radio-inline">
+									<input type="radio" name="reload" value="off" checked="checked" />
+									<span th:text="#{fis.filterform.reload.off}">off</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="reload" value="current" />
+									<span th:text="#{fis.filterform.reload.cur}">current</span>
+								</label>
+								<label class="radio-inline">
+									<input type="radio" name="reload" value="update" />
+									<span th:text="#{fis.filterform.reload.upd}">update</span>
 								</label>
 							</div>
 							<div class="form-group">

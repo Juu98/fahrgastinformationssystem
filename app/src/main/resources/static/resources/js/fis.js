@@ -86,8 +86,8 @@ $(function(){
 });
 
 /* auto reload */
+// Zeit aktualisieren (aller 5s)
 setInterval(function(){
-	// Zeit aktualisieren
 	$.ajax({
 		type	: 'GET',
 		cache	: false,
@@ -97,21 +97,40 @@ setInterval(function(){
 			$("#time").empty().append(data);
 		}
 	});
+}, 5000);
 
+// Tabelle aktualisieren
+setInterval(function(){
 	var form = $("#filter");
-
-	// Tabelle aktualisieren
-	$.ajax({
-		type	: 'POST',
-		cache	: false,
-		async	: true,
-		url		: form.attr('action'),
-		data	: form.serialize(),
-		success	: function(data) {
-			$("#traintable").empty().append(data);
-			$('html, body').animate({
-				scrollTop: $("#traintable").offset().top
-			}, 1000);
-		}
-	});
+	var reloadSelected = $("input[name='reload']:checked");
+	var reloadValue = "off";
+	if (reloadSelected.length > 0){
+		reloadValue = reloadSelected.val();
+	}
+	
+	switch (reloadValue){
+		case 'update':
+			$("#start").val("");
+			$("#end").val("");
+			// no break
+		case 'current':
+			$.ajax({
+				type	: 'POST',
+				cache	: false,
+				async	: true,
+				url		: form.attr('action'),
+				data	: form.serialize(),
+				success	: function(data) {
+					$("#traintable").empty().append(data);
+					$('html, body').animate({
+						scrollTop: $("#traintable").offset().top
+					}, 1000);
+				}
+			});
+			break;
+		default : return;
+	}
+			
+	$("#start").val($("#_newStart").val());
+	$("#end").val($("#_newEnd").val());
 }, 20000);
