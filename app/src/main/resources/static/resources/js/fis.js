@@ -87,19 +87,31 @@ $(function(){
 
 /* auto reload */
 setInterval(function(){
-		var form = $("#filter");
+	// Zeit aktualisieren
+	$.ajax({
+		type	: 'GET',
+		cache	: false,
+		async	: true,
+		url		: '/currentTime',
+		success	: function(data) {
+			$("#time").empty().append(data);
+		}
+	});
 
-		$.ajax({
-			type	: 'POST',
-			cache	: false,
-			async	: true,
-			url		: form.attr('action'),
-			data	: form.serialize(),
-			success	: function(data) {
-				$("#traintable").empty().append(data);
-				$('html, body').animate({
-					scrollTop: $("#traintable").offset().top
-				}, 1000);
-			}
-		});
+	var form = $("#filter");
+
+	// Tabelle aktualisieren
+	$.ajax({
+		type	: 'POST',
+		cache	: false,
+		async	: true,
+		url		: form.attr('action'),
+		data	: form.serialize(),
+		success	: function(data) {
+			$("#traintable").empty().append(data);
+			$('html, body').animate({
+				scrollTop: $("#traintable").offset().top
+			}, 1000);
+		}
+	});
 }, 20000);

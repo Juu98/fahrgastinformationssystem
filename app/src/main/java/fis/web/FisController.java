@@ -556,6 +556,14 @@ public class FisController {
 		return "trn";
 	}
 
+	@RequestMapping("/currentTime")
+	public @ResponseBody String time() {
+		if (this.timetable.getTime() == null){
+			return "--:--";
+		}
+		return this.timetable.getTime().toString();
+	}
+	
 	/**
 	 * Liefert eine JSON-Liste mit allen {@link Station}s in diesem Fahrplan.
 	 * <p>
@@ -572,8 +580,7 @@ public class FisController {
 	@RequestMapping("stations.json")
 	public @ResponseBody List<JSONProvider.StationView> getStations() {
 		return new JSONProvider().getStations(this.timetable.getData().getStations());
-	}
-
+	}	
 
 	/**
 	 * Liefert eine JSON-Liste mit allen {@link TrainRoute}s in diesem Fahrplan.
@@ -590,9 +597,7 @@ public class FisController {
 	 * @see JSONProvider.TrainRouteView
 	 */
 	@RequestMapping("trainRoutes.json")
-	public
-	@ResponseBody
-	List<JSONProvider.TrainRouteView> getTrainRoutes() {
+	public @ResponseBody List<JSONProvider.TrainRouteView> getTrainRoutes() {
 		return new JSONProvider().getTrainRoutes(this.timetable.getData().getTrainRoutes());
 	}
 
@@ -612,9 +617,7 @@ public class FisController {
 	 * @return JSON body
 	 */
 	@RequestMapping("trainCategories.json")
-	public
-	@ResponseBody
-	List<TrainCategory> getTrainCategories() {
+	public @ResponseBody List<TrainCategory> getTrainCategories() {
 		return this.timetable.getTrainCategories();
 	}
 
