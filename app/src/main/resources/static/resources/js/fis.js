@@ -92,7 +92,7 @@ setInterval(function(){
 		type	: 'GET',
 		cache	: false,
 		async	: true,
-		url		: '/currentTime',
+		url		: '../currentTime',
 		success	: function(data) {
 			$("#time").empty().append(data);
 		}
