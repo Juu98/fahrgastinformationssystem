@@ -4,16 +4,27 @@ Dieses Programm wird im Rahmen des Softwaretechnologie-Projektes im Studiengang 
 
 ## Quicklinks
 
-* src/main/asciidoc/pflichtenheft.adoc[Pflichtenheft]
-* src/main/asciidoc/entwickler_doku.adoc[Entwicklerdokumentation]
-* src/main/asciidoc/time_recording.adoc[Zeiterfassung]
-* src/main/asciidoc/enduserdocumentation/benutzerhandbuch.adoc[Benutzerhandbuch]
+* link:src/main/asciidoc/pflichtenheft.adoc[Pflichtenheft]
+* link:src/main/asciidoc/entwickler_doku.adoc[Entwicklerdokumentation]
+* link:src/main/asciidoc/time_recording.adoc[Zeiterfassung]
+* link:src/main/asciidoc/enduserdocumentation/benutzerhandbuch.adoc[Benutzerhandbuch]
 
 ## Start des Systems
 
 ```shell
-$cd ./app
-$mvn spring-boot:run
+$ mvn spring-boot:run
+```
+
+## Bauen des Programms
+
+```shell
+$ mvn clean package
+```
+
+### Bauen ohne Tests
+
+```shell
+$ mvn clean package -DskipTests
 ```
 
 ## Autoren
