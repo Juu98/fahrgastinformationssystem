@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class FisController {
 	private final TimetableController timetable;
 	private @Autowired CommonConfig cfg;
 	private static final Logger LOGGER = Logger.getLogger(FisController.class);
+	private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("H:m");
 
 	/**
 	 * Verwendungszweck der anzuzeigenden Zugläufe.
@@ -200,8 +202,8 @@ public class FisController {
 		LocalTime start = null, end = null;
 		if (formSent && !resetForm) {
 			try {
-				start = LocalTime.parse(form.getStart());
-				end = LocalTime.parse(form.getEnd());
+				start = LocalTime.parse(form.getStart(), DATETIME_FORMATTER);
+				end = LocalTime.parse(form.getEnd(), DATETIME_FORMATTER);
 			} catch (DateTimeParseException e) {
 				// LOGGER.error(e);
 				start = null;
@@ -339,8 +341,8 @@ public class FisController {
 		LocalTime start = null, end = null;
 		if (formSent && !resetForm) {
 			try {
-				start = LocalTime.parse(form.getStart());
-				end = LocalTime.parse(form.getEnd());
+				start = LocalTime.parse(form.getStart(), DATETIME_FORMATTER);
+				end = LocalTime.parse(form.getEnd(), DATETIME_FORMATTER);
 			} catch (DateTimeParseException e) {
 				// LOGGER.error(e);
 				start = null;
