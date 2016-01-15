@@ -1,6 +1,6 @@
 = Benutzerhandbuch
 
-:imagesdir: benutzerhandbuch
+:imagesdir: images
 
 == Installation
 === Konfiguration des Apache Servers

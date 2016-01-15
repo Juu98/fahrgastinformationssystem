@@ -148,6 +148,15 @@ public class TelegramParserTest {
 		int tenth = -secs / 6;
 		Assert.assertEquals("Zeiten stimmen nicht überein.", ref.minusSeconds(secs), ByteConversions.fromTenthOfMinute(tenth, ref));
 	}
+
+	/*
+	@Test
+	public void testTimeNextDay() throws TelegramParseException {
+		int nextDayTenths = 23000;
+		Assert.assertTrue("Zeitangabe soll auf nächsten Tag zeigen", ByteConversions.isTimeNextDay(nextDayTenths));
+		Assert.assertEquals("Zeitangabe nicht korrekt", LocalTime.of(5,0), ByteConversions.fromTenthOfMinute(nextDayTenths, null));
+	}
+	*/
 	
 	/* ZUGLAUFTELEGRAMM */
 	
@@ -170,10 +179,12 @@ public class TelegramParserTest {
 		);
 		// #42 13:37 --   +10min --   10 - - -
 		// (13*60+37)*10 = 8170 = 0x1FEA
-		String stop3 = "2A EA 1F 9C AD 64 00 00 00 0A 00 00 00";
+		// Verspätung um 12h
+		// (12*60)*10 = 7200 = 0x1C20
+		String stop3 = "2A EA 1F 9C AD 20 1C 00 00 0A 00 00 00";
 		stops.add(new TrainRouteTelegram.StopData(
-				42, LocalTime.of(13, 37), null, LocalTime.of(13, 47), null,
-				10, 0, 0, 0, false, false)
+				42, LocalTime.of(13, 37), null, LocalTime.of(1, 37), null,
+				10, 0, 0, 0, true, false)
 		);
 		
 		byte[] testData = ByteConversions.fromString(

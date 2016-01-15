@@ -27,7 +27,7 @@ public class EventTranslator implements ApplicationEventPublisherAware {
 	/**
 	 * Übersetzt ConnectionStatusEvents in TimetableEvents
 	 *
-	 * @param event
+	 * @param event empfangenes ConnectionStatusEvent
 	 */
 	@EventListener
 	public void translateReceiverToTimetable(ConnectionStatusEvent event) {

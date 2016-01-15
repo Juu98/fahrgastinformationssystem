@@ -4,7 +4,6 @@
 	overflow-y: scroll;
 }
 
-
 #header{
 	margin-bottom: 2em;
 }
@@ -27,11 +26,6 @@
 	background-color:#eeeeee;
 }
 
-/* first and last station on a trainroute */
-.station-end, .station-begin {
-	font-weight: bold;
-}
-
 /* links in the traintable */
 #traintable a {
 	color: #555;
@@ -45,8 +39,30 @@
 	padding: 8px 0;
 }
 
+/* first and last station on a trainroute */
+.tr-first .station-name, .tr-last .station-name{
+	font-weight: bold;
+}
+
 /* Perlenschnur table cell */
 .perlenschnur {
 	text-align: center;
 	background: url('../img/line.png') center repeat-y;
+}
+.tr-first .perlenschnur {
+	background-position: bottom center;
+	background-repeat: no-repeat;
+}
+.tr-last .perlenschnur {
+	background-position: top center;
+	background-repeat: no-repeat;
+}
+
+/* Verspätung */
+.late {
+	color: red;
+}
+
+.early {
+	color: green;
 }

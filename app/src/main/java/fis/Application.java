@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 /**
  * Hauptklasse der Anwendung. Startet und initialisiert die Anwendung.
  */
+@SuppressWarnings("FieldCanBeLocal")
 @SpringBootApplication
 @EnableAsync
 public class Application implements ApplicationEventPublisherAware {
@@ -26,16 +27,7 @@ public class Application implements ApplicationEventPublisherAware {
 		SpringApplication.run(Application.class, args);
 	}
 
-	private static final Logger LOGGER = Logger.getLogger(Application.class);
 	private ApplicationEventPublisher publisher;
-	@Autowired
-	private TimetableController timetable;
-	@Autowired
-	private TelegramReceiverController receiverController;
-	@Autowired
-	private CommonConfig commonConfig;
-	@Autowired
-	private EventTranslator translator;
 
 	@Bean
 	public Java8TimeDialect timeDialect() {

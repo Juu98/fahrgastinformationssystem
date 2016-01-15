@@ -112,6 +112,26 @@ public abstract class ByteConversions {
 	}
 
 	/**
+	 * gibt zurück, ob Basiszeit + Zeitdifferenz auf den nächsten Tag fällt
+	 * @param tenthDifference Zeitdifferenz in Zehntelminuten
+	 * @param base Basiszeit
+	 * @return Gesamtzeit fällt auf nächsten Tag
+	 */
+	public static boolean isNextDay(int tenthDifference, LocalTime base) {
+		return ( (toTenthOfMinute(LocalTime.of(23, 50)) + 1) - toTenthOfMinute(base) <= tenthDifference);
+	}
+
+	/**
+	 * gibt zu einer angegebenen LocalTime die Zeit im Zehntelminutenformat zurück
+	 * auf Zehntelminuten abgerundet
+ 	 * @param time LocalTime die umgerechnet werden soll
+	 * @return Zeit in Zehntelminuten, auf Zehntelminuten abgerundet
+	 */
+	public static int toTenthOfMinute(LocalTime time) {
+		return (time.toSecondOfDay())/6;
+	}
+
+	/**
 	 * Wandelt ein Array von Ganzzahlen in ein Array von Bytes um.
 	 *
 	 * @param arr das umzuwandelnde Array

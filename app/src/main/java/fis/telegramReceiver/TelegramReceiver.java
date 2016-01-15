@@ -20,13 +20,12 @@ import java.util.concurrent.Future;
  */
 @Component
 public class TelegramReceiver {
-	private final static Logger LOGGER = Logger.getLogger(TelegramReceiver.class);
 	private final TelegramReceiverConfig receiverConfig;
 
 	/**
 	 * Konstruktor, benötigt eine receiverConfig
 	 *
-	 * @param config
+	 * @param config TelegramreceiverController mit Konfigurationsdaten
 	 */
 	@Autowired
 	public TelegramReceiver(TelegramReceiverConfig config) {
@@ -69,7 +68,7 @@ public class TelegramReceiver {
 	/**
 	 * verschickt ein SendableTelegram in Rohdatenform an den Telegrammserver
 	 *
-	 * @param out
+	 * @param out OutputStream, auf den das Telegramm geschrieben wird
 	 * @param telegram ein SendableTelegramm
 	 * @throws IOException
 	 */

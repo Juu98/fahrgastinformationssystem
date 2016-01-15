@@ -266,7 +266,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 	 * setzt den connectionStatus dieses TelegramReceiverControllers
 	 * thread-safety: ja, Schreiboperationen werden synchronisiert
 	 *
-	 * @param connectionStatus
+	 * @param connectionStatus zu setzender ConnectionStatus
 	 */
 	public synchronized void setConnectionStatus(ConnectionStatus connectionStatus) {
 		if (connectionStatus == null)
@@ -279,7 +279,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 	 * notwendig für @link{ApplicationEventPublisherAware}. Wird üblicherweise
 	 * automatisch von Spring aufgerufen
 	 *
-	 * @param applicationEventPublisher
+	 * @param applicationEventPublisher zu setzender ApplicationEventPublisher
 	 */
 	@Override
 	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
@@ -300,7 +300,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 	/**
 	 * Methode, mit der ein {@link SmartLifecycle} von Spring gestoppt wird
 	 *
-	 * @param callback
+	 * @param callback wird nach erfolgreichem Shutdown der Komponente aufgerufen
 	 */
 	@Override
 	public void stop(Runnable callback) {

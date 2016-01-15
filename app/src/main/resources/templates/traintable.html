@@ -1,59 +1,81 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 	<body>
-		<table th:fragment="traintable(active)">
-			<thead>
-				<tr>
-					<th th:text="#{fis.traintable.time}" class="col-md-1">Zeit</th>
-					<th th:text="#{fis.traintable.train}" class="">Zug</th>
-					<th th:text="${active == 'dep'}? #{fis.traintable.dest} : #{fis.traintable.origin}"
-						 class="">Richtung (Unterwegshaltestellen)</th>
-					<th th:text="#{fis.traintable.track}" class="col-md-1">Gleis</th>
-					<th th:text="#{fis.traintable.info}" class="col-md-1">Aktuelles</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="train : ${#lists.sort(trains, comp)}"
-					th:if="${#lists.contains(currentCategories, train.trainCategory)}">
-					<th:block th:each="stop, trnStat : ${train.stops}" th:if="${stop.station == currentStation}">
-						<td th:switch="${active}">
-							<th:block th:case="'dep'">
-								<span th:text="${#temporals.format(stop.ScheduledDeparture, 'HH:mm')}">13:37</span>
-								<span th:text="${stop.getDelayDepartureString()}">+42</span>
-							</th:block>
-							
-							<th:block th:case="'arr'" th:text="${#temporals.format(stop.ScheduledArrival, 'HH:mm')}">13:37</th:block>
-						</td>
-						<td><a th:href="|/trn/${train.id}" th:text="${train}" th:title="#{fis.traintable.trntitle}" class="text-nowrap">ICE 123</a></td>
-						<td th:switch="${active}">
-							<th:block th:case="'dep'">
-								<th:block th:each="nStop, stpStat : ${train.stops}">
-									<span th:if="${stpStat.index} &gt; ${train.stops.indexOf(stop)}"
-										  th:class="${stpStat.last}? 'station-end'">
-										<a th:href="|/dep/${nStop.station.id}|" th:text="${nStop.station.longName}" th:title="#{fis.traintable.deptitle}">Hogwarts</a>
-										<th:block th:if="${nStop.ScheduledArrival}" th:text="|${#temporals.format(nStop.ScheduledArrival, 'HH:mm')}|">13:37</th:block>
-									</span>
-									<th:block th:if="${stpStat.index} &gt; ${train.stops.indexOf(stop)}"
-										  th:unless="${stpStat.last}">&ndash;</th:block>
+		<div th:fragment="traintable(active)">
+			<table class="table table-hover table-striped"
+					th:if="${currentStation != null and not #lists.isEmpty(trains)}">
+				<thead>
+					<tr>
+						<th th:text="#{fis.traintable.time}" class="col-md-1">Zeit</th>
+						<th th:text="#{fis.traintable.train}" class="">Zug</th>
+						<th th:text="${active == 'dep'}? #{fis.traintable.dest} : #{fis.traintable.origin}"
+							 class="">Richtung (Unterwegshaltestellen)</th>
+						<th th:text="#{fis.traintable.track}" class="col-md-1">Gleis</th>
+						<th th:text="#{fis.traintable.info}" class="">Aktuelles</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="train : ${#lists.sort(trains, comp)}"
+						th:if="${#lists.contains(currentCategories, train.trainCategory)}">
+						<th:block th:each="stop, trnStat : ${train.stops}" th:if="${stop.station == currentStation}">
+							<td th:switch="${active}">
+								<th:block th:case="'dep'">
+									<span th:text="${#temporals.format(stop.ScheduledDeparture, 'HH:mm')}">13:37</span>
+									<span th:class="(${stop.getDelayDeparture()} gt 0) ? 'late' : 'early'"
+										th:text="${stop.getDelayDepartureString()}">+42</span>
 								</th:block>
-							</th:block>
-							<th:block th:case="'arr'">
-								<th:block th:each="nStop, stpStat : ${train.stops}">
-									<span th:if="${stpStat.index} &lt; ${train.stops.indexOf(stop)}"
-										  th:class="${stpStat.first}? 'station-begin'">
-										<a th:href="|/arr/${nStop.station.id}|" th:text="${nStop.station.longName}" th:title="#{fis.traintable.arrtitle}">Hogwarts</a>
-										<th:block th:text="|${#temporals.format(nStop.ScheduledDeparture, 'HH:mm')}|">13:37</th:block>
-									</span>
-									<span th:if="${stpStat.index} &lt; ${train.stops.indexOf(stop) -1}">&ndash;</span>
+
+								<th:block th:case="'arr'">
+									<span th:text="${#temporals.format(stop.ScheduledArrival, 'HH:mm')}">13:37</span>
+									<span th:class="(${stop.getDelayArrival()} gt 0) ? 'late' : 'early'"
+										th:text="${stop.getDelayArrivalString()}">+42</span>
 								</th:block>
-							</th:block>
-						</td>
-						<td th:text="${stop.ScheduledTrack}">9 3/4</td>
-						<td th:if="${stop.messageId}" th:text="${messageMap.get(stop.messageId)}">...</td>
-						<td th:unless="${stop.messageId}">&mdash;</td>
-					</th:block>
-				</tr>
-			</tbody>
-		</table>
+							</td>
+							<td><a th:href="|/trn/${train.id}" th:text="${train}" th:title="#{fis.traintable.trntitle}" class="text-nowrap">ICE 123</a></td>
+							<td th:switch="${active}">
+								<th:block th:case="'dep'">
+									<th:block th:each="nStop, stpStat : ${train.stops}">
+										<span th:if="${stpStat.index} &gt; ${train.stops.indexOf(stop)}"
+											  th:class="${stpStat.last}? 'station-end'">
+											<a th:href="|/dep/${nStop.station.id}|" th:text="${nStop.station.longName}" th:title="#{fis.traintable.deptitle}">Hogwarts</a>
+											<th:block th:if="${nStop.ScheduledArrival}" th:text="|${#temporals.format(nStop.ScheduledArrival, 'HH:mm')}|">13:37</th:block>
+										</span>
+										<th:block th:if="${stpStat.index} &gt; ${train.stops.indexOf(stop)}"
+											  th:unless="${stpStat.last}">&ndash;</th:block>
+									</th:block>
+								</th:block>
+								<th:block th:case="'arr'">
+									<th:block th:each="nStop, stpStat : ${train.stops}">
+										<span th:if="${stpStat.index} &lt; ${train.stops.indexOf(stop)}"
+											  th:class="${stpStat.first}? 'station-begin'">
+											<a th:href="|/arr/${nStop.station.id}|" th:text="${nStop.station.longName}" th:title="#{fis.traintable.arrtitle}">Hogwarts</a>
+											<th:block th:text="|${#temporals.format(nStop.ScheduledDeparture, 'HH:mm')}|">13:37</th:block>
+										</span>
+										<span th:if="${stpStat.index} &lt; ${train.stops.indexOf(stop) -1}">&ndash;</span>
+									</th:block>
+								</th:block>
+							</td>
+							<td>
+								<span th:text="${stop.ScheduledTrack}">9 3/4</span>
+								<span th:if="${stop.ActualTrack} ne ${stop.ScheduledTrack}"
+									  th:text="${stop.ActualTrack}" class="late">(13)</span>
+							</td>
+							<td th:if="${stop.messageId} or ${train.messageId}">
+								<span class="text-warning" th:text="${timetable.getMessage(stop)}">...</span>
+								<span class="text-warning" th:text="${timetable.getMessage(train)}">...</span>
+							</td>
+							<td th:unless="${stop.messageId} or ${train.messageId}">&mdash;</td>
+						</th:block>
+					</tr>
+				</tbody>
+			</table>
+			<p th:if="${currentStation != null and #lists.isEmpty(trains)}" class="alert alert-warning"
+				th:text="(${active} eq 'dep') ? #{fis.alerts.notrains.dep} : #{fis.alerts.notrains.arr}">Keine Züge.</p>
+			<p th:unless="${currentStation}" class="alert alert-info"
+				th:text="(${active} eq 'dep') ? #{fis.alerts.nostation.dep} : #{fis.alerts.nostation.arr}">Kein Bahnhof ausgewählt.</p>
+			
+			<input type="hidden" id="_newStart" th:value="${#temporals.format(start, 'HH:mm')}" />
+			<input type="hidden" id="_newEnd" th:value="${#temporals.format(end, 'HH:mm')}" />
+		</div>
 	</body>
 </html>
