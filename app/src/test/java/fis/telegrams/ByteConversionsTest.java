@@ -106,4 +106,19 @@ public class ByteConversionsTest {
 	public void testToByteStringArrayLength(){
 		Assert.assertEquals("2A FF 00 00", ByteConversions.toByteString(new byte[]{(byte) 42, (byte) 255}, 4));
 	}
+
+	//Annahme: fromTenthOfMinutes funktioniert wie gewünscht
+	@Test
+	public void testToTenthOfMinutes() throws TelegramParseException {
+		LocalTime t = LocalTime.of(23, 42, 30);
+		Assert.assertEquals("Zehntelminuten micht gleich", t, ByteConversions.fromTenthOfMinute(ByteConversions.toTenthOfMinute(t)));
+	}
+
+	@Test
+	public void testIsNextDay() {
+		LocalTime t1 = LocalTime.of(23,50);
+		Assert.assertTrue("Zeit fällt nicht auf nächsten Tag", ByteConversions.isNextDay(1, t1));
+		Assert.assertTrue("Zeit fällt nicht auf nächsten Tag", ByteConversions.isNextDay(2, t1));
+		Assert.assertFalse("Zeit fällt fälschlicherweise auf nächsten Tag", ByteConversions.isNextDay(0, t1));
+	}
 }

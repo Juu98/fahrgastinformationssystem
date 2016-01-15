@@ -133,7 +133,9 @@ public class TrainRouteTelegram extends Telegram {
 		 * @param dispoType
 		 * @param messageId
 		 */
-		public StopData(int stationId, LocalTime scheduledArrival, LocalTime scheduledDeparture, LocalTime actualArrival, LocalTime actualDeparture, int scheduledTrack, int actualTrack, int dispoType, int messageId, boolean actualArrivalNextDay, boolean actualDepartureNextDay) {
+		public StopData(int stationId, LocalTime scheduledArrival, LocalTime scheduledDeparture, LocalTime actualArrival,
+		                LocalTime actualDeparture, int scheduledTrack, int actualTrack, int dispoType, int messageId,
+		                boolean actualArrivalNextDay, boolean actualDepartureNextDay) {
 			this.stationId = stationId;
 			this.scheduledArrival = scheduledArrival;
 			this.scheduledDeparture = scheduledDeparture;
