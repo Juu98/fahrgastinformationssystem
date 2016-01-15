@@ -35,6 +35,8 @@
 						</div>
 					</form>
 					<div th:fragment="traintable" id="traintable">
+						<div th:if="${currentTrainRoute} and ${currentTrainRoute.messageId}"
+							 class="alert alert-info" th:text="${timetable.getMessage(currentTrainRoute}">Meldung</div>
 						<table class="table table-hover table-striped" th:if="${currentTrainRoute}">
 							<thead>
 								<tr>
