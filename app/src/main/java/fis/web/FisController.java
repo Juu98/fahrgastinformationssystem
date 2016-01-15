@@ -207,7 +207,6 @@ public class FisController {
 			if (start == null){
 				start = LocalTime.now();
 			}
-			// TODO default Zeitraum
 			end = start.plus(2, ChronoUnit.HOURS);
 		}
 
@@ -346,7 +345,6 @@ public class FisController {
 			if (start == null){
 				start = LocalTime.now();
 			}
-			// TODO default Zeitraum
 			end = start.plus(2, ChronoUnit.HOURS);
 		}
 
