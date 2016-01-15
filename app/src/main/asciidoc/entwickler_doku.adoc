@@ -189,7 +189,7 @@ Für den korrekten Betrieb der Applikation werden folgende Dinge benötigt:
 <1> fis.jar (kann umbenannt werden)
 <2> Fahrplan-XML (kann umbenannt werden, aber der Name muss in die application.properties übernommen werden)
 <3> application.properties
-<4> eine Datei mit den Meldungstexten (siehe ./entwickler_docu.adoc#aufbau_der_aufbau_der_meldungstextdatei)
+<4> eine Datei mit den Meldungstexten (siehe Aufbau der Meldungstextdatei)
 <5> ein Logo (laut Pflichtenheft im .PNG- oder im .JPG-Format)
 
 Mittels der 'application.properties', die im Verzeichnis der Applikation liegt ist es möglich sämtliche Konfigurationen vorzunehmen. 
@@ -204,8 +204,8 @@ fis.benutzertext = Fubar # <3>
 fis.logoPath = logo.png # <4>
 
 # Konfiguration für den Telegrammempfänger (TelegramReceiverConfig)
-telegramserver.hostname = localhost # <5>
-telegramserver.port = 2342 # <6>
+telegramserver.hostname = 10.2.0.101 # <5>
+telegramserver.port = 9910 # <6>
 telegramserver.clientID = 42 # <7>
 telegramserver.timeout = 1000 # <8>
 telegramserver.timeTillReconnect = 5000 # <9>
@@ -216,7 +216,7 @@ Folgende allgemeine Konfigurationen können vorgenommen werden:
 <1> gibt den Pfad zur Fahrplan-XML aus, die geladen wird im Falle, dass der Farhplan nicht vom Server bezogen werden kann.
 <2> gibt den Pfad zu der Datei mit allen Meldungstexten an, die als Information zu einem Halt oder Zuglauf angezeigt werden können.
 <3> enthällt den Nutzertext, der im Footer auf der rechten unteren Teil der Webseite angezeigt wird.
-<4> gibt den Pfad zum Logo an, was in der linken oberen Ecke der Webseite zu sehen ist, an.
+<4> gibt den Pfad zum Logo an, was in der linken oberen Ecke der Webseite zu sehen ist, an. *Der Pfad dazu muss auf eine (absolute) Webadresse verweisen und nicht auf eine lokale Datei!*
 <5> gibt den Hostname des Fahrplanservers an.
 <6> gibt den Port an unter dem der Fahrplanserver erreichbar ist.
 <7> ist die Client ID mit dem sich die Applikation am Fahrplanserver anmeldet.
