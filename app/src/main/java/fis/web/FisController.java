@@ -3,6 +3,7 @@ package fis.web;
 import fis.Application;
 import fis.FilterTime;
 import fis.FilterType;
+import fis.common.CommonConfig;
 import fis.data.Station;
 import fis.data.TimetableController;
 import fis.data.TrainCategory;
@@ -36,6 +37,7 @@ import java.util.List;
 @Controller
 public class FisController {
 	private final TimetableController timetable;
+	private @Autowired CommonConfig cfg;
 	private static final Logger LOGGER = Logger.getLogger(FisController.class);
 
 	/**
@@ -75,6 +77,9 @@ public class FisController {
 
 		// Timteable für die Meldungen
 		model.addAttribute("timetable", this.timetable);
+		
+		// Benutzertext
+		model.addAttribute("userText", this.cfg.getBenutzertext());
 
 		// Version der Anwendung
 		// wird nur bei direkter Ausführung der jar geladen
