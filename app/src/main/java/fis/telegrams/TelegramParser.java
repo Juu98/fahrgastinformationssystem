@@ -153,8 +153,6 @@ public class TelegramParser {
 		final int STPDAT_NUL_VAL = 44444;
 		final int STPDAT_PAS_VAL = 55555;
 
-		// TODO: Länge prüfen
-
 		// Index zum Durchlaufen
 		int i = TRNNUM_OFFSET;
 
