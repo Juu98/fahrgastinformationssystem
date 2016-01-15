@@ -107,6 +107,9 @@ setInterval(function(){
 	if (reloadSelected.length > 0){
 		reloadValue = reloadSelected.val();
 	}
+	if ($("#trn").hasClass("active")){
+		reloadValue = "update";
+	}
 	
 	switch (reloadValue){
 		case 'update':
