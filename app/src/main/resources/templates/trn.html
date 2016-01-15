@@ -49,23 +49,29 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="st, stStat : ${currentTrainRoute.stops}">
+								<tr th:each="st, stStat : ${currentTrainRoute.stops}" th:class="(${stStat.first}? 'tr-first ' : '') + (${stStat.last}? 'tr-last' : '')">
 									<td class="text-right">
 										<span th:text="${st.ScheduledArrival}? ${#temporals.format(st.ScheduledArrival, 'HH:mm')}">an</span>
 										<span th:class="(${st.getDelayArrival()} gt 0) ? 'late' : 'early'"
 										th:text="${st.getDelayArrivalString()}">+42</span>
 									</td>
-									<td class="perlenschnur" th:with="past=((${st.ActualArrival} and (${time} and ${st.ActualArrival} le ${time})) or
+									<td th:class="perlenschnur" th:with="past=((${st.ActualArrival} and (${time} and ${st.ActualArrival} le ${time})) or
 																			(${st.ActualDeparture} and (${time} and ${st.ActualDeparture} le ${time})))">
-										<img th:if="${past}" th:src="@{/resources/img/circle-black.png}" width="12" />
-										<img th:unless="${past}" th:src="@{/resources/img/circle-white.png}" width="12" />
+										<th:block th:if="${stStat.first} or ${stStat.last}">
+											<img th:if="${past}" th:src="@{/resources/img/bar-black.png}" width="24" />
+											<img th:unless="${past}" th:src="@{/resources/img/bar-white.png}" width="24" />
+										</th:block>
+										<th:block th:unless="${stStat.first} or ${stStat.last}">
+											<img th:if="${past}" th:src="@{/resources/img/circler-black.png}" width="12" />
+											<img th:unless="${past}" th:src="@{/resources/img/circle-white.png}" width="12" />
+										</th:block>
 									</td>
 									<td>
 										<span th:text="${st.ScheduledDeparture}? ${#temporals.format(st.ScheduledDeparture, 'HH:mm')}">ab</span>
 										<span th:class="(${st.getDelayDeparture()} gt 0) ? 'late' : 'early'"
 											  th:text="${st.getDelayDepartureString()}">+42</span>
 									</td>
-									<td th:class="${stStat.first}? 'station-begin' : (${stStat.last}? 'station-end')">
+									<td class="station-name">
 										<a th:href="|/dep/${st.station.id}|" th:text="${st.station.longName}" th:title="#{fis.traintable.deptitle}">Bahnhof</a>
 									</td>
 									<td th:text="${st.ScheduledTrack}">Gleis</td>
