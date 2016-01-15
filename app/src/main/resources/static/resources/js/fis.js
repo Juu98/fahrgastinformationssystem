@@ -125,9 +125,9 @@ setInterval(function(){
 				data	: form.serialize(),
 				success	: function(data) {
 					$("#traintable").empty().append(data);
-					$('html, body').animate({
+					/*$('html, body').animate({
 						scrollTop: $("#traintable").offset().top
-					}, 1000);
+					}, 1000);*/
 				}
 			});
 			break;
