@@ -53,6 +53,7 @@ Im Rahmen des Softwarepraktikums soll eine webbasierte Ankunfts- und Abfahrtsanz
 * Erweiterbarkeit
 * unmittelbare Reaktion auf Benutzerinteraktion
 * Sortierung der Abfahrten/ Ankünfte nach Sollzeit
+* automatisches Aktualisieren der Webseite
 	
 ==== Zusätzlicher Kundenwunsch
  * zusätzliche Auswertung von Koordinaten der Betriebsstellen
