@@ -24,4 +24,4 @@ Die verwendete Zeit beinhaltet auch das Lesen von Dokumentationen, Besprechungen
 2+>| **Durchschnitt**       |12:20    |7:49  |09:22 |        |        |**Gesamtschnitt**
 |===================================================================
 
-__Beim Durchschnitt berechnen die 3 Wochen Weihnachten berücksichtigen.__
+__Beim Durchschnitt berechnen die 3 Wochen Weihnachten berücksichtigen. (also insgesamt 12 Wochen)__
