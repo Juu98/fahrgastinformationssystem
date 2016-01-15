@@ -1,8 +1,27 @@
-= Kickstart
+# Fahrgastinformationssystem
 
-The kickstart module is a template project to bootstrap the Java project in the Software Engineering lab.
-The project is supposed to be copied into the group's repository to get it started easily.
-It contains the following features:
+Dieses Programm wird im Rahmen des Softwaretechnologie-Projektes im Studiengang Informatik der http://tu-dresden.de[Technischen Universität Dresden] erstellt. Es soll als Hilfs- und Demonstrationswerkzeug im http://tu-dresden.de/die_tu_dresden/fakultaeten/vkw/ibv/iel/EBL/index_html[Eisenbahnbetriebslabor] der Fakultät Verkehrswissenschaften _"Friedrich List"_ eingesetzt werden.
 
-* a skeleton Java 8 web application based on Spring Boot and Salespoint framework (see `src/main/java`)
-* a placeholder Asciidoc file in `src/main/asciidoc` for documentation
+## Quicklinks
+
+* src/main/asciidoc/pflichtenheft.adoc[Pflichtenheft]
+* src/main/asciidoc/entwickler_doku.adoc[Entwicklerdokumentation]
+* src/main/asciidoc/time_recording.adoc[Zeiterfassung]
+* src/main/asciidoc/enduserdocumentation/benutzerhandbuch.adoc[Benutzerhandbuch]
+
+## Start des Systems
+
+```shell
+$cd ./app
+$mvn spring-boot:run
+```
+
+## Autoren
+
+* Eric Schölzel (https://github.com/luux[@luux])
+* Jonas Schenke (https://github.com/kloppstock[@kloppstock])
+* Oliver Schmidt (https://github.com/schmittlauch[@schmittlauch])
+* Robert Mörseburg (https://github.com/fl4m[@fl4m])
+* Zdravko Yanakiev (https://github.com/z-yan[@z-yan])
+
+Betreuung durch Ronny Kaiser (https://github.com/rks[@rksr]), Lehrstuhl Softwaretechnologie, Institut für Software- und Multimediatechnik, Fakultät Informatik der TU Dresden.
