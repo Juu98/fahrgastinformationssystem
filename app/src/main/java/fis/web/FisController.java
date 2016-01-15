@@ -80,6 +80,9 @@ public class FisController {
 		
 		// Benutzertext
 		model.addAttribute("userText", this.cfg.getBenutzertext());
+		
+		// Logo
+		model.addAttribute("logoPath", this.cfg.getLogoPath());
 
 		// Version der Anwendung
 		// wird nur bei direkter Ausführung der jar geladen
