@@ -1,0 +1,27 @@
+= Persönliches Feedback eines Teammitgliedes des Softwarepraktikums 2015/16
+
+**Von: Jonas Schenke**
+
+**Gruppe: 3**
+
+== Was habe ich gelernt?
+
+Ich habe gelernt, dass das wichtigste eine gute Aufgabenteilung ist und, dass die Kommunaktion in der Gruppe gut funktionieren muss. Das Setzen realistischer Wochenziele ist ebenfalls essenziell, da die meiste Arbeit sowieso immer am Schluss stattfindet und sonst das Projekt nicht fertig wird. 
+Ebenfalls wichtig ist der ständiger Kontakt zum Kunden, da diesem vielleicht noch Änderungen einfallen können und er bei vielen Fragen bezüglich des Projektes Klarheit schaffen kann. 
+Das Projekt hat mir gezeigt, dass gute Planung einem in Verlauf der Entwicklung viel Arbeit und Nerven sparen kann und, dass früh geschriebene Tests die Finalisierung des Projektes einfacher macht und gleichzeitig erheblich zur Qualität des Endproduktes beiträgt.
+
+= Welche Erfahrungen habe ich mit der Zusammenarbeit im Team gemacht?
+
+Ich habe gelernt, dass eine klare Aufgabenteilung sowie die Spezialisierung der Teammitglieder auf bestimmte Schwerpukte sehr wichtig ist. Gute Kommunikation und Motivation sind ebenfalls sehr wichtig, da sonst die geleistete Arbeit sich sehr ungleichmäßig auf die Gruppenmitglieder verteilen kann. 
+
+== Welche Erfahrungen habe ich bei der Wiederverwendung von Bibliotheken/Frameworks gemacht?
+
+Frameworks können sehr hilfreich sein und einem ein Menge Arbeit abnehmen, doch die Einarbeitung in solche kann sehr zeitspielig sein, wodurch sie sich für sehr kleine Projekte nicht immer eignen. 
+
+== Welche Vorschläge zur weiteren Verbesserung des Softwarepraktikums gibt es?
+
+Ich habe das Angebot an bereitgestellter Software, besonders zur Modellierung, sehr begrüßt, jedoch gab es manchmal Probleme mit Magic Draw sodass (falls vorhanden) eine bessere und stabilere Modellierungssoftware angebrachter wäre. 
+
+== Sonstiges und Anmerkungen
+
+Die gute Kommunikation und das hohe Sachverständniss haben viele Dinge einfacher gemacht. 
