@@ -135,7 +135,7 @@ public class FisController {
 	 * @param form  Nutzereingaben im {@link FilterForm}
 	 * @return die neue Tabelle oder eine Fehlermeldung
 	 */
-	@RequestMapping(value = "/dep/", headers = IS_AJAX_HEADER, produces = "text/html;charset=UTF-8")
+	@RequestMapping(value = "/dep/", headers = IS_AJAX_HEADER, produces = "text/plain;charset=UTF-8")
 	public String depDefaultAjax(Model model, FilterForm form) {
 		return depAjax(model, form, null);
 	}
@@ -165,7 +165,7 @@ public class FisController {
 	 * @param stn   ID der aktuellen {@link Station}
 	 * @return die neue Tabelle mit Zugläufen
 	 */
-	@RequestMapping(value = "/dep/{stn}", headers = IS_AJAX_HEADER, produces = "text/html;charset=UTF-8")
+	@RequestMapping(value = "/dep/{stn}", headers = IS_AJAX_HEADER, produces = "text/plain;charset=UTF-8")
 	public String depAjax(Model model, FilterForm form, @PathVariable("stn") String stn){
 		dep(model, form, stn, true);
 		return "traintable :: traintable(active = 'dep')";
@@ -298,7 +298,7 @@ public class FisController {
 	 * @param form  Nutzereingaben im {@link FilterForm}
 	 * @return die neue Tabelle oder eine Fehlermeldung
 	 */
-	@RequestMapping(value = "/arr/", headers = IS_AJAX_HEADER, produces = "text/html;charset=UTF-8")
+	@RequestMapping(value = "/arr/", headers = IS_AJAX_HEADER, produces = "text/plain;charset=UTF-8")
 	public String arrDefaultAjax(Model model, FilterForm form) {
 		return arrAjax(model, form, null);
 	}
@@ -328,7 +328,7 @@ public class FisController {
 	 * @param stn   ID der aktuellen {@link Station}
 	 * @return die neue Tabelle mit Zugläufen
 	 */
-	@RequestMapping(value = "/arr/{stn}", headers = IS_AJAX_HEADER, produces = "text/html;charset=UTF-8")
+	@RequestMapping(value = "/arr/{stn}", headers = IS_AJAX_HEADER, produces = "text/plain;charset=UTF-8")
 	public String arrAjax(Model model, FilterForm form, @PathVariable("stn") String stn){
 		arr(model, form, stn, true);
 		return "traintable :: traintable(active = 'arr')";
@@ -459,7 +459,7 @@ public class FisController {
 	 * @param formTR Nutzereingaben im {@link TrainRouteForm}
 	 * @return neue Tabelle oder eine fehlermeldung
 	 */
-	@RequestMapping(value = "/trn/", headers = IS_AJAX_HEADER, produces = "text/html;charset=UTF-8")
+	@RequestMapping(value = "/trn/", headers = IS_AJAX_HEADER, produces = "text/plain;charset=UTF-8")
 	public String trnDefaultAjax(Model model, TrainRouteForm formTR) {
 		return trnAjax(model, formTR, null);
 	}
@@ -515,7 +515,7 @@ public class FisController {
 	 * @param trt    ID der aktuellen {@link TrainRoute}
 	 * @return die neue Tabelle oder eine Fehlermeldung
 	 */
-	@RequestMapping(value = "/trn/{trt}", headers = IS_AJAX_HEADER, produces = "text/html;charset=UTF-8")
+	@RequestMapping(value = "/trn/{trt}", headers = IS_AJAX_HEADER, produces = "text/plain;charset=UTF-8")
 	public String trnAjax(Model model, TrainRouteForm formTR, @PathVariable("trt") String trt) {
 		trn(model, formTR, trt);
 		return "trn :: traintable";	
