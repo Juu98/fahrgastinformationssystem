@@ -74,8 +74,13 @@
 									<td class="station-name">
 										<a th:href="|/dep/${st.station.id}|" th:text="${st.station.longName}" th:title="#{fis.traintable.deptitle}">Bahnhof</a>
 									</td>
-									<td th:text="${st.ScheduledTrack}">Gleis</td>
-									<td th:text="'&mdash;'">Meldung</td>
+									<td>
+										<span th:text="${st.ScheduledTrack}">9 3/4</span>
+										<span th:if="${st.ActualTrack} ne ${st.ScheduledTrack}"
+											  th:text="${st.ActualTrack}" class="late">(13)</span>
+									</td>
+									<td th:if="${st.messageId}" class="text-warning" th:text="${timetable.getMessage(stop)}">Meldung</td>
+									<td th:unless="${st.messageId}" class="text-muted">&mdash;</td>
 								</tr>
 							</tbody>
 						</table>

@@ -64,7 +64,7 @@
 								<span class="text-warning" th:text="${timetable.getMessage(stop)}">...</span>
 								<span class="text-warning" th:text="${timetable.getMessage(train)}">...</span>
 							</td>
-							<td th:unless="${stop.messageId} or ${train.messageId}">&mdash;</td>
+							<td th:unless="${stop.messageId} or ${train.messageId}" class="text-muted">&mdash;</td>
 						</th:block>
 					</tr>
 				</tbody>

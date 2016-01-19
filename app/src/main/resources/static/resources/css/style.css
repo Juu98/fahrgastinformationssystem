@@ -43,6 +43,9 @@
 .tr-first .station-name, .tr-last .station-name{
 	font-weight: bold;
 }
+.station-begin, .station-end {
+	font-weight: bold;
+}
 
 /* Perlenschnur table cell */
 .perlenschnur {
