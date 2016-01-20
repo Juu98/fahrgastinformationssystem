@@ -54,7 +54,7 @@ Im Rahmen des Softwarepraktikums soll eine webbasierte Ankunfts- und Abfahrtsanz
 * unmittelbare Reaktion auf Benutzerinteraktion
 * Sortierung der Abfahrten/ Ankünfte nach Sollzeit
 * automatisches Aktualisieren der Webseite
-	
+
 ==== Zusätzlicher Kundenwunsch
  * zusätzliche Auswertung von Koordinaten der Betriebsstellen
  * Visualisierung dieser auf einer passend skalierten Karte inklusive der Zugläufe zwischen diesen
@@ -139,7 +139,7 @@ Das Spring-Framework orientiert sich bei seiner Implementierung der Nutzerschnit
 
 Da die Telegramme unterschiedliche Form haben können und unterschiedliche Daten übermitteln sollen, aber diese jedoch alle Telegramme sind, wurde sich hier für das Strategy-Pattern entschieden. Dadurch lassen sich die Telgramme leicht in Unterkategorien aufteilen und können allgemeine Eigenschaften aus ihren abstrakten Oberklassen erben.
 
-Die TimetableData Klasse stellt eine Fassade zu den Kerndaten wie den Zugläufen und Stationen dar. Die TimetableController-Klasse bildet eine Fassade zum kompletten data-package. Dadurch wird der Zugriff auf die Daten eindeutiger ersichtlich und einfacher zu handhaben. 
+Die TimetableData Klasse stellt eine Fassade zu den Kerndaten wie den Zugläufen und Stationen dar. Die TimetableController-Klasse bildet eine Fassade zum kompletten data-package. Dadurch wird der Zugriff auf die Daten eindeutiger ersichtlich und einfacher zu handhaben.
 
 Auf das Singleton-Pattern wurde bei diesem Entwurf bewusst verzichtet, da sich dies mit der von dem Spring-Framework bereitgestellten "@Autowired" Annotation ähnliches einfacher implementieren lässt.
 
@@ -172,7 +172,7 @@ ProxyRequests off # <1>
 ProxyPass /fis http://localhost:8080 # <2>
 ProxyPassReverse /fis http://localhost:8080
 <Location "/fis">
-  SetOutputFilter proxy-html
+  ProxyHTMLEnable On
   ProxyHTMLURLMap ^/(.*)$ /fis/$1 R
   ProxyHTMLDocType "<!DOCTYPE html>" # <3>
   Order allow,deny
@@ -193,7 +193,7 @@ Für den korrekten Betrieb der Applikation werden folgende Dinge benötigt:
 <4> eine Datei mit den Meldungstexten (siehe Aufbau der Meldungstextdatei)
 <5> ein Logo (laut Pflichtenheft im .PNG- oder im .JPG-Format)
 
-Mittels der 'application.properties', die im Verzeichnis der Applikation liegt ist es möglich sämtliche Konfigurationen vorzunehmen. 
+Mittels der 'application.properties', die im Verzeichnis der Applikation liegt ist es möglich sämtliche Konfigurationen vorzunehmen.
 
 [source, conf]
 ----
@@ -222,7 +222,7 @@ Folgende allgemeine Konfigurationen können vorgenommen werden:
 <6> gibt den Port an unter dem der Fahrplanserver erreichbar ist.
 <7> ist die Client ID mit dem sich die Applikation am Fahrplanserver anmeldet.
 <8> ist die Zeit bis ein Verbindungsversuch abgebrochen wird.
-<9> ist die Zeit bis zum erneuten Verbindungsversuch. 
+<9> ist die Zeit bis zum erneuten Verbindungsversuch.
 
 Die Konfigurationen <5> bis <9> dienen zur Konfiguration des Telegrammenpfängers.
 

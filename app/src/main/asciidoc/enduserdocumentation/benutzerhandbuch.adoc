@@ -26,7 +26,7 @@ ProxyRequests off # <1>
 ProxyPass /fis http://localhost:8080 # <2>
 ProxyPassReverse /fis http://localhost:8080
 <Location "/fis">
-  SetOutputFilter proxy-html
+  ProxyHTMLEnable On
   ProxyHTMLURLMap ^/(.*)$ /fis/$1 R
   ProxyHTMLDocType "<!DOCTYPE html>" # <3>
   Order allow,deny
@@ -69,7 +69,7 @@ Hier werden die Filterfunktionen angewendet. Man kann den Zeitraum auswählen, i
 
 image::filter.png[Filter, 50%, title="Filter"]
 
-Die Abfahrten bzw. Ankünfte werden in Form einer Tabelle ausgegeben. Angezeigt werden die Ankunfts- bzw. Abfahrtszeit, die jeweilige Zugnummer, die Richtung/Herkunft des Zuges (der Start- oder Endbahnhof wird dabei markiert), der Gleis und - falls verfügbar - die aktuelle den Zug betreffende Meldung. 
+Die Abfahrten bzw. Ankünfte werden in Form einer Tabelle ausgegeben. Angezeigt werden die Ankunfts- bzw. Abfahrtszeit, die jeweilige Zugnummer, die Richtung/Herkunft des Zuges (der Start- oder Endbahnhof wird dabei markiert), der Gleis und - falls verfügbar - die aktuelle den Zug betreffende Meldung.
 
 Ein Klick auf die Zugnummer wechselt dabei in den Zugnummern-Tab und zeigt den entsprechenden Zuglauf an. Analog gilt dies für die Bahnhöfe in der Richtungsanzeige (aus dem Abfahrtstab wechselt man in den Abfahrtstab des angeklickten Bahnhofs, selbiges gilt für den Ankunftstab).
 
