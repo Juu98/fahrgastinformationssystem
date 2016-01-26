@@ -1,33 +1,33 @@
 ## Gliederungsentwurf
 
 1. Einleitung
-    a. Begrüßung
-    b. Zeitrahmen, Gliederung, Raum für Fragen am Ende
-    c. Gruppenmitglieder
-    d. Nachvollziehen der einzelnen Projektphasen
+    1. Begrüßung
+    2. Zeitrahmen, Gliederung, Raum für Fragen am Ende
+    3. Gruppenmitglieder
+    4. Nachvollziehen der einzelnen Projektphasen
 2. Projektvorstellung mit einzelnen Projektphasen als Zeitstrahl
-    a. Aufgabe, Zielsetzung
+    1. Aufgabe, Zielsetzung
         + wichtigste Punkte
-    b. Analyse
+    2. Analyse
         + Übersicht (z.B. Komponentendiagramm) mit Servern etc.
-    c. Entwurf
+    3. Entwurf
         + Eckpunkte Datenmodell (unterschiedliche Quellen etc.)
         + ein verwendetes design pattern vorstellen ?
-    d. Implemetierung
+    4. Implemetierung
         + Meilensteine (Protoypen -> XML -> Telegramme)
         + Probleme / Hindernisse + Lösungen
         + Tests
-    e. Evaluation
+    5. Evaluation
         + Rückblick auf Aufgabenstellung
         + soft skills
 3. Vorführung
-    a. XML
+    1. XML
         + Startseite
         + Bahnhof-Suche (Abfahrt)
         + Filter
         + Zuglauf
         + Ankunft anderer Bahnhof
-    b. Telegramme
+    2. Telegramme
         + Abfahrtsanzeige mit Verspätungen, Meldungen
         + automatische Aktualisierung mit
             * Uhrzeitänderung
