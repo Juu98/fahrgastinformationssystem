@@ -566,7 +566,7 @@ public class FisController {
 		if (this.timetable.getTime() == null){
 			return "--:--";
 		}
-		return this.timetable.getTime().toString();
+		return this.timetable.getTime().format(DateTimeFormatter.ofPattern("HH:mm"));
 	}
 	
 	/**
