@@ -58,9 +58,9 @@
 
 **Gesamt:** 30 Minuten
 
-- Begrüßung, Einleitung: 2 Minuten
-- Aufgabe, Analyse: 5 Minuten
-- Entwurf, Implementierung: 10 Minuten
-- Evaluation: 3 Minuten
-- Vorführung: 5 Minuten
+- Begrüßung, Einleitung: 2 Minuten      Olli
+- Aufgabe, Analyse: 5 Minuten           Jonas
+- Entwurf, Implementierung: 10 Minuten  Zdravko + Eric
+- Evaluation: 3 Minuten                 Robert
+- Vorführung: 5 Minuten                 Olli
 - Fragen & Diskussion: 5 Minuten
