@@ -36,3 +36,4 @@ $ mvn clean package -DskipTests
 * Zdravko Yanakiev (https://github.com/z-yan[@z-yan])
 
 Betreuung durch Ronny Kaiser (https://github.com/rks[@rksr]), Lehrstuhl Softwaretechnologie, Institut für Software- und Multimediatechnik, Fakultät Informatik der TU Dresden.
+
