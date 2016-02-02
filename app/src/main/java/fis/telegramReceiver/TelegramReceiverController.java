@@ -117,7 +117,7 @@ public class TelegramReceiverController extends Thread implements ApplicationEve
 					LOGGER.debug("", e);
 				} catch (IOException e) {
 					this.setConnectionStatus(ConnectionStatus.OFFLINE);
-					LOGGER.error("connecting to server failed: " + e.getMessage());
+					LOGGER.info("connecting to server failed: " + e.getMessage());
 					LOGGER.debug("", e);
 				}
 
