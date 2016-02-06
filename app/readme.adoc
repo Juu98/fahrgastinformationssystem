@@ -6,7 +6,6 @@ Dieses Programm wird im Rahmen des Softwaretechnologie-Projektes im Studiengang 
 
 * link:src/main/asciidoc/pflichtenheft.adoc[Pflichtenheft]
 * link:src/main/asciidoc/entwickler_doku.adoc[Entwicklerdokumentation]
-* link:src/main/asciidoc/time_recording.adoc[Zeiterfassung]
 * link:src/main/asciidoc/enduserdocumentation/benutzerhandbuch.adoc[Benutzerhandbuch]
 
 ## Start des Systems

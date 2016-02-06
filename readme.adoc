@@ -4,9 +4,9 @@ Dieses Programm wird im Rahmen des Softwaretechnologie-Projektes im Studiengang 
 
 ## Quicklinks
 
-* https://github.com/st-tu-dresden-2015/swt15w3/blob/master/app/src/main/asciidoc/pflichtenheft.adoc[Pflichtenheft]
-* https://github.com/st-tu-dresden-2015/swt15w3/blob/master/app/src/main/asciidoc/entwickler_doku.adoc[Entwicklerdokumentation]
-* https://github.com/st-tu-dresden-2015/swt15w3/blob/master/app/src/main/asciidoc/time_recording.adoc[Zeiterfassung]
+* link:src/main/asciidoc/pflichtenheft.adoc[Pflichtenheft]
+* link:src/main/asciidoc/entwickler_doku.adoc[Entwicklerdokumentation]
+* link:src/main/asciidoc/enduserdocumentation/benutzerhandbuch.adoc[Benutzerhandbuch]
 
 ## Start des Systems
 
