@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Eine Klasse für Zuglauftelegramme.
  *
- * @author spiollinux, kloppstock
+ * @author schmittlauch, kloppstock
  */
 public class TrainRouteTelegram extends Telegram {
 	public static class TrainRouteData {

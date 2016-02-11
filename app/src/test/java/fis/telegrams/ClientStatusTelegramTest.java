@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 import java.io.UnsupportedEncodingException;
 
 /**
- * @author spiollinux, Robert
+ * @author schmittlauch, Robert
  */
 public class ClientStatusTelegramTest {
 	private ClientStatusTelegram telegram;

@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 /**
  * Testet die Funtionalität der Klasse TelegramReceiver
- * @author spiollinux
+ * @author schmittlauch
  */
 public class TelegramReceiverTest {
 	TelegramReceiver receiver;

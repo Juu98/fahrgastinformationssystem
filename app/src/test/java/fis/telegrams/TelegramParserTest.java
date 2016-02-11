@@ -10,9 +10,6 @@ import java.util.List;
 import org.junit.Assert;
 
 
-/**
- * Created by spiollinux on 06.12.15.
- */
 public class TelegramParserTest {
 	byte[] validRawTelegram;
 	TelegramParser parser;

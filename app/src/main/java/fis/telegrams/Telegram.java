@@ -5,7 +5,7 @@ import java.nio.charset.Charset;
 /**
  * Abstrakte Klasse, die die Telegramme kapselt.
  *
- * @author spiollinux, Robert
+ * @author schmittlauch, Robert
  */
 public abstract class Telegram {
 	// Codepage für String-Konvertierung

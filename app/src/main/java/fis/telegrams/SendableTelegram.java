@@ -6,7 +6,7 @@ import java.util.Arrays;
  * Abstrakte Klasse, die die grobe Telegrammstruktur für zu sendene Telegramme
  * implementiert.
  *
- * @author spiollinux, Robert
+ * @author schmittlauch, Robert
  */
 public abstract class SendableTelegram extends Telegram {
 	private byte[] rawTelegram;

@@ -18,7 +18,7 @@ import java.util.List;
  * 4: {@literal TT} Kennung des Telegrammtyps
  * 5- XX+5: Nutzdaten (max. 251 B lang)
  *
- * @author spiollinux, Robert
+ * @author schmittlauch, Robert
  */
 @Component
 public class TelegramParser {

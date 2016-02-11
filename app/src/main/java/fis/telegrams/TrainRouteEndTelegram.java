@@ -3,7 +3,7 @@ package fis.telegrams;
 /**
  * Eine Klasse für Zuglaufendtelegramme.
  *
- * @author spiollinux, kloppstock
+ * @author schmittlauch, kloppstock
  */
 public class TrainRouteEndTelegram extends Telegram {
 

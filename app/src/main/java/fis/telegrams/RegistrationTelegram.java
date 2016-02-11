@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * Eine Klasse für die Anmeldetelegramme.
  *
- * @author spiollinux, kloppstock, Robert
+ * @author schmittlauch, kloppstock, Robert
  */
 public class RegistrationTelegram extends SendableTelegram {
 	private final byte id;

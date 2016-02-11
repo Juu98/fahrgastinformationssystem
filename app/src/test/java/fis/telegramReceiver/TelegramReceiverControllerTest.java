@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 /**
  * Testet Funktionalität der TelegramReceiverController Klasse
- * @author spiollinux
+ * @author schmittlauch
  */
 public class TelegramReceiverControllerTest {
 	TelegramReceiverController realReceiverController;

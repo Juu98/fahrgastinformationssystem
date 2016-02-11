@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Eine Klasse für das Clientstatustelegramm.
  *
- * @author spiollinux, kloppstock, Robert
+ * @author schmittlauch, kloppstock, Robert
  */
 public class ClientStatusTelegram extends SendableTelegram {
 	private final String id;

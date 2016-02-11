@@ -9,9 +9,6 @@ import org.junit.Test;
 import org.springframework.context.ApplicationEventPublisher;
 import static org.mockito.Mockito.*;
 
-/**
- * Created by spiollinux on 08.01.16.
- */
 public class EventTranslatorTest {
 	private EventTranslator translator;
 	ApplicationEventPublisher publisherMock;

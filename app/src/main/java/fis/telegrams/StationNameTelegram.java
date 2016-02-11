@@ -3,7 +3,7 @@ package fis.telegrams;
 /**
  * Eine Klasse für Bahnhofsnamentelegramme.
  *
- * @author spiollinux, kloppstock
+ * @author schmittlauch, kloppstock
  */
 public class StationNameTelegram extends Telegram {
 	private byte id;

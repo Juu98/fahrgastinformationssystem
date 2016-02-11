@@ -3,7 +3,7 @@ package fis.telegrams;
 import java.time.LocalTime;
 
 /**
- * @author spiollinux, kloppstock
+ * @author schmittlauch, kloppstock
  *         Eine Klasse für Laborzeittelegramme.
  */
 public class LabTimeTelegram extends Telegram {

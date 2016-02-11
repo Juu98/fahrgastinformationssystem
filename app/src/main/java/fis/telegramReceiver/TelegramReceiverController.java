@@ -26,7 +26,7 @@ import java.util.concurrent.Future;
  * Statustelegrammen, stößt das Parsen der byte-Arrays zu Telegrammen an, sendet
  * Telegrammevents.
  *
- * @author spiollinux
+ * @author schmittlauch
  */
 
 @Service
