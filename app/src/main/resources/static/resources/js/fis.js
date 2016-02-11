@@ -1,7 +1,6 @@
 /* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2016 Robert Mörseburg
+ * @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&dn=gpl-3.0.txt GPL-v3-or-Later
  */
 
 /* station typeahead */
@@ -19,7 +18,7 @@ var stations = $.get('../stations.json', function(data){
 	});
 },'json');
 
-/* select content when clikcing on the input */
+/* select content when clicking on the input */
 $(function(){
 	$(document).on('click', '#station, #trainRoute', function(){
 		$(this).select();
@@ -137,3 +136,7 @@ setInterval(function(){
 	$("#start").val($("#_newStart").val());
 	$("#end").val($("#_newEnd").val());
 }, 20000);
+
+/*
+ * @license-end
+ */
