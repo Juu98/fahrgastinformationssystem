@@ -4,9 +4,9 @@ Dieses Programm wird im Rahmen des Softwaretechnologie-Projektes im Studiengang 
 
 ## Quicklinks
 
-* link:src/main/asciidoc/pflichtenheft.adoc[Pflichtenheft]
-* link:src/main/asciidoc/entwickler_doku.adoc[Entwicklerdokumentation]
-* link:src/main/asciidoc/enduserdocumentation/benutzerhandbuch.adoc[Benutzerhandbuch]
+* link:app/src/main/asciidoc/pflichtenheft.adoc[Pflichtenheft]
+* link:app/src/main/asciidoc/entwickler_doku.adoc[Entwicklerdokumentation]
+* link:app/src/main/asciidoc/enduserdocumentation/benutzerhandbuch.adoc[Benutzerhandbuch]
 
 ## Start des Systems
 
