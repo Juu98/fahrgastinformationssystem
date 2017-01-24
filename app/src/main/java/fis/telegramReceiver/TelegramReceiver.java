@@ -50,7 +50,7 @@ public class TelegramReceiver {
 	}
 
 	/**
-	 * Asnchroner Empfang von Telegrammrohdaten aus dem InputStream in
+	 * Asynchroner Empfang von Telegrammrohdaten aus dem InputStream in
 	 *
 	 * @param in (Inputstream)
 	 * @return response
